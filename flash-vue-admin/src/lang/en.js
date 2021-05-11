@@ -60,8 +60,8 @@ export default {
     resetPwd: 'Reset Password'
   },
   common: {
-    mustSelectOne: 'Please select the record to operate!',
-    deleteConfirm: 'Are you sure delete the record?',
+    mustSelectOne: 'Please select the test_record to operate!',
+    deleteConfirm: 'Are you sure delete the test_record?',
     tooltip: 'Tooltip',
     warning: 'Warning',
     optionSuccess: 'success',
