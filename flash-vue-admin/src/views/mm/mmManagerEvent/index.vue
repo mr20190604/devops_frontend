@@ -1,0 +1,145 @@
+<template>
+  <div class="app-container">
+    <div class="block">
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <el-input v-model="listQuery.id" size="mini" placeholder="请输入id" />
+        </el-col>
+        <el-col :span="6">
+          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+        </el-col>
+      </el-row>
+      <br>
+      <el-row>
+        <el-col :span="24">
+          <el-button v-permission="['/manager/event/add']" type="success" size="mini" icon="el-icon-plus" @click.native="add">{{ $t('button.add') }}</el-button>
+          <el-button v-permission="['/manager/event/update']" type="primary" size="mini" icon="el-icon-edit" @click.native="edit">{{ $t('button.edit') }}</el-button>
+          <el-button v-permission="['/manager/event/delete']" type="danger" size="mini" icon="el-icon-delete" @click.native="remove">{{ $t('button.delete') }}</el-button>
+        </el-col>
+      </el-row>
+    </div>
+
+    <el-table
+      v-loading="listLoading"
+      :data="list"
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+      @current-change="handleCurrentChange"
+    >
+      <el-table-column label="事件编码">
+        <template slot-scope="scope">
+          {{ scope.row.eventCode }}
+        </template>
+      </el-table-column>
+      <el-table-column label="事件名称">
+        <template slot-scope="scope">
+          {{ scope.row.eventName }}
+        </template>
+      </el-table-column>
+      <el-table-column label="事件类型（数据字典）">
+        <template slot-scope="scope">
+          {{ scope.row.eventType }}
+        </template>
+      </el-table-column>
+      <el-table-column label="事件来源（由谁产生填入谁主键）">
+        <template slot-scope="scope">
+          {{ scope.row.eventModel }}
+        </template>
+      </el-table-column>
+      <el-table-column label="事件地点">
+        <template slot-scope="scope">
+          {{ scope.row.eventAddress }}
+        </template>
+      </el-table-column>
+      <el-table-column label="事件描述">
+        <template slot-scope="scope">
+          {{ scope.row.eventDesc }}
+        </template>
+      </el-table-column>
+      <el-table-column label="逻辑删除">
+        <template slot-scope="scope">
+          {{ scope.row.isDel }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button v-permission="['/manager/event/update']" type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)">{{ $t('button.edit') }}</el-button>
+          <el-button v-permission="['/manager/event/delete']" type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)">{{ $t('button.delete') }}</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-pagination
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      :page-sizes="[10, 20, 50, 100,500]"
+      :page-size="listQuery.limit"
+      :total="total"
+      @size-change="changeSize"
+      @current-change="fetchPage"
+      @prev-click="fetchPrev"
+      @next-click="fetchNext"
+    />
+
+    <el-dialog
+      :title="formTitle"
+      :visible.sync="formVisible"
+      width="70%"
+    >
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="事件编码">
+              <el-input v-model="form.eventCode" minlength="1" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="事件名称">
+              <el-input v-model="form.eventName" minlength="1" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="事件类型（数据字典）">
+              <el-input v-model="form.eventType" minlength="1" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="事件来源（由谁产生填入谁主键）">
+              <el-input v-model="form.eventModel" minlength="1" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="事件地点">
+              <el-input v-model="form.eventAddress" minlength="1" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="事件描述">
+              <el-input v-model="form.eventDesc" minlength="1" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="逻辑删除">
+              <el-input v-model="form.isDel" minlength="1" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item>
+          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+        </el-form-item>
+
+      </el-form>
+    </el-dialog>
+  </div>
+</template>
+
+<script src="./mmManagerEvent.js"></script>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+    @import "src/styles/common.scss";
+</style>
+
