@@ -53,7 +53,7 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: '首页',
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'dashboard', icon: 'dashboard', affix: true }
     }]
