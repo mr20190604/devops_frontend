@@ -56,6 +56,8 @@
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/enterprise_baseinfo/add']">{{ $t('button.add') }}</el-button>
                     <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/enterprise_baseinfo/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/enterprise_baseinfo/delete']">{{ $t('button.delete') }}</el-button>
+                    <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/enterprise_baseinfo/import']">{{ $t('button.import') }}</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/enterprise_baseinfo/export']">{{ $t('button.export') }}</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -65,7 +67,7 @@
                   @current-change="handleCurrentChange">
 
             <el-table-column label="企业名称">
-                <template slot-scope="scope">
+                <template slot-scope="scope" >
                     {{scope.row.enterpriseName}}
                 </template>
             </el-table-column>
@@ -175,7 +177,14 @@
 
                   <el-col :span="12">
                     <el-form-item label="经营状态"  >
-                      <el-input v-model="form.managementSituation" minlength=1></el-input>
+                      <el-select v-model="form.managementSituation" minlength=1>
+                        <el-option
+                          v-for="item in management_status"
+                          :key="item.id"
+                          :label="item.name"
+                          :value="item.id">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
 
@@ -187,7 +196,14 @@
 
                     <el-col :span="12">
                         <el-form-item label="风险等级"  >
-                            <el-input v-model="form.riskLevel" minlength=1></el-input>
+                            <el-select v-model="form.riskLevel" minlength=1>
+                              <el-option
+                                v-for="item in risk_level"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -208,16 +224,6 @@
                     <el-col :span="12">
                         <el-form-item label="应急队伍"  >
                             <el-input v-model="form.emergencyTeam" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="是否有重大危险源"  >
-                            <el-input v-model="form.isDangerSource" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="外援单位"  >
-                            <el-input v-model="form.foreignUnit" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

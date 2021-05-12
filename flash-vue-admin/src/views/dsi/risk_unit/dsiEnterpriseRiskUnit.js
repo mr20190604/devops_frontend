@@ -1,5 +1,6 @@
 import dsiEnterpriseRiskUnitApi from '@/api/dsi/dsiEnterpriseRiskUnit'
 import permission from '@/directive/permission/index.js'
+import { remove, getList, save, update, getDicts } from '@/api/system/dict'
 
 export default {
   directives: { permission },
@@ -12,12 +13,14 @@ export default {
         riskName:'',
         enterpriseId:'',
         isDangerSource:'',
-        riskType:'',
+        riskType:[],
         headPerson:'',
         personTel:'',
         isDel:'',
-        id: ''
+        id: '',
+        details:[]
       },
+      risk_type:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -65,12 +68,16 @@ export default {
         this.listLoading = false
         this.total = response.data.total
       })
+      getDicts('风险类型').then(response =>{
+        this.risk_type = response.data
+      })
     },
     search() {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.riskName = ''
+      this.listQuery.riskType = ''
       this.fetchData()
     },
     handleFilter() {
@@ -112,7 +119,8 @@ export default {
       }
     },
     add() {
-      this.formTitle = '添加数据资源一体化系统-企业信息-企业风险单元',
+      this.resetForm;
+      this.formTitle = '添加风险单元',
       this.formVisible = true
       this.isAdd = true
 
@@ -176,7 +184,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑数据资源一体化系统-企业信息-企业风险单元'
+        this.formTitle = '编辑风险单元'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {
@@ -212,6 +220,22 @@ export default {
         }).catch(() => {
         })
       }
+    }, addDetail() {
+      var details = this.form.details
+
+      details.push({
+        value: '',
+        key: ''
+      })
+      this.form.details = details
+    }, removeDetail(detail) {
+      var details = []
+      this.form.details.forEach(function(val, index) {
+        if (detail.key !== val.key) {
+          details.push(val)
+        }
+      })
+      this.form.details = details
     }
 
   }

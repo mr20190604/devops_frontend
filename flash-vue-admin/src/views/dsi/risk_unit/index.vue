@@ -3,8 +3,19 @@
         <div class="block">
             <el-row  :gutter="20">
                 <el-col :span="4">
-                    <el-input v-model="listQuery.id" size="mini" placeholder="请输入id"></el-input>
+                    <el-input v-model="listQuery.riskName" size="mini" placeholder="请输风险名称"></el-input>
                 </el-col>
+
+              <el-col :span="4">
+                <el-select v-model="listQuery.riskType" size="mini" placeholder="请选择风险类型">
+                  <el-option
+                    v-for="item in risk_type"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-col>
                 <el-col :span="6">
                     <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
                     <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
@@ -76,13 +87,23 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="是否有重大危险源"  >
-                            <el-input v-model="form.isDangerSource" minlength=1></el-input>
+                        <el-form-item label="是否重大危险源"  >
+                            <el-radio-group v-model="form.isDangerSource" minlength=1>
+                              <el-radio :label="1">是</el-radio>
+                              <el-radio :label="0">否</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="风险类型"  >
-                            <el-input v-model="form.riskType" minlength=1></el-input>
+                            <el-select v-model="form.riskType" minlength=1>
+                              <el-option
+                                v-for="item in risk_type"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -96,8 +117,39 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
+              <el-form-item
+                v-for="(rec, index) in form.details"
+                :label="'风险物质' + (index+1)"
+                :key="rec.headPerson"
+                :prop="'details.' + index + '.value'"
+                :rules="{
+                required: true, message: '不能为空', trigger: 'blur'
+                }"
+              >
+                <el-col :span="5">
+                  <el-form-item label="风险物质"  >
+                    <el-input v-model="form.headPerson" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="现存量"  >
+                    <el-input v-model="form.headPerson" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="临界量"  >
+                    <el-input v-model="form.headPerson" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4">&nbsp;
+                  <el-button @click.prevent="removeDetail(rec)" type="danger" icon="el-icon-delete" >{{ $t('button.delete')
+                    }}</el-button>
+                </el-col>
+
+              </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
+                  <el-button @click="addDetail">新增风险物质</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 

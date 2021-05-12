@@ -24,9 +24,7 @@ export default {
         parkId:'',
         industryId:'',
         districtCode:'',
-        //经营状态下拉数据
         managementSituation:[],
-
         employmentNo:'',
         isDangerSource:'',
         foreignUnit:'',
@@ -42,8 +40,12 @@ export default {
         limit: 20,
         id: undefined
       },
+      //经营状态下拉数据
       management_status:[],
+      //风险等级下拉数据
       risk_level:[],
+      //行政区划下拉数据
+      district:[],
       total: 0,
       list: null,
       listLoading: true,
@@ -100,7 +102,13 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.districtCode = ''
+      this.listQuery.enterpriseName = ''
+      this.listQuery.managementSituation = ''
+      this.listQuery.enterpriseAddress = ''
+      this.listQuery.legalPerson = ''
+      this.listQuery.riskLevel = ''
+
       this.fetchData()
     },
     handleFilter() {
@@ -155,10 +163,10 @@ export default {
       }
     },
     add() {
-      this.formTitle = '添加数据资源一体化子系统--企业信息',
+      this.resetForm()
+      this.formTitle = '添加企业信息',
       this.formVisible = true
       this.isAdd = true
-
       if(this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
@@ -189,6 +197,8 @@ export default {
                 enterpriseEmergencyTel:this.form.enterpriseEmergencyTel,
                 enterpriseEmail:this.form.enterpriseEmail,
                 isDel:this.form.isDel,
+                managementSituation:this.form.managementSituation,
+              enterpriseNature:this.form.enterpriseNature
             }
             if(formData.id){
                 dsiEnterpriseBaseinfoApi.update(formData).then(response => {
@@ -232,7 +242,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑数据资源一体化子系统--企业信息'
+        this.formTitle = '编辑企业信息'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {
