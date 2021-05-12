@@ -44,3 +44,10 @@ width:100%;
 .user-content > .profile >p{
   padding:0px 15px;
 }
+.serial{
+  counter-increment: item;
+}
+.serial:before{
+  content: counter(item);
+}
+

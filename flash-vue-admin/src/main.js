@@ -19,13 +19,13 @@ import '@/permission' // permission control
  * 全局引用自定义公共组件
  */
 import DictSelect from './components/DictSelect'
-Vue.component('dict-select',DictSelect)
+Vue.component('dict-select', DictSelect)
 /**
  * 全局引用第三方组件
  */
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-Vue.component('treeselect',Treeselect)
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+Vue.component('treeselect', Treeselect)
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -36,8 +36,7 @@ Vue.component('treeselect',Treeselect)
  */
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, {   i18n: (key, value) => i18n.t(key, value) })
-
+Vue.use(ElementUI, { i18n: (key, value) => i18n.t(key, value) })
 Vue.component('v-chart', ECharts)
 Vue.config.productionTip = false
 

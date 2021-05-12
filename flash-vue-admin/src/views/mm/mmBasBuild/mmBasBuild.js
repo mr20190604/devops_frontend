@@ -1,5 +1,6 @@
 import mmBasBuildApi from '@/api/mm/mmBasBuild'
 import permission from '@/directive/permission/index.js'
+import district from '@/components/District/index'
 
 export default {
   directives: { permission },
@@ -9,46 +10,46 @@ export default {
       formTitle: '添加地上建筑物（包含危险源和防护目标）',
       isAdd: true,
       form: {
-        code:'',
-        buildName:'',
-        targetType:'',
-        dictBuildId:'',
-        levelCode:'',
-        classCode:'',
-        districtCode:'',
-        roadName:'',
-        address:'',
-        dutyTel:'',
-        fax:'',
-        personName:'',
-        personOtel:'',
-        personMtel:'',
-        personHtel:'',
-        contactper:'',
-        contactperOtel:'',
-        contactperMtel:'',
-        contactperHtel:'',
-        contactperEmail:'',
-        governingEnterprise:'',
-        governingEnterpriseAddr:'',
-        coordsyscode:'',
-        elevationCode:'',
-        personNum:'',
-        description:'',
-        traffic:'',
-        inuseDate:'',
-        useYearNum:'',
-        emergencyCommunicaMode:'',
-        disasterForm:'',
-        defLevelCode:'',
-        defenceArea:'',
-        maxPersonNum:'',
-        monitorMode:'',
-        defenceStep:'',
-        datasourceUnit:'',
-        notes:'',
-        sysFlag:'',
-        isDel:'',
+        code: '',
+        buildName: '',
+        targetType: '',
+        dictBuildId: '',
+        levelCode: '',
+        classCode: '',
+        districtCode: '',
+        roadName: '',
+        address: '',
+        dutyTel: '',
+        fax: '',
+        personName: '',
+        personOtel: '',
+        personMtel: '',
+        personHtel: '',
+        contactper: '',
+        contactperOtel: '',
+        contactperMtel: '',
+        contactperHtel: '',
+        contactperEmail: '',
+        governingEnterprise: '',
+        governingEnterpriseAddr: '',
+        coordsyscode: '',
+        elevationCode: '',
+        personNum: '',
+        description: '',
+        traffic: '',
+        inuseDate: '',
+        useYearNum: '',
+        emergencyCommunicaMode: '',
+        disasterForm: '',
+        defLevelCode: '',
+        defenceArea: '',
+        maxPersonNum: '',
+        monitorMode: '',
+        defenceStep: '',
+        datasourceUnit: '',
+        notes: '',
+        sysFlag: '',
+        isDel: '',
         id: ''
       },
       listQuery: {
@@ -62,6 +63,9 @@ export default {
       selRow: {}
     }
   },
+  components: {
+    district
+  },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -74,7 +78,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -93,7 +97,7 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-        mmBasBuildApi.getList(this.listQuery).then(response => {
+      mmBasBuildApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -134,124 +138,124 @@ export default {
     },
     resetForm() {
       this.form = {
-        code:'',
-        buildName:'',
-        targetType:'',
-        dictBuildId:'',
-        levelCode:'',
-        classCode:'',
-        districtCode:'',
-        roadName:'',
-        address:'',
-        dutyTel:'',
-        fax:'',
-        personName:'',
-        personOtel:'',
-        personMtel:'',
-        personHtel:'',
-        contactper:'',
-        contactperOtel:'',
-        contactperMtel:'',
-        contactperHtel:'',
-        contactperEmail:'',
-        governingEnterprise:'',
-        governingEnterpriseAddr:'',
-        coordsyscode:'',
-        elevationCode:'',
-        personNum:'',
-        description:'',
-        traffic:'',
-        inuseDate:'',
-        useYearNum:'',
-        emergencyCommunicaMode:'',
-        disasterForm:'',
-        defLevelCode:'',
-        defenceArea:'',
-        maxPersonNum:'',
-        monitorMode:'',
-        defenceStep:'',
-        datasourceUnit:'',
-        notes:'',
-        sysFlag:'',
-        isDel:'',
+        code: '',
+        buildName: '',
+        targetType: '',
+        dictBuildId: '',
+        levelCode: '',
+        classCode: '',
+        districtCode: '',
+        roadName: '',
+        address: '',
+        dutyTel: '',
+        fax: '',
+        personName: '',
+        personOtel: '',
+        personMtel: '',
+        personHtel: '',
+        contactper: '',
+        contactperOtel: '',
+        contactperMtel: '',
+        contactperHtel: '',
+        contactperEmail: '',
+        governingEnterprise: '',
+        governingEnterpriseAddr: '',
+        coordsyscode: '',
+        elevationCode: '',
+        personNum: '',
+        description: '',
+        traffic: '',
+        inuseDate: '',
+        useYearNum: '',
+        emergencyCommunicaMode: '',
+        disasterForm: '',
+        defLevelCode: '',
+        defenceArea: '',
+        maxPersonNum: '',
+        monitorMode: '',
+        defenceStep: '',
+        datasourceUnit: '',
+        notes: '',
+        sysFlag: '',
+        isDel: '',
         id: ''
       }
     },
     add() {
-      this.formTitle = '添加地上建筑物（包含危险源和防护目标）',
+      this.formTitle = '添加地上建筑物（包含危险源和防护目标）'
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                code:this.form.code,
-                buildName:this.form.buildName,
-                targetType:this.form.targetType,
-                dictBuildId:this.form.dictBuildId,
-                levelCode:this.form.levelCode,
-                classCode:this.form.classCode,
-                districtCode:this.form.districtCode,
-                roadName:this.form.roadName,
-                address:this.form.address,
-                dutyTel:this.form.dutyTel,
-                fax:this.form.fax,
-                personName:this.form.personName,
-                personOtel:this.form.personOtel,
-                personMtel:this.form.personMtel,
-                personHtel:this.form.personHtel,
-                contactper:this.form.contactper,
-                contactperOtel:this.form.contactperOtel,
-                contactperMtel:this.form.contactperMtel,
-                contactperHtel:this.form.contactperHtel,
-                contactperEmail:this.form.contactperEmail,
-                governingEnterprise:this.form.governingEnterprise,
-                governingEnterpriseAddr:this.form.governingEnterpriseAddr,
-                coordsyscode:this.form.coordsyscode,
-                elevationCode:this.form.elevationCode,
-                personNum:this.form.personNum,
-                description:this.form.description,
-                traffic:this.form.traffic,
-                inuseDate:this.form.inuseDate,
-                useYearNum:this.form.useYearNum,
-                emergencyCommunicaMode:this.form.emergencyCommunicaMode,
-                disasterForm:this.form.disasterForm,
-                defLevelCode:this.form.defLevelCode,
-                defenceArea:this.form.defenceArea,
-                maxPersonNum:this.form.maxPersonNum,
-                monitorMode:this.form.monitorMode,
-                defenceStep:this.form.defenceStep,
-                datasourceUnit:this.form.datasourceUnit,
-                notes:this.form.notes,
-                sysFlag:this.form.sysFlag,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                mmBasBuildApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                mmBasBuildApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            code: this.form.code,
+            buildName: this.form.buildName,
+            targetType: this.form.targetType,
+            dictBuildId: this.form.dictBuildId,
+            levelCode: this.form.levelCode,
+            classCode: this.form.classCode,
+            districtCode: this.form.districtCode,
+            roadName: this.form.roadName,
+            address: this.form.address,
+            dutyTel: this.form.dutyTel,
+            fax: this.form.fax,
+            personName: this.form.personName,
+            personOtel: this.form.personOtel,
+            personMtel: this.form.personMtel,
+            personHtel: this.form.personHtel,
+            contactper: this.form.contactper,
+            contactperOtel: this.form.contactperOtel,
+            contactperMtel: this.form.contactperMtel,
+            contactperHtel: this.form.contactperHtel,
+            contactperEmail: this.form.contactperEmail,
+            governingEnterprise: this.form.governingEnterprise,
+            governingEnterpriseAddr: this.form.governingEnterpriseAddr,
+            coordsyscode: this.form.coordsyscode,
+            elevationCode: this.form.elevationCode,
+            personNum: this.form.personNum,
+            description: this.form.description,
+            traffic: this.form.traffic,
+            inuseDate: this.form.inuseDate,
+            useYearNum: this.form.useYearNum,
+            emergencyCommunicaMode: this.form.emergencyCommunicaMode,
+            disasterForm: this.form.disasterForm,
+            defLevelCode: this.form.defLevelCode,
+            defenceArea: this.form.defenceArea,
+            maxPersonNum: this.form.maxPersonNum,
+            monitorMode: this.form.monitorMode,
+            defenceStep: this.form.defenceStep,
+            datasourceUnit: this.form.datasourceUnit,
+            notes: this.form.notes,
+            sysFlag: this.form.sysFlag,
+            isDel: this.form.isDel
+          }
+          if (formData.id) {
+            mmBasBuildApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            mmBasBuildApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -267,7 +271,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -278,13 +282,13 @@ export default {
         this.formTitle = '编辑地上建筑物（包含危险源和防护目标）'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -296,13 +300,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            mmBasBuildApi.remove(id).then(response => {
+          mmBasBuildApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
