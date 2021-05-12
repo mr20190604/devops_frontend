@@ -1,37 +1,16 @@
-import dsiEnterpriseBaseinfoApi from '@/api/dsi/dsiEnterpriseBaseinfo'
+import dsiEnterpriseRiskMaterialApi from '@/api/dsi/dsiEnterpriseRiskMaterial'
 import permission from '@/directive/permission/index.js'
-import { remove, getList, save, update, getDicts } from '@/api/system/dict'
-
 
 export default {
   directives: { permission },
-
   data() {
     return {
       formVisible: false,
-      formTitle: '添加数据资源一体化子系统--企业信息',
+      formTitle: '添加数据资源一体化子系统-企业基本信息-风险单元-风险物质',
       isAdd: true,
       form: {
-        code:'',
-        enterpriseName:'',
-        enterpriseAddress:'',
-        riskLevel:'',
-        legalPerson:'',
-        registerCode:'',
-        envSafeLeader:'',
-        emergencyWorker:'',
-        emergencyTeam:'',
-        parkId:'',
-        industryId:'',
-        districtCode:'',
-        managementSituation:[],
-        employmentNo:'',
-        isDangerSource:'',
-        foreignUnit:'',
-        enterpriseOtel:'',
-        enterpriseFax:'',
-        enterpriseEmergencyTel:'',
-        enterpriseEmail:'',
+        materialId:'',
+        riskUnitId:'',
         isDel:'',
         id: ''
       },
@@ -40,12 +19,6 @@ export default {
         limit: 20,
         id: undefined
       },
-      //经营状态下拉数据
-      management_status:[],
-      //风险等级下拉数据
-      risk_level:[],
-      //行政区划下拉数据
-      district:[],
       total: 0,
       list: null,
       listLoading: true,
@@ -82,33 +55,18 @@ export default {
       this.fetchData()
     },
     fetchData() {
-
-
       this.listLoading = true
-      dsiEnterpriseBaseinfoApi.getList(this.listQuery).then(response => {
+        dsiEnterpriseRiskMaterialApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      });
-      getDicts('经营状态').then(response => {
-        this.management_status = response.data
-      });
-      getDicts('风险等级').then(response => {
-        this.risk_level = response.data
       })
-
     },
     search() {
       this.fetchData()
     },
     reset() {
-      this.listQuery.districtCode = ''
-      this.listQuery.enterpriseName = ''
-      this.listQuery.managementSituation = ''
-      this.listQuery.enterpriseAddress = ''
-      this.listQuery.legalPerson = ''
-      this.listQuery.riskLevel = ''
-
+      this.listQuery.id = ''
       this.fetchData()
     },
     handleFilter() {
@@ -139,34 +97,17 @@ export default {
     },
     resetForm() {
       this.form = {
-        code:'',
-        enterpriseName:'',
-        enterpriseAddress:'',
-        riskLevel:'',
-        legalPerson:'',
-        registerCode:'',
-        envSafeLeader:'',
-        emergencyWorker:'',
-        emergencyTeam:'',
-        parkId:'',
-        industryId:'',
-        districtCode:'',
-        employmentNo:'',
-        isDangerSource:'',
-        foreignUnit:'',
-        enterpriseOtel:'',
-        enterpriseFax:'',
-        enterpriseEmergencyTel:'',
-        enterpriseEmail:'',
+        materialId:'',
+        riskUnitId:'',
         isDel:'',
         id: ''
       }
     },
     add() {
-      this.resetForm()
-      this.formTitle = '添加企业信息',
+      this.formTitle = '添加数据资源一体化子系统-企业基本信息-风险单元-风险物质',
       this.formVisible = true
       this.isAdd = true
+
       if(this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
@@ -177,31 +118,12 @@ export default {
         if (valid) {
             const formData = {
                 id:this.form.id,
-                code:this.form.code,
-                enterpriseName:this.form.enterpriseName,
-                enterpriseAddress:this.form.enterpriseAddress,
-                riskLevel:this.form.riskLevel,
-                legalPerson:this.form.legalPerson,
-                registerCode:this.form.registerCode,
-                envSafeLeader:this.form.envSafeLeader,
-                emergencyWorker:this.form.emergencyWorker,
-                emergencyTeam:this.form.emergencyTeam,
-                parkId:this.form.parkId,
-                industryId:this.form.industryId,
-                districtCode:this.form.districtCode,
-                employmentNo:this.form.employmentNo,
-                isDangerSource:this.form.isDangerSource,
-                foreignUnit:this.form.foreignUnit,
-                enterpriseOtel:this.form.enterpriseOtel,
-                enterpriseFax:this.form.enterpriseFax,
-                enterpriseEmergencyTel:this.form.enterpriseEmergencyTel,
-                enterpriseEmail:this.form.enterpriseEmail,
-                isDel:this.form.isDel,
-                managementSituation:this.form.managementSituation,
-              enterpriseNature:this.form.enterpriseNature
+                materialId:this.form.materialId,
+                currentStock:this.form.currentStock,
+                criticalQuantity:this.form.criticalQuantity,
             }
             if(formData.id){
-                dsiEnterpriseBaseinfoApi.update(formData).then(response => {
+                dsiEnterpriseRiskMaterialApi.update(formData).then(response => {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
@@ -210,7 +132,7 @@ export default {
                     this.formVisible = false
                 })
             }else{
-                dsiEnterpriseBaseinfoApi.add(formData).then(response => {
+                dsiEnterpriseRiskMaterialApi.add(formData).then(response => {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
@@ -242,7 +164,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑企业信息'
+        this.formTitle = '编辑数据资源一体化子系统-企业基本信息-风险单元-风险物质'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {
@@ -263,7 +185,7 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiEnterpriseBaseinfoApi.remove(id).then(response => {
+            dsiEnterpriseRiskMaterialApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
