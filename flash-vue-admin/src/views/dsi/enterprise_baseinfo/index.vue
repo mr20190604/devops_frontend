@@ -2,14 +2,54 @@
     <div class="app-container">
         <div class="block">
             <el-row  :gutter="20">
-                <el-col :span="4">
-                    <el-input v-model="listQuery.id" size="mini" placeholder="请输入id"></el-input>
-                </el-col>
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
+
+
+              <el-col :span="4">
+                <el-input v-model="listQuery.enterpriseName" size="mini" placeholder="请输入企业名称"></el-input>
+              </el-col>
+
+              <el-col :span="4">
+                <el-input v-model="listQuery.districtCode" size="mini" placeholder="请选择所在地区"></el-input>
+              </el-col>
+
+              <el-col :span="4">
+                <el-select  size="mini" v-model="listQuery.managementSituation" placeholder="请选择经营状态">
+                  <el-option
+                    v-for="item in management_status"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-col>
+
             </el-row>
+
+          <el-row  :gutter="20">
+            <el-col :span="4">
+              <el-input v-model="listQuery.enterpriseAddress" size="mini" placeholder="请输入所在地址"></el-input>
+            </el-col>
+
+            <el-col :span="4">
+              <el-input v-model="listQuery.legalPerson" size="mini" placeholder="请输入法人名称"></el-input>
+            </el-col>
+
+            <el-col :span="4">
+              <el-select v-model="listQuery.riskLevel" size="mini" placeholder="请选择风险等级">
+                <el-option
+                  v-for="item in risk_level"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+
+            <el-col :span="6">
+              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-col>
+          </el-row>
             <br>
             <el-row>
                 <el-col :span="24">
@@ -73,7 +113,7 @@
           </template>
           </el-table-column>
 
-          <el-table-column label="经营情况">
+          <el-table-column label="经营状态">
             <template slot-scope="scope">
               {{scope.row.managementSituation}}
             </template>
@@ -112,7 +152,7 @@
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
-                    <el-form-item label="所属行业（参见字典）"  >
+                    <el-form-item label="所属行业"  >
                       <el-input v-model="form.industryId" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
@@ -134,7 +174,7 @@
                     </el-col>
 
                   <el-col :span="12">
-                    <el-form-item label="经营情况"  >
+                    <el-form-item label="经营状态"  >
                       <el-input v-model="form.managementSituation" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
@@ -163,11 +203,6 @@
                     <el-col :span="12">
                         <el-form-item label="环保安全负责人"  >
                             <el-input v-model="form.envSafeLeader" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="应急人员"  >
-                            <el-input v-model="form.emergencyWorker" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
