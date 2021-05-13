@@ -33,7 +33,9 @@ export default {
         enterpriseEmergencyTel:'',
         enterpriseEmail:'',
         isDel:'',
-        id: ''
+        id: '',
+        managementSituationName:'',
+        riskLevelName:''
       },
       listQuery: {
         page: 1,

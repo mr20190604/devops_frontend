@@ -29,5 +29,11 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  queryAll:function () {
+    return request({
+      url:'/enterprise_info/queryAll',
+      method:'get'
+    })
+  }
 }

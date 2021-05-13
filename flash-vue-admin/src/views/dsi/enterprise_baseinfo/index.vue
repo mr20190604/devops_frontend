@@ -89,7 +89,7 @@
             </el-table-column>
             <el-table-column label="风险等级">
                 <template slot-scope="scope">
-                    {{scope.row.riskLevel}}
+                    {{scope.row.riskLevelName}}
                 </template>
             </el-table-column>
           <el-table-column label="行政区划">
@@ -117,7 +117,7 @@
 
           <el-table-column label="经营状态">
             <template slot-scope="scope">
-              {{scope.row.managementSituation}}
+              {{scope.row.managementSituationName}}
             </template>
           </el-table-column>
 

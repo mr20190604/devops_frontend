@@ -18,7 +18,8 @@ export default {
         personTel:'',
         isDel:'',
         id: '',
-        details:[]
+        details:[],
+        riskTypeName:''
       },
       risk_type:[],
       listQuery: {

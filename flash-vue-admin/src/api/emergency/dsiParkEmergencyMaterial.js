@@ -29,5 +29,15 @@ export default {
                 id: id
             }
         })
-    }
+    },
+   listForPoolId:function(id) {
+      return request({
+        url:'/park/emergency/material/listForPoolId',
+        method:'get',
+        params:{
+          id:id
+        }
+      })
+
+   }
 }
