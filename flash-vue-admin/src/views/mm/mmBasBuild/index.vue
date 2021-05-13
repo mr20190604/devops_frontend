@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true" size="mini">
+      <el-form label-width="120px" :inline="true">
         <el-form-item label="场所/设施名称">
           <el-input v-model="listQuery.buildName" placeholder="请输入场所/设施名称" />
         </el-form-item>
@@ -15,7 +15,7 @@
           <el-input v-model="listQuery.contactper" placeholder="请输入联系人(模糊查询)" />
         </el-form-item>
         <el-form-item label="目标类型">
-          <TargetType v-model="listQuery.dictBuildId" />
+          <TargetType v-model="listQuery.targetType" />
         </el-form-item>
       </el-form>
       <el-row :gutter="24">
@@ -94,7 +94,7 @@
           {{ scope.row.address }}
         </template>
       </el-table-column>
-      <el-table-column label="面积(㎡)">
+      <el-table-column label="面积(万平方米)">
         <template slot-scope="scope">
           {{ scope.row.engrossArea }}
         </template>
@@ -150,59 +150,29 @@
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="统一标识码">
-              <el-input v-model="form.code" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="建筑物名称">
+          <el-col :span="24">
+            <el-form-item label="场所/设施名称">
               <el-input v-model="form.buildName" minlength="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="危险源或防护目标(1：危险源，2：防护目标)">
-              <el-input v-model="form.targetType" minlength="1" />
+            <el-form-item label="防护等级">
+              <ProtectionLevel v-model="form.levelCode" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="建筑物类型">
-              <el-input v-model="form.dictBuildId" minlength="1" />
+            <el-form-item label="目标类型">
+              <TargetType v-model="form.targetType" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="级别代码">
-              <el-input v-model="form.levelCode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="密级代码">
-              <el-input v-model="form.classCode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="行政区划代码">
-              <el-input v-model="form.districtCode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="所在道路">
-              <el-input v-model="form.roadName" minlength="1" />
+            <el-form-item label="所在地区">
+              <district v-model="form.districtCode" placeholder="请选择所在地区" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="地址">
               <el-input v-model="form.address" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="值班电话">
-              <el-input v-model="form.dutyTel" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="传真">
-              <el-input v-model="form.fax" minlength="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -216,138 +186,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="负责人移动电话">
-              <el-input v-model="form.personMtel" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="负责人住宅电话">
-              <el-input v-model="form.personHtel" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系人">
-              <el-input v-model="form.contactper" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系人办公电话">
-              <el-input v-model="form.contactperOtel" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系人移动电话">
-              <el-input v-model="form.contactperMtel" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系人住宅电话">
-              <el-input v-model="form.contactperHtel" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系人电子邮箱">
-              <el-input v-model="form.contactperEmail" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="主管单位">
-              <el-input v-model="form.governingEnterprise" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="主管单位地址">
-              <el-input v-model="form.governingEnterpriseAddr" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="坐标系统代码">
-              <el-input v-model="form.coordsyscode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="高程基准代码">
-              <el-input v-model="form.elevationCode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="人数">
               <el-input v-model="form.personNum" minlength="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="基本情况">
-              <el-input v-model="form.description" minlength="1" />
+            <el-form-item label="面积(万平方米)">
+              <el-input v-model="form.engrossArea" minlength="1" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="周边交通状况">
-              <el-input v-model="form.traffic" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="投入使用时间">
-              <el-input v-model="form.inuseDate" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="设计使用年限">
-              <el-input v-model="form.useYearNum" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="应急通信方式">
-              <el-input v-model="form.emergencyCommunicaMode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="可能受灾形式">
-              <el-input v-model="form.disasterForm" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="防护等级代码">
-              <el-input v-model="form.defLevelCode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="防护区域">
-              <el-input v-model="form.defenceArea" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="可容纳人数">
-              <el-input v-model="form.maxPersonNum" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="监测方式">
-              <el-input v-model="form.monitorMode" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="防护措施">
-              <el-input v-model="form.defenceStep" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="数据来源单位">
-              <el-input v-model="form.datasourceUnit" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="备注">
               <el-input v-model="form.notes" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="系统标识符">
-              <el-input v-model="form.sysFlag" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="逻辑删除">
-              <el-input v-model="form.isDel" minlength="1" />
             </el-form-item>
           </el-col>
         </el-row>
