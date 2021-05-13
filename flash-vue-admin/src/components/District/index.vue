@@ -136,14 +136,36 @@ export default {
 
   /*调整文字居中*/
   .vue-treeselect__placeholder{
+    height: 40px;
+    height: 40px;
     line-height: 40px;
   }
 
-  .vue-treeselect__single-value>div{
+  .vue-treeselect__single-value > div{
     height: 40px;
     line-height: 40px;
   }
 
   /*支持el-form size模式*/
+  /*mini*/
+  .el-form-item--mini  .vue-treeselect__placeholder{
+    font-size: 12px;
+    height: 26px;
+    line-height: 26px;
+  }
+
+  .el-form-item--mini .vue-treeselect__input-container{
+    height: 26px;
+  }
+
+  .el-form-item--mini  .vue-treeselect__single-value > div{
+    height: 26px;
+    line-height: 26px;
+  }
+
+  .el-form-item--mini .vue-treeselect__control{
+    height: 26px;
+  }
+
 
 </style>

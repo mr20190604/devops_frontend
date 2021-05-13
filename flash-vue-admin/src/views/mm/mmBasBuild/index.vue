@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true">
+      <el-form label-width="120px" :inline="true" size="mini">
         <el-form-item label="场所/设施名称">
           <el-input v-model="listQuery.buildName" placeholder="请输入场所/设施名称" />
         </el-form-item>
