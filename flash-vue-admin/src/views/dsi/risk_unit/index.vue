@@ -1,12 +1,12 @@
 <template>
     <div class="app-container">
         <div class="block">
-            <el-row  :gutter="20">
-                <el-col :span="4">
+          <el-form label-width="120px" :inline="true" size="mini">
+                <el-form-item label="风险名称">
                     <el-input v-model="listQuery.riskName" size="mini" placeholder="请输风险名称"></el-input>
-                </el-col>
+                </el-form-item>
 
-              <el-col :span="4">
+            <el-form-item label="风险类型">
                 <el-select v-model="listQuery.riskType" size="mini" placeholder="请选择风险类型">
                   <el-option
                     v-for="item in risk_type"
@@ -15,12 +15,15 @@
                     :value="item.id">
                   </el-option>
                 </el-select>
-              </el-col>
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
-            </el-row>
+            </el-form-item>
+
+            </el-form>
+          <el-row :gutter="24">
+            <el-col :span="6">
+              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-col>
+          </el-row>
             <br>
             <el-row>
                 <el-col :span="24">
@@ -52,7 +55,7 @@
 
           <el-table-column label="风险物质">
             <template slot-scope="scope">
-              {{scope.row.headPerson}}
+              {{scope.row.detail}}
             </template>
           </el-table-column>
             <el-table-column label="操作">
@@ -120,7 +123,7 @@
               <el-form-item
                 v-for="(rec, index) in form.details"
                 :label="'风险物质' + (index+1)"
-                :key="rec.headPerson"
+                :key="rec.materialId"
                 :prop="'details.' + index + '.value'"
                 :rules="{
                 required: true, message: '不能为空', trigger: 'blur'
@@ -128,17 +131,17 @@
               >
                 <el-col :span="5">
                   <el-form-item label="风险物质"  >
-                    <el-input v-model="form.headPerson" minlength=1></el-input>
+                    <el-input v-model="rec.materialId" ></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="5">
                   <el-form-item label="现存量"  >
-                    <el-input v-model="form.headPerson" minlength=1></el-input>
+                    <el-input v-model="rec.currentStock" ></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="5">
                   <el-form-item label="临界量"  >
-                    <el-input v-model="form.headPerson" minlength=1></el-input>
+                    <el-input v-model="rec.criticalQuantity" ></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="4">&nbsp;

@@ -1,28 +1,31 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-row  :gutter="20">
-            <el-col :span="4">
+          <el-form label-width="120px" :inline="true" size="mini">
+            <el-form-item label="队伍名称">
               <el-input v-model="listQuery.name" size="mini" placeholder="请输入队伍名称"></el-input>
-            </el-col>
-            <el-col :span="4">
+            </el-form-item>
+              <el-form-item label="所在地区">
               <el-input v-model="listQuery.districtCode" size="mini" placeholder="请选择所在地区"></el-input>
-            </el-col>
-            <el-col :span="4">
+              </el-form-item>
+                <el-form-item label="负责人">
               <el-input v-model="listQuery.personContact" size="mini" placeholder="请输入负责人"></el-input>
-            </el-col>
-          </el-row>
-          <el-row  :gutter="20">
-            <el-col :span="4">
+                </el-form-item>
+
+
+                  <el-form-item label="所属企业">
               <el-input v-model="listQuery.belongingUnit" size="mini" placeholder="请输入所属企业"></el-input>
-            </el-col>
-            <el-col :span="4">
+                  </el-form-item>
+                    <el-form-item label="地址">
               <el-input v-model="listQuery.address" size="mini" placeholder="请输入地址"></el-input>
-            </el-col>
+                    </el-form-item>
+          </el-form>
+            <el-row  :gutter="20">
             <el-col :span="6">
               <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
               <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
             </el-col>
+
           </el-row>
             <br>
             <el-row>

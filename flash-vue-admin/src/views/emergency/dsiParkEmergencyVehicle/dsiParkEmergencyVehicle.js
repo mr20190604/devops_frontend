@@ -1,28 +1,32 @@
-import dsiEnterpriseRiskUnitApi from '@/api/dsi/dsiEnterpriseRiskUnit'
+import dsiParkEmergencyVehicleApi from '@/api/emergency/dsiParkEmergencyVehicle'
 import permission from '@/directive/permission/index.js'
-import { remove, getList, save, update, getDicts } from '@/api/system/dict'
+import {getDicts} from "../../../api/system/dict";
 
 export default {
   directives: { permission },
   data() {
     return {
       formVisible: false,
-      formTitle: '添加数据资源一体化系统-企业信息-企业风险单元',
+      formTitle: '添加园区应急车辆',
       isAdd: true,
       form: {
-        riskName:'',
+        vehicleName:'',
         enterpriseId:'',
-        isDangerSource:'',
-        riskType:[],
-        headPerson:'',
+        vehicleLicense:'',
+        vehicleCode:'',
+        vehicleType:'',
+        vehicleModel:'',
+        districtCode:'',
+        vehicleResponsible:'',
         personTel:'',
+        manufacturer:'',
+        longitude:'',
+        latitude:'',
         isDel:'',
-        id: '',
-        details:[],
-        riskTypeName:'',
-        detail:'',
+        id: ''
       },
-      risk_type:[],
+      //车辆类别
+      vehicleType:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -65,21 +69,20 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-        dsiEnterpriseRiskUnitApi.getList(this.listQuery).then(response => {
+        dsiParkEmergencyVehicleApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      })
-      getDicts('风险类型').then(response =>{
-        this.risk_type = response.data
+      });
+      getDicts("车辆类别").then(response=>{
+        this.vehicleType=response.data
       })
     },
     search() {
       this.fetchData()
     },
     reset() {
-      this.listQuery.riskName = ''
-      this.listQuery.riskType = ''
+      this.listQuery.id = ''
       this.fetchData()
     },
     handleFilter() {
@@ -110,19 +113,24 @@ export default {
     },
     resetForm() {
       this.form = {
-        riskName:'',
+        vehicleName:'',
         enterpriseId:'',
-        isDangerSource:'',
-        riskType:'',
-        headPerson:'',
+        vehicleLicense:'',
+        vehicleCode:'',
+        vehicleType:'',
+        vehicleModel:'',
+        districtCode:'',
+        vehicleResponsible:'',
         personTel:'',
+        manufacturer:'',
+        longitude:'',
+        latitude:'',
         isDel:'',
         id: ''
       }
     },
     add() {
-      this.resetForm;
-      this.formTitle = '添加风险单元',
+      this.formTitle = '添加园区应急车辆',
       this.formVisible = true
       this.isAdd = true
 
@@ -136,16 +144,22 @@ export default {
         if (valid) {
             const formData = {
                 id:this.form.id,
-                riskName:this.form.riskName,
+                vehicleName:this.form.vehicleName,
                 enterpriseId:this.form.enterpriseId,
-                isDangerSource:this.form.isDangerSource,
-                riskType:this.form.riskType,
-                headPerson:this.form.headPerson,
+                vehicleLicense:this.form.vehicleLicense,
+                vehicleCode:this.form.vehicleCode,
+                vehicleType:this.form.vehicleType,
+                vehicleModel:this.form.vehicleModel,
+                districtCode:this.form.districtCode,
+                vehicleResponsible:this.form.vehicleResponsible,
                 personTel:this.form.personTel,
+                manufacturer:this.form.manufacturer,
+                longitude:this.form.longitude,
+                latitude:this.form.latitude,
                 isDel:this.form.isDel,
             }
             if(formData.id){
-                dsiEnterpriseRiskUnitApi.update(formData).then(response => {
+                dsiParkEmergencyVehicleApi.update(formData).then(response => {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
@@ -154,7 +168,7 @@ export default {
                     this.formVisible = false
                 })
             }else{
-                dsiEnterpriseRiskUnitApi.add(formData).then(response => {
+                dsiParkEmergencyVehicleApi.add(formData).then(response => {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
@@ -186,7 +200,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑风险单元'
+        this.formTitle = '编辑园区应急车辆'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {
@@ -207,7 +221,7 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiEnterpriseRiskUnitApi.remove(id).then(response => {
+            dsiParkEmergencyVehicleApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
@@ -222,22 +236,6 @@ export default {
         }).catch(() => {
         })
       }
-    }, addDetail() {
-      var details = this.form.details
-
-      details.push({
-        value: '',
-        key: ''
-      })
-      this.form.details = details
-    }, removeDetail(detail) {
-      var details = []
-      this.form.details.forEach(function(val, index) {
-        if (detail.key !== val.key) {
-          details.push(val)
-        }
-      })
-      this.form.details = details
     }
 
   }
