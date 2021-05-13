@@ -14,7 +14,14 @@
 
 
                   <el-form-item label="所属企业">
-              <el-input v-model="listQuery.belongingUnit" size="mini" placeholder="请输入所属企业"></el-input>
+              <el-select v-model="listQuery.belongingUnit" size="mini" placeholder="请选择所属企业">
+                  <el-option
+                    v-for="item in enterprise_list"
+                    :key="item.id"
+                    :label="item.enterpriseName"
+                    :value="item.id">
+                  </el-option>
+              </el-select>
                   </el-form-item>
                     <el-form-item label="地址">
               <el-input v-model="listQuery.address" size="mini" placeholder="请输入地址"></el-input>
@@ -222,6 +229,56 @@
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
+              <el-table :data="personList"
+                        v-loading="personLoading"
+                        element-loading-text="Loading"
+                        border fit highlight-current-row
+                        @current-change="handleCurrentChange">
+
+                <el-table-column label="名称">
+                  <template slot-scope="scope">
+                    {{scope.row.name}}
+                  </template>
+                </el-table-column>
+                <el-table-column label="性别">
+                  <template slot-scope="scope">
+                    {{scope.row.gender}}
+                  </template>
+                </el-table-column>
+                <el-table-column label="学历">
+                  <template slot-scope="scope">
+                    {{scope.row.educationName}}
+                  </template>
+                </el-table-column>
+                <el-table-column label="职称">
+                  <template slot-scope="scope">
+                    {{scope.row.professionalName}}
+                  </template>
+                </el-table-column>
+                <el-table-column label="专业特长">
+                  <template slot-scope="scope">
+                    {{scope.row.majorSpecialty}}
+                  </template>
+                </el-table-column>
+                <el-table-column label="是否专家">
+                  <template slot-scope="scope">
+                    {{scope.row.isExpert}}
+                  </template>
+                </el-table-column>
+
+                <el-table-column label="联系方式">
+                  <template slot-scope="scope">
+                    {{scope.row.tel}}
+                  </template>
+                </el-table-column>
+
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" >{{ $t('button.edit') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" >{{ $t('button.delete') }}</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
 
             </el-form>
         </el-dialog>

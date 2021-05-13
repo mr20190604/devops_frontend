@@ -1,8 +1,12 @@
 import dsiParkEmergencyTeamApi from '@/api/emergency/dsiParkEmergencyTeam'
 import permission from '@/directive/permission/index.js'
+import person from '@/api/emergency/dsiParkEmergencyPerson.js'
+import enterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
+
 
 export default {
-  directives: { permission },
+  directives: { permission,enterprise },
+  constant:[person],
   data() {
     return {
       formVisible: false,
@@ -25,6 +29,30 @@ export default {
         isDel:'',
         id: ''
       },
+      personVisible: false,
+      personTitle: '添加应急人员信息',
+      personAdd: true,
+      personForm: {
+        code:'',
+        name:'',
+        gender:'',
+        educationName:'',
+        professionalName:'',
+        postName:'',
+        majorSpecialty:'',
+        districtCode:'',
+        isExpert:'',
+        tel:'',
+        address:'',
+        personTel:'',
+        remark:'',
+        isDel:'',
+        id: ''
+      },
+      personList:null,
+      person_list:[],
+      personLoading:true,
+      enterprise_list:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -71,6 +99,9 @@ export default {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
+      })
+      enterprise.queryAll().then(response =>{
+        this.enterprise_list = response.data
       })
     },
     search() {
@@ -126,6 +157,7 @@ export default {
       }
     },
     add() {
+      this.resetForm()
       this.formTitle = '添加数据资源一体化子系统-园区应急资源库-应急队伍信息',
       this.formVisible = true
       this.isAdd = true
@@ -191,7 +223,9 @@ export default {
     },
     editItem(record){
       this.selRow = record
+      this.personAdd = false
       this.edit()
+      this.initPersonList(record.id)
     },
     edit() {
       if (this.checkSel()) {
@@ -233,6 +267,16 @@ export default {
         }).catch(() => {
         })
       }
+    },initPersonList(teamId) {
+      this.personLoading = true
+      if(teamId) {
+
+
+
+      } else {
+
+      }
+
     }
 
   }
