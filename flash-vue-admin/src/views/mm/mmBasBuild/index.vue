@@ -1,32 +1,30 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="场所/设施名称">
-              <el-input v-model="listQuery.id" aria-placeholder="请输入id" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="场所/设施名称">
-              <district parentCode="000000" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-
+      <el-form label-width="120px" :inline="true">
+        <el-form-item label="场所/设施名称">
+          <el-input v-model="listQuery.buildName" placeholder="请输入场所/设施名称" />
+        </el-form-item>
+        <el-form-item label="所在地区">
+          <district v-model="listQuery.districtCode" placeholder="请选择所在地区" />
+        </el-form-item>
+        <el-form-item label="防护等级">
+          <ProtectionLevel v-model="listQuery.levelCode" />
+        </el-form-item>
+        <el-form-item label="联系人">
+          <el-input v-model="listQuery.contactper" placeholder="请输入联系人(模糊查询)" />
+        </el-form-item>
+        <el-form-item label="目标类型">
+          <TargetType v-model="listQuery.dictBuildId" />
+        </el-form-item>
       </el-form>
       <el-row :gutter="24">
-        <!--        <el-col :span="4">-->
-        <!--          <el-input v-model="listQuery.id" size="mini" placeholder="请输入id" />-->
-        <!--        </el-col>-->
-        <!--        <el-col :span="6">-->
-        <!--          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}-->
-        <!--          </el-button>-->
-        <!--          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}-->
-        <!--          </el-button>-->
-        <!--        </el-col>-->
-
+        <el-col :span="6">
+          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+          </el-button>
+          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+          </el-button>
+        </el-col>
       </el-row>
       <br>
       <el-row>
@@ -78,17 +76,27 @@
       </el-table-column>
       <el-table-column label="防护等级">
         <template slot-scope="scope">
-          {{ scope.row.levelCode }}
+          {{ scope.row.levelName }}
+        </template>
+      </el-table-column>
+      <el-table-column label="人数">
+        <template slot-scope="scope">
+          {{ scope.row.personNum }}
         </template>
       </el-table-column>
       <el-table-column label="行政区划">
         <template slot-scope="scope">
-          {{ scope.row.districtCode }}
+          {{ scope.row.districtName }}
         </template>
       </el-table-column>
       <el-table-column label="地址">
         <template slot-scope="scope">
           {{ scope.row.address }}
+        </template>
+      </el-table-column>
+      <el-table-column label="面积(㎡)">
+        <template slot-scope="scope">
+          {{ scope.row.engrossArea }}
         </template>
       </el-table-column>
       <el-table-column label="负责人">

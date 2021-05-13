@@ -16,7 +16,6 @@ export function save(params) {
   })
 }
 
-
 export function update(params) {
   return request({
     url: '/dict',
@@ -30,14 +29,14 @@ export function remove(id) {
     url: '/dict',
     method: 'delete',
     params: {
-      id:id
+      id: id
     }
   })
 }
 
-export  function  getDicts(dictName) {
+export function getDicts(dictName) {
   return request({
-    url:'/dict/getDicts/'+dictName,
-    method:'get'
+    url: '/dict/getDicts/' + dictName,
+    method: 'get'
   })
 }

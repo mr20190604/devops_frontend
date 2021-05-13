@@ -1,13 +1,15 @@
 import mmBasBuildApi from '@/api/mm/mmBasBuild'
 import permission from '@/directive/permission/index.js'
 import district from '@/components/District/index'
+import ProtectionLevel from './components/ProtectionLevel'
+import TargetType from './components/TargetType'
 
 export default {
   directives: { permission },
   data() {
     return {
       formVisible: false,
-      formTitle: '添加地上建筑物（包含危险源和防护目标）',
+      formTitle: '添加地上建筑物',
       isAdd: true,
       form: {
         code: '',
@@ -55,7 +57,11 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        buildName: undefined,
+        districtCode: undefined,
+        levelCode: undefined,
+        contactper: undefined,
+        dictBuildId: undefined
       },
       total: 0,
       list: null,
@@ -64,7 +70,9 @@ export default {
     }
   },
   components: {
-    district
+    district,
+    ProtectionLevel,
+    TargetType
   },
   filters: {
     statusFilter(status) {
@@ -107,7 +115,11 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.buildName = undefined
+      this.listQuery.districtCode = undefined
+      this.listQuery.levelCode = undefined
+      this.listQuery.contactper = undefined
+      this.listQuery.dictBuildId = undefined
       this.fetchData()
     },
     handleFilter() {
