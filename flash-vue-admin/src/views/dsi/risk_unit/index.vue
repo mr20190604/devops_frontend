@@ -126,7 +126,7 @@
                 :key="rec.materialId"
                 :prop="'details.' + index + '.value'"
                 :rules="{
-                required: true, message: '不能为空', trigger: 'blur'
+                required: false, message: '不能为空', trigger: 'blur'
                 }"
               >
                 <el-col :span="5">
