@@ -36,7 +36,8 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        id: undefined,
+
       },
       total: 0,
       list: null,

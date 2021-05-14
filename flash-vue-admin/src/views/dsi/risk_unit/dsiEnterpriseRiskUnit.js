@@ -1,6 +1,7 @@
 import dsiEnterpriseRiskUnitApi from '@/api/dsi/dsiEnterpriseRiskUnit'
 import permission from '@/directive/permission/index.js'
 import { remove, getList, save, update, getDicts } from '@/api/system/dict'
+import dsiEnterpriseRiskMaterial from "../../../api/dsi/dsiEnterpriseRiskMaterial";
 
 export default {
   directives: { permission },
@@ -22,6 +23,13 @@ export default {
         riskTypeName:'',
         detail:'',
       },
+     /* form1:{
+        materialId:'',
+        riskUnitId:'',
+        currentStock:'',
+        criticalQuantity:''
+      },*/
+      risk_list:[],
       risk_type:[],
       listQuery: {
         page: 1,
@@ -67,6 +75,7 @@ export default {
       this.listLoading = true
         dsiEnterpriseRiskUnitApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
+          console.log(response.data.records);
         this.listLoading = false
         this.total = response.data.total
       })
@@ -117,7 +126,9 @@ export default {
         headPerson:'',
         personTel:'',
         isDel:'',
-        id: ''
+        id: '',
+        details: [],
+        detail: [],
       }
     },
     add() {
@@ -132,6 +143,7 @@ export default {
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
           },
     save() {
+      var self=this
       this.$refs['form'].validate((valid) => {
         if (valid) {
             const formData = {
@@ -159,7 +171,17 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
-
+                  var riskId = response.data.id
+                  console.log(self.form.details)
+                  for (var item in self.form.details) {
+                    const formData1 = {
+                      riskUnitId:riskId,
+                      materialId:self.form.details[item].materialId,
+                      currentStock:self.form.details[item].currentStock,
+                      criticalQuantity:self.form.details[item].criticalQuantity,
+                    }
+                    dsiEnterpriseRiskMaterial.add(formData1).then();
+                  }
                     this.fetchData()
                     this.formVisible = false
                 })

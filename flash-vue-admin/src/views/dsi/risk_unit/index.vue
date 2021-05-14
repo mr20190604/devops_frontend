@@ -78,7 +78,7 @@
                 @next-click="fetchNext">
         </el-pagination>
 
-        <el-dialog
+        <!--<el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
                 width="70%">
@@ -124,7 +124,7 @@
                 v-for="(rec, index) in form.details"
                 :label="'风险物质' + (index+1)"
                 :key="rec.materialId"
-                :prop="'details.' + index + '.value'"
+                :prop="'details.' + '.materialId.'+'.currentStock.'+'.criticalQuantity'"
                 :rules="{
                 required: false, message: '不能为空', trigger: 'blur'
                 }"
@@ -157,7 +157,7 @@
                 </el-form-item>
 
             </el-form>
-        </el-dialog>
+        </el-dialog>-->
 
 
 
@@ -214,17 +214,17 @@
           >
             <el-col :span="5">
               <el-form-item label="风险物质"  >
-                <el-input v-model="form.materialId" minlength=1></el-input>
+                <el-input v-model="rec.materialId" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="现存量"  >
-                <el-input v-model="form.currentStock" minlength=1></el-input>
+                <el-input v-model="rec.currentStock" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="临界量"  >
-                <el-input v-model="form.criticalQuantity" minlength=1></el-input>
+                <el-input v-model="rec.criticalQuantity" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">&nbsp;
