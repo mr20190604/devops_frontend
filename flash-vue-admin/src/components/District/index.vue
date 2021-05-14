@@ -43,8 +43,38 @@ export default {
     }
   },
   watch: {
-    value: function(newValue, oldValue) {
+    value: function(newValue) {
       this.content = newValue
+    },
+    content: function(newValue) {
+      if (!newValue) {
+        this.content = undefined
+        return
+      }
+      let isExist = this.options.some(item => item.id === this.content)
+      if (!isExist) {
+        if (!this.parentCode || this.parentCode === '000000') {
+          let currentParentCode = this.content.substring(0, 2) + '0000'
+          let currentOptions = this.options.find(item => item.id === currentParentCode)
+          this.appendChildren(currentOptions).then(children => {
+            isExist = children.some(item => item.id === this.content)
+            if (!isExist) {
+              currentParentCode = this.content.substring(0, 4) + '00'
+              currentOptions = children.find(item => item.id === currentParentCode)
+              // 处理单独划市的情况
+              if (!currentOptions) {
+                currentParentCode = this.content.substring(0, 2) + '0100'
+                currentOptions = children.find(item => item.id === currentParentCode)
+              }
+              currentOptions && this.appendChildren(currentOptions)
+            }
+          })
+        } else {
+          const currentParentCode = this.content.substring(0, 4) + '00'
+          const currentOptions = this.options.find(item => item.id === currentParentCode)
+          currentOptions && this.appendChildren(currentOptions)
+        }
+      }
     }
   },
   created() {
@@ -61,34 +91,6 @@ export default {
         }
         this.options.push(obj)
       })
-
-      if (!this.value) return
-
-      let isExist = this.options.some(item => item.id === this.value)
-      if (!isExist) {
-        if (!this.parentCode || this.parentCode === '000000') {
-          let currentParentCode = this.value.substring(0, 2) + '0000'
-          let currentOptions = this.options.find(item => item.id === currentParentCode)
-          this.appendChildren(currentOptions).then(children => {
-            isExist = children.some(item => item.id === this.value)
-            if (!isExist) {
-              currentParentCode = this.value.substring(0, 4) + '00'
-              currentOptions = children.find(item => item.id === currentParentCode)
-              // 处理单独划市的情况
-              if (!currentOptions) {
-                currentParentCode = this.value.substring(0, 2) + '0100'
-                currentOptions = children.find(item => item.id === currentParentCode)
-              }
-              currentOptions && this.appendChildren(currentOptions)
-            }
-          })
-        } else {
-          const currentParentCode = this.value.substring(0, 4) + '00'
-          const currentOptions = this.options.find(item => item.id === currentParentCode)
-          currentOptions && this.appendChildren(currentOptions)
-        }
-      }
-
       this.content = this.value
     })
   },
@@ -136,7 +138,6 @@ export default {
 
   /*调整文字居中*/
   .vue-treeselect__placeholder,.vue-treeselect__control{
-    height: 38px;
     height: 38px;
     line-height: 38px;
   }

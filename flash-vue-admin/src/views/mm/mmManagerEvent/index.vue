@@ -1,11 +1,18 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row :gutter="20">
-        <el-col :span="4">
-          <el-input v-model="listQuery.id" size="mini" placeholder="请输入id" />
+      <el-row>
+        <el-col :span="24">
+          <el-form label-width="120px" :inline="true">
+            <el-form-item label="关键字">
+              <el-input v-model="listQuery.key" placeholder="编号、名称、地点、描述" />
+            </el-form-item>
+            <el-form-item label="事件类型">
+              <event-type v-model="listQuery.eventType" />
+            </el-form-item>
+          </el-form>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="24">
           <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
           <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
         </el-col>
@@ -39,14 +46,9 @@
           {{ scope.row.eventName }}
         </template>
       </el-table-column>
-      <el-table-column label="事件类型（数据字典）">
+      <el-table-column label="事件类型">
         <template slot-scope="scope">
-          {{ scope.row.eventType }}
-        </template>
-      </el-table-column>
-      <el-table-column label="事件来源（由谁产生填入谁主键）">
-        <template slot-scope="scope">
-          {{ scope.row.eventModel }}
+          {{ scope.row.eventTypeName }}
         </template>
       </el-table-column>
       <el-table-column label="事件地点">
@@ -57,11 +59,6 @@
       <el-table-column label="事件描述">
         <template slot-scope="scope">
           {{ scope.row.eventDesc }}
-        </template>
-      </el-table-column>
-      <el-table-column label="逻辑删除">
-        <template slot-scope="scope">
-          {{ scope.row.isDel }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -93,37 +90,27 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="事件编码">
-              <el-input v-model="form.eventCode" minlength="1" />
+              <el-input v-model="form.eventCode" minlength="1" placeholder="请输入事件编码" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label="事件类型">
+              <event-type v-model="form.eventType" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
             <el-form-item label="事件名称">
-              <el-input v-model="form.eventName" minlength="1" />
+              <el-input v-model="form.eventName" minlength="1" placeholder="请输入事件名称" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="事件类型（数据字典）">
-              <el-input v-model="form.eventType" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="事件来源（由谁产生填入谁主键）">
-              <el-input v-model="form.eventModel" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="事件地点">
-              <el-input v-model="form.eventAddress" minlength="1" />
+              <el-input v-model="form.eventAddress" minlength="1" placeholder="请输入事件地点" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="事件描述">
-              <el-input v-model="form.eventDesc" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="逻辑删除">
-              <el-input v-model="form.isDel" minlength="1" />
+              <el-input v-model="form.eventDesc" minlength="1" placeholder="请输入事件描述" />
             </el-form-item>
           </el-col>
         </el-row>

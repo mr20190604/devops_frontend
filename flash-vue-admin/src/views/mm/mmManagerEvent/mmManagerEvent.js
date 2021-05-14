@@ -1,33 +1,43 @@
 import mmManagerEventApi from '@/api/mm/mmManagerEvent'
 import permission from '@/directive/permission/index.js'
+import EventType from './components/EventType'
 
 export default {
   directives: { permission },
   data() {
     return {
       formVisible: false,
-      formTitle: '添加数据资源一体化子系统-园区应急资源库-应急事件',
+      formTitle: '添加应急事件',
       isAdd: true,
       form: {
-        eventCode:'',
-        eventName:'',
-        eventType:'',
-        eventModel:'',
-        eventAddress:'',
-        eventDesc:'',
-        isDel:'',
+        eventCode: '',
+        eventName: '',
+        eventType: '',
+        eventAddress: '',
+        eventDesc: '',
         id: ''
       },
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        key: undefined,
+        eventType: undefined
       },
       total: 0,
       list: null,
       listLoading: true,
       selRow: {}
     }
+  },
+  watch: {
+    formVisible: function(newValue) {
+      if (!newValue) {
+        this.resetForm()
+      }
+    }
+  },
+  components: {
+    EventType
   },
   filters: {
     statusFilter(status) {
@@ -41,7 +51,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -60,7 +70,7 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-        mmManagerEventApi.getList(this.listQuery).then(response => {
+      mmManagerEventApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -101,58 +111,53 @@ export default {
     },
     resetForm() {
       this.form = {
-        eventCode:'',
-        eventName:'',
-        eventType:'',
-        eventModel:'',
-        eventAddress:'',
-        eventDesc:'',
-        isDel:'',
+        eventCode: '',
+        eventName: '',
+        eventType: '',
+        eventAddress: '',
+        eventDesc: '',
         id: ''
       }
     },
     add() {
-      this.formTitle = '添加数据资源一体化子系统-园区应急资源库-应急事件',
+      this.formTitle = '添加应急事件'
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                eventCode:this.form.eventCode,
-                eventName:this.form.eventName,
-                eventType:this.form.eventType,
-                eventModel:this.form.eventModel,
-                eventAddress:this.form.eventAddress,
-                eventDesc:this.form.eventDesc,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                mmManagerEventApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                mmManagerEventApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            eventCode: this.form.eventCode,
+            eventName: this.form.eventName,
+            eventType: this.form.eventType,
+            eventAddress: this.form.eventAddress,
+            eventDesc: this.form.eventDesc
+          }
+          if (formData.id) {
+            mmManagerEventApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            mmManagerEventApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -168,7 +173,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -176,16 +181,16 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑数据资源一体化子系统-园区应急资源库-应急事件'
+        this.formTitle = '编辑应急事件'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -197,13 +202,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            mmManagerEventApi.remove(id).then(response => {
+          mmManagerEventApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
