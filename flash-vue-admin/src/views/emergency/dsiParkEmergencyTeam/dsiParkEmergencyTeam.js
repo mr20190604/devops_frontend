@@ -36,21 +36,28 @@ export default {
         code:'',
         name:'',
         gender:'',
+        genderName:'',
         educationName:'',
         professionalName:'',
         postName:'',
         majorSpecialty:'',
         districtCode:'',
         isExpert:'',
+        isExpertName:'',
         tel:'',
         address:'',
         personTel:'',
         remark:'',
         isDel:'',
-        id: ''
+        id: '',
+        relationId:'',
+        ids:[],
       },
+
       personList:null,
       person_list:[],
+      //获取应急人员下拉信息
+      person_data:[],
       personLoading:true,
       enterprise_list:[],
       listQuery: {
@@ -268,16 +275,71 @@ export default {
         })
       }
     },initPersonList(teamId) {
-      this.personLoading = true
       if(teamId) {
-
-
-
+        person.listForTeamId(teamId).then(response => {
+          this.personList = response.data
+        })
       } else {
 
       }
+      this.personLoading = false
+    },removePersonItem(record) {
+      this.selRow = record
+
+      if(this.personAdd) {
+
+      } else {
+        if (this.checkSel()) {
+          var id = this.selRow.relationId
+          this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+            confirmButtonText: this.$t('button.submit'),
+            cancelButtonText: this.$t('button.cancel'),
+            type: 'warning'
+          }).then(() => {
+            person.removeRelation(id).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.initPersonList(this.form.id)
+            }).catch( err=> {
+              this.$notify.error({
+                title: '错误',
+                message: err
+              })
+            })
+          }).catch(() => {
+          })
+        }
+      }
+
+    },choosePerson(){
+      this.personVisible = true
+      this.personTitle = '选择应急人员'
+      var teamId = this.form.id
+      person.queryListData(teamId).then(response =>{
+        this.person_data = response.data
+      })
+      this.personForm.ids = []
+    },addPerson(){
+      var teamId = this.form.id
+      if (teamId) {
+        this.personForm.ids.forEach(item =>{
+          const relaData = {
+            teamId:teamId,
+            personId:item
+          }
+          person.addRelation(relaData).then()
+          this.personVisible = false
+          this.initPersonList(teamId)
+
+        })
+      }
+
+
 
     }
+
 
   }
 }

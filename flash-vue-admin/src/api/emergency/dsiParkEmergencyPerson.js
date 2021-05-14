@@ -29,5 +29,37 @@ export default {
                 id: id
             }
         })
+    },
+  listForTeamId:function(id){
+      return request({
+        url:'/park/emergency/person/listForTeamId',
+        method:'get',
+        params:{
+          teamId:id
+        }
+      })
+  },
+  queryListData:function(id){
+  return request({
+    url:'/park/emergency/person/queryListData',
+    method:'get',
+    params:{
+      teamId:id
     }
+  })
+},removeRelation:function(id) {
+    return request({
+      url: '/park/emergency/team/perosn/removeRelation',
+      method: 'delete',
+      params: {
+        id: id
+      }
+    })
+  },addRelation:function(params) {
+    return request({
+      url: '/park/emergency/team/perosn/add',
+      method: 'post',
+      params
+    })
+  },
 }
