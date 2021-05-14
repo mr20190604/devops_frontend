@@ -7,11 +7,11 @@
                 <el-input v-model="listQuery.enterpriseName" size="mini" placeholder="请输入企业名称"></el-input>
               </el-form-item>
 
-              <el-form-item  label="所在地">
-                <el-input v-model="listQuery.districtCode" size="mini" placeholder="请选择所在地区"></el-input>
+              <el-form-item  label="所在地区">
+                <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"/>
               </el-form-item>
 
-              <el-form-item  label="经营状">
+              <el-form-item  label="经营状态">
                 <el-select  size="mini" v-model="listQuery.managementSituation" placeholder="请选择经营状态">
                   <el-option
                     v-for="item in management_status"
@@ -100,7 +100,7 @@
             </el-table-column>
           <el-table-column label="行政区划">
             <template slot-scope="scope">
-              {{scope.row.districtCode}}
+              {{scope.row.districtName}}
             </template>
           </el-table-column>
             <el-table-column label="法人">
@@ -166,7 +166,7 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="行政区划"  >
-                      <el-input v-model="form.districtCode" minlength=1></el-input>
+                      <district v-model="form.districtCode"  placeholder="请选择所在地区"/>
                     </el-form-item>
                   </el-col>
 

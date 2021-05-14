@@ -1,19 +1,25 @@
 <template>
     <div class="app-container">
         <div class="block">
-            <el-row  :gutter="20">
-              <el-col :span="4">
+          <el-form  label-width="120px" :inline="true" size="mini">
+            <el-row>
+              <el-form-item label="名称">
                 <el-input v-model="listQuery.repositoriesName" size="mini" placeholder="请输入资源库名称"></el-input>
-              </el-col>
-              <el-col :span="4">
-                <el-input v-model="listQuery.districtCode" size="mini" placeholder="请选择所在地区"></el-input>
-              </el-col>
-              <el-col :span="4">
-                <el-input v-model="listQuery.personName" size="mini" placeholder="请输入负责人"></el-input>
-              </el-col>
+              </el-form-item>
+
+              <el-form-item label="所在地区">
+                <district v-model="listQuery.districtCode" placeholder="请选择所在地区"></district>
+              </el-form-item>
+
+              <el-form-item label="负责人">
+                <el-input v-model="listQuery.personName" size="mini" placeholder="请输入负责人名称"></el-input>
+              </el-form-item>
             </el-row>
-          <el-row  :gutter="20">
-              <el-col :span="4">
+            <el-row>
+              <el-form-item label="地址">
+                <el-input v-model="listQuery.address" size="mini" placeholder="请输入地址"></el-input>
+              </el-form-item>
+              <el-form-item label="所属企业">
                 <el-select v-model="listQuery.enterpriseId"  size="mini" placeholder="请选择所属企业">
                   <el-option
                     v-for="item in enterprise_list"
@@ -22,23 +28,15 @@
                     :value="item.id">
                   </el-option>
                 </el-select>
-              </el-col>
-              <el-col :span="4">
-                <el-input v-model="listQuery.address" size="mini" placeholder="请输入地址"></el-input>
-              </el-col>
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
+              </el-form-item>
+
+
+              <el-form-item>
+                <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-form-item>
             </el-row>
-            <br>
-            <el-row>
-                <el-col :span="24">
-                    <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/pool/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/park/emergency/pool/update']">{{ $t('button.edit') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/pool/delete']">{{ $t('button.delete') }}</el-button>
-                </el-col>
-            </el-row>
+          </el-form>
         </div>
 
 
@@ -292,6 +290,7 @@
 
     </div>
 </template>
+
 
 <script src="./dsiParkEmergencyPool.js"></script>
 
