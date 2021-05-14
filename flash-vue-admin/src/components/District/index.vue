@@ -16,7 +16,20 @@ import mmBasDistrictApi from '@/api/mm/mmBasDistrict'
 
 export default {
   name: 'District',
-  props: ['placeholder', 'parentCode', 'value'],
+  props: {
+    placeholder: {
+      type: String,
+      default: undefined
+    },
+    parentCode: {
+      type: String,
+      default: '000000'
+    },
+    value: {
+      type: String,
+      default: undefined
+    }
+  },
   data() {
     return {
       content: null,

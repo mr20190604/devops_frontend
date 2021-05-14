@@ -1,9 +1,5 @@
 import mmBasBuildApi from '@/api/mm/mmBasBuild'
 import permission from '@/directive/permission/index.js'
-import district from '@/components/District/index'
-import ProtectionLevel from './components/ProtectionLevel'
-import TargetType from './components/TargetType'
-import th from 'element-ui/src/locale/lang/th'
 
 export default {
   directives: { permission },
@@ -39,11 +35,6 @@ export default {
       selRow: {}
     }
   },
-  components: {
-    district,
-    ProtectionLevel,
-    TargetType
-  },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -55,7 +46,7 @@ export default {
     }
   },
   watch: {
-    formVisible(newValue, oldValue) {
+    formVisible(newValue) {
       if (!newValue) {
         this.resetForm()
       }

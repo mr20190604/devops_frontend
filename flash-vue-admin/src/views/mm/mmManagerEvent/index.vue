@@ -8,7 +8,7 @@
               <el-input v-model="listQuery.key" placeholder="编号、名称、地点、描述" />
             </el-form-item>
             <el-form-item label="事件类型">
-              <event-type v-model="listQuery.eventType" />
+              <dict-select dict-name="事件类型" />
             </el-form-item>
           </el-form>
         </el-col>
@@ -95,7 +95,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="事件类型">
-              <event-type v-model="form.eventType" />
+              <dict-select dict-name="事件类型" />
             </el-form-item>
           </el-col>
           <el-col :span="24">

@@ -2,10 +2,21 @@
   <div class="app-container">
     <div class="block">
       <el-row :gutter="20">
-        <el-col :span="4">
-          <el-input v-model="listQuery.id" size="mini" placeholder="请输入id" />
+        <el-col :span="24">
+          <el-form label-width="120px" :inline="true">
+            <el-form-item label="关键字">
+              <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
+            </el-form-item>
+            <el-form-item label="原料类别">
+              <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
+            </el-form-item>
+            <el-form-item label="是否中间产品">
+              <dict-select v-model="listQuery.isOriginal" dict-name="是否" placeholder="是否中间产品" />
+            </el-form-item>
+          </el-form>
+
         </el-col>
-        <el-col :span="6">
+        <el-col :span="24">
           <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
           <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
         </el-col>
@@ -49,9 +60,9 @@
           {{ scope.row.shortName }}
         </template>
       </el-table-column>
-      <el-table-column label="类别">
+      <el-table-column label="原料类别">
         <template slot-scope="scope">
-          {{ scope.row.materialType }}
+          {{ scope.row.materialTypeName }}
         </template>
       </el-table-column>
       <el-table-column label="理化性质">
@@ -74,14 +85,9 @@
           {{ scope.row.casCode }}
         </template>
       </el-table-column>
-      <el-table-column label="原料还是中间产品（0：否，1：是）">
+      <el-table-column label="是否中间产品">
         <template slot-scope="scope">
-          {{ scope.row.isOriginal }}
-        </template>
-      </el-table-column>
-      <el-table-column label="逻辑删除">
-        <template slot-scope="scope">
-          {{ scope.row.isDel }}
+          {{ scope.row.isOriginalName }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -132,8 +138,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="类别">
-              <el-input v-model="form.materialType" minlength="1" />
+            <el-form-item label="原料类别">
+              <dict-select v-model="form.materialType" dict-name="原料类别" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -157,13 +163,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="原料还是中间产品（0：否，1：是）">
-              <el-input v-model="form.isOriginal" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="逻辑删除">
-              <el-input v-model="form.isDel" minlength="1" />
+            <el-form-item label="是否中间产品">
+              <dict-select v-model="form.isOriginal" dict-name="是否" placeholder="请选择是否中间产品" />
             </el-form-item>
           </el-col>
         </el-row>
