@@ -1,59 +1,67 @@
 import dsiEnterpriseBaseinfoApi from '@/api/dsi/dsiEnterpriseBaseinfo'
 import permission from '@/directive/permission/index.js'
-import { remove, getList, save, update, getDicts } from '@/api/system/dict'
+import {remove, getList, save, update, getDicts} from '@/api/system/dict'
+import district from '@/components/District/index'
 
 
 export default {
-  directives: { permission },
-
+  directives: {permission},
   data() {
     return {
       formVisible: false,
       formTitle: '添加数据资源一体化子系统--企业信息',
       isAdd: true,
       form: {
-        code:'',
-        enterpriseName:'',
-        enterpriseAddress:'',
-        riskLevel:'',
-        legalPerson:'',
-        registerCode:'',
-        envSafeLeader:'',
-        emergencyWorker:'',
-        emergencyTeam:'',
-        parkId:'',
-        industryId:'',
-        districtCode:'',
-        managementSituation:[],
-        employmentNo:'',
-        isDangerSource:'',
-        foreignUnit:'',
-        enterpriseOtel:'',
-        enterpriseFax:'',
-        enterpriseEmergencyTel:'',
-        enterpriseEmail:'',
-        isDel:'',
+        code: '',
+        enterpriseName: '',
+        enterpriseAddress: '',
+        riskLevel: '',
+        legalPerson: '',
+        registerCode: '',
+        envSafeLeader: '',
+        emergencyWorker: '',
+        emergencyTeam: '',
+        parkId: '',
+        industryId: '',
+        districtCode: '',
+        managementSituation: [],
+        employmentNo: '',
+        isDangerSource: '',
+        foreignUnit: '',
+        enterpriseOtel: '',
+        enterpriseFax: '',
+        enterpriseEmergencyTel: '',
+        enterpriseEmail: '',
+        isDel: '',
         id: '',
-        managementSituationName:'',
-        riskLevelName:''
+        managementSituationName: '',
+        riskLevelName: '',
+        districtName: ''
       },
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        id: undefined,
+        districtCode: undefined,
+        enterpriseName: undefined,
+        managementSituation: undefined,
+        enterpriseAddress: undefined,
+        legalPerson: undefined,
+        riskLevel: undefined
       },
       //经营状态下拉数据
-      management_status:[],
+      management_status: [],
       //风险等级下拉数据
-      risk_level:[],
+      risk_level: [],
       //行政区划下拉数据
-      district:[],
+      district: [],
       total: 0,
       list: null,
       listLoading: true,
       selRow: {}
     }
   },
+  components: {district},
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -141,86 +149,86 @@ export default {
     },
     resetForm() {
       this.form = {
-        code:'',
-        enterpriseName:'',
-        enterpriseAddress:'',
-        riskLevel:'',
-        legalPerson:'',
-        registerCode:'',
-        envSafeLeader:'',
-        emergencyWorker:'',
-        emergencyTeam:'',
-        parkId:'',
-        industryId:'',
-        districtCode:'',
-        employmentNo:'',
-        isDangerSource:'',
-        foreignUnit:'',
-        enterpriseOtel:'',
-        enterpriseFax:'',
-        enterpriseEmergencyTel:'',
-        enterpriseEmail:'',
-        isDel:'',
+        code: '',
+        enterpriseName: '',
+        enterpriseAddress: '',
+        riskLevel: '',
+        legalPerson: '',
+        registerCode: '',
+        envSafeLeader: '',
+        emergencyWorker: '',
+        emergencyTeam: '',
+        parkId: '',
+        industryId: '',
+        districtCode: '',
+        employmentNo: '',
+        isDangerSource: '',
+        foreignUnit: '',
+        enterpriseOtel: '',
+        enterpriseFax: '',
+        enterpriseEmergencyTel: '',
+        enterpriseEmail: '',
+        isDel: '',
         id: ''
       }
     },
     add() {
       this.resetForm()
       this.formTitle = '添加企业信息',
-      this.formVisible = true
+        this.formVisible = true
       this.isAdd = true
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                code:this.form.code,
-                enterpriseName:this.form.enterpriseName,
-                enterpriseAddress:this.form.enterpriseAddress,
-                riskLevel:this.form.riskLevel,
-                legalPerson:this.form.legalPerson,
-                registerCode:this.form.registerCode,
-                envSafeLeader:this.form.envSafeLeader,
-                emergencyWorker:this.form.emergencyWorker,
-                emergencyTeam:this.form.emergencyTeam,
-                parkId:this.form.parkId,
-                industryId:this.form.industryId,
-                districtCode:this.form.districtCode,
-                employmentNo:this.form.employmentNo,
-                isDangerSource:this.form.isDangerSource,
-                foreignUnit:this.form.foreignUnit,
-                enterpriseOtel:this.form.enterpriseOtel,
-                enterpriseFax:this.form.enterpriseFax,
-                enterpriseEmergencyTel:this.form.enterpriseEmergencyTel,
-                enterpriseEmail:this.form.enterpriseEmail,
-                isDel:this.form.isDel,
-                managementSituation:this.form.managementSituation,
-              enterpriseNature:this.form.enterpriseNature
-            }
-            if(formData.id){
-                dsiEnterpriseBaseinfoApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                dsiEnterpriseBaseinfoApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            code: this.form.code,
+            enterpriseName: this.form.enterpriseName,
+            enterpriseAddress: this.form.enterpriseAddress,
+            riskLevel: this.form.riskLevel,
+            legalPerson: this.form.legalPerson,
+            registerCode: this.form.registerCode,
+            envSafeLeader: this.form.envSafeLeader,
+            emergencyWorker: this.form.emergencyWorker,
+            emergencyTeam: this.form.emergencyTeam,
+            parkId: this.form.parkId,
+            industryId: this.form.industryId,
+            districtCode: this.form.districtCode,
+            employmentNo: this.form.employmentNo,
+            isDangerSource: this.form.isDangerSource,
+            foreignUnit: this.form.foreignUnit,
+            enterpriseOtel: this.form.enterpriseOtel,
+            enterpriseFax: this.form.enterpriseFax,
+            enterpriseEmergencyTel: this.form.enterpriseEmergencyTel,
+            enterpriseEmail: this.form.enterpriseEmail,
+            isDel: this.form.isDel,
+            managementSituation: this.form.managementSituation,
+            enterpriseNature: this.form.enterpriseNature
+          }
+          if (formData.id) {
+            dsiEnterpriseBaseinfoApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            dsiEnterpriseBaseinfoApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -236,7 +244,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -247,13 +255,13 @@ export default {
         this.formTitle = '编辑企业信息'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -265,13 +273,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiEnterpriseBaseinfoApi.remove(id).then(response => {
+          dsiEnterpriseBaseinfoApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err

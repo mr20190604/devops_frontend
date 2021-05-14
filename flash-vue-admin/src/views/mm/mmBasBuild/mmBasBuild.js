@@ -3,6 +3,7 @@ import permission from '@/directive/permission/index.js'
 import district from '@/components/District/index'
 import ProtectionLevel from './components/ProtectionLevel'
 import TargetType from './components/TargetType'
+import th from 'element-ui/src/locale/lang/th'
 
 export default {
   directives: { permission },
@@ -53,8 +54,14 @@ export default {
       return statusMap[status]
     }
   },
+  watch: {
+    formVisible(newValue, oldValue) {
+      if (!newValue) {
+        this.resetForm()
+      }
+    }
+  },
   computed: {
-
     // 表单验证
     rules() {
       return {
@@ -139,7 +146,6 @@ export default {
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
     save() {
       this.$refs['form'].validate((valid) => {

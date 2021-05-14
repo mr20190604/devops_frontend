@@ -1,6 +1,8 @@
 
 import { isvalidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
+import { getAccount, setAccount, getPwd, setPwd, removeAccount, removePwd} from '@/utils/auth'
+const Base64 = require('js-base64').Base64
 export default {
   name: 'login',
   components: { LangSelect },
@@ -22,7 +24,8 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        remember:''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -35,6 +38,12 @@ export default {
   },
   mounted(){
     this.init()
+    let account = getAccount();
+    if(account) {
+      this.loginForm.username = account;
+      this.loginForm.password = Base64.decode(getPwd());
+      this.loginForm.remember = true;
+    }
   },
   methods: {
     init(){
@@ -52,6 +61,13 @@ export default {
       }
     },
     handleLogin() {
+      if(this.loginForm.remember) {
+        setAccount(this.loginForm.username);
+        setPwd(Base64.encode(this.loginForm.password));
+      } else {
+        removeAccount();
+        removePwd();
+      }
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true

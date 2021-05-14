@@ -5,9 +5,11 @@ import dsiEnterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
 import { remove, getList, save, update, getDicts } from '@/api/system/dict'
 import district from '@/components/District/index'
 
+
 export default {
   directives: { permission },
-  constant:[dsiParkEmergency,dsiEnterprise,district],
+  constant:[dsiParkEmergency,dsiEnterprise],
+  components:{district},
   data() {
     return {
       formVisible: false,
@@ -57,7 +59,11 @@ export default {
         page: 1,
         limit: 20,
         districtCode: undefined,
-        id: undefined
+        id: undefined,
+        repositoriesName:undefined,
+        personName:undefined,
+        address:undefined,
+        enterpriseId:undefined
       },
       total: 0,
       list: null,

@@ -152,7 +152,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="场所/设施名称">
-              <el-input v-model="form.buildName" minlength="1" />
+              <el-input v-model="form.buildName" minlength="1" placeholder="请输入场所/设施名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -172,32 +172,32 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="地址">
-              <el-input v-model="form.address" minlength="1" />
+              <el-input v-model="form.address" minlength="1" placeholder="请输入地址" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="负责人">
-              <el-input v-model="form.personName" minlength="1" />
+              <el-input v-model="form.personName" minlength="1" placeholder="请输入负责人" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="负责人办公电话">
-              <el-input v-model="form.personOtel" minlength="1" />
+              <el-input v-model="form.personOtel" minlength="1" placeholder="请输入负责人办公电话" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="人数">
-              <el-input v-model="form.personNum" minlength="1" />
+              <el-input v-model="form.personNum" minlength="1" placeholder="请输入人数" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="面积(万平方米)">
-              <el-input v-model="form.engrossArea" minlength="1" />
+              <el-input v-model="form.engrossArea" minlength="1" placeholder="请输入面积" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="备注">
-              <el-input v-model="form.notes" minlength="1" />
+              <el-input v-model="form.notes" minlength="1" placeholder="请输入备注" />
             </el-form-item>
           </el-col>
         </el-row>

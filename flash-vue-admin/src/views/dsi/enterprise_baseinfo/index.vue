@@ -1,18 +1,17 @@
 <template>
     <div class="app-container">
         <div class="block">
-            <el-row  :gutter="20">
-
-
-              <el-col :span="4">
+          <el-form  label-width="120px" :inline="true" size="mini">
+            <el-row>
+              <el-form-item  label="企业名称">
                 <el-input v-model="listQuery.enterpriseName" size="mini" placeholder="请输入企业名称"></el-input>
-              </el-col>
+              </el-form-item>
 
-              <el-col :span="4">
-                <el-input v-model="listQuery.districtCode" size="mini" placeholder="请选择所在地区"></el-input>
-              </el-col>
+              <el-form-item  label="所在地区">
+                <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"/>
+              </el-form-item>
 
-              <el-col :span="4">
+              <el-form-item  label="经营状态">
                 <el-select  size="mini" v-model="listQuery.managementSituation" placeholder="请选择经营状态">
                   <el-option
                     v-for="item in management_status"
@@ -21,35 +20,42 @@
                     :value="item.id">
                   </el-option>
                 </el-select>
-              </el-col>
+              </el-form-item>
+            </el-row>
+            <el-row>
+              <el-form-item  label="地址">
+                <el-input v-model="listQuery.enterpriseAddress" size="mini" placeholder="请输入所在地址"></el-input>
+              </el-form-item>
+
+              <el-form-item  label="法人">
+                <el-input v-model="listQuery.legalPerson" size="mini" placeholder="请输入法人名称"></el-input>
+              </el-form-item>
+
+              <el-form-item  label="风险等级">
+                <el-select v-model="listQuery.riskLevel" size="mini" placeholder="请选择风险等级">
+                  <el-option
+                    v-for="item in risk_level"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-form-item>
 
             </el-row>
 
-          <el-row  :gutter="20">
-            <el-col :span="4">
-              <el-input v-model="listQuery.enterpriseAddress" size="mini" placeholder="请输入所在地址"></el-input>
-            </el-col>
 
-            <el-col :span="4">
-              <el-input v-model="listQuery.legalPerson" size="mini" placeholder="请输入法人名称"></el-input>
-            </el-col>
 
-            <el-col :span="4">
-              <el-select v-model="listQuery.riskLevel" size="mini" placeholder="请选择风险等级">
-                <el-option
-                  v-for="item in risk_level"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-col>
 
-            <el-col :span="6">
-              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-col>
-          </el-row>
+
+          </el-form>
+
+
+
             <br>
             <el-row>
                 <el-col :span="24">
@@ -94,7 +100,7 @@
             </el-table-column>
           <el-table-column label="行政区划">
             <template slot-scope="scope">
-              {{scope.row.districtCode}}
+              {{scope.row.districtName}}
             </template>
           </el-table-column>
             <el-table-column label="法人">
@@ -160,7 +166,7 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="行政区划"  >
-                      <el-input v-model="form.districtCode" minlength=1></el-input>
+                      <district v-model="form.districtCode"  placeholder="请选择所在地区"/>
                     </el-form-item>
                   </el-col>
 
