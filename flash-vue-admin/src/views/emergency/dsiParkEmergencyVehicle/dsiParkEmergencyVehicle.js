@@ -1,9 +1,11 @@
 import dsiParkEmergencyVehicleApi from '@/api/emergency/dsiParkEmergencyVehicle'
+import dsiEnterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
 
 export default {
   directives: { permission },
+  constant:[dsiEnterprise],
   data() {
     return {
       formVisible: false,
@@ -12,9 +14,11 @@ export default {
       form: {
         vehicleName:'',
         enterpriseId:'',
+        enterpriseName:'',
         vehicleLicense:'',
         vehicleCode:'',
         vehicleType:'',
+        //vehicleTypeName:'',
         vehicleModel:'',
         districtCode:'',
         vehicleResponsible:'',
@@ -27,6 +31,8 @@ export default {
       },
       //车辆类别
       vehicleType:[],
+      //所属企业下拉
+      enterprise_list:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -68,9 +74,19 @@ export default {
       this.fetchData()
     },
     fetchData() {
+      dsiEnterprise.queryAll().then(response =>{
+        this.enterprise_list = response.data
+      })
       this.listLoading = true
         dsiParkEmergencyVehicleApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
+          this.enterprise_list.forEach(item =>{
+            this.list.forEach(index =>{
+              if (item.id == index.enterpriseId) {
+                index.enterpriseName = item.enterpriseName
+              }
+            })
+          })
         this.listLoading = false
         this.total = response.data.total
       });

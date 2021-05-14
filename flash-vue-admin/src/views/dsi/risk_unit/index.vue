@@ -209,22 +209,22 @@
             :key="rec.headPerson"
             :prop="'details.' + index + '.value'"
             :rules="{
-                required: true, message: '不能为空', trigger: 'blur'
+                required: false, message: '不能为空', trigger: 'blur'
                 }"
           >
             <el-col :span="5">
               <el-form-item label="风险物质"  >
-                <el-input v-model="form.headPerson" minlength=1></el-input>
+                <el-input v-model="form.materialId" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="现存量"  >
-                <el-input v-model="form.headPerson" minlength=1></el-input>
+                <el-input v-model="form.currentStock" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="临界量"  >
-                <el-input v-model="form.headPerson" minlength=1></el-input>
+                <el-input v-model="form.criticalQuantity" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">&nbsp;

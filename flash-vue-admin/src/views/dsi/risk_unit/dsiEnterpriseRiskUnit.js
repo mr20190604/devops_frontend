@@ -159,6 +159,7 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -226,14 +227,15 @@ export default {
       var details = this.form.details
 
       details.push({
-        value: '',
-        key: ''
+        materialId: '',
+        currentStock: '',
+        criticalQuantity:''
       })
       this.form.details = details
     }, removeDetail(detail) {
       var details = []
       this.form.details.forEach(function(val, index) {
-        if (detail.key !== val.key) {
+        if (detail.materialId !== val.materialId) {
           details.push(val)
         }
       })

@@ -19,7 +19,14 @@
               <el-input v-model="listQuery.vehicleResponsible" size="mini" placeholder="请输入负责人"></el-input>
               </el-form-item>
                 <el-form-item label="所属企业">
-              <el-input v-model="listQuery.enterpriseId" size="mini" placeholder="请输入所属企业"></el-input>
+              <el-select v-model="listQuery.enterpriseId" size="mini" placeholder="请输入所属企业">
+                <el-option
+                  v-for="item in enterprise_list"
+                  :key="item.id"
+                  :label="item.enterpriseName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
                 </el-form-item>
                   <el-form-item label="车辆型号">
               <el-input v-model="listQuery.vehicleModel" size="mini" placeholder="请选择车辆型号"></el-input>
@@ -53,7 +60,7 @@
             </el-table-column>
             <el-table-column label="归属企业">
                 <template slot-scope="scope">
-                    {{scope.row.enterpriseId}}
+                    {{scope.row.enterpriseName}}
                 </template>
             </el-table-column>
             <el-table-column label="车牌号">
@@ -144,7 +151,14 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="归属企业"  >
-                            <el-input v-model="form.enterpriseId" minlength=1></el-input>
+                            <el-select v-model="form.enterpriseId" minlength=1>
+                              <el-option
+                                v-for="item in enterprise_list"
+                                :key="item.id"
+                                :label="item.enterpriseName"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
