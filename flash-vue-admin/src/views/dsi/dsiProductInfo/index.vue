@@ -22,16 +22,39 @@
           </el-form>
         </el-col>
         <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+          </el-button>
+          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+          </el-button>
         </el-col>
       </el-row>
       <br>
       <el-row>
         <el-col :span="24">
-          <el-button v-permission="['/product/info/add']" type="success" size="mini" icon="el-icon-plus" @click.native="add">{{ $t('button.add') }}</el-button>
-          <el-button v-permission="['/product/info/update']" type="primary" size="mini" icon="el-icon-edit" @click.native="edit">{{ $t('button.edit') }}</el-button>
-          <el-button v-permission="['/product/info/delete']" type="danger" size="mini" icon="el-icon-delete" @click.native="remove">{{ $t('button.delete') }}</el-button>
+          <el-button
+            v-permission="['/product/info/add']"
+            type="success"
+            size="mini"
+            icon="el-icon-plus"
+            @click.native="add"
+          >{{ $t('button.add') }}
+          </el-button>
+          <el-button
+            v-permission="['/product/info/update']"
+            type="primary"
+            size="mini"
+            icon="el-icon-edit"
+            @click.native="edit"
+          >{{ $t('button.edit') }}
+          </el-button>
+          <el-button
+            v-permission="['/product/info/delete']"
+            type="danger"
+            size="mini"
+            icon="el-icon-delete"
+            @click.native="remove"
+          >{{ $t('button.delete') }}
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -45,6 +68,7 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
+      <el-table-column label="序号" type="index" width="50" />
       <el-table-column label="产品编码">
         <template slot-scope="scope">
           {{ scope.row.productCode }}
@@ -77,8 +101,22 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-permission="['/product/info/update']" type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)">{{ $t('button.edit') }}</el-button>
-          <el-button v-permission="['/product/info/delete']" type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)">{{ $t('button.delete') }}</el-button>
+          <el-button
+            v-permission="['/product/info/update']"
+            type="text"
+            size="mini"
+            icon="el-icon-edit"
+            @click.native="editItem(scope.row)"
+          >{{ $t('button.edit') }}
+          </el-button>
+          <el-button
+            v-permission="['/product/info/delete']"
+            type="text"
+            size="mini"
+            icon="el-icon-delete"
+            @click.native="removeItem(scope.row)"
+          >{{ $t('button.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -104,12 +142,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="产品编码">
-              <el-input v-model="form.productCode" minlength="1" />
+              <el-input v-model="form.productCode" minlength="1" placeholder="请输入产品编码" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="产品名称">
-              <el-input v-model="form.productName" minlength="1" />
+              <el-input v-model="form.productName" minlength="1" placeholder="请输入产品名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -146,6 +184,6 @@
 <script src="./dsiProductInfo.js"></script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
+  @import "src/styles/common.scss";
 </style>
 

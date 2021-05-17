@@ -20,6 +20,7 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
+        key: undefined,
         isPoisonHarm: undefined,
         isInflammableExplosive: undefined,
         formId: undefined,
@@ -79,7 +80,11 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.key = undefined
+      this.listQuery.isPoisonHarm = undefined
+      this.listQuery.isInflammableExplosive = undefined
+      this.listQuery.formId = undefined
+      this.listQuery.enterpriseId = undefined
       this.fetchData()
     },
     handleFilter() {
@@ -110,13 +115,13 @@ export default {
     },
     resetForm() {
       this.form = {
-        productCode: '',
-        productName: '',
-        isPoisonHarm: '',
-        isInflammableExplosive: '',
-        formId: '',
-        enterpriseId: '',
-        id: ''
+        productCode: undefined,
+        productName: undefined,
+        isPoisonHarm: undefined,
+        isInflammableExplosive: undefined,
+        formId: undefined,
+        enterpriseId: undefined,
+        id: undefined
       }
     },
     add() {
@@ -196,7 +201,7 @@ export default {
     },
     remove() {
       if (this.checkSel()) {
-        var id = this.selRow.id
+        let id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),

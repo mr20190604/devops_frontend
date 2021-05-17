@@ -4,6 +4,7 @@
     style="width: 100%"
     :size="size"
     :placeholder="inner_placeholder"
+    clearable
     @change="change"
   >
     <el-option

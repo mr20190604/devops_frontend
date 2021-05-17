@@ -36,6 +36,7 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
+      <el-table-column label="序号" type="index" width="50" />
       <el-table-column label="事件编码">
         <template slot-scope="scope">
           {{ scope.row.eventCode }}

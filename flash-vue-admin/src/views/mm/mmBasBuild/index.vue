@@ -66,9 +66,7 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
-      <el-table-column label="序号">
-        <div class="serial" />
-      </el-table-column>
+      <el-table-column label="序号" type="index" width="50" />
       <el-table-column label="场所/设施名称">
         <template slot-scope="scope">
           {{ scope.row.buildName }}

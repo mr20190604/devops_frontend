@@ -3,6 +3,7 @@
     v-model="content"
     style="width: 100%"
     :placeholder="inner_placeholder"
+    clearable
     @change="change"
   >
     <el-option
