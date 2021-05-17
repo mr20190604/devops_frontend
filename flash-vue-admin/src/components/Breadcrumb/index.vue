@@ -3,7 +3,7 @@
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
         <span v-if="item.parent==undefined || item.redirect==='noRedirect'||index==levelList.length-1" class="no-redirect">{{ item.name }} </span>
-        <a v-else @click.prevent="handleLink(item)">{{ item.name }}  {{loginfo(item)}}</a>
+        <a v-else @click.prevent="handleLink(item)">{{ item.name }}  {{ loginfo(item) }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -27,8 +27,8 @@ export default {
     this.getBreadcrumb()
   },
   methods: {
-    loginfo(item){
-      console.log('item',item)
+    loginfo(item) {
+      console.log('item', item)
       return ''
     },
     generateTitle,
