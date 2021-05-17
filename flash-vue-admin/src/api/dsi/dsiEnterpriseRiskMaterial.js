@@ -29,5 +29,15 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  listForUnitId:function(id) {
+    return request({
+      url:'/enterprise/risk/material/listForUnitId',
+      method:'get',
+      params:{
+        id:id
+      }
+    })
+
+  }
 }

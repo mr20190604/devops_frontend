@@ -135,11 +135,12 @@ export default {
       this.resetForm;
       this.formTitle = '添加风险单元',
       this.formVisible = true
+      this.form=[];
       this.isAdd = true
-
-      if(this.$refs['form'] !== undefined) {
+      //this.materialAdd = true
+     /* if(this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
-      }
+      }*/
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
           },
     save() {
@@ -203,13 +204,25 @@ export default {
     },
     editItem(record){
       this.selRow = record
+      // this.materialAdd = false
       this.edit()
+      // this.initEmerMaterialList(this.selRow.id)
     },
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '编辑风险单元'
+        var detail = this.selRow.detail.split(';')
+        var details = []
+        detail.forEach(function(val, index) {
+          var arr = val.split(',')
+
+          details.push({ 'materialId': arr[0], 'currentStock': arr[1] ,'criticalQuantity': arr[2] })
+        })
+        console.log(details);
+        //this.form = { name: this.selRow.name, id: this.selRow.id, details: details, detail: this.selRow.detail }
+        this.form.details=details;
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {
@@ -245,9 +258,44 @@ export default {
         }).catch(() => {
         })
       }
-    }, addDetail() {
-      var details = this.form.details
+    },
+    /*initEmerMaterialList(id){
+      this.materialLoading = true
+      if (id) {
+        dsiEnterpriseRiskMaterial.listForUnitId(id).then(response =>{
+          this.materialList = response.data
+          this.materialList.forEach(item =>{
+            this.material_type.forEach(index =>{
+              if (item.materialType == index.id) {
+                item.materialTypeName = index.name
+              }
+            })
+            this.material_num_unit.forEach(index =>{
+              if (item.chUnitId == index.id) {
+                item.chUnitIdName = index.name
+              }
+            })
+          })
+        })
+      } else {
+        this.material_list.forEach(item =>{
+          this.material_type.forEach(index =>{
+            if (item.materialType == index.id) {
+              item.materialTypeName = index.name
+            }
+          })
+          this.material_num_unit.forEach(index =>{
+            if (item.chUnitId == index.id) {
+              item.chUnitIdName = index.name
+            }
+          })
+        })
+        this.materialList = this.material_list
+      }
 
+    },*/
+    addDetail() {
+      let details = this.form.details
       details.push({
         materialId: '',
         currentStock: '',
@@ -255,7 +303,7 @@ export default {
       })
       this.form.details = details
     }, removeDetail(detail) {
-      var details = []
+      let details = []
       this.form.details.forEach(function(val, index) {
         if (detail.materialId !== val.materialId) {
           details.push(val)
