@@ -55,11 +55,12 @@ export default {
       },
 
       personList:null,
-      person_list:[],
+      person_id_list:[],
       //获取应急人员下拉信息
       person_data:[],
       personLoading:true,
       enterprise_list:[],
+
       listQuery: {
         page: 1,
         limit: 20,
@@ -165,13 +166,16 @@ export default {
     },
     add() {
       this.resetForm()
+      this.personList = null
+      this.personAdd = true
       this.formTitle = '添加数据资源一体化子系统-园区应急资源库-应急队伍信息',
       this.formVisible = true
       this.isAdd = true
-
+      this.personLoading = false
       if(this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
+
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
           },
     save() {
@@ -230,11 +234,11 @@ export default {
     },
     editItem(record){
       this.selRow = record
-      this.personAdd = false
       this.edit()
       this.initPersonList(record.id)
     },
     edit() {
+      this.personAdd = false
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
@@ -317,9 +321,15 @@ export default {
       this.personVisible = true
       this.personTitle = '选择应急人员'
       var teamId = this.form.id
-      person.queryListData(teamId).then(response =>{
-        this.person_data = response.data
-      })
+      if (this.personAdd) {
+
+
+      } else {
+        person.queryListData(teamId).then(response =>{
+          this.person_data = response.data
+        })
+      }
+
       this.personForm.ids = []
     },addPerson(){
       var teamId = this.form.id
@@ -334,6 +344,12 @@ export default {
           this.initPersonList(teamId)
 
         })
+      } else {
+        this.personForm.ids.forEach(item =>{
+          this.person_list.push(item)
+        })
+        this.personVisible = false
+        this.initPersonList(teamId)
       }
 
 

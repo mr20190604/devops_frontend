@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'web-flash后台管理',
+  title: '苍穹大气监测系统',
 
   /**
    * @type {boolean} true | false

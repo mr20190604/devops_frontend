@@ -9,13 +9,13 @@
           <district v-model="listQuery.districtCode" placeholder="请选择所在地区" />
         </el-form-item>
         <el-form-item label="防护等级">
-          <ProtectionLevel v-model="listQuery.levelCode" />
+          <dict-select dict-name="防护等级" />
         </el-form-item>
         <el-form-item label="联系人">
           <el-input v-model="listQuery.contactper" placeholder="请输入联系人(模糊查询)" />
         </el-form-item>
         <el-form-item label="目标类型">
-          <TargetType v-model="listQuery.targetType" />
+          <dict-select dict-name="防护目标" placeholder="请选择目标类型" />
         </el-form-item>
       </el-form>
       <el-row :gutter="24">
@@ -66,9 +66,7 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
-      <el-table-column label="序号">
-        <div class="serial" />
-      </el-table-column>
+      <el-table-column label="序号" type="index" width="50" />
       <el-table-column label="场所/设施名称">
         <template slot-scope="scope">
           {{ scope.row.buildName }}
@@ -157,12 +155,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="防护等级">
-              <ProtectionLevel v-model="form.levelCode" />
+              <dict-select dict-name="防护等级" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="目标类型">
-              <TargetType v-model="form.targetType" />
+              <dict-select dict-name="防护目标" placeholder="请选择目标类型" />
             </el-form-item>
           </el-col>
           <el-col :span="12">

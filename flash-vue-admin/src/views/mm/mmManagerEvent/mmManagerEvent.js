@@ -1,6 +1,5 @@
 import mmManagerEventApi from '@/api/mm/mmManagerEvent'
 import permission from '@/directive/permission/index.js'
-import EventType from './components/EventType'
 
 export default {
   directives: { permission },
@@ -35,9 +34,6 @@ export default {
         this.resetForm()
       }
     }
-  },
-  components: {
-    EventType
   },
   filters: {
     statusFilter(status) {

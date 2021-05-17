@@ -6,22 +6,25 @@ export default {
   data() {
     return {
       formVisible: false,
-      formTitle: '添加化工企业生产出来的产品简要信息',
+      formTitle: '添加产品信息',
       isAdd: true,
       form: {
-        productCode:'',
-        productName:'',
-        isPoisonHarm:'',
-        isInflammableExplosive:'',
-        formId:'',
-        enterpriseId:'',
-        isDel:'',
+        productCode: '',
+        productName: '',
+        isPoisonHarm: '',
+        isInflammableExplosive: '',
+        formId: '',
+        enterpriseId: '',
         id: ''
       },
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        key: undefined,
+        isPoisonHarm: undefined,
+        isInflammableExplosive: undefined,
+        formId: undefined,
+        enterpriseId: undefined
       },
       total: 0,
       list: null,
@@ -41,7 +44,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -54,13 +57,20 @@ export default {
   created() {
     this.init()
   },
+  watch: {
+    formVisible(newValue) {
+      if (!newValue) {
+        this.resetForm()
+      }
+    }
+  },
   methods: {
     init() {
       this.fetchData()
     },
     fetchData() {
       this.listLoading = true
-        dsiProductInfoApi.getList(this.listQuery).then(response => {
+      dsiProductInfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -70,7 +80,11 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.key = undefined
+      this.listQuery.isPoisonHarm = undefined
+      this.listQuery.isInflammableExplosive = undefined
+      this.listQuery.formId = undefined
+      this.listQuery.enterpriseId = undefined
       this.fetchData()
     },
     handleFilter() {
@@ -101,58 +115,55 @@ export default {
     },
     resetForm() {
       this.form = {
-        productCode:'',
-        productName:'',
-        isPoisonHarm:'',
-        isInflammableExplosive:'',
-        formId:'',
-        enterpriseId:'',
-        isDel:'',
-        id: ''
+        productCode: undefined,
+        productName: undefined,
+        isPoisonHarm: undefined,
+        isInflammableExplosive: undefined,
+        formId: undefined,
+        enterpriseId: undefined,
+        id: undefined
       }
     },
     add() {
-      this.formTitle = '添加化工企业生产出来的产品简要信息',
+      this.formTitle = '添加产品信息'
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                productCode:this.form.productCode,
-                productName:this.form.productName,
-                isPoisonHarm:this.form.isPoisonHarm,
-                isInflammableExplosive:this.form.isInflammableExplosive,
-                formId:this.form.formId,
-                enterpriseId:this.form.enterpriseId,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                dsiProductInfoApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                dsiProductInfoApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            productCode: this.form.productCode,
+            productName: this.form.productName,
+            isPoisonHarm: this.form.isPoisonHarm,
+            isInflammableExplosive: this.form.isInflammableExplosive,
+            formId: this.form.formId,
+            enterpriseId: this.form.enterpriseId
+          }
+          if (formData.id) {
+            dsiProductInfoApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            dsiProductInfoApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -168,7 +179,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -176,34 +187,33 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑化工企业生产出来的产品简要信息'
+        this.formTitle = '编辑产品信息'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
     remove() {
       if (this.checkSel()) {
-        var id = this.selRow.id
+        let id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiProductInfoApi.remove(id).then(response => {
+          dsiProductInfoApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err

@@ -2,20 +2,54 @@
   <div class="app-container">
     <div class="block">
       <el-row :gutter="20">
-        <el-col :span="4">
-          <el-input v-model="listQuery.id" size="mini" placeholder="请输入id" />
+        <el-col :span="24">
+          <el-form label-width="120px" :inline="true">
+            <el-form-item label="关键字">
+              <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
+            </el-form-item>
+            <el-form-item label="原料类别">
+              <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
+            </el-form-item>
+            <el-form-item label="是否中间产品">
+              <dict-select v-model="listQuery.isOriginal" dict-name="是否" placeholder="是否中间产品" />
+            </el-form-item>
+          </el-form>
+
         </el-col>
-        <el-col :span="6">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+        <el-col :span="24">
+          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+          </el-button>
+          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+          </el-button>
         </el-col>
       </el-row>
       <br>
       <el-row>
         <el-col :span="24">
-          <el-button v-permission="['/material/baseinfo/add']" type="success" size="mini" icon="el-icon-plus" @click.native="add">{{ $t('button.add') }}</el-button>
-          <el-button v-permission="['/material/baseinfo/update']" type="primary" size="mini" icon="el-icon-edit" @click.native="edit">{{ $t('button.edit') }}</el-button>
-          <el-button v-permission="['/material/baseinfo/delete']" type="danger" size="mini" icon="el-icon-delete" @click.native="remove">{{ $t('button.delete') }}</el-button>
+          <el-button
+            v-permission="['/material/baseinfo/add']"
+            type="success"
+            size="mini"
+            icon="el-icon-plus"
+            @click.native="add"
+          >{{ $t('button.add') }}
+          </el-button>
+          <el-button
+            v-permission="['/material/baseinfo/update']"
+            type="primary"
+            size="mini"
+            icon="el-icon-edit"
+            @click.native="edit"
+          >{{ $t('button.edit') }}
+          </el-button>
+          <el-button
+            v-permission="['/material/baseinfo/delete']"
+            type="danger"
+            size="mini"
+            icon="el-icon-delete"
+            @click.native="remove"
+          >{{ $t('button.delete') }}
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -29,6 +63,7 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
+      <el-table-column label="序号" type="index" width="50" />
       <el-table-column label="原料编码">
         <template slot-scope="scope">
           {{ scope.row.materialCode }}
@@ -49,9 +84,9 @@
           {{ scope.row.shortName }}
         </template>
       </el-table-column>
-      <el-table-column label="类别">
+      <el-table-column label="原料类别">
         <template slot-scope="scope">
-          {{ scope.row.materialType }}
+          {{ scope.row.materialTypeName }}
         </template>
       </el-table-column>
       <el-table-column label="理化性质">
@@ -74,20 +109,29 @@
           {{ scope.row.casCode }}
         </template>
       </el-table-column>
-      <el-table-column label="原料还是中间产品（0：否，1：是）">
+      <el-table-column label="是否危化品">
         <template slot-scope="scope">
-          {{ scope.row.isOriginal }}
-        </template>
-      </el-table-column>
-      <el-table-column label="逻辑删除">
-        <template slot-scope="scope">
-          {{ scope.row.isDel }}
+          {{ scope.row.isDangerName }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-permission="['/material/baseinfo/update']" type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)">{{ $t('button.edit') }}</el-button>
-          <el-button v-permission="['/material/baseinfo/delete']" type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)">{{ $t('button.delete') }}</el-button>
+          <el-button
+            v-permission="['/material/baseinfo/update']"
+            type="text"
+            size="mini"
+            icon="el-icon-edit"
+            @click.native="editItem(scope.row)"
+          >{{ $t('button.edit') }}
+          </el-button>
+          <el-button
+            v-permission="['/material/baseinfo/delete']"
+            type="text"
+            size="mini"
+            icon="el-icon-delete"
+            @click.native="removeItem(scope.row)"
+          >{{ $t('button.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -113,57 +157,52 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="原料编码">
-              <el-input v-model="form.materialCode" minlength="1" />
+              <el-input v-model="form.materialCode" minlength="1" placeholder="请输入原料编码" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="化学名称">
-              <el-input v-model="form.chemistryName" minlength="1" />
+              <el-input v-model="form.chemistryName" minlength="1" placeholder="请输入化学名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="英文名称">
-              <el-input v-model="form.englishName" minlength="1" />
+              <el-input v-model="form.englishName" minlength="1" placeholder="请输入英文名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="中文别名">
-              <el-input v-model="form.shortName" minlength="1" />
+              <el-input v-model="form.shortName" minlength="1" placeholder="请输入中文别名" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="类别">
-              <el-input v-model="form.materialType" minlength="1" />
+            <el-form-item label="原料类别">
+              <dict-select v-model="form.materialType" dict-name="原料类别" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="理化性质">
-              <el-input v-model="form.physicochemicalProperties" minlength="1" />
+              <el-input v-model="form.physicochemicalProperties" minlength="1" placeholder="请输入理化性质" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="健康危害">
-              <el-input v-model="form.healthHazards" minlength="1" />
+              <el-input v-model="form.healthHazards" minlength="1" placeholder="请输入健康危害" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="危险特性">
-              <el-input v-model="form.dangerousCharacteristic" minlength="1" />
+              <el-input v-model="form.dangerousCharacteristic" minlength="1" placeholder="请输入危险特性" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="CAS编号">
-              <el-input v-model="form.casCode" minlength="1" />
+              <el-input v-model="form.casCode" minlength="1" placeholder="请输入CAS编号" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="原料还是中间产品（0：否，1：是）">
-              <el-input v-model="form.isOriginal" minlength="1" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="逻辑删除">
-              <el-input v-model="form.isDel" minlength="1" />
+            <el-form-item label="是否中间产品">
+              <dict-select v-model="form.isOriginal" dict-name="是否" placeholder="请选择是否中间产品" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -180,6 +219,6 @@
 <script src="./dsiMaterialBaseinfo.js"></script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
+  @import "src/styles/common.scss";
 </style>
 

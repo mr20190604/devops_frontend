@@ -1,39 +1,29 @@
 <template>
   <el-select
-    v-model="dictValue"
+    v-model="content"
     style="width: 100%"
-    :size="size"
     :placeholder="inner_placeholder"
     clearable
     @change="change"
   >
     <el-option
-      v-for="item in dictList"
+      v-for="item in list"
       :key="item.id"
-      :label="item.name"
+      :label="item.enterpriseName"
       :value="item.id"
     />
   </el-select>
 </template>
 
 <script>
-import { getDicts } from '@/api/system/dict'
+import enterpriseApi from '@/api/dsi/dsiEnterpriseBaseinfo'
 
 export default {
-  name: 'DictSelect',
+  name: 'Enterprise',
   props: {
     value: {
       type: [String, Number],
       default: ''
-    },
-    size: {
-      type: String,
-      default: ''
-    },
-    dictName: {
-      type: String,
-      default: '',
-      require: true
     },
     placeholder: {
       type: String,
@@ -42,29 +32,30 @@ export default {
   },
   data() {
     return {
-      dictList: [],
-      dictValue: '',
+      list: [],
+      content: '',
       inner_placeholder: undefined
     }
   },
   watch: {
     value() {
-      this.dictValue = this.value
+      this.content = this.value
     }
   },
   created() {
-    this.dictValue = this.value
+    this.content = this.value
     if (this.placeholder) {
       this.inner_placeholder = this.placeholder
     } else {
-      this.inner_placeholder = '请选择' + this.dictName
+      this.inner_placeholder = '请选择企业'
     }
-    this.getDictList()
+    this.getEnterpriseList()
   },
   methods: {
-    getDictList() {
-      getDicts(this.dictName).then(response => {
-        this.dictList = response.data
+    getEnterpriseList() {
+      enterpriseApi.queryAll().then(response => {
+        this.list = response.data
+        console.log(this.list)
       })
     },
     change(value) {

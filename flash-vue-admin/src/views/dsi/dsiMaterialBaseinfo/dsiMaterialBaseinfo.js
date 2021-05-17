@@ -9,17 +9,16 @@ export default {
       formTitle: '添加化工原料信息',
       isAdd: true,
       form: {
-        materialCode:'',
-        chemistryName:'',
-        englishName:'',
-        shortName:'',
-        materialType:'',
-        physicochemicalProperties:'',
-        healthHazards:'',
-        dangerousCharacteristic:'',
-        casCode:'',
-        isOriginal:'',
-        isDel:'',
+        materialCode: '',
+        chemistryName: '',
+        englishName: '',
+        shortName: '',
+        materialType: '',
+        physicochemicalProperties: '',
+        healthHazards: '',
+        dangerousCharacteristic: '',
+        casCode: '',
+        isDanger: '',
         id: ''
       },
       listQuery: {
@@ -45,7 +44,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -58,13 +57,20 @@ export default {
   created() {
     this.init()
   },
+  watch: {
+    formVisible(newValue) {
+      if (!newValue) {
+        this.resetForm()
+      }
+    }
+  },
   methods: {
     init() {
       this.fetchData()
     },
     fetchData() {
       this.listLoading = true
-        dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
+      dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -105,66 +111,64 @@ export default {
     },
     resetForm() {
       this.form = {
-        materialCode:'',
-        chemistryName:'',
-        englishName:'',
-        shortName:'',
-        materialType:'',
-        physicochemicalProperties:'',
-        healthHazards:'',
-        dangerousCharacteristic:'',
-        casCode:'',
-        isOriginal:'',
-        isDel:'',
+        materialCode: '',
+        chemistryName: '',
+        englishName: '',
+        shortName: '',
+        materialType: '',
+        physicochemicalProperties: '',
+        healthHazards: '',
+        dangerousCharacteristic: '',
+        casCode: '',
+        isDanger: '',
         id: ''
       }
     },
     add() {
-      this.formTitle = '添加化工原料信息',
+      this.formTitle = '添加化工原料信息'
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                materialCode:this.form.materialCode,
-                chemistryName:this.form.chemistryName,
-                englishName:this.form.englishName,
-                shortName:this.form.shortName,
-                materialType:this.form.materialType,
-                physicochemicalProperties:this.form.physicochemicalProperties,
-                healthHazards:this.form.healthHazards,
-                dangerousCharacteristic:this.form.dangerousCharacteristic,
-                casCode:this.form.casCode,
-                isOriginal:this.form.isOriginal,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                dsiMaterialBaseinfoApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                dsiMaterialBaseinfoApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            materialCode: this.form.materialCode,
+            chemistryName: this.form.chemistryName,
+            englishName: this.form.englishName,
+            shortName: this.form.shortName,
+            materialType: this.form.materialType,
+            physicochemicalProperties: this.form.physicochemicalProperties,
+            healthHazards: this.form.healthHazards,
+            dangerousCharacteristic: this.form.dangerousCharacteristic,
+            casCode: this.form.casCode,
+            isDanger: this.form.isDanger
+          }
+          if (formData.id) {
+            dsiMaterialBaseinfoApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            dsiMaterialBaseinfoApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -180,7 +184,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -191,13 +195,13 @@ export default {
         this.formTitle = '编辑化工原料信息'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -209,13 +213,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiMaterialBaseinfoApi.remove(id).then(response => {
+          dsiMaterialBaseinfoApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err

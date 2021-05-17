@@ -16,7 +16,20 @@ import mmBasDistrictApi from '@/api/mm/mmBasDistrict'
 
 export default {
   name: 'District',
-  props: ['placeholder', 'parentCode', 'value'],
+  props: {
+    placeholder: {
+      type: String,
+      default: undefined
+    },
+    parentCode: {
+      type: String,
+      default: '000000'
+    },
+    value: {
+      type: String,
+      default: undefined
+    }
+  },
   data() {
     return {
       content: null,
@@ -129,43 +142,47 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+  $default-height: 38px;
+  $mini-height: 26px;
+
   /*支持el-form的 inline 模式*/
-  .el-form--inline .vue-treeselect{
+  .el-form--inline .vue-treeselect {
     width: 200px;
-    height: 38px;
+    height: $default-height;
   }
 
   /*调整文字居中*/
-  .vue-treeselect__placeholder,.vue-treeselect__control{
-    height: 38px;
-    line-height: 38px;
+  .vue-treeselect__placeholder, .vue-treeselect__control {
+    height: $default-height;
+    line-height: $default-height;
   }
 
-  .vue-treeselect__single-value > div{
-    height: 38px;
-    line-height: 38px;
+  .vue-treeselect__single-value > div {
+    height: $default-height;
+    line-height: $default-height;
   }
 
   /*支持el-form size模式*/
   /*mini*/
-  .el-form-item--mini  .vue-treeselect__placeholder,.el-form-item--mini  vue-treeselect__control{
+  .el-form-item--mini .vue-treeselect__placeholder, .el-form-item--mini .vue-treeselect__control {
     font-size: 12px;
-    height: 26px;
-    line-height: 26px;
+    height: $mini-height;
+    line-height: $mini-height;
   }
 
-  .el-form-item--mini .vue-treeselect__input-container{
-    height: 26px;
+  .el-form-item--mini .vue-treeselect__input-container {
+    height: $mini-height;
   }
 
-  .el-form-item--mini  .vue-treeselect__single-value > div{
-    height: 26px;
-    line-height: 26px;
+  .el-form-item--mini .vue-treeselect__single-value > div {
+    height: $mini-height;
+    line-height: $mini-height;
   }
 
-  .el-form-item--mini .vue-treeselect__control{
-    height: 26px;
+  .el-form-item--mini .vue-treeselect__control {
+    height: $mini-height;
   }
 
 </style>

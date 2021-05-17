@@ -61,6 +61,7 @@ export default {
       selRow: {}
     }
   },
+  enterpriseTable:null,
   components: {district},
   filters: {
     statusFilter(status) {
@@ -146,6 +147,7 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
+
     },
     resetForm() {
       this.form = {

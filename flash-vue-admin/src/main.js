@@ -20,6 +20,11 @@ import '@/permission' // permission control
  */
 import DictSelect from './components/DictSelect'
 Vue.component('dict-select', DictSelect)
+import District from './components/District'
+Vue.component('district', District)
+import Enterprise from './components/Enterprise'
+Vue.component('enterprise', Enterprise)
+
 /**
  * 全局引用第三方组件
  */
