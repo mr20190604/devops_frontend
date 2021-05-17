@@ -181,10 +181,11 @@ export default {
     add() {
       this.resetForm()
       this.materialList = null
+      this.materialAdd = true
       this.formTitle = '添加数据资源一体化子系统-园区应急资源库-应急资源信息',
       this.formVisible = true
       this.isAdd = true
-      this.materialAdd = true
+
 
       if(this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()

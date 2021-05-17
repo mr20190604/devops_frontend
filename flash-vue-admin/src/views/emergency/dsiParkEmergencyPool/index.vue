@@ -34,6 +34,14 @@
               <el-form-item>
                 <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
                 <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+
+              </el-form-item>
+
+            </el-row>
+            <el-row>
+              <el-form-item>
+                <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/pool/add']">{{ $t('button.add') }}</el-button>
+                <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/pool/delete']">{{ $t('button.delete') }}</el-button>
               </el-form-item>
             </el-row>
           </el-form>
@@ -96,7 +104,7 @@
             </el-table-column>-->
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/pool/update']">{{ $t('button.edit') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/pool/edit']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/park/emergency/pool/delete']">{{ $t('button.delete') }}</el-button>
                 </template>
             </el-table-column>
@@ -178,7 +186,6 @@
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                   <el-button type="primary" @click="addMaterial">添加新物资</el-button>
-
                 </el-form-item>
 
               <el-table :data="materialList" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
