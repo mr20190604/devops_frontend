@@ -29,7 +29,7 @@ export default {
         currentStock:'',
         criticalQuantity:''
       },*/
-      risk_list:[],
+
       risk_type:[],
       listQuery: {
         page: 1,
@@ -135,7 +135,7 @@ export default {
       this.resetForm;
       this.formTitle = '添加风险单元',
       this.formVisible = true
-      this.form=[];
+      //this.form=[];
       this.isAdd = true
       //this.materialAdd = true
      /* if(this.$refs['form'] !== undefined) {
@@ -215,21 +215,21 @@ export default {
         this.formTitle = '编辑风险单元'
         var detail = this.selRow.detail.split(';')
         var details = []
-        detail.forEach(function(val, index) {
+        detail.forEach(function (val, index) {
           var arr = val.split(',')
 
-          details.push({ 'materialId': arr[0], 'currentStock': arr[1] ,'criticalQuantity': arr[2] })
+          details.push({'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2]})
         })
         console.log(details);
         //this.form = { name: this.selRow.name, id: this.selRow.id, details: details, detail: this.selRow.detail }
-        this.form.details=details;
+        this.form.details = details;
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
-          this.$refs['form'].resetFields()
-        }
+        /* if(this.$refs['form'] !== undefined) {
+           this.$refs['form'].resetFields()
+         }*/
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+      }
     },
     removeItem(record){
       this.selRow = record
@@ -302,7 +302,8 @@ export default {
         criticalQuantity:''
       })
       this.form.details = details
-    }, removeDetail(detail) {
+    },
+    removeDetail(detail) {
       let details = []
       this.form.details.forEach(function(val, index) {
         if (detail.materialId !== val.materialId) {
