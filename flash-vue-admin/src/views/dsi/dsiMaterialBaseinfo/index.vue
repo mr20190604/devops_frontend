@@ -109,9 +109,9 @@
           {{ scope.row.casCode }}
         </template>
       </el-table-column>
-      <el-table-column label="是否中间产品">
+      <el-table-column label="是否危化品">
         <template slot-scope="scope">
-          {{ scope.row.isOriginalName }}
+          {{ scope.row.isDangerName }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -177,7 +177,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="原料类别">
-              <dict-select v-model="form.materialType" dict-name="原料类别原料类别" />
+              <dict-select v-model="form.materialType" dict-name="原料类别" />
             </el-form-item>
           </el-col>
           <el-col :span="12">

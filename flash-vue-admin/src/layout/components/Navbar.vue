@@ -7,36 +7,36 @@
     <div class="right-menu">
       <template>
         <search id="header-search" class="right-menu-item" title="快速入口" />
-        <a class="right-menu-item" target="_blank" title="文档" href="https://enilu.gitee.io/web-flash" style="vertical-align: top;"><i class="el-icon-document"></i></a>
-          <lang-select class="international right-menu-item"/>
-        </template>
-        <el-dropdown class="avatar-container right-menu-item" trigger="click">
-          <div class="avatar-wrapper">
-            <img class="user-avatar" src="@/assets/img/avatar.gif">
-            <i class="el-icon-caret-bottom"/>
-          </div>
-          <el-dropdown-menu slot="dropdown">
-            <router-link to="/account/profile">
-              <el-dropdown-item>
-                {{ $t('navbar.profile') }}
-              </el-dropdown-item>
-            </router-link>
-            <el-dropdown-item divided>
-              <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
+        <a class="right-menu-item" target="_blank" title="文档" href="https://enilu.gitee.io/web-flash" style="vertical-align: top;"><i class="el-icon-document" /></a>
+        <lang-select class="international right-menu-item" />
+      </template>
+      <el-dropdown class="avatar-container right-menu-item" trigger="click">
+        <div class="avatar-wrapper">
+          <img class="user-avatar" src="@/assets/img/avatar.gif">
+          <i class="el-icon-caret-bottom" />
+        </div>
+        <el-dropdown-menu slot="dropdown">
+          <router-link to="/account/profile">
+            <el-dropdown-item>
+              {{ $t('navbar.profile') }}
             </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+          </router-link>
+          <el-dropdown-item divided>
+            <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
 
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import Breadcrumb from '@/components/Breadcrumb'
-  import Hamburger from '@/components/Hamburger'
-  import LangSelect from '@/components/LangSelect'
-  import Search from '@/components/HeaderSearch'
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import LangSelect from '@/components/LangSelect'
+import Search from '@/components/HeaderSearch'
 
 export default {
   components: {
@@ -58,7 +58,6 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push('/login')
-
     }
   }
 }

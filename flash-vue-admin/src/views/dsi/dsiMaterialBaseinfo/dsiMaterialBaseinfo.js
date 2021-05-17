@@ -18,7 +18,7 @@ export default {
         healthHazards: '',
         dangerousCharacteristic: '',
         casCode: '',
-        isOriginal: '',
+        isDanger: '',
         id: ''
       },
       listQuery: {
@@ -120,7 +120,7 @@ export default {
         healthHazards: '',
         dangerousCharacteristic: '',
         casCode: '',
-        isOriginal: '',
+        isDanger: '',
         id: ''
       }
     },
@@ -148,7 +148,7 @@ export default {
             healthHazards: this.form.healthHazards,
             dangerousCharacteristic: this.form.dangerousCharacteristic,
             casCode: this.form.casCode,
-            isOriginal: this.form.isOriginal
+            isDanger: this.form.isDanger
           }
           if (formData.id) {
             dsiMaterialBaseinfoApi.update(formData).then(response => {
