@@ -20,14 +20,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       listForRouter().then(response => {
         const menus = response.data
-        let remoteroutes = traverseRoutes(menus)
-        commit('SET_ROUTES',remoteroutes);
-        resolve(remoteroutes);
+        const remoteRoutes = traverseRoutes(menus)
+        commit('SET_ROUTES', remoteRoutes)
+        resolve(remoteRoutes)
       }).catch(error => {
-        console.log('list',error)
+        console.log('list', error)
         router.replace({
           path: '/login',
-          query:{redirect:router.currentRoute.path}
+          query: { redirect: router.currentRoute.path }
         })
         // reject(error)
       })

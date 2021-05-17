@@ -15,7 +15,7 @@ router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
   // set page title
-  document.title = getPageTitle(i18n.t('route.'+to.meta.title))
+  document.title = getPageTitle(to.name)
 
   // determine whether the user has logged in
   const hasToken = getToken()
@@ -33,7 +33,7 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           store.dispatch('user/getInfo')
-          const accessRoutes  = await store.dispatch('menu/getSideMenus');
+          const accessRoutes = await store.dispatch('menu/getSideMenus')
           router.addRoutes(accessRoutes)
           next({ ...to, replace: true })
         } catch (error) {
