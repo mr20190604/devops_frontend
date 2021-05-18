@@ -163,7 +163,9 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="编制时间"  >
-                            <el-input v-model="form.editorDate" minlength=1></el-input>
+                            <el-date-picker v-model="form.editorDate"  class="date_picker"
+                                            :picker-options="pickerOptions"
+                                            value-format="yyyy/MM/dd"  minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
