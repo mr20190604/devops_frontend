@@ -6,7 +6,13 @@
               <el-input v-model="listQuery.accidentName"  placeholder="请输事故名称"></el-input>
             </el-form-item>
             <el-form-item label="事故时间">
-              <el-input v-model="listQuery.accidentTime"  placeholder="请选择时间"></el-input>
+              <el-date-picker v-model="listQuery.accidentTime"
+                              type="datetimerange"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期"
+                              value-format="yyyy-MM-dd HH:mm">
+              </el-date-picker>
             </el-form-item>
             <el-form-item label="事故地点">
               <el-input v-model="listQuery.accidentAddress"  placeholder="请输事故地点"></el-input>
@@ -136,7 +142,9 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="事故时间"  >
-                            <el-input v-model="form.accidentTime" minlength=1></el-input>
+                            <el-date-picker v-model="form.accidentTime" class="date_picker"
+                                            :picker-options="pickerOptions"
+                                            value-format="yyyy/MM/dd" minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

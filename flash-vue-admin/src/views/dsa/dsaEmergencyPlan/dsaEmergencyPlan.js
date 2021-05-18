@@ -19,6 +19,8 @@ export default {
         fileId:'',
         register:'',
         isDel:'',
+        industryName:'',
+        planTypeName:'',
         id: ''
       },
       //预案类型
@@ -72,7 +74,7 @@ export default {
         this.listLoading = false
         this.total = response.data.total
       });
-      getDicts("预案类型").then(response=>{
+      getDicts("预案种类").then(response=>{
         this.plan_type=response.data
       });
       getDicts("所属行业").then(response=>{
