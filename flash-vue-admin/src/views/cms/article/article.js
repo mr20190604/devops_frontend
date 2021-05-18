@@ -19,7 +19,7 @@ export default {
 
       listQuery: {
         page: 1,
-        limit: 20,
+        limit: 10,
         title: undefined,
         author: undefined,
         startDate: undefined,
