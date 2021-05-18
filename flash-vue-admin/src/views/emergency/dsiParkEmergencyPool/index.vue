@@ -1,10 +1,9 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form  label-width="120px" :inline="true" size="mini">
-            <el-row>
+          <el-form  label-width="120px" :inline="true" >
               <el-form-item label="名称">
-                <el-input v-model="listQuery.repositoriesName" size="mini" placeholder="请输入资源库名称"></el-input>
+                <el-input v-model="listQuery.repositoriesName" placeholder="请输入资源库名称"></el-input>
               </el-form-item>
 
               <el-form-item label="所在地区">
@@ -12,15 +11,14 @@
               </el-form-item>
 
               <el-form-item label="负责人">
-                <el-input v-model="listQuery.personName" size="mini" placeholder="请输入负责人名称"></el-input>
+                <el-input v-model="listQuery.personName"  placeholder="请输入负责人名称"></el-input>
               </el-form-item>
-            </el-row>
-            <el-row>
+
               <el-form-item label="地址">
-                <el-input v-model="listQuery.address" size="mini" placeholder="请输入地址"></el-input>
+                <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
               </el-form-item>
               <el-form-item label="所属企业">
-                <el-select v-model="listQuery.enterpriseId"  size="mini" placeholder="请选择所属企业">
+                <el-select v-model="listQuery.enterpriseId"  placeholder="请选择所属企业">
                   <el-option
                     v-for="item in enterprise_list"
                     :key="item.id"
@@ -34,10 +32,8 @@
               <el-form-item>
                 <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
                 <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-
               </el-form-item>
 
-            </el-row>
             <el-row>
               <el-form-item>
                 <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/pool/add']">{{ $t('button.add') }}</el-button>
@@ -50,11 +46,12 @@
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
-            <!--<el-table-column label="序号">-->
-                <!--<template slot-scope="scope">-->
-                    <!--{{scope.row.code}}-->
-                <!--</template>-->
-            <!--</el-table-column>-->
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          >
+          </el-table-column>
             <el-table-column label="资源库名称">
                 <template slot-scope="scope">
                     {{scope.row.repositoriesName}}
@@ -62,12 +59,12 @@
             </el-table-column>
           <el-table-column label="所属企业">
             <template slot-scope="scope">
-              {{scope.row.enterpriseName}}
+              {{scope.row.dsiEnterpriseBaseinfo.enterpriseName}}
             </template>
           </el-table-column>
           <el-table-column label="行政区划">
             <template slot-scope="scope">
-              {{scope.row.districtCode}}
+              {{scope.row.dsiEnterpriseBaseinfo.districtName}}
             </template>
           </el-table-column>
           <el-table-column label="地址">
@@ -104,7 +101,7 @@
             </el-table-column>-->
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/pool/edit']">{{ $t('button.edit') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/pool/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/park/emergency/pool/delete']">{{ $t('button.delete') }}</el-button>
                 </template>
             </el-table-column>

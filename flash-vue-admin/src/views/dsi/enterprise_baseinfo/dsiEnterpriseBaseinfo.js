@@ -4,6 +4,7 @@ import {remove, getList, save, update, getDicts} from '@/api/system/dict'
 import district from '@/components/District/index'
 
 
+
 export default {
   directives: {permission},
   data() {

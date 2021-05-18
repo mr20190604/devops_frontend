@@ -3,16 +3,16 @@
         <div class="block">
           <el-form label-width="120px" :inline="true">
             <el-form-item label="人员名称">
-              <el-input v-model="listQuery.name" size="mini" placeholder="请输入人员名称"></el-input>
+              <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
             </el-form-item>
             <el-form-item label="所在行政区">
-              <el-input v-model="listQuery.districtCode" size="mini" placeholder="请选择所在行政区"></el-input>
+              <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
             </el-form-item>
-            <el-form-item label="所属企业">
-              <el-input v-model="listQuery.enterpriseId" size="mini" placeholder="请输入所属企业"></el-input>
+            <el-form-item label="现工作单位">
+              <el-input v-model="listQuery.enterpriseId"  placeholder="请输入所属企业"></el-input>
             </el-form-item>
             <el-form-item label="是否专家">
-              <el-select v-model="listQuery.isExpert" size="mini" placeholder="是否专家">
+              <el-select v-model="listQuery.isExpert"  placeholder="是否专家">
                 <el-option
                   v-for="item in isExpert"
                   :key="item.id"
@@ -33,7 +33,6 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/person/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/park/emergency/person/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/person/delete']">{{ $t('button.delete') }}</el-button>
                 </el-col>
             </el-row>
@@ -42,11 +41,12 @@
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
-            <!--<el-table-column label="编码">
-                <template slot-scope="scope">
-                    {{scope.row.code}}
-                </template>
-            </el-table-column>-->
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          >
+          </el-table-column>
             <el-table-column label="姓名">
                 <template slot-scope="scope">
                     {{scope.row.name}}
@@ -54,7 +54,7 @@
             </el-table-column>
             <el-table-column label="性别">
                 <template slot-scope="scope">
-                    {{scope.row.gender}}
+                    {{scope.row.genderName}}
                 </template>
             </el-table-column>
             <el-table-column label="学历">
@@ -79,12 +79,12 @@
             </el-table-column>
             <el-table-column label="行政区划">
                 <template slot-scope="scope">
-                    {{scope.row.districtCode}}
+                    {{scope.row.districtName}}
                 </template>
             </el-table-column>
             <el-table-column label="是否专家">
                 <template slot-scope="scope">
-                    {{scope.row.isExpert}}
+                    {{scope.row.isExpertName}}
                 </template>
             </el-table-column>
             <el-table-column label="联系电话">
@@ -92,21 +92,17 @@
                     {{scope.row.tel}}
                 </template>
             </el-table-column>
+
+          <el-table-column label="工作单位">
+            <template slot-scope="scope">
+              {{scope.row.workPlace}}
+            </template>
+          </el-table-column>
             <el-table-column label="地址">
                 <template slot-scope="scope">
                     {{scope.row.address}}
                 </template>
             </el-table-column>
-          <!--<el-table-column label="备注">
-              <template slot-scope="scope">
-                  {{scope.row.remark}}
-              </template>
-          </el-table-column>
-          <el-table-column label="逻辑删除">
-              <template slot-scope="scope">
-                  {{scope.row.isDel}}
-              </template>
-          </el-table-column>-->
             <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/person/update']">{{ $t('button.edit') }}</el-button>
@@ -130,92 +126,111 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-                <el-row>
-                   <!-- <el-col :span="12">
-                        <el-form-item label="编码"  >
-                            <el-input v-model="form.code" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
-                    <el-col :span="12">
-                        <el-form-item label="姓名"  >
-                            <el-input v-model="form.name" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="性别"  >
-                            <el-select v-model="form.gender" minlength=1>
-                              <el-option
-                                v-for="item in sex"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                              </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="是否专家"  >
-                      <el-select v-model="form.isExpert" minlength=1>
-                        <el-option
+                width="70%">            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="人员名称"  >
+                    <el-input v-model="form.name" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item label="现工作单位"  >
+                    <el-input v-model="form.workPlace" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="性别"  >
+                    <el-select v-model="form.gender" minlength=1>
+                      <el-option
+                        v-for="item in sex"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col  :span="12">
+                  <el-form-item label="行政区划">
+                    <district v-model="form.districtCode"></district>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="联系电话"  >
+                    <el-input v-model="form.tel" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                    <el-form-item label="地址"  >
+                      <el-input v-model="form.address" minlength=1></el-input>
+                    </el-form-item>
+                </el-col>
+
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="职称"  >
+                    <el-input v-model="form.professionalName" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item label="学历"  >
+                    <el-input v-model="form.educationName" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="紧急联系人"  >
+                    <el-input v-model="form.emergencyContact" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item label="紧急联系方式"  >
+                    <el-input v-model="form.emergencyTel" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="职务"  >
+                    <el-input v-model="form.postName" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item label="专业特长"  >
+                    <el-input v-model="form.majorSpecialty" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="是否专家"  >
+                    <el-select v-model="form.isExpert" minlength=1>
+                      <el-option
                         v-for="item in isExpert"
                         :key="item.id"
                         :label="item.name"
                         :value="item.id">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  <el-col :span="12">
-                    <el-form-item label="行政区划"  >
-                      <el-input v-model="form.districtCode" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="联系电话"  >
-                      <el-input v-model="form.tel" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="学历"  >
-                            <el-input v-model="form.educationName" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="职称"  >
-                            <el-input v-model="form.professionalName" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="职务"  >
-                            <el-input v-model="form.postName" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="专业特长"  >
-                            <el-input v-model="form.majorSpecialty" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
 
 
-                    </el-col>
+              </el-row>
 
-                    <el-col :span="12">
-                        <el-form-item label="地址"  >
-                            <el-input v-model="form.address" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                   <!-- <el-col :span="12">
-                        <el-form-item label="备注"  >
-                            <el-input v-model="form.remark" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="逻辑删除"  >
-                            <el-input v-model="form.isDel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
-                </el-row>
                 <el-form-item>
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>

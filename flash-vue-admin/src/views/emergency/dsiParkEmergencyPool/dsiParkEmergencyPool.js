@@ -136,6 +136,12 @@ export default {
     },
     reset() {
       this.listQuery.id = ''
+      this.listQuery.enterpriseId = ''
+      this.listQuery.districtCode = ''
+      this.listQuery.repositoriesName = ''
+      this.listQuery.personName = ''
+      this.listQuery.address = ''
+
       this.fetchData()
     },
     handleFilter() {
