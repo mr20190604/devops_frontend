@@ -2,28 +2,28 @@ import request from '@/utils/request'
 export default {
   getList: function(params) {
     return request({
-      url: '/enterprise_info/list',
+      url: '/dsi/enterprise/info/list',
       method: 'get',
       params
     })
   },
   add: function(params) {
     return request({
-      url: '/enterprise_info',
+      url: '/dsi/enterprise/info',
       method: 'post',
       params
     })
   },
   update: function(params) {
     return request({
-      url: '/enterprise_info',
+      url: '/dsi/enterprise/info',
       method: 'PUT',
       params
     })
   },
   remove: function(id) {
     return request({
-      url: '/enterprise_info',
+      url: '/dsi/enterprise/info',
       method: 'delete',
       params: {
         id: id
@@ -32,7 +32,7 @@ export default {
   },
   queryAll: function() {
     return request({
-      url: '/enterprise_info/queryAll',
+      url: '/dsi/enterprise/info/queryAll',
       method: 'get'
     })
   }
