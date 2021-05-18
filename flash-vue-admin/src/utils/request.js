@@ -19,17 +19,6 @@ service.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = token // 让每个请求携带自定义token 请根据实际情况自行修改
     }
-    if(config.method === 'post') {
-      config.data = {
-        ...config.data,
-        t: new Date().getTime()
-      }
-    } else if (config.method === 'get') {
-      config.data = {
-        ...config.data,
-        t: new Date().getTime()
-      }
-    }
     return config
   },
   error => {
