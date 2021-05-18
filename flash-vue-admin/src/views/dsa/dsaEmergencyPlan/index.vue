@@ -58,12 +58,12 @@
             </el-table-column>
             <el-table-column label="预案类型">
                 <template slot-scope="scope">
-                    {{scope.row.planTypeId}}
+                    {{scope.row.planTypeName}}
                 </template>
             </el-table-column>
             <el-table-column label="所属行业">
                 <template slot-scope="scope">
-                    {{scope.row.industryId}}
+                    {{scope.row.industryName}}
                 </template>
             </el-table-column>
             <el-table-column label="来源单位">
