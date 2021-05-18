@@ -30,7 +30,7 @@ export default {
         id: ''
       },
       //车辆类别
-      vehicleType:[],
+      vehicleType_list:[],
       //所属企业下拉
       enterprise_list:[],
       listQuery: {
@@ -92,7 +92,7 @@ export default {
         this.total = response.data.total
       });
       getDicts("车辆类别").then(response=>{
-        this.vehicleType=response.data
+        this.vehicleType_list=response.data
       })
     },
     search() {

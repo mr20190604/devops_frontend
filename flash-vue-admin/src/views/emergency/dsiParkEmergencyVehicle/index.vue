@@ -1,14 +1,14 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form label-width="120px" :inline="true" size="mini">
+          <el-form label-width="120px" :inline="true" >
             <el-form-item label="车牌号码">
-              <el-input v-model="listQuery.vehicleLicense" size="mini" placeholder="请输入车牌号码"></el-input>
+              <el-input v-model="listQuery.vehicleLicense"  placeholder="请输入车牌号码"></el-input>
             </el-form-item>
             <el-form-item label="车辆类别">
-              <el-select v-model="listQuery.vehicleType" size="mini" placeholder="请选择车辆类别">
+              <el-select  v-model="listQuery.vehicleType"  placeholder="请选择车辆类别">
                 <el-option
-                  v-for="item in vehicleType"
+                  v-for="item in vehicleType_list"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id">
@@ -16,10 +16,10 @@
               </el-select>
             </el-form-item>
               <el-form-item label="负责人">
-              <el-input v-model="listQuery.vehicleResponsible" size="mini" placeholder="请输入负责人"></el-input>
+              <el-input v-model="listQuery.vehicleResponsible"  placeholder="请输入负责人"></el-input>
               </el-form-item>
                 <el-form-item label="所属企业">
-              <el-select v-model="listQuery.enterpriseId" size="mini" placeholder="请输入所属企业">
+              <el-select v-model="listQuery.enterpriseId"  placeholder="请输入所属企业">
                 <el-option
                   v-for="item in enterprise_list"
                   :key="item.id"
@@ -29,7 +29,7 @@
               </el-select>
                 </el-form-item>
                   <el-form-item label="车辆型号">
-              <el-input v-model="listQuery.vehicleModel" size="mini" placeholder="请选择车辆型号"></el-input>
+              <el-input v-model="listQuery.vehicleModel" placeholder="请选择车辆型号"></el-input>
                   </el-form-item>
           </el-form>
 
@@ -75,7 +75,7 @@
             </el-table-column>
             <el-table-column label="车辆类别">
                 <template slot-scope="scope">
-                    {{scope.row.vehicleType}}
+                    {{scope.row.vehicleTypeName}}
                 </template>
             </el-table-column>
             <el-table-column label="车辆型号">
@@ -85,7 +85,7 @@
             </el-table-column>
             <el-table-column label="行政区划">
                 <template slot-scope="scope">
-                    {{scope.row.districtCode}}
+                    {{scope.row.districtName}}
                 </template>
             </el-table-column>
             <el-table-column label="负责人">
@@ -175,7 +175,7 @@
                         <el-form-item label="车辆类别"  >
                             <el-select v-model="form.vehicleType" minlength=1>
                               <el-option
-                                v-for="item in vehicleType"
+                                v-for="item in vehicleType_list"
                                 :key="item.id"
                                 :label="item.name"
                                 :value="item.id">
@@ -190,7 +190,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="行政区划"  >
-                            <el-input v-model="form.districtCode" minlength=1></el-input>
+                            <district v-model="form.districtCode" minlength=1></district>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
