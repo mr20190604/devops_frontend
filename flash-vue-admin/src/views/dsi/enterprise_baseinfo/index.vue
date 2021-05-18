@@ -162,7 +162,14 @@
                     </el-col>
                   <el-col :span="12">
                     <el-form-item label="所属行业"  >
-                      <el-input v-model="form.industryId" minlength=1></el-input>
+                      <el-select v-model="form.industryId" minlength=1>
+                        <el-option
+                          v-for="item in industry_list"
+                          :key="item.id"
+                          :label="item.name"
+                          :value="item.id">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
