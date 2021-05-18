@@ -1,12 +1,13 @@
 import dsaEmergencyPlanApi from '@/api/dsa/dsaEmergencyPlan'
 import permission from '@/directive/permission/index.js'
+import {getDicts} from "../../../api/system/dict";
 
 export default {
   directives: { permission },
   data() {
     return {
       formVisible: false,
-      formTitle: '添加应急预案信息',
+      formTitle: '添加',
       isAdd: true,
       form: {
         planName:'',
@@ -16,9 +17,14 @@ export default {
         planVersion:'',
         editorDate:'',
         fileId:'',
+        register:'',
         isDel:'',
         id: ''
       },
+      //预案类型
+      plan_type:[],
+      //所属行业
+      industry_type:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -65,7 +71,13 @@ export default {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      })
+      });
+      getDicts("预案类型").then(response=>{
+        this.plan_type=response.data
+      });
+      getDicts("所属行业").then(response=>{
+        this.industry_type=response.data
+      });
     },
     search() {
       this.fetchData()
@@ -109,12 +121,13 @@ export default {
         planVersion:'',
         editorDate:'',
         fileId:'',
+        register:'',
         isDel:'',
         id: ''
       }
     },
     add() {
-      this.formTitle = '添加应急预案信息',
+      this.formTitle = '添加',
       this.formVisible = true
       this.isAdd = true
 
@@ -135,6 +148,7 @@ export default {
                 planVersion:this.form.planVersion,
                 editorDate:this.form.editorDate,
                 fileId:this.form.fileId,
+                register:this.form.register,
                 isDel:this.form.isDel,
             }
             if(formData.id){
@@ -179,7 +193,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑应急预案信息'
+        this.formTitle = '编辑'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {

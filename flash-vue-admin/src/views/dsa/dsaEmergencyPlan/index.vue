@@ -1,15 +1,43 @@
 <template>
     <div class="app-container">
         <div class="block">
-            <el-row  :gutter="20">
-                <el-col :span="4">
-                    <el-input v-model="listQuery.id" size="mini" placeholder="请输入id"></el-input>
-                </el-col>
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
-            </el-row>
+          <el-form label-width="120px" :inline="true">
+            <el-form-item label="预案名称">
+              <el-input v-model="listQuery.planName" placeholder="请输预案名称"></el-input>
+            </el-form-item>
+            <el-form-item label="所属行业">
+              <el-select v-model="listQuery.industryId" placeholder="请选择所属行业">
+                <el-option
+                  v-for="item in industry_type"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="来源单位">
+              <el-input v-model="listQuery.planUnit" placeholder="请输来源单位"></el-input>
+            </el-form-item>
+            <el-form-item label="预案类型">
+              <el-select v-model="listQuery.planTypeId" placeholder="请选择预案类型">
+                <el-option
+                  v-for="item in plan_type"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+          </el-form>
+          <el-row :gutter="24">
+            <el-col :span="6">
+              <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+              </el-button>
+              <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+              </el-button>
+            </el-col>
+          </el-row>
             <br>
             <el-row>
                 <el-col :span="24">
@@ -28,12 +56,12 @@
                     {{scope.row.planName}}
                 </template>
             </el-table-column>
-            <el-table-column label="预案类型（字典）">
+            <el-table-column label="预案类型">
                 <template slot-scope="scope">
                     {{scope.row.planTypeId}}
                 </template>
             </el-table-column>
-            <el-table-column label="所属行业（字典）">
+            <el-table-column label="所属行业">
                 <template slot-scope="scope">
                     {{scope.row.industryId}}
                 </template>
@@ -58,11 +86,16 @@
                     {{scope.row.fileId}}
                 </template>
             </el-table-column>
-            <el-table-column label="逻辑删除">
+            <el-table-column label="登记人">
+                <template slot-scope="scope">
+                    {{scope.row.register}}
+                </template>
+            </el-table-column>
+           <!-- <el-table-column label="逻辑删除">
                 <template slot-scope="scope">
                     {{scope.row.isDel}}
                 </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/emergency/plan/update']">{{ $t('button.edit') }}</el-button>
@@ -95,13 +128,27 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="预案类型（字典）"  >
-                            <el-input v-model="form.planTypeId" minlength=1></el-input>
+                        <el-form-item label="预案类型"  >
+                            <el-select v-model="form.planTypeId" minlength=1>
+                              <el-option
+                                v-for="item in plan_type"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="所属行业（字典）"  >
-                            <el-input v-model="form.industryId" minlength=1></el-input>
+                        <el-form-item label="所属行业"  >
+                            <el-select v-model="form.industryId" minlength=1>
+                              <el-option
+                                v-for="item in industry_type"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -125,10 +172,15 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="登记人"  >
+                            <el-input v-model="form.register" minlength=1></el-input>
+                        </el-form-item>
+                    </el-col>
+                   <!-- <el-col :span="12">
                         <el-form-item label="逻辑删除"  >
                             <el-input v-model="form.isDel" minlength=1></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col>-->
                 </el-row>
                 <el-form-item>
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>

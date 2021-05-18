@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true" size="mini">
+      <el-form label-width="120px" :inline="true" >
         <el-form-item label="风险名称">
-          <el-input v-model="listQuery.riskName" size="mini" placeholder="请输风险名称"></el-input>
+          <el-input v-model="listQuery.riskName"  placeholder="请输风险名称"></el-input>
         </el-form-item>
 
         <el-form-item label="风险类型">
-          <el-select v-model="listQuery.riskType" size="mini" placeholder="请选择风险类型">
+          <el-select v-model="listQuery.riskType"  placeholder="请选择风险类型">
             <el-option
               v-for="item in risk_type"
               :key="item.id"

@@ -1,15 +1,41 @@
 <template>
     <div class="app-container">
         <div class="block">
-            <el-row  :gutter="20">
-                <el-col :span="4">
-                    <el-input v-model="listQuery.id" size="mini" placeholder="请输入id"></el-input>
-                </el-col>
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
-            </el-row>
+          <el-form label-width="120px" :inline="true" >
+            <el-form-item label="文件标题">
+              <el-input v-model="listQuery.lawName"  placeholder="请输文件标题"></el-input>
+            </el-form-item>
+            <el-form-item label="制定机关">
+              <el-input v-model="listQuery.formulateOffice"  placeholder="请输制定机关"></el-input>
+            </el-form-item>
+            <el-form-item label="法律性质">
+              <el-input v-model="listQuery.lawNature"  placeholder="请输法律性质"></el-input>
+            </el-form-item>
+            <el-form-item label="时效性">
+              <el-select v-model="listQuery.isValid"  placeholder="请选择时效性">
+                <el-option
+                  v-for="item in timeliness"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="公布日期">
+              <el-input v-model="listQuery.publicationDate"  placeholder="请选择日期"></el-input>
+            </el-form-item>
+            <el-form-item label="适用类型">
+              <el-input v-model="listQuery.adaptType"  placeholder="请选择适用类型"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-row :gutter="24">
+            <el-col :span="6">
+              <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+              </el-button>
+              <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+              </el-button>
+            </el-col>
+          </el-row>
             <br>
             <el-row>
                 <el-col :span="24">
@@ -23,9 +49,19 @@
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
-            <el-table-column label="法律法规名称">
+            <el-table-column label="文件标题">
                 <template slot-scope="scope">
                     {{scope.row.lawName}}
+                </template>
+            </el-table-column>
+            <el-table-column label="文件类别">
+                <template slot-scope="scope">
+                    {{scope.row.lawCategory}}
+                </template>
+            </el-table-column>
+            <el-table-column label="适用类型">
+                <template slot-scope="scope">
+                    {{scope.row.adaptType}}
                 </template>
             </el-table-column>
             <el-table-column label="制定机关">
@@ -38,9 +74,9 @@
                     {{scope.row.lawNature}}
                 </template>
             </el-table-column>
-            <el-table-column label="时效性（0：无效，1：有效）">
+            <el-table-column label="时效性">
                 <template slot-scope="scope">
-                    {{scope.row.isValid}}
+                    {{scope.row.timeName}}
                 </template>
             </el-table-column>
             <el-table-column label="公布日期">
@@ -48,7 +84,7 @@
                     {{scope.row.publicationDate}}
                 </template>
             </el-table-column>
-            <el-table-column label="备注">
+           <!-- <el-table-column label="备注">
                 <template slot-scope="scope">
                     {{scope.row.remark}}
                 </template>
@@ -57,7 +93,7 @@
                 <template slot-scope="scope">
                     {{scope.row.isDel}}
                 </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/law/statute/update']">{{ $t('button.edit') }}</el-button>
@@ -90,6 +126,16 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="文件类别"  >
+                            <el-input v-model="form.lawCategory" minlength=1></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="适用类型"  >
+                            <el-input v-model="form.adaptType" minlength=1></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
                         <el-form-item label="制定机关"  >
                             <el-input v-model="form.formulateOffice" minlength=1></el-input>
                         </el-form-item>
@@ -100,8 +146,15 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="时效性（0：无效，1：有效）"  >
-                            <el-input v-model="form.isValid" minlength=1></el-input>
+                        <el-form-item label="时效性"  >
+                            <el-select v-model="form.isValid" minlength=1>
+                              <el-option
+                                v-for="item in timeliness"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -109,7 +162,7 @@
                             <el-input v-model="form.publicationDate" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!--<el-col :span="12">
                         <el-form-item label="备注"  >
                             <el-input v-model="form.remark" minlength=1></el-input>
                         </el-form-item>
@@ -118,11 +171,11 @@
                         <el-form-item label="逻辑删除"  >
                             <el-input v-model="form.isDel" minlength=1></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col>-->
                 </el-row>
                 <el-form-item>
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button size="mini" type="primary" @click="save">{{ $t('button.submit') }}</el-button>
+                    <el-button size="mini" @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>

@@ -1,5 +1,6 @@
 import dsaLawStatuteApi from '@/api/dsa/dsaLawStatute'
 import permission from '@/directive/permission/index.js'
+import {getDicts} from "../../../api/system/dict";
 
 export default {
   directives: { permission },
@@ -10,14 +11,19 @@ export default {
       isAdd: true,
       form: {
         lawName:'',
+        lawCategory:'',
+        adaptType:'',
         formulateOffice:'',
         lawNature:'',
         isValid:'',
         publicationDate:'',
         remark:'',
         isDel:'',
-        id: ''
+        id: '',
+        timeliness:'',
       },
+      //判断法律是否有时效
+      timeliness:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -64,13 +70,17 @@ export default {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      })
+      });
+      getDicts("是否").then(response=>{
+        this.timeliness=response.data
+      });
     },
     search() {
       this.fetchData()
     },
     reset() {
       this.listQuery.id = ''
+      this.listQuery.timeName=''
       this.fetchData()
     },
     handleFilter() {
@@ -102,6 +112,8 @@ export default {
     resetForm() {
       this.form = {
         lawName:'',
+        lawCategory:'',
+        adaptType:'',
         formulateOffice:'',
         lawNature:'',
         isValid:'',
@@ -127,6 +139,8 @@ export default {
             const formData = {
                 id:this.form.id,
                 lawName:this.form.lawName,
+                lawCategory:this.form.lawCategory,
+                adaptType:this.form.adaptType,
                 formulateOffice:this.form.formulateOffice,
                 lawNature:this.form.lawNature,
                 isValid:this.form.isValid,

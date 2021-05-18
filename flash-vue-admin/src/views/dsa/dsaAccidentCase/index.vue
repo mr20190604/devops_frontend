@@ -1,15 +1,55 @@
 <template>
     <div class="app-container">
         <div class="block">
-            <el-row  :gutter="20">
-                <el-col :span="4">
-                    <el-input v-model="listQuery.id" size="mini" placeholder="请输入id"></el-input>
-                </el-col>
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
-            </el-row>
+          <el-form label-width="120px" :inline="true" >
+            <el-form-item label="事故名称">
+              <el-input v-model="listQuery.accidentName"  placeholder="请输事故名称"></el-input>
+            </el-form-item>
+            <el-form-item label="事故时间">
+              <el-input v-model="listQuery.accidentTime"  placeholder="请选择时间"></el-input>
+            </el-form-item>
+            <el-form-item label="事故地点">
+              <el-input v-model="listQuery.accidentAddress"  placeholder="请输事故地点"></el-input>
+            </el-form-item>
+            <!--<el-form-item label="死亡人数">
+              <el-select v-model="listQuery.isValid"  placeholder="请输入死亡人数">
+                <el-option
+                  v-for="item in timeliness"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>-->
+            <el-form-item label="事件类型">
+              <el-select v-model="listQuery.accidentType"  placeholder="请选择事件类型">
+                <el-option
+                  v-for="item in accident_type"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="所属行业">
+              <el-select v-model="listQuery.industryId"  placeholder="请选择所属行业">
+                <el-option
+                  v-for="item in industry_type"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <el-row :gutter="24">
+            <el-col :span="6">
+              <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+              </el-button>
+              <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+              </el-button>
+            </el-col>
+          </el-row>
             <br>
             <el-row>
                 <el-col :span="24">
@@ -43,9 +83,9 @@
                     {{scope.row.deathToll}}
                 </template>
             </el-table-column>
-            <el-table-column label="事故类型（字典）">
+            <el-table-column label="事件类型">
                 <template slot-scope="scope">
-                    {{scope.row.accidentType}}
+                    {{scope.row.accidentTypeName}}
                 </template>
             </el-table-column>
             <el-table-column label="事故描述">
@@ -53,16 +93,16 @@
                     {{scope.row.accidentDesc}}
                 </template>
             </el-table-column>
-            <el-table-column label="所属行业（字典）">
+            <el-table-column label="所属行业">
                 <template slot-scope="scope">
-                    {{scope.row.industryId}}
+                    {{scope.row.industryTypeName}}
                 </template>
             </el-table-column>
-            <el-table-column label="逻辑删除">
+           <!-- <el-table-column label="逻辑删除">
                 <template slot-scope="scope">
                     {{scope.row.isDel}}
                 </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/accident/case/update']">{{ $t('button.edit') }}</el-button>
@@ -110,8 +150,15 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="事故类型（字典）"  >
-                            <el-input v-model="form.accidentType" minlength=1></el-input>
+                        <el-form-item label="事件类型"  >
+                            <el-select v-model="form.accidentType" minlength=1>
+                              <el-option
+                                v-for="item in accident_type"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -120,15 +167,22 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="所属行业（字典）"  >
-                            <el-input v-model="form.industryId" minlength=1></el-input>
+                        <el-form-item label="所属行业"  >
+                            <el-select v-model="form.industryId" minlength=1>
+                              <el-option
+                                v-for="item in industry_type"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                   <!-- <el-col :span="12">
                         <el-form-item label="逻辑删除"  >
                             <el-input v-model="form.isDel" minlength=1></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col>-->
                 </el-row>
                 <el-form-item>
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>

@@ -1,5 +1,6 @@
 import dsaAccidentCaseApi from '@/api/dsa/dsaAccidentCase'
 import permission from '@/directive/permission/index.js'
+import {getDicts} from "../../../api/system/dict";
 
 export default {
   directives: { permission },
@@ -17,8 +18,14 @@ export default {
         accidentDesc:'',
         industryId:'',
         isDel:'',
+        accidentTypeName:'',
+        industryTypeName:'',
         id: ''
       },
+      //事故类型
+      accident_type:[],
+      //所属行业
+      industry_type:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -65,7 +72,13 @@ export default {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      })
+      });
+      getDicts("事件类型").then(response=>{
+        this.accident_type=response.data
+      });
+      getDicts("所属行业").then(response=>{
+        this.industry_type=response.data
+      });
     },
     search() {
       this.fetchData()
