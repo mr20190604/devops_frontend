@@ -2,11 +2,16 @@ import dsiParkEmergencyTeamApi from '@/api/emergency/dsiParkEmergencyTeam'
 import permission from '@/directive/permission/index.js'
 import person from '@/api/emergency/dsiParkEmergencyPerson.js'
 import enterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
+import district from '@/components/District/index'
+import {remove, getList, save, update, getDicts} from '@/api/system/dict'
+
+
 
 
 export default {
   directives: { permission,enterprise },
   constant:[person],
+  component:{district},
   data() {
     return {
       formVisible: false,
@@ -29,6 +34,8 @@ export default {
         isDel:'',
         id: ''
       },
+      //应急人员查看dialog展示标识
+      viewVisible:false,
       personVisible: false,
       personTitle: '添加应急人员信息',
       personAdd: true,
@@ -52,6 +59,10 @@ export default {
         id: '',
         relationId:'',
         ids:[],
+        workPlace:'',
+        districtName:'',
+        emergencyContact:'',
+        emergencyTel:''
       },
 
       personList:null,
@@ -60,16 +71,24 @@ export default {
       person_data:[],
       personLoading:true,
       enterprise_list:[],
-
+      //专家下拉数据
+      isExpert:[],
+      //性别
+      sex:[],
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        id: undefined,
+        name:undefined,
+        districtCode:undefined,
+        personContact:undefined,
+
       },
       total: 0,
       list: null,
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      personSelRow:{}
     }
   },
   filters: {
@@ -111,12 +130,25 @@ export default {
       enterprise.queryAll().then(response =>{
         this.enterprise_list = response.data
       })
+
+      getDicts("是否").then(response=>{
+        this.isExpert=response.data
+      });
+      getDicts("性别").then(response=>{
+        this.sex=response.data
+      });
     },
+
     search() {
       this.fetchData()
     },
     reset() {
       this.listQuery.id = ''
+      this.listQuery.name = ''
+      this.listQuery.districtCode = ''
+      this.listQuery.personContact = ''
+      this.listQuery.belongingUnit = ''
+      this.listQuery.address = ''
       this.fetchData()
     },
     handleFilter() {
@@ -167,6 +199,7 @@ export default {
     add() {
       this.resetForm()
       this.personList = null
+      this.person_id_list = []
       this.personAdd = true
       this.formTitle = '添加数据资源一体化子系统-园区应急资源库-应急队伍信息',
       this.formVisible = true
@@ -196,7 +229,6 @@ export default {
                 personContact:this.form.personContact,
                 personTel:this.form.personTel,
                 remark:this.form.remark,
-                isDel:this.form.isDel,
             }
             if(formData.id){
                 dsiParkEmergencyTeamApi.update(formData).then(response => {
@@ -208,11 +240,21 @@ export default {
                     this.formVisible = false
                 })
             }else{
+              //区分应急队伍是新建还是修改，如果是新建，则应急人员id从定义的数组中获取
                 dsiParkEmergencyTeamApi.add(formData).then(response => {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                  var teamId = response.data.id
+                  this.person_id_list.forEach(item =>{
+                    const formData = {
+
+                      teamId:teamId,
+                      personId:item
+                    }
+                    person.addRelation(formData).then()
+                  })
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -279,19 +321,30 @@ export default {
         })
       }
     },initPersonList(teamId) {
-      if(teamId) {
-        person.listForTeamId(teamId).then(response => {
+      //初始化应急人员信息列表
+      if(this.personAdd) {
+        let permission = this.person_id_list.join(",")
+        person.queryListByIds(permission).then(response =>{
           this.personList = response.data
         })
       } else {
-
+        person.listForTeamId(teamId).then(response => {
+          this.personList = response.data
+        })
       }
       this.personLoading = false
     },removePersonItem(record) {
       this.selRow = record
 
       if(this.personAdd) {
-
+        var arr = [];
+        this.person_id_list.forEach(item =>{
+          if (item != record.id) {
+            arr.push(item)
+          }
+        })
+        this.person_id_list = arr;
+        this.initPersonList(null)
       } else {
         if (this.checkSel()) {
           var id = this.selRow.relationId
@@ -322,8 +375,10 @@ export default {
       this.personTitle = '选择应急人员'
       var teamId = this.form.id
       if (this.personAdd) {
-
-
+        let permission = this.person_id_list.join(",")
+        person.queryNotInIds(permission).then(response =>{
+          this.person_data = response.data
+        })
       } else {
         person.queryListData(teamId).then(response =>{
           this.person_data = response.data
@@ -334,6 +389,7 @@ export default {
     },addPerson(){
       var teamId = this.form.id
       if (teamId) {
+        //如果存在teamid则为修改，此时提交直接保存数据到后台数据库，不进行临时保存
         this.personForm.ids.forEach(item =>{
           const relaData = {
             teamId:teamId,
@@ -345,15 +401,25 @@ export default {
 
         })
       } else {
+
         this.personForm.ids.forEach(item =>{
-          this.person_list.push(item)
+          this.person_id_list.push(item)
         })
         this.personVisible = false
         this.initPersonList(teamId)
       }
+    },viewPerson(record) {
+      if (this.checkSel()) {
+        this.personSelRow = record
+        this.personForm = this.personSelRow
+        this.personTitle = '应急人员信息查看'
+        this.viewVisible = true
 
-
-
+        if(this.$refs['personForm'] !== undefined) {
+          this.$refs['personForm'].resetFields()
+        }
+        //如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     }
 
 

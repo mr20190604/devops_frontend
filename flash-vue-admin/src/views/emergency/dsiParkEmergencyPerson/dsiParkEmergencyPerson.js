@@ -1,9 +1,17 @@
 import dsiParkEmergencyPersonApi from '@/api/emergency/dsiParkEmergencyPerson'
 import permission from '@/directive/permission/index.js'
-import {getDicts} from "../../../api/system/dict";
+import district from '@/components/District/index'
+import {remove, getList, save, update, getDicts} from '@/api/system/dict'
+import dsiEnterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
+
+
+
+
 
 export default {
   directives: { permission },
+  constant:[dsiEnterprise],
+  component:{district},
   data() {
     return {
       formVisible: false,
@@ -23,7 +31,13 @@ export default {
         address:'',
         remark:'',
         isDel:'',
-        id: ''
+        id: '',
+        workPlace:'',
+        districtName:'',
+        genderName:'',
+        isExpertName:'',
+        emergencyContact:'',
+        emergencyTel:''
       },
       //是否专家
       isExpert:[],
@@ -32,7 +46,11 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        id: undefined,
+        name:'',
+        districtCode:'',
+        enterpriseId:'',
+        isExpert:''
       },
       total: 0,
       list: null,
@@ -88,6 +106,10 @@ export default {
     },
     reset() {
       this.listQuery.id = ''
+      this.listQuery.name = ''
+      this.listQuery.workPlace = ''
+      this.listQuery.districtCode = ''
+      this.listQuery.isExpert = ''
       this.fetchData()
     },
     handleFilter() {
@@ -162,6 +184,9 @@ export default {
                 address:this.form.address,
                 remark:this.form.remark,
                 isDel:this.form.isDel,
+                workPlace: this.form.workPlace,
+                emergencyContact:this.form.emergencyContact,
+                emergencyTel:this.form.emergencyTel
             }
             if(formData.id){
                 dsiParkEmergencyPersonApi.update(formData).then(response => {

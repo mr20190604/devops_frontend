@@ -61,5 +61,21 @@ export default {
       method: 'post',
       params
     })
-  },
+  },queryNotInIds:function(arr){
+    return request({
+      url:'/park/emergency/person/queryNotInIds',
+      method:'get',
+      params:{
+        personIds:arr
+      }
+    })
+  },queryListByIds:function(arr){
+    return request({
+      url:'/park/emergency/person/queryListByIds',
+      method:'get',
+      params:{
+        personIds:arr
+      }
+    })
+  }
 }
