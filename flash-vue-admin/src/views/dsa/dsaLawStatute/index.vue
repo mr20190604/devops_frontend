@@ -6,10 +6,24 @@
               <el-input v-model="listQuery.lawName"  placeholder="请输文件标题"></el-input>
             </el-form-item>
             <el-form-item label="制定机关">
-              <el-input v-model="listQuery.formulateOffice"  placeholder="请输制定机关"></el-input>
+              <el-select v-model="listQuery.formulateOffice"  placeholder="请选择制定机关">
+                <el-option
+                  v-for="item in formulateOffice_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="法律性质">
-              <el-input v-model="listQuery.lawNature"  placeholder="请输法律性质"></el-input>
+              <el-select v-model="listQuery.lawNature"  placeholder="请选择法律性质">
+                <el-option
+                  v-for="item in lawNature_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="时效性">
               <el-select v-model="listQuery.isValid"  placeholder="请选择时效性">
@@ -22,11 +36,11 @@
               </el-select>
             </el-form-item>
             <el-form-item label="公布日期">
-              <el-input v-model="listQuery.publicationDate"  placeholder="请选择日期"></el-input>
+              <el-date-picker type="date" v-model="listQuery.publicationDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="请选择日期"></el-date-picker>
             </el-form-item>
-            <el-form-item label="适用类型">
-              <el-input v-model="listQuery.adaptType"  placeholder="请选择适用类型"></el-input>
-            </el-form-item>
+            <!--<el-form-item label="适用类型">-->
+              <!--<el-input v-model="listQuery.adaptType"  placeholder="请选择适用类型"></el-input>-->
+            <!--</el-form-item>-->
           </el-form>
           <el-row :gutter="24">
             <el-col :span="6">
@@ -40,7 +54,6 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/law/statute/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/law/statute/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/law/statute/delete']">{{ $t('button.delete') }}</el-button>
                 </el-col>
             </el-row>
@@ -49,29 +62,26 @@
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          >
+
+          </el-table-column>
             <el-table-column label="文件标题">
                 <template slot-scope="scope">
                     {{scope.row.lawName}}
                 </template>
             </el-table-column>
-            <el-table-column label="文件类别">
-                <template slot-scope="scope">
-                    {{scope.row.lawCategory}}
-                </template>
-            </el-table-column>
-            <el-table-column label="适用类型">
-                <template slot-scope="scope">
-                    {{scope.row.adaptType}}
-                </template>
-            </el-table-column>
             <el-table-column label="制定机关">
                 <template slot-scope="scope">
-                    {{scope.row.formulateOffice}}
+                    {{scope.row.formulateOfficeName}}
                 </template>
             </el-table-column>
             <el-table-column label="法律性质">
                 <template slot-scope="scope">
-                    {{scope.row.lawNature}}
+                    {{scope.row.lawNatureName}}
                 </template>
             </el-table-column>
             <el-table-column label="时效性">
@@ -126,23 +136,29 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="文件类别"  >
-                            <el-input v-model="form.lawCategory" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="适用类型"  >
-                            <el-input v-model="form.adaptType" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
                         <el-form-item label="制定机关"  >
-                            <el-input v-model="form.formulateOffice" minlength=1></el-input>
+                            <el-select v-model="form.formulateOffice" minlength=1>
+                              <el-option
+                                v-for="item in formulateOffice_list"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="法律性质"  >
-                            <el-input v-model="form.lawNature" minlength=1></el-input>
+                            <el-select v-model="form.lawNature" minlength=1>
+
+                              <el-option
+                                v-for="item in lawNature_list"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -159,19 +175,29 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="公布日期"  >
-                            <el-input v-model="form.publicationDate" minlength=1></el-input>
+                            <el-date-picker type="date" v-model="form.publicationDate" minlength=1
+                            format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss"
+                            ></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <!--<el-col :span="12">
-                        <el-form-item label="备注"  >
-                            <el-input v-model="form.remark" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="逻辑删除"  >
-                            <el-input v-model="form.isDel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
+                  <el-col span="12">
+                    <el-form-item label="选择文件">
+                      <el-upload
+                        v-model="form.fileId"
+                        class="upload-demo"
+                        :action="uploadUrl"
+                        :headers="uploadHeaders"
+                        :on-change="handleChange"
+                        :file-list="form.fileInfo"
+                        :on-success="uploadSuccess"
+
+                      >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" >最大上传大小10Mb</div>
+                      </el-upload>
+                    </el-form-item>
+                  </el-col>
+
                 </el-row>
                 <el-form-item>
                     <el-button size="mini" type="primary" @click="save">{{ $t('button.submit') }}</el-button>
