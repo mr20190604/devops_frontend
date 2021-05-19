@@ -73,13 +73,14 @@
           >
           </el-table-column>
 
-            <el-table-column label="报警设备">
+            <el-table-column label="设备名称">
                 <template slot-scope="scope">
-                    {{scope.row.equipmentId}}
+                    {{scope.row.equipment.equipmentName}}
                 </template>
             </el-table-column>
           <el-table-column label="设备编号">
             <template slot-scope="scope">
+              {{scope.row.equipment.equipmentCode}}
             </template>
           </el-table-column>
             <el-table-column label="报警类型">
@@ -89,15 +90,13 @@
             </el-table-column>
           <el-table-column label="报警位置">
             <template slot-scope="scope">
-
+              {{scope.row.equipment.pointLocation}}
             </template>
           </el-table-column>
 
           <el-table-column label="报警等级">
-
             <template slot-scope="scope" >
-
-              {{scope.row.alarmLevel}}
+              {{scope.row.alarmLevelName}}
             </template>
           </el-table-column>
           <el-table-column label="报警值">
