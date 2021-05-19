@@ -91,7 +91,7 @@
 
             <el-table-column label="附件">
                 <template slot-scope="scope">
-                  <template v-if="scope.row.fileId != null">{{scope.row.fileInfo.originalFileName}}</template>
+                  <template v-if="scope.row.fileId != null || scope.row.fileId != ''">{{scope.row.fileInfo.originalFileName}}</template>
                 </template>
             </el-table-column>
             <el-table-column label="登记人">
