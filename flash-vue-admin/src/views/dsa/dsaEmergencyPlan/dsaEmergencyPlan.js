@@ -1,6 +1,8 @@
 import dsaEmergencyPlanApi from '@/api/dsa/dsaEmergencyPlan'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
+import { getApiUrl } from '@/utils/utils'
+import { getToken } from '@/utils/auth'
 
 export default {
   directives: { permission },
@@ -8,6 +10,12 @@ export default {
     return {
       formVisible: false,
       formTitle: '添加',
+      //上传路径
+      uploadUrl:'',
+      //后台token
+      uploadHeaders: {
+        'Authorization': ''
+      },
       isAdd: true,
       form: {
         planName:'',
@@ -21,7 +29,8 @@ export default {
         isDel:'',
         industryName:'',
         planTypeName:'',
-        id: ''
+        id: '',
+        fileInfo:''
       },
       //附件集合
       fileList:[],
@@ -70,6 +79,8 @@ export default {
       this.fetchData()
     },
     fetchData() {
+      this.uploadUrl = getApiUrl() + '/file'
+      this.uploadHeaders['Authorization'] = getToken()
       this.listLoading = true
         dsaEmergencyPlanApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
@@ -88,6 +99,10 @@ export default {
     },
     reset() {
       this.listQuery.id = ''
+      this.listQuery.planName = ''
+      this.listQuery.industryId = ''
+      this.listQuery.planUnit = ''
+      this.listQuery.planTypeId = ''
       this.fetchData()
     },
     handleFilter() {
@@ -129,10 +144,12 @@ export default {
         fileId:'',
         register:'',
         isDel:'',
-        id: ''
+        id: '',
       }
     },
     add() {
+      this.resetForm()
+      this.fileList = []
       this.formTitle = '添加',
       this.formVisible = true
       this.isAdd = true
@@ -197,6 +214,16 @@ export default {
     },
     edit() {
       if (this.checkSel()) {
+        var arr = [];
+        if (this.selRow.fileInfo)  {
+          arr.push({
+            "url":"",
+            "name":this.selRow.fileInfo.originalFileName,
+            "id":this.selRow.fileId,
+            "status":"success",
+          })
+        }
+        this.fileList = arr
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '编辑'
@@ -235,6 +262,22 @@ export default {
         }).catch(() => {
         })
       }
+    },
+    handleChangeUpload(file,fileList){
+      this.fileList = fileList.slice(-1)
+    },
+    uploadSuccess(response) {
+      if (response.code === 20000) {
+        this.form.fileId = response.data.id
+      } else {
+        this.$message({
+          message: this.$t('common.uploadError'),
+          type: 'error'
+        })
+      }
+
+    },removeFile(file){
+      this.form.fileId = ''
     }
 
   }

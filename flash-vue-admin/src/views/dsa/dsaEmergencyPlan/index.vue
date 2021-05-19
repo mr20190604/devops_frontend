@@ -51,6 +51,13 @@
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
+
+          <el-table-column
+          type="index"
+          width="50px"
+          label="序号"
+          >
+          </el-table-column>
             <el-table-column label="预案名称">
                 <template slot-scope="scope">
                     {{scope.row.planName}}
@@ -81,9 +88,10 @@
                     {{scope.row.editorDate}}
                 </template>
             </el-table-column>
+
             <el-table-column label="附件">
                 <template slot-scope="scope">
-                    {{scope.row.fileId}}
+                  <template v-if="scope.row.fileId != null">{{scope.row.fileInfo.originalFileName}}</template>
                 </template>
             </el-table-column>
             <el-table-column label="登记人">
@@ -91,11 +99,7 @@
                     {{scope.row.register}}
                 </template>
             </el-table-column>
-           <!-- <el-table-column label="逻辑删除">
-                <template slot-scope="scope">
-                    {{scope.row.isDel}}
-                </template>
-            </el-table-column>-->
+
             <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/emergency/plan/update']">{{ $t('button.edit') }}</el-button>
@@ -165,12 +169,17 @@
                         <el-form-item label="编制时间"  >
                             <el-date-picker v-model="form.editorDate"  class="date_picker"
                                             :picker-options="pickerOptions"
-                                            value-format="yyyy/MM/dd"  minlength=1></el-date-picker>
+                                            value-format="yyyy-MM-dd"  minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
+
+                  <el-col :span="12">
+                    <el-form-item label="登记人"  >
+                      <el-input v-model="form.register" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
                     <el-col :span="12">
                         <el-form-item label="选择文件"  >
-                          {{form.fileList}}
                           <el-upload
                             :action="uploadUrl"
                             :headers="uploadHeaders"
@@ -184,16 +193,7 @@
                           </el-upload>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="登记人"  >
-                            <el-input v-model="form.register" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                   <!-- <el-col :span="12">
-                        <el-form-item label="逻辑删除"  >
-                            <el-input v-model="form.isDel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
+
                 </el-row>
                 <el-form-item>
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>

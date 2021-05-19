@@ -285,7 +285,6 @@ export default {
     },
     handleChangeUpload(file,fileList){
       this.fileList = fileList.slice(-1)
-      console.log(this.fileList)
     },
     uploadSuccess(response) {
       if (response.code === 20000) {
