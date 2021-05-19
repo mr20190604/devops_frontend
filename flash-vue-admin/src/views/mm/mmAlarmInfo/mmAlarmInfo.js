@@ -31,12 +31,44 @@ export default {
         isGenEvent:'',
         auditTime:'',
         isDel:'',
-        id: ''
+        id: '',
+        auditStatus:''
       },
+      check_list:
+        [
+          {
+          value:0,
+          label:'未审核'
+          },
+          {
+           value:1,
+           label:'已审核'
+          }
+        ],
+      feedback_list:
+        [
+          {
+            value:0,
+            label:'未处置'
+          },
+          {
+            value:1,
+            label:'已处置'
+          }
+        ],
+
+
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        id: undefined,
+        equipCode:undefined,
+        alarmLevel:undefined,
+        startTime:undefined,
+        endTime:undefined,
+        monitorType:undefined,
+        isAudit:undefined,
+        isFeedBack:undefined
       },
       total: 0,
       list: null,
@@ -59,10 +91,6 @@ export default {
     //表单验证
     rules() {
       return {
-        // cfgName: [
-        //   { required: true, message: this.$t('config.name') + this.$t('common.isRequired'), trigger: 'blur' },
-        //   { min: 3, max: 2000, message: this.$t('config.name') + this.$t('config.lengthValidation'), trigger: 'blur' }
-        // ]
       }
     }
   },
@@ -86,6 +114,13 @@ export default {
     },
     reset() {
       this.listQuery.id = ''
+      this.listQuery.equipCode=''
+      this.listQuery.alarmLevel=''
+      this.listQuery.startTime=''
+      this.listQuery.endTime=''
+      this.listQuery.monitorType=''
+      this.listQuery.isAudit=''
+      this.listQuery.isFeedBack=''
       this.fetchData()
     },
     handleFilter() {

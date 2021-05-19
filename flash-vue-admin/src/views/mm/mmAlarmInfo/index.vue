@@ -1,10 +1,52 @@
 <template>
     <div class="app-container">
         <div class="block">
+          <el-form label-width="120px" :inline="true">
+            <el-form-item label="设备编号">
+              <el-input v-model="listQuery.equipCode"  placeholder="请输入编号"></el-input>
+            </el-form-item>
+
+            <el-form-item label="报警等级">
+              <dict-select v-model="listQuery.alarmLevel" dict-name="报警等级" placeholder="--请选择--"></dict-select>
+            </el-form-item>
+
+            <el-form-item label="报警时间">
+              <el-date-picker type="datetime" v-model="listQuery.startTime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
+              <el-date-picker type="datetime" v-model="listQuery.endTime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
+            </el-form-item>
+
+            <el-form-item label="设备类型">
+              <el-select v-model="listQuery.monitorType"  placeholder="--请选择--">
+
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="审核状态">
+              <el-select v-model="listQuery.isAudit"  placeholder="--请选择--">
+                <el-option
+                  v-for="item in check_list"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="处置状态">
+              <el-select v-model="listQuery.isFeedBack"  placeholder="--请选择--">
+                <el-option
+                  v-for="item in feedback_list"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+
+          </el-form>
             <el-row  :gutter="20">
-                <el-col :span="4">
-                    <el-input v-model="listQuery.id" size="mini" placeholder="请输入id"></el-input>
-                </el-col>
                 <el-col :span="6">
                     <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
                     <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
@@ -17,7 +59,6 @@
                     <el-button type="primary" size="mini"  icon="el-icon-plus" @click.native="edit" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>
                     <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="remove" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
                   <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="remove" v-permission="['/mmAlarmInfo/event']">生成事件</el-button>
-
                 </el-col>
             </el-row>
         </div>
@@ -37,9 +78,8 @@
                     {{scope.row.equipmentId}}
                 </template>
             </el-table-column>
-          <el-table-column label="编号">
+          <el-table-column label="设备编号">
             <template slot-scope="scope">
-              {{scope.row.alarmCode}}
             </template>
           </el-table-column>
             <el-table-column label="报警类型">
@@ -52,8 +92,11 @@
 
             </template>
           </el-table-column>
+
           <el-table-column label="报警等级">
-            <template slot-scope="scope">
+
+            <template slot-scope="scope" >
+
               {{scope.row.alarmLevel}}
             </template>
           </el-table-column>
@@ -68,27 +111,24 @@
                     {{scope.row.alarmTime}}
                 </template>
             </el-table-column>
-          <el-table-column label="审核人">
-            <template slot-scope="scope">
-              {{scope.row.auditPerson}}
-            </template>
-          </el-table-column>
           <el-table-column label="审核状态">
             <template slot-scope="scope">
-              {{scope.row.isAudit}}
+              <template  v-if="scope.row.isAudit === 0">未审核</template>
+              <template  v-if="scope.row.isAudit === 1">已审核</template>
             </template>
           </el-table-column>
             <el-table-column label="处置状态">
-                <template slot-scope="scope">
-                    {{scope.row.isFeedback}}
-                </template>
-            </el-table-column>
-            <el-table-column label="操作">
-                <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-edit" >查看</el-button>
-                  <el-button type="text" size="mini" icon="el-icon-edit" >{{ $t('button.curve') }}</el-button>
+              <template slot-scope="scope">
+                <template  v-if="scope.row.isFeedback === 0">未处置</template>
+                <template  v-if="scope.row.isFeedback === 1">已处置</template>
+              </template>
 
-                  <el-button type="text" size="mini" icon="el-icon-delete"  >定位</el-button>
+            </el-table-column>
+            <el-table-column label="操作" width="200px">
+                <template slot-scope="scope">
+                    <el-button type="text" size="mini">流程</el-button>
+                  <el-button type="text" size="mini">监测曲线</el-button>
+                  <el-button type="text" size="mini">定位</el-button>
                 </template>
             </el-table-column>
         </el-table>
