@@ -11,8 +11,6 @@
                 <el-form-item label="负责人">
               <el-input v-model="listQuery.personContact"  placeholder="请输入负责人"></el-input>
                 </el-form-item>
-
-
                   <el-form-item label="所属企业">
               <el-select v-model="listQuery.belongingUnit"  placeholder="请选择所属企业">
                   <el-option

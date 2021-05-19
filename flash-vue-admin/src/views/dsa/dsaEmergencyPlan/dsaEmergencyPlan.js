@@ -23,6 +23,8 @@ export default {
         planTypeName:'',
         id: ''
       },
+      //附件集合
+      fileList:[],
       //预案类型
       plan_type:[],
       //所属行业
@@ -116,6 +118,8 @@ export default {
     },
     resetForm() {
       this.form = {
+        //附件集合
+        fileList:[],
         planName:'',
         planTypeId:'',
         industryId:'',
@@ -198,11 +202,11 @@ export default {
         this.formTitle = '编辑'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+      }
     },
     removeItem(record){
       this.selRow = record
