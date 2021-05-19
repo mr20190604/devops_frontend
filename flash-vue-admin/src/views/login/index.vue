@@ -1,7 +1,8 @@
 <template>
   <div class="login-container"  style=" background-image: url(./img/login_bj.png);">
 
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"
+             style="position: absolute;top: 240px;right: 350px;width: 400px;" >
         <div class="title-container">
           <h3 class="title">{{ $t('login.title') }}</h3>
           <!--<lang-select class="set-language"/>-->

@@ -49,7 +49,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/enterprise_baseinfo',
+    redirect: '/enterpriseBaseinfo',
     /*children: [{
       path: 'enterprise_info',
       name: 'GIS',
