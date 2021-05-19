@@ -17,10 +17,10 @@
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
+      <li @click="refreshSelectedTag(selectedTag)">{{$t('other.refresh')}}</li>
       <li v-if="!(selectedTag.meta&&selectedTag.meta.affix)" @click="closeSelectedTag(selectedTag)">Close</li>
-      <li @click="closeOthersTags">Close Others</li>
-      <li @click="closeAllTags(selectedTag)">Close All</li>
+      <li @click="closeOthersTags">{{$t('other.closeOthers')}}</li>
+      <li @click="closeAllTags(selectedTag)">{{$t('other.closeAll')}}</li>
     </ul>
   </div>
 </template>
@@ -127,7 +127,8 @@ export default {
         const { fullPath } = view
         this.$nextTick(() => {
           this.$router.replace({
-            path: '/redirect' + fullPath
+            // path: '/redirect' + fullPath
+              path : fullPath + '?'+ new Date().getTime()
           })
         })
       })

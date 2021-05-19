@@ -111,6 +111,11 @@ export default {
     nameInput: '请输入参数名',
     valueInput: '请输入参数值',
     lengthValidation: '长度在 2 到 20 个字符'
+  },
+  other:{
+    refresh: '刷新',
+    closeOthers: '关闭其他',
+    closeAll: '关闭所有',
   }
 }
 

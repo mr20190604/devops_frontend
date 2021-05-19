@@ -19,7 +19,7 @@ export default {
       },
       listQuery: {
         page: 1,
-        limit: 20,
+        limit: 10,
         key: undefined,
         isPoisonHarm: undefined,
         isInflammableExplosive: undefined,

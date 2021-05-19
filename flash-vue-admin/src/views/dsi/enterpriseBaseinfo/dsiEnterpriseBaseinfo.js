@@ -41,7 +41,7 @@ export default {
       },
       listQuery: {
         page: 1,
-        limit: 20,
+        limit: 10,
         id: undefined,
         districtCode: undefined,
         enterpriseName: undefined,
@@ -56,6 +56,8 @@ export default {
       risk_level: [],
       //行政区划下拉数据
       district: [],
+      //所属行业下拉数据
+      industry_list:[],
       total: 0,
       list: null,
       listLoading: true,
@@ -107,6 +109,10 @@ export default {
       });
       getDicts('风险等级').then(response => {
         this.risk_level = response.data
+      })
+
+      getDicts('所属行业').then(response => {
+        this.industry_list = response.data
       })
 
     },

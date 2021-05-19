@@ -57,7 +57,7 @@ export default {
       materialAdd:true,
       listQuery: {
         page: 1,
-        limit: 20,
+        limit: 10,
         districtCode: undefined,
         id: undefined,
         repositoriesName:undefined,

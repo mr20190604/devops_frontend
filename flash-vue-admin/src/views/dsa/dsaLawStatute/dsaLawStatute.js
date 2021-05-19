@@ -1,6 +1,8 @@
 import dsaLawStatuteApi from '@/api/dsa/dsaLawStatute'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
+import { getApiUrl } from '@/utils/utils'
+import { getToken } from '@/utils/auth'
 
 export default {
   directives: { permission },
@@ -9,6 +11,10 @@ export default {
       formVisible: false,
       formTitle: '添加法律法规库',
       isAdd: true,
+      uploadUrl:'',
+      uploadHeaders: {
+        'Authorization': ''
+      },
       form: {
         lawName:'',
         lawCategory:'',
@@ -21,13 +27,30 @@ export default {
         isDel:'',
         id: '',
         timeliness:'',
+        timeName:'',
+        formulateOfficeName:'',
+        lawNatureName:'',
+
+        fileId:'',
+        fileInfo:''
       },
+      //附件集合
+      fileList:[],
       //判断法律是否有时效
       timeliness:[],
+      //法律性质下拉数据
+      lawNature_list:[],
+      //制定机关下拉数据
+      formulateOffice_list:[],
       listQuery: {
         page: 1,
-        limit: 20,
-        id: undefined
+        limit: 10,
+        id: undefined,
+        lawName:undefined,
+        formulateOffice:undefined,
+        lawNature:undefined,
+        isValid:undefined,
+        publicationDate:undefined
       },
       total: 0,
       list: null,
@@ -65,14 +88,22 @@ export default {
       this.fetchData()
     },
     fetchData() {
+      this.uploadUrl = getApiUrl() + '/file'
+      this.uploadHeaders['Authorization'] = getToken()
       this.listLoading = true
         dsaLawStatuteApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
       });
-      getDicts("是否").then(response=>{
+      getDicts("时效性").then(response=>{
         this.timeliness=response.data
+      });
+      getDicts("法律性质").then(response=>{
+        this.lawNature_list=response.data
+      });
+      getDicts("制定机关").then(response=>{
+        this.formulateOffice_list=response.data
       });
     },
     search() {
@@ -81,6 +112,11 @@ export default {
     reset() {
       this.listQuery.id = ''
       this.listQuery.timeName=''
+      this.listQuery.formulateOffice = ''
+      this.listQuery.lawName = ''
+      this.listQuery.lawNature = ''
+      this.listQuery.isValid = ''
+      this.listQuery.publicationDate = ''
       this.fetchData()
     },
     handleFilter() {
@@ -120,10 +156,14 @@ export default {
         publicationDate:'',
         remark:'',
         isDel:'',
-        id: ''
+        id: '',
+        fileInfo:'',
+        fileList:[],
+        fileId:''
       }
     },
     add() {
+      this.resetForm()
       this.formTitle = '添加法律法规库',
       this.formVisible = true
       this.isAdd = true
@@ -147,6 +187,7 @@ export default {
                 publicationDate:this.form.publicationDate,
                 remark:this.form.remark,
                 isDel:this.form.isDel,
+                fileId:this.form.fileId
             }
             if(formData.id){
                 dsaLawStatuteApi.update(formData).then(response => {
@@ -184,10 +225,25 @@ export default {
     },
     editItem(record){
       this.selRow = record
+
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
+        // this.form.fileList = this.form.fileInfo
+        this.resetForm()
+        var arr = [];
+        if (this.selRow.fileInfo)  {
+          arr.push({
+            "url":"",
+            "name":this.selRow.fileInfo.originalFileName,
+            "id":this.selRow.fileId,
+            "status":"success",
+          })
+        }
+
+        this.fileList = arr
+
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '编辑法律法规库'
@@ -226,6 +282,23 @@ export default {
         }).catch(() => {
         })
       }
+    },
+    handleChangeUpload(file,fileList){
+      this.fileList = fileList.slice(-1)
+      console.log(this.fileList)
+    },
+    uploadSuccess(response) {
+      if (response.code === 20000) {
+        this.form.fileId = response.data.id
+      } else {
+        this.$message({
+          message: this.$t('common.uploadError'),
+          type: 'error'
+        })
+      }
+
+    },removeFile(file){
+      this.form.fileId = ''
     }
 
   }

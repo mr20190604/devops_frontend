@@ -6,6 +6,9 @@
 
     <div class="right-menu">
       <template>
+        <a class="right-menu-item" target="_blank" title="GIS" href="http://192.168.1.172:8088/start.html#p=%E7%9B%91%E6%B5%8B%E6%8A%A5%E8%AD%A6_1&id=wzt85l" style="vertical-align: top;">
+          <i style="display: inline-block;width: 18px;height: 18px;background-image:url('/jczx.png');background-position: center;background-size: 18px;margin-top: 16px;"/>
+        </a>
         <search id="header-search" class="right-menu-item" title="快速入口" />
         <a class="right-menu-item" target="_blank" title="文档" href="https://enilu.gitee.io/web-flash" style="vertical-align: top;"><i class="el-icon-document" /></a>
         <lang-select class="international right-menu-item" />

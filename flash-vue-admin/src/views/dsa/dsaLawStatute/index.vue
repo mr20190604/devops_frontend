@@ -108,6 +108,7 @@
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/law/statute/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/law/statute/delete']">{{ $t('button.delete') }}</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-view"  v-permission="['/law/statute/view']">预览</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -180,17 +181,16 @@
                             ></el-date-picker>
                         </el-form-item>
                     </el-col>
-                  <el-col span="12">
+                  <el-col :span="12">
                     <el-form-item label="选择文件">
+                      {{form.fileList}}
                       <el-upload
-                        v-model="form.fileId"
-                        class="upload-demo"
                         :action="uploadUrl"
                         :headers="uploadHeaders"
-                        :on-change="handleChange"
-                        :file-list="form.fileInfo"
+                        :on-change="handleChangeUpload"
                         :on-success="uploadSuccess"
-
+                        :on-remove="removeFile"
+                        :file-list="fileList"
                       >
                         <el-button size="small" type="primary">点击上传</el-button>
                         <div slot="tip" >最大上传大小10Mb</div>
