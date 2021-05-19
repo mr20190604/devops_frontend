@@ -1,7 +1,7 @@
 
 import { isvalidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
-import { getAccount, setAccount, getPwd, setPwd, removeAccount, removePwd} from '@/utils/auth'
+import { getAccount, setAccount, getPwd, setPwd, removeAccount, removePwd } from '@/utils/auth'
 const Base64 = require('js-base64').Base64
 export default {
   name: 'login',
@@ -9,7 +9,7 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
-        callback(new Error(this.$t('login.errorAccount') ))
+        callback(new Error(this.$t('login.errorAccount')))
       } else {
         callback()
       }
@@ -25,7 +25,7 @@ export default {
       loginForm: {
         username: '',
         password: '',
-        remember:''
+        remember: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -33,23 +33,23 @@ export default {
       },
       loading: false,
       pwdType: 'password',
-      redirect:'/'
+      redirect: '/screen'
     }
   },
-  mounted(){
+  mounted() {
     this.init()
-    let account = getAccount();
-    if(account) {
-      this.loginForm.username = account;
-      this.loginForm.password = Base64.decode(getPwd());
-      this.loginForm.remember = true;
+    const account = getAccount()
+    if (account) {
+      this.loginForm.username = account
+      this.loginForm.password = Base64.decode(getPwd())
+      this.loginForm.remember = true
     }
   },
   methods: {
-    init(){
-      let redirect = this.$route.query.redirect
-      console.log('redirect',redirect)
-      if(redirect){
+    init() {
+      const redirect = this.$route.query.redirect
+      console.log('redirect', redirect)
+      if (redirect) {
         this.redirect = redirect
       }
     },
@@ -61,12 +61,12 @@ export default {
       }
     },
     handleLogin() {
-      if(this.loginForm.remember) {
-        setAccount(this.loginForm.username);
-        setPwd(Base64.encode(this.loginForm.password));
+      if (this.loginForm.remember) {
+        setAccount(this.loginForm.username)
+        setPwd(Base64.encode(this.loginForm.password))
       } else {
-        removeAccount();
-        removePwd();
+        removeAccount()
+        removePwd()
       }
       this.$refs.loginForm.validate(valid => {
         if (valid) {

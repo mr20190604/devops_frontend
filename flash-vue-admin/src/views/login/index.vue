@@ -1,12 +1,19 @@
 <template>
-  <div class="login-container"  style=" background-image: url(./img/login_bj.png);">
+  <div class="login-container" style=" background-image: url(./img/login_bj.png);">
 
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"
-             style="position: absolute;top: 240px;right: 350px;width: 400px;" >
-        <div class="title-container">
-          <h3 class="title">{{ $t('login.title') }}</h3>
-          <!--<lang-select class="set-language"/>-->
-        </div>
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+      style="position: absolute;top: 240px;right: 350px;width: 400px;"
+    >
+      <div class="title-container">
+        <h3 class="title">{{ $t('login.title') }}</h3>
+        <!--<lang-select class="set-language"/>-->
+      </div>
 
       <el-form-item prop="username" style="background: #001c5a;opacity:0.5;">
         <span class="svg-container">
@@ -26,12 +33,13 @@
           <svg-icon icon-class="password" />
         </span>
         <el-input
-          :type="pwdType"
           v-model="loginForm.password"
+          :type="pwdType"
           :placeholder="$t('login.password')"
           name="password"
           auto-complete="on"
-          @keyup.enter.native="handleLogin" />
+          @keyup.enter.native="handleLogin"
+        />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
@@ -58,7 +66,6 @@
         </div>
       </div>-->
     </el-form>
-
 
   </div>
 </template>

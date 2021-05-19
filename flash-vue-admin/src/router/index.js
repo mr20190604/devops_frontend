@@ -33,14 +33,18 @@ import Layout from '@/layout'
 export const constantRoutes = [
   {
     path: '/login',
-    name:'login',
-    meta:{
-      title:'login'
+    name: 'login',
+    meta: {
+      title: 'login'
     },
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/screen',
+    component: () => import('@/views/screen/index'),
+    name: '大屏'
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -49,15 +53,14 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/enterpriseBaseinfo',
-    /*children: [{
+    redirect: '/enterpriseBaseinfo'
+    /* children: [{
       path: 'enterprise_info',
       name: 'GIS',
       component: () => import('@/views/dsi/enterprise_baseinfo/index'),
       meta: { title: 'dashboard', icon: 'dashboard', affix: true }
     }]*/
-  }
-  /*{
+  }, /* {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -67,7 +70,7 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'dashboard', icon: 'dashboard', affix: true }
     }]
-  }*/,
+  }*/
   {
     path: '/account',
     component: Layout,
@@ -78,9 +81,7 @@ export const constantRoutes = [
         path: 'profile',
         name: '个人资料',
         component: () => import('@/views/account/profile.vue'),
-
         meta: { title: '个人资料' }
-
       }
     ]
   }

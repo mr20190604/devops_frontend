@@ -17,7 +17,7 @@ import 'echarts/lib/component/visualMap'
 import 'echarts/lib/component/dataset'
 import 'echarts/map/js/world'
 import 'zrender/lib/svg/svg'
-import elementResizeDetectorMaker from "element-resize-detector"
+import elementResizeDetectorMaker from 'element-resize-detector'
 export default {
 
   name: 'dashboard',
