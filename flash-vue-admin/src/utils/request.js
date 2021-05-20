@@ -47,7 +47,7 @@ service.interceptors.response.use(
       store.dispatch('user/updateToken',{token:response.headers.token})
     }
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
+    if (res.code && res.code !== 20000) {
       Message({
         message: res.msg || 'error',
         type: 'error',
