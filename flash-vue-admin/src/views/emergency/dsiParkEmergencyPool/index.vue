@@ -17,6 +17,11 @@
               <el-form-item label="地址">
                 <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
               </el-form-item>
+            <el-form-item style="float: right;margin-right: 100px">
+              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-form-item>
+            <br>
               <el-form-item label="所属企业">
                 <el-select v-model="listQuery.enterpriseId"  placeholder="请选择所属企业">
                   <el-option
@@ -27,20 +32,15 @@
                   </el-option>
                 </el-select>
               </el-form-item>
+          </el-form>
 
-
-              <el-form-item>
-                <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-              </el-form-item>
-
+          <br>
             <el-row>
-              <el-form-item>
+              <el-col :span="24">
                 <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/pool/add']">{{ $t('button.add') }}</el-button>
                 <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/pool/delete']">批量删除</el-button>
-              </el-form-item>
+              </el-col>
             </el-row>
-          </el-form>
         </div>
 
 
@@ -57,7 +57,6 @@
             width="50"
             label="序号"
           >
-          </el-table-column>
           </el-table-column>
             <el-table-column label="资源库名称">
                 <template slot-scope="scope">
@@ -129,7 +128,7 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
+                width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                    <!-- <el-col :span="12">
@@ -165,11 +164,7 @@
                         </el-form-item>
                     </el-col>
 
-                    <el-col :span="12">
-                        <el-form-item label="地址"  >
-                            <el-input v-model="form.address" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
+
                     <el-col :span="12">
                         <el-form-item label="经度"  >
                             <el-input v-model="form.longitude" minlength=1></el-input>
@@ -180,17 +175,21 @@
                             <el-input v-model="form.latitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="地址"  >
+                      <el-input v-model="form.address" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
                     <!--<el-col :span="12">
                         <el-form-item label="逻辑删除"  >
                             <el-input v-model="form.isDel" minlength=1></el-input>
                         </el-form-item>
                     </el-col>-->
                 </el-row>
-                <el-form-item align="center">
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-                </el-form-item>
 
+              <el-form-item align="right" style="margin-right: 50px">
+                <el-button type="primary"  align="center" @click="addMaterial">添加新物资</el-button>
+              </el-form-item>
               <el-table :data="materialList" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                         @current-change="handleCurrentChange">
                 <el-table-column label="物资名称">
@@ -230,13 +229,14 @@
 
                 <el-table-column label="操作">
                   <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editMaterialItem(scope.row)" >{{ $t('button.edit') }}</el-button>
-                    <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeMaterial(scope.row)" >{{ $t('button.delete') }}</el-button>
+                    <el-button type="text"  icon="el-icon-edit" @click.native="editMaterialItem(scope.row)" >{{ $t('button.edit') }}</el-button>
+                    <el-button type="text"  icon="el-icon-delete" @click.native="removeMaterial(scope.row)" >{{ $t('button.delete') }}</el-button>
                   </template>
                 </el-table-column>
               </el-table>
-              <el-form-item align="center">
-                <el-button type="primary" align="center" @click="addMaterial">添加新物资</el-button>
+              <el-form-item id="myself">
+                <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
+                <el-button size="mini" @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
               </el-form-item>
             </el-form>
 
@@ -247,7 +247,7 @@
       <el-dialog
         :title="materialTitle"
         :visible.sync="materialVisible"
-        width="70%">
+        width="60%">
         <el-form ref="materialForm" :model="materialForm" :rules="rules" label-width="120px">
           <el-row>
             <el-col :span="12">
@@ -288,11 +288,11 @@
 
             <el-col :span="12">
               <el-form-item label="有效期"  >
-                <el-date-picker v-model="materialForm.validityTerm" type="date" placeholder="请选择"   value-format="yyyy-MM-dd"></el-date-picker>
+                <el-date-picker v-model="materialForm.validityTerm" type="date" placeholder="请选择"   value-format="yyyy/MM/dd"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item>
+          <el-form-item align="center">
             <el-button type="primary" @click.native="saveMaterial()">{{ $t('button.submit') }}</el-button>
             <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
           </el-form-item>
@@ -308,7 +308,7 @@
 <script src="./dsiParkEmergencyPool.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
+<style rel="stylesheet/scss" lang="scss" >
+    @import "src/styles/commonmyself.scss";
 </style>
 

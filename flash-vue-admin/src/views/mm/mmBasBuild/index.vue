@@ -14,18 +14,19 @@
         <el-form-item label="联系人">
           <el-input v-model="listQuery.contactper" placeholder="请输入联系人" />
         </el-form-item>
-        <el-form-item label="目标类型">
-          <dict-select dict-name="防护目标" placeholder="请选择目标类型" />
-        </el-form-item>
-      </el-form>
-      <el-row :gutter="24">
-        <el-col :span="6">
+        <el-form-item style="float: right;margin-right: 100px">
           <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
           </el-button>
           <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
           </el-button>
-        </el-col>
-      </el-row>
+        </el-form-item>
+        <br>
+        <el-form-item label="目标类型">
+          <dict-select dict-name="防护目标" placeholder="请选择目标类型" />
+        </el-form-item>
+
+
+      </el-form>
       <br>
       <el-row>
         <el-col :span="24">
@@ -155,13 +156,13 @@
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
-      width="70%"
+      width="60%"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
-          <el-col :span="24">
-            <el-form-item label="场所/设施名称">
-              <el-input v-model="form.buildName" minlength="1" placeholder="请输入场所/设施名称" />
+          <el-col :span="12">
+            <el-form-item label="建筑名称">
+              <el-input v-model="form.buildName" minlength="1" placeholder="请输入建筑名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -176,7 +177,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="所在地区">
-              <district v-model="form.districtCode" placeholder="请选择所在地区" />
+              <district  v-model="form.districtCode" placeholder="请选择所在地区" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -204,13 +205,13 @@
               <el-input v-model="form.engrossArea" minlength="1" placeholder="请输入面积" />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="备注">
               <el-input v-model="form.notes" minlength="1" placeholder="请输入备注" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
+        <el-form-item id="myself">
           <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
           <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
@@ -222,7 +223,7 @@
 
 <script src="./mmBasBuild.js"></script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
+<style rel="stylesheet/scss" lang="scss" >
+  @import "src/styles/commonmyself.scss";
 </style>
 
