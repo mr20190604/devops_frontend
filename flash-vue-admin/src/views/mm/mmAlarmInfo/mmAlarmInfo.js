@@ -1,5 +1,6 @@
 import mmAlarmInfoApi from '@/api/mm/mmAlarmInfo'
 import permission from '@/directive/permission/index.js'
+import {getDicts} from "../../../api/system/dict";
 
 export default {
   directives: { permission },
@@ -56,8 +57,10 @@ export default {
             label:'已处置'
           }
         ],
-
-
+      //报警类型
+      alarm_type:[],
+      //报警级别
+      alarm_level:[],
       listQuery: {
         page: 1,
         limit: 20,
@@ -107,7 +110,13 @@ export default {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      })
+      });
+      getDicts("报警类型").then(response=>{
+        this.alarm_type=response.data;
+      });
+      getDicts("报警等级").then(response=>{
+        this.alarm_level=response.data;
+      });
     },
     search() {
       this.fetchData()
@@ -180,6 +189,8 @@ export default {
       this.formTitle = '添加报警基本信息',
       this.formVisible = true
       this.isAdd = true
+      this.form = this.selRow
+      this.form.isAudit=1
 
       if(this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
@@ -195,15 +206,11 @@ export default {
                 districtCode:this.form.districtCode,
                 equipmentId:this.form.equipmentId,
                 monitorType:this.form.monitorType,
-                alarmTime:this.form.alarmTime,
                 alarmValue:this.form.alarmValue,
                 alarmLevel:this.form.alarmLevel,
                 alarmFirstValue:this.form.alarmFirstValue,
-                alarmFirstTime:this.form.alarmFirstTime,
                 alarmMaxValue:this.form.alarmMaxValue,
-                alarmMaxTime:this.form.alarmMaxTime,
                 alarmMaxLevel:this.form.alarmMaxLevel,
-                alarmRelieveTime:this.form.alarmRelieveTime,
                 isAudit:this.form.isAudit,
                 auditOpinion:this.form.auditOpinion,
                 auditPerson:this.form.auditPerson,
@@ -211,7 +218,6 @@ export default {
                 isRelieve:this.form.isRelieve,
                 prejudgment:this.form.prejudgment,
                 isGenEvent:this.form.isGenEvent,
-                auditTime:this.form.auditTime,
                 isDel:this.form.isDel,
             }
             if(formData.id){

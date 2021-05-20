@@ -1,8 +1,6 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row :gutter="20">
-        <el-col :span="24">
           <el-form label-width="120px" :inline="true">
             <el-form-item label="关键字">
               <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
@@ -16,18 +14,18 @@
             <el-form-item label="形状类型">
               <dict-select v-model="listQuery.formId" dict-name="形状类型" />
             </el-form-item>
+            <br>
             <el-form-item label="生产企业">
               <enterprise v-model="listQuery.enterpriseId" />
             </el-form-item>
-          </el-form>
-        </el-col>
-        <el-col :span="24">
+      <el-form-item style="float: right;margin-right: 200px">
           <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
           </el-button>
           <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
           </el-button>
-        </el-col>
-      </el-row>
+      </el-form-item>
+        </el-form>
+
       <br>
       <el-row>
         <el-col :span="24">
@@ -39,21 +37,21 @@
             @click.native="add"
           >{{ $t('button.add') }}
           </el-button>
-          <el-button
+         <!-- <el-button
             v-permission="['/product/info/update']"
             type="primary"
             size="mini"
             icon="el-icon-edit"
             @click.native="edit"
           >{{ $t('button.edit') }}
-          </el-button>
+          </el-button>-->
           <el-button
             v-permission="['/product/info/delete']"
             type="danger"
             size="mini"
             icon="el-icon-delete"
             @click.native="remove"
-          >{{ $t('button.delete') }}
+          >批量删除
           </el-button>
         </el-col>
       </el-row>
@@ -68,7 +66,18 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
-      <el-table-column label="序号" type="index" width="50" />
+      <el-table-column
+        type="selection"
+        width="55"
+        :reserve-selection="true"
+      >
+      </el-table-column>
+      <el-table-column
+        type="index"
+        width="50"
+        label="序号"
+      >
+      </el-table-column>
       <el-table-column label="产品编码">
         <template slot-scope="scope">
           {{ scope.row.productCode }}
@@ -136,7 +145,7 @@
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
-      width="70%"
+      width="60%"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
@@ -171,7 +180,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
+        <el-form-item id="myself">
           <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
           <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
@@ -184,6 +193,6 @@
 <script src="./dsiProductInfo.js"></script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
+  @import "src/styles/commonmyself.scss";
 </style>
 

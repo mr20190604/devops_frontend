@@ -52,6 +52,7 @@ export default {
       return statusMap[status]
     }
   },
+  enterpriseRiskUnitTable:null,
   computed: {
 
     //表单验证

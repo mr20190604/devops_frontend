@@ -60,8 +60,8 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/accident/case/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/accident/case/update']">{{ $t('button.edit') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/accident/case/delete']">{{ $t('button.delete') }}</el-button>
+                    <!--<el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/accident/case/update']">{{ $t('button.edit') }}</el-button>-->
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/accident/case/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -69,7 +69,19 @@
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
-            <el-table-column label="事故名称">
+          <el-table-column
+            type="selection"
+            width="55"
+            :reserve-selection="true"
+          >
+          </el-table-column>
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          >
+          </el-table-column>
+          <el-table-column label="事故名称">
                 <template slot-scope="scope">
                     {{scope.row.accidentName}}
                 </template>

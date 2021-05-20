@@ -157,7 +157,7 @@ export default {
       }
     },
     add() {
-      this.formTitle = '添加数据资源一体化子系统-园区应急资源库-应急人员信息',
+      this.formTitle = '添加应急人员',
       this.formVisible = true
       this.isAdd = true
 
@@ -230,7 +230,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑数据资源一体化子系统-园区应急资源库-应急人员信息'
+        this.formTitle = '编辑应急人员'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {

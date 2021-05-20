@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       formVisible: false,
-      formTitle: '添加数据资源一体化子系统-园区应急资源库-应急资源信息',
+      formTitle: '添加数据资源',
       isAdd: true,
       form: {
         code:'',
@@ -29,7 +29,7 @@ export default {
         id: ''
       },
       materialVisible: false,
-      materialTitle: '添加数据资源一体化子系统-园区应急资源库-应急资源信息',
+      materialTitle: '添加数据资源',
       materialForm:{
         code:'',
         materialName:'',
@@ -188,7 +188,7 @@ export default {
       this.resetForm()
       this.materialList = null
       this.materialAdd = true
-      this.formTitle = '添加数据资源一体化子系统-园区应急资源库-应急资源信息',
+      this.formTitle = '添加应急资源库',
       this.formVisible = true
       this.isAdd = true
 
@@ -263,7 +263,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑数据资源一体化子系统-园区应急资源库-应急资源信息'
+        this.formTitle = '编辑应急资源库'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {

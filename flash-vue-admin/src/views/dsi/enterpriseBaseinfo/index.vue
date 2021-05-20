@@ -23,7 +23,7 @@
               <el-form-item  label="地址">
                 <el-input v-model="listQuery.enterpriseAddress"  placeholder="请输入所在地址"></el-input>
               </el-form-item>
-
+          <br>
               <el-form-item  label="法人">
                 <el-input v-model="listQuery.legalPerson"  placeholder="请输入法人名称"></el-input>
               </el-form-item>
@@ -39,7 +39,7 @@
                 </el-select>
               </el-form-item>
 
-              <el-form-item>
+              <el-form-item style="float: right;margin-right: 200px">
                 <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
                 <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
               </el-form-item>
@@ -51,7 +51,7 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/enterpriseBaseinfo/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/enterpriseBaseinfo/delete']">{{ $t('button.delete') }}</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/enterpriseBaseinfo/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -151,7 +151,7 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
+                width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
 
@@ -262,7 +262,7 @@
                     </el-col>
 
                 </el-row>
-                <el-form-item>
+                <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
@@ -275,7 +275,7 @@
 <script src="./dsiEnterpriseBaseinfo.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
+<style rel="stylesheet/scss" lang="scss" >
+    @import "src/styles/commonmyself.scss";
 </style>
 

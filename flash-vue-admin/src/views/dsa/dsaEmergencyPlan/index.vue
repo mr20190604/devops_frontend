@@ -42,8 +42,8 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/emergency/plan/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/emergency/plan/update']">{{ $t('button.edit') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/emergency/plan/delete']">{{ $t('button.delete') }}</el-button>
+                    <!--<el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/emergency/plan/update']">{{ $t('button.edit') }}</el-button>-->
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/emergency/plan/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -51,14 +51,19 @@
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
-
           <el-table-column
-          type="index"
-          width="50px"
-          label="序号"
+            type="selection"
+            width="55"
+            :reserve-selection="true"
           >
           </el-table-column>
-            <el-table-column label="预案名称">
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          >
+          </el-table-column>
+          <el-table-column label="预案名称">
                 <template slot-scope="scope">
                     {{scope.row.planName}}
                 </template>
@@ -88,7 +93,6 @@
                     {{scope.row.editorDate}}
                 </template>
             </el-table-column>
-
             <el-table-column label="附件">
                 <template slot-scope="scope">
                   <template v-if="scope.row.fileId != null || scope.row.fileId != ''">{{scope.row.fileInfo.originalFileName}}</template>
@@ -180,6 +184,7 @@
                   </el-col>
                     <el-col :span="12">
                         <el-form-item label="选择文件"  >
+                          {{form.fileList}}
                           <el-upload
                             :action="uploadUrl"
                             :headers="uploadHeaders"

@@ -35,7 +35,7 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/team/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/team/delete']">{{ $t('button.delete') }}</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/team/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -44,10 +44,17 @@
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
           <el-table-column
+            type="selection"
+            width="55"
+            :reserve-selection="true"
+          >
+          </el-table-column>
+          <el-table-column
             type="index"
             width="50"
             label="序号"
           >
+          </el-table-column>
           </el-table-column>
             <el-table-column label="队伍名称">
                 <template slot-scope="scope">

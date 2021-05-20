@@ -147,7 +147,7 @@ export default {
       }
     },
     add() {
-      this.formTitle = '添加园区应急车辆',
+      this.formTitle = '添加应急车辆',
       this.formVisible = true
       this.isAdd = true
 
@@ -217,7 +217,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑园区应急车辆'
+        this.formTitle = '编辑应急车辆'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {

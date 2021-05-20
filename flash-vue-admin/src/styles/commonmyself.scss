@@ -1,0 +1,74 @@
+.block {
+  padding: 10px 0px;
+}
+
+.el-form-item {
+  margin-bottom: 20px;
+}
+
+.flash-table-expand {
+  font-size: 0;
+}
+#myself{
+  text-align: center;
+}
+
+#myself .el-form-item__content{
+  margin: 0 !important;
+}
+.el-select {
+  width: 200px;
+}
+.el-input{
+  width: 200px;
+  height: 35px;
+  line-height: 35px;
+}
+.el-input>input{
+  height: 35px;
+  line-height: 35px;
+}
+.flash-table-expand {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+
+.user {
+  padding: 10px;
+}
+
+.user > strong {
+  color: #777;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.user > small {
+  color: #9E9E9E;
+}
+
+.user-content {
+  box-shadow: 2px 2px 4px #edecec;
+  min-height: 500px;
+}
+
+.user-content > .profile {
+  background: #edecec;
+  height: 500px;
+  width: 220px;
+}
+
+.user-content > .profile > img {
+  width: 100%;
+}
+
+.user-content > .profile > p {
+  padding: 0 15px;
+}
+
+.el-form--inline .el-input{
+  width: 200px;
+  height: 35px;
+}
+

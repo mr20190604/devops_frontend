@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="block">
       <el-form label-width="120px" :inline="true">
-        <el-form-item label="场所/设施名称">
-          <el-input v-model="listQuery.buildName" placeholder="请输入场所/设施名称" />
+        <el-form-item label="建筑名称">
+          <el-input v-model="listQuery.buildName" placeholder="请输入建筑名称" />
         </el-form-item>
         <el-form-item label="所在地区">
           <district v-model="listQuery.districtCode" placeholder="请选择所在地区" />
@@ -12,7 +12,7 @@
           <dict-select dict-name="防护等级" />
         </el-form-item>
         <el-form-item label="联系人">
-          <el-input v-model="listQuery.contactper" placeholder="请输入联系人(模糊查询)" />
+          <el-input v-model="listQuery.contactper" placeholder="请输入联系人" />
         </el-form-item>
         <el-form-item label="目标类型">
           <dict-select dict-name="防护目标" placeholder="请选择目标类型" />
@@ -37,21 +37,21 @@
             @click.native="add"
           >{{ $t('button.add') }}
           </el-button>
-          <el-button
+         <!-- <el-button
             v-permission="['/bas/build/update']"
             type="primary"
             size="mini"
             icon="el-icon-edit"
             @click.native="edit"
           >{{ $t('button.edit') }}
-          </el-button>
+          </el-button>-->
           <el-button
             v-permission="['/bas/build/delete']"
             type="danger"
             size="mini"
             icon="el-icon-delete"
             @click.native="remove"
-          >{{ $t('button.delete') }}
+          >批量删除
           </el-button>
         </el-col>
       </el-row>
@@ -66,8 +66,19 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
-      <el-table-column label="序号" type="index" width="50" />
-      <el-table-column label="场所/设施名称">
+      <el-table-column
+        type="selection"
+        width="55"
+        :reserve-selection="true"
+      >
+      </el-table-column>
+      <el-table-column
+        type="index"
+        width="50"
+        label="序号"
+      >
+      </el-table-column>
+      <el-table-column label="建筑名称">
         <template slot-scope="scope">
           {{ scope.row.buildName }}
         </template>

@@ -21,8 +21,8 @@
       <el-row>
         <el-col :span="24">
           <el-button v-permission="['/manager/event/add']" type="success" size="mini" icon="el-icon-plus" @click.native="add">{{ $t('button.add') }}</el-button>
-          <el-button v-permission="['/manager/event/update']" type="primary" size="mini" icon="el-icon-edit" @click.native="edit">{{ $t('button.edit') }}</el-button>
-          <el-button v-permission="['/manager/event/delete']" type="danger" size="mini" icon="el-icon-delete" @click.native="remove">{{ $t('button.delete') }}</el-button>
+         <!-- <el-button v-permission="['/manager/event/update']" type="primary" size="mini" icon="el-icon-edit" @click.native="edit">{{ $t('button.edit') }}</el-button>-->
+          <el-button v-permission="['/manager/event/delete']" type="danger" size="mini" icon="el-icon-delete" @click.native="remove">批量删除</el-button>
         </el-col>
       </el-row>
     </div>
@@ -36,7 +36,18 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
-      <el-table-column label="序号" type="index" width="50" />
+      <el-table-column
+        type="selection"
+        width="55"
+        :reserve-selection="true"
+      >
+      </el-table-column>
+      <el-table-column
+        type="index"
+        width="50"
+        label="序号"
+      >
+      </el-table-column>
       <el-table-column label="事件编码">
         <template slot-scope="scope">
           {{ scope.row.eventCode }}

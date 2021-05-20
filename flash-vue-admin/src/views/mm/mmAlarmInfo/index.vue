@@ -67,9 +67,15 @@
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
           <el-table-column
-            label="序号"
-            width="50px"
+            type="selection"
+            width="55"
+            :reserve-selection="true"
+          >
+          </el-table-column>
+          <el-table-column
             type="index"
+            width="50"
+            label="序号"
           >
           </el-table-column>
 
@@ -116,6 +122,11 @@
               <template  v-if="scope.row.isAudit === 1">已审核</template>
             </template>
           </el-table-column>
+          <el-table-column label="审核人">
+            <template slot-scope="scope">
+              {{scope.row.auditPerson}}
+            </template>
+          </el-table-column>
             <el-table-column label="处置状态">
               <template slot-scope="scope">
                 <template  v-if="scope.row.isFeedback === 0">未处置</template>
@@ -150,7 +161,7 @@
                 width="70%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
-                    <el-col :span="12">
+                    <!--<el-col :span="12">
                         <el-form-item label="编号"  >
                             <el-input v-model="form.alarmCode" minlength=1></el-input>
                         </el-form-item>
@@ -164,43 +175,75 @@
                         <el-form-item label="报警设备"  >
                             <el-input v-model="form.equipmentId" minlength=1></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col>-->
                     <el-col :span="12">
-                        <el-form-item label="报警类型（设备监测的类型-字典）"  >
-                            <el-input v-model="form.monitorType" minlength=1></el-input>
+                        <el-form-item label="报警类型"  >
+                            <el-select v-model="form.monitorType" minlength=1>
+                              <el-option
+                                v-for="item in alarm_type"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="初次报警值"  >
+                      <el-input v-model="form.alarmFirstValue" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="最新报警时间"  >
+                            <el-date-picker v-model="form.alarmTime"
+                                            class="date_picker"
+                                            :picker-options="pickerOptions"
+                                            value-format="yyyy/MM/dd" minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="报警时间"  >
-                            <el-input v-model="form.alarmTime" minlength=1></el-input>
+                        <el-form-item label="报警级别"  >
+                            <el-select v-model="form.alarmLevel" minlength=1>
+                              <el-option
+                                v-for="item in alarm_level"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                              </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="报警实时值"  >
-                            <el-input v-model="form.alarmValue" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="当前报警级别（字典）"  >
-                            <el-input v-model="form.alarmLevel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="初次报警值"  >
-                            <el-input v-model="form.alarmFirstValue" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="初次报警时间"  >
-                            <el-input v-model="form.alarmFirstTime" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
+                  <el-col :span="12">
+                    <el-form-item label="报警实时值"  >
+                      <el-input v-model="form.alarmValue" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
+                 <!-- <el-col :span="12">
+                    <el-form-item label="设备名称"  >
+                      <el-input v-model="form" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="设备位置"  >
+                      <el-input v-model="form" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="设备类型"  >
+                      <el-input v-model="form" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>-->
+                  <el-col :span="12">
+                    <el-form-item label="报警设备"  >
+                      <el-input v-model="form.equipmentId" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
+                    <!--<el-col :span="12">
                         <el-form-item label="最高级别报警值"  >
                             <el-input v-model="form.alarmMaxValue" minlength=1></el-input>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
+                    </el-col>-->
+                   <!-- <el-col :span="12">
                         <el-form-item label="最高级别报警时间"  >
                             <el-input v-model="form.alarmMaxTime" minlength=1></el-input>
                         </el-form-item>
@@ -215,17 +258,26 @@
                             <el-input v-model="form.alarmRelieveTime" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="审核结果（0：否，1：是）"  >
-                            <el-input v-model="form.isAudit" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
+                    -->
+                  <el-col :span="12">
+                    <el-form-item label="审核结果"  >
+                      <el-radio-group v-model="form.isDangerSource" minlength=1>
+                        <el-radio :label="1">是</el-radio>
+                        <el-radio :label="0">否</el-radio>
+                      </el-radio-group>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="审核人"  >
+                      <el-input v-model="form.auditPerson" minlength=1></el-input>
+                    </el-form-item>
+                  </el-col>
                     <el-col :span="12">
                         <el-form-item label="审核意见"  >
                             <el-input v-model="form.auditOpinion" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                   <!-- <el-col :span="12">
                         <el-form-item label="审核人"  >
                             <el-input v-model="form.auditPerson" minlength=1></el-input>
                         </el-form-item>
@@ -259,7 +311,7 @@
                         <el-form-item label="逻辑删除"  >
                             <el-input v-model="form.isDel" minlength=1></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col>-->
                 </el-row>
                 <el-form-item>
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
