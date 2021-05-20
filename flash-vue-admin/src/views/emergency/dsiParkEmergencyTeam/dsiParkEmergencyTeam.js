@@ -68,7 +68,7 @@ export default {
       personList:null,
       person_id_list:[],
       //获取应急人员下拉信息
-      person_data:[],
+      person_data:null,
       personLoading:true,
       enterprise_list:[],
       //专家下拉数据
@@ -88,7 +88,8 @@ export default {
       list: null,
       listLoading: true,
       selRow: {},
-      personSelRow:{}
+      personSelRow:{},
+      multipleSelection: []
     }
   },
   filters: {
@@ -249,7 +250,6 @@ export default {
                   var teamId = response.data.id
                   this.person_id_list.forEach(item =>{
                     const formData = {
-
                       teamId:teamId,
                       personId:item
                     }
@@ -390,23 +390,29 @@ export default {
       var teamId = this.form.id
       if (teamId) {
         //如果存在teamid则为修改，此时提交直接保存数据到后台数据库，不进行临时保存
-        this.personForm.ids.forEach(item =>{
-          const relaData = {
-            teamId:teamId,
-            personId:item
-          }
-          person.addRelation(relaData).then()
-          this.personVisible = false
-          this.initPersonList(teamId)
-
-        })
-      } else {
-
-        this.personForm.ids.forEach(item =>{
-          this.person_id_list.push(item)
-        })
+        //如果选中框为空，则直接关闭页面
+       if(this.multipleSelection) {
+         this.multipleSelection.forEach(item=>{
+           const relaData = {
+             teamId:teamId,
+             personId:item.id
+           }
+           // this.person_id_list.push(item.id)
+           person.addRelation(relaData).then(item=>{
+               this.initPersonList(teamId)
+           })
+         })
+       }
         this.personVisible = false
-        this.initPersonList(teamId)
+
+      } else {
+        if(this.multipleSelection) {
+          this.multipleSelection.forEach(item =>{
+            this.person_id_list.push(item.id)
+          })
+        }
+        this.personVisible = false
+
       }
     },viewPerson(record) {
       if (this.checkSel()) {
@@ -420,6 +426,9 @@ export default {
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
       }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
     }
 
 

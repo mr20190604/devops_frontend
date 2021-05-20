@@ -183,7 +183,6 @@
                     </el-col>
                   <el-col :span="12">
                     <el-form-item label="选择文件">
-                      {{form.fileList}}
                       <el-upload
                         :action="uploadUrl"
                         :headers="uploadHeaders"

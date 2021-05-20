@@ -229,16 +229,17 @@
                         </el-form-item>
                     </el-col>-->
                 </el-row>
-                <el-form-item>
+                <el-form-item align="center">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-                  <el-button @click.native="choosePerson">选择应急人员</el-button>
                 </el-form-item>
               <el-table :data="personList"
                         v-loading="personLoading"
                         element-loading-text="Loading"
                         border fit highlight-current-row
-                        @current-change="handleCurrentChange">
+                        @current-change="handleCurrentChange"
+
+              >
 
                 <el-table-column label="名称">
                   <template slot-scope="scope">
@@ -284,6 +285,9 @@
                   </template>
                 </el-table-column>
               </el-table>
+              <el-form-item align="center">
+                <el-button @click.native="choosePerson">选择应急人员</el-button>
+              </el-form-item>
 
             </el-form>
         </el-dialog>
@@ -292,31 +296,88 @@
         :visible.sync="personVisible"
         width="70%"
       >
-        <el-form ref="form" :model="personForm" :rules="rules" label-width="120px">
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="请选择人员"  >
-                <el-select v-model="personForm.ids" multiple placeholder="请选择">
-                  <el-option
-                    v-for="item in person_data"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
+        <el-form>
+          <el-table
+            :data="person_data"
+            v-loading="personLoading"
+            element-loading-text="Loading"
+            border fit
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column
+            width="50px"
+            type="selection"
+            >
 
-          </el-row>
-          <el-row>
-            <el-form-item>
-              <el-button type="primary" @click="addPerson">{{ $t('button.submit') }}</el-button>
-              <el-button @click.native="personVisible = false">{{ $t('button.cancel') }}</el-button>
-            </el-form-item>
-          </el-row>
+            </el-table-column>
+            <el-table-column label="名称">
+              <template slot-scope="scope">
+                {{scope.row.name}}
+              </template>
+            </el-table-column>
+            <el-table-column label="性别">
+              <template slot-scope="scope">
+                {{scope.row.genderName}}
+              </template>
+            </el-table-column>
+            <el-table-column label="学历">
+              <template slot-scope="scope">
+                {{scope.row.educationName}}
+              </template>
+            </el-table-column>
+            <el-table-column label="职称">
+              <template slot-scope="scope">
+                {{scope.row.professionalName}}
+              </template>
+            </el-table-column>
+            <el-table-column label="专业特长">
+              <template slot-scope="scope">
+                {{scope.row.majorSpecialty}}
+              </template>
+            </el-table-column>
+            <el-table-column label="是否专家">
+              <template slot-scope="scope">
+                {{scope.row.isExpertName}}
+              </template>
+            </el-table-column>
 
-
+            <el-table-column label="联系方式">
+              <template slot-scope="scope">
+                {{scope.row.tel}}
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-form-item align="center">
+            <el-button type="primary" @click="addPerson">{{ $t('button.submit') }}</el-button>
+            <el-button @click.native="personVisible = false">{{ $t('button.cancel') }}</el-button>
+          </el-form-item>
         </el-form>
+
+        <!--<el-form ref="form" :model="personForm" :rules="rules" label-width="120px">-->
+          <!--<el-row>-->
+            <!--<el-col :span="24">-->
+              <!--<el-form-item label="请选择人员"  >-->
+                <!--<el-select v-model="personForm.ids" multiple placeholder="请选择">-->
+                  <!--<el-option-->
+                    <!--v-for="item in person_data"-->
+                    <!--:key="item.id"-->
+                    <!--:label="item.name"-->
+                    <!--:value="item.id">-->
+                  <!--</el-option>-->
+                <!--</el-select>-->
+              <!--</el-form-item>-->
+            <!--</el-col>-->
+
+          <!--</el-row>-->
+          <!--<el-row>-->
+            <!--<el-form-item>-->
+              <!--<el-button type="primary" @click="addPerson">{{ $t('button.submit') }}</el-button>-->
+              <!--<el-button @click.native="personVisible = false">{{ $t('button.cancel') }}</el-button>-->
+            <!--</el-form-item>-->
+          <!--</el-row>-->
+
+
+        <!--</el-form>-->
       </el-dialog>
 
       <el-dialog :title="personTitle"

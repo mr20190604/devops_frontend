@@ -179,10 +179,9 @@
                         </el-form-item>
                     </el-col>-->
                 </el-row>
-                <el-form-item>
+                <el-form-item align="center">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-                  <el-button type="primary" @click="addMaterial">添加新物资</el-button>
                 </el-form-item>
 
               <el-table :data="materialList" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
@@ -229,9 +228,12 @@
                   </template>
                 </el-table-column>
               </el-table>
-
-
+              <el-form-item align="center">
+                <el-button type="primary" align="center" @click="addMaterial">添加新物资</el-button>
+              </el-form-item>
             </el-form>
+
+
         </el-dialog>
 
 
