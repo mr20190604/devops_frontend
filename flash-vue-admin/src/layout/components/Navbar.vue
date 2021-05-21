@@ -6,16 +6,29 @@
 
     <div class="right-menu">
       <template>
+        <!--<div class="right-menu-item" style="border:  2px solid #3db8da; width: 30px;height: 30px;border-radius: 30px; margin-top: 16px; ">
+          <i
+            style="position: absolute;
+            width: 15px;
+            height: 15px;
+            border-top: 4px solid #333;
+            border-right: 4px solid #333;
+            transform:rotate(-135deg);
+            margin-top: 6px;
+            margin-left: 8px;"
+          >
+          </i>
+        </div>-->
         <a class="right-menu-item" target="_blank" title="GIS" href="http://192.168.1.172:8088/start.html#p=%E7%9B%91%E6%B5%8B%E6%8A%A5%E8%AD%A6_1&id=wzt85l" style="vertical-align: top;">
           <i style="display: inline-block;width: 18px;height: 18px;background-image:url('/jczx.png');background-position: center;background-size: 18px;margin-top: 16px;"/>
         </a>
         <search id="header-search" class="right-menu-item" title="快速入口" />
-        <a class="right-menu-item" target="_blank" title="文档" href="https://enilu.gitee.io/web-flash" style="vertical-align: top;"><i class="el-icon-document" /></a>
-        <lang-select class="international right-menu-item" />
+        <!--<a class="right-menu-item" target="_blank" title="文档" href="https://enilu.gitee.io/web-flash" style="vertical-align: top;"><i class="el-icon-document" /></a>
+        <lang-select class="international right-menu-item" />-->
       </template>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img class="user-avatar" src="@/assets/img/avatar.gif">
+          <img class="user-avatar" src="@/assets/img/太阳.png">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -29,6 +42,9 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <!--<template>
+        <div class="right-menu-item">欢迎{{name}}</div>
+      </template>-->
 
     </div>
   </div>
