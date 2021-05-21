@@ -9,7 +9,7 @@ const Base64 = require('js-base64').Base64
  *  url 不带参数url
  *  param   {id:12,name:13}
  *  let params = {idFile:id, fileName:fileName};
-    preview('/file/download', params, fileName);
+ downloadFile('/file/download', params, fileName);
  * */
 export function downloadFile(url, param, fileName) {
   getFileStream(url, param).then(response=>{
