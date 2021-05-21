@@ -2,13 +2,19 @@ import dsiEnterpriseBaseinfoApi from '@/api/dsi/dsiEnterpriseBaseinfo'
 import permission from '@/directive/permission/index.js'
 import {remove, getList, save, update, getDicts} from '@/api/system/dict'
 import district from '@/components/District/index'
-
-
+import materialInfo from '@/views/dsi/dsiProductInfo/index.vue'
+import unitInfo from '@/views/dsi/riskUnit/index.vue'
 
 export default {
   directives: {permission},
+  components:{
+    materialInfo,
+    district,
+    unitInfo
+  },
   data() {
     return {
+      activeName:'first',
       formVisible: false,
       formTitle: '添加数据资源一体化子系统--企业信息',
       isAdd: true,
@@ -65,7 +71,6 @@ export default {
     }
   },
   enterpriseTable:null,
-  components: {district},
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -184,6 +189,7 @@ export default {
     add() {
       this.resetForm()
       this.formTitle = '添加企业信息',
+
         this.formVisible = true
       this.isAdd = true
       if (this.$refs['form'] !== undefined) {
