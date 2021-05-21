@@ -322,6 +322,7 @@ export default {
       this.fileType = 1;
       this.previewTitle = record.fileInfo.originalFileName;
       this.previewFileUrl = preview;
+      debugger
     }
   },
 }

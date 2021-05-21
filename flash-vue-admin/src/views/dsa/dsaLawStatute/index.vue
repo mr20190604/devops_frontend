@@ -196,6 +196,7 @@
                         :headers="uploadHeaders"
                         :on-change="handleChangeUpload"
                         :on-success="uploadSuccess"
+                        accept=".doc,.docx,.pdf,.zip,.rar"
                         :on-remove="removeFile"
                         :file-list="fileList"
                       >

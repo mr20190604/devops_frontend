@@ -149,126 +149,140 @@
                 @next-click="fetchNext">
         </el-pagination>
 
-        <el-dialog
+        <el-dialog class="el-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="60%">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-                <el-row>
+                width="70%">
+          <template>
+            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+              <el-tab-pane label="添加企业信息" name="first" style="visibility: visible">
+
+                <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+                  <el-row>
 
                     <el-col :span="12">
-                        <el-form-item label="企业名称"  >
-                            <el-input v-model="form.enterpriseName" minlength=1></el-input>
-                        </el-form-item>
+                      <el-form-item label="企业名称"  >
+                        <el-input v-model="form.enterpriseName" minlength=1></el-input>
+                      </el-form-item>
                     </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="所属行业"  >
-                      <el-select v-model="form.industryId" minlength=1>
-                        <el-option
-                          v-for="item in industry_list"
-                          :key="item.id"
-                          :label="item.name"
-                          :value="item.id">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="行政区划"  >
-                      <district v-model="form.districtCode"  placeholder="请选择所在地区"/>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="12">
-                    <el-form-item label="单位性质"  >
-                      <el-input v-model="form.enterpriseNature" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
                     <el-col :span="12">
-                        <el-form-item label="企业地址"  >
-                            <el-input v-model="form.enterpriseAddress" minlength=1></el-input>
-                        </el-form-item>
+                      <el-form-item label="所属行业"  >
+                        <el-select v-model="form.industryId" minlength=1>
+                          <el-option
+                            v-for="item in industry_list"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="行政区划"  >
+                        <district v-model="form.districtCode"  placeholder="请选择所在地区"/>
+                      </el-form-item>
                     </el-col>
 
-                  <el-col :span="12">
-                    <el-form-item label="经营状态"  >
-                      <el-select v-model="form.managementSituation" minlength=1>
-                        <el-option
-                          v-for="item in management_status"
-                          :key="item.id"
-                          :label="item.name"
-                          :value="item.id">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="12">
-                    <el-form-item label="从业人数"  >
-                      <el-input v-model="form.employmentNo" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-
                     <el-col :span="12">
-                        <el-form-item label="风险等级"  >
-                            <el-select v-model="form.riskLevel" minlength=1>
-                              <el-option
-                                v-for="item in risk_level"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                              </el-option>
-                            </el-select>
-                        </el-form-item>
+                      <el-form-item label="单位性质"  >
+                        <el-input v-model="form.enterpriseNature" minlength=1></el-input>
+                      </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="法人"  >
-                            <el-input v-model="form.legalPerson" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="注册登记号"  >
-                            <el-input v-model="form.registerCode" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="环保安全负责人"  >
-                            <el-input v-model="form.envSafeLeader" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="应急队伍"  >
-                            <el-input v-model="form.emergencyTeam" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="企业电话"  >
-                            <el-input v-model="form.enterpriseOtel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="企业传真"  >
-                            <el-input v-model="form.enterpriseFax" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="企业应急电话"  >
-                            <el-input v-model="form.enterpriseEmergencyTel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="企业邮箱"  >
-                            <el-input v-model="form.enterpriseEmail" minlength=1></el-input>
-                        </el-form-item>
+                      <el-form-item label="企业地址"  >
+                        <el-input v-model="form.enterpriseAddress" minlength=1></el-input>
+                      </el-form-item>
                     </el-col>
 
-                </el-row>
-                <el-form-item id="myself">
+                    <el-col :span="12">
+                      <el-form-item label="经营状态"  >
+                        <el-select v-model="form.managementSituation" minlength=1>
+                          <el-option
+                            v-for="item in management_status"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+
+                    <el-col :span="12">
+                      <el-form-item label="从业人数"  >
+                        <el-input v-model="form.employmentNo" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+
+                    <el-col :span="12">
+                      <el-form-item label="风险等级"  >
+                        <el-select v-model="form.riskLevel" minlength=1>
+                          <el-option
+                            v-for="item in risk_level"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="法人"  >
+                        <el-input v-model="form.legalPerson" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="注册登记号"  >
+                        <el-input v-model="form.registerCode" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="环保安全负责人"  >
+                        <el-input v-model="form.envSafeLeader" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="应急队伍"  >
+                        <el-input v-model="form.emergencyTeam" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="企业电话"  >
+                        <el-input v-model="form.enterpriseOtel" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="企业传真"  >
+                        <el-input v-model="form.enterpriseFax" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="企业应急电话"  >
+                        <el-input v-model="form.enterpriseEmergencyTel" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="企业邮箱"  >
+                        <el-input v-model="form.enterpriseEmail" minlength=1></el-input>
+                      </el-form-item>
+                    </el-col>
+
+                  </el-row>
+                  <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-                </el-form-item>
+                  </el-form-item>
 
-            </el-form>
+                </el-form>
+              </el-tab-pane>
+              <el-tab-pane label="产品信息" name="second">
+                <materialInfo></materialInfo>
+              </el-tab-pane>
+              <el-tab-pane label="风险单元" name="third">
+                <unitInfo></unitInfo>
+              </el-tab-pane>
+            </el-tabs>
+          </template>
+
         </el-dialog>
     </div>
 </template>

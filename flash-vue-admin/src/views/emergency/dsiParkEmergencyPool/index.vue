@@ -180,11 +180,7 @@
                       <el-input v-model="form.address" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
-                    <!--<el-col :span="12">
-                        <el-form-item label="逻辑删除"  >
-                            <el-input v-model="form.isDel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
+
                 </el-row>
 
               <el-form-item align="right" style="margin-right: 50px">

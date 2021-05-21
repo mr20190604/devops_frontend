@@ -157,7 +157,7 @@
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
-      width="60%"
+      width="70%"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>

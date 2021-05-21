@@ -93,10 +93,11 @@
             </el-table-column>
             <el-table-column label="附件">
                 <template slot-scope="scope">
-                  <template v-if="scope.row.fileId != null || scope.row.fileId != ''">{{scope.row.fileInfo.originalFileName}}</template>
+                  <div style="color: #409EFF" v-if="scope.row.fileId != null || scope.row.fileId != ''" @click="downloadFileINfo(scope.row.fileInfo)">{{scope.row.fileInfo.originalFileName}}</div>
+                  <!--<template v-if="scope.row.fileId != null || scope.row.fileId != ''"></template>-->
                 </template>
             </el-table-column>
-            <el-table-column label="登记人">
+            <el-table-column label="登记人" width="100">
                 <template slot-scope="scope">
                     {{scope.row.register}}
                 </template>
@@ -106,6 +107,7 @@
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/emergency/plan/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/emergency/plan/delete']">{{ $t('button.delete') }}</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-view"  @click.native="previewFile(scope.row)" v-permission="['/law/statute/view']">预览</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -187,6 +189,7 @@
                             :headers="uploadHeaders"
                             :on-change="handleChangeUpload"
                             :on-success="uploadSuccess"
+                            accept=".doc,.docx,.pdf,.zip,.rar"
                             :on-remove="removeFile"
                             :file-list="fileList"
                           >
@@ -204,6 +207,12 @@
 
             </el-form>
         </el-dialog>
+      <el-dialog
+        :title="previewTitle"
+        :visible.sync="previewVisible"
+        width="50%" style="margin-top: 0px">
+        <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl" :fileType="fileType"></preview>
+      </el-dialog>
     </div>
 </template>
 
