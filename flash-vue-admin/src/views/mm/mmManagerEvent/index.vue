@@ -2,16 +2,16 @@
   <div class="app-container">
     <div class="block">
           <el-form label-width="120px" :inline="true">
-            <el-form-item label="关键字">
+            <el-form-item label="关键字：">
               <el-input v-model="listQuery.key" placeholder="编号、名称、地点、描述" />
             </el-form-item>
-            <el-form-item label="事件类型">
+            <el-form-item label="事件类型：">
               <dict-select dict-name="事件类型" />
             </el-form-item>
 
-            <el-form-item style="float: right;margin-right: 100px">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+          <el-form-item class="listSearch">
+            <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
           </el-form-item>
       </el-form>
       <br>
@@ -24,27 +24,11 @@
       </el-row>
     </div>
 
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-      @current-change="handleCurrentChange"
+    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row
+              @current-change="handleCurrentChange"
     >
-      <el-table-column
-        type="selection"
-        width="55"
-        :reserve-selection="true"
-      >
-      </el-table-column>
-      <el-table-column
-        type="index"
-        width="50"
-        label="序号"
-      >
-      </el-table-column>
+      <el-table-column type="selection" width="55" :reserve-selection="true"></el-table-column>
+      <el-table-column type="index" width="50" label="序号" ></el-table-column>
       <el-table-column label="事件编码">
         <template slot-scope="scope">
           {{ scope.row.eventCode }}
@@ -90,35 +74,35 @@
       @next-click="fetchNext"
     />
 
-    <el-dialog
+    <el-dialog class="dialogTitleBackground dialogTitle"
       :title="formTitle"
       :visible.sync="formVisible"
       width="60%"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="事件编码">
+          <el-col :offset="3" :span="10">
+            <el-form-item label="事件编码：" class="formLable">
               <el-input v-model="form.eventCode" minlength="1" placeholder="请输入事件编码" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="事件类型">
+          <el-col :pull="2" :span="10">
+            <el-form-item label="事件类型：" class="formLable">
               <dict-select dict-name="事件类型" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="事件名称">
+          <el-col :offset="3" :span="10">
+            <el-form-item label="事件名称：" class="formLable">
               <el-input v-model="form.eventName" minlength="1" placeholder="请输入事件名称" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="事件地点">
+          <el-col :pull="2" :span="10">
+            <el-form-item label="事件地点：" class="formLable">
               <el-input v-model="form.eventAddress" minlength="1" placeholder="请输入事件地点" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="事件描述">
+          <el-col :offset="3" :span="6">
+            <el-form-item label="事件描述：" class="formLable">
               <el-input v-model="form.eventDesc" minlength="1" placeholder="请输入事件描述" />
             </el-form-item>
           </el-col>

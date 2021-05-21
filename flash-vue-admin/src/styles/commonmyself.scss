@@ -9,6 +9,26 @@
 .flash-table-expand {
   font-size: 0;
 }
+/**列表上的查询位置的按钮*/
+.listSearch   {
+  float: right;
+  padding-right: 10px
+}
+/***/
+.formLable .el-form-item__label{
+  padding: 0 0 0 0 ;
+}
+/**弹框的标题*/
+.dialogTitle .el-dialog__title {
+  font-size: 22px;
+  color: #6e6b66;
+}
+/**弹框的标题背景*/
+.dialogTitleBackground .el-dialog__header {
+  background-color: #c0e1ff;
+  border-radius: 5px 5px 0 0;
+}
+
 #myself{
   text-align: center;
 }
