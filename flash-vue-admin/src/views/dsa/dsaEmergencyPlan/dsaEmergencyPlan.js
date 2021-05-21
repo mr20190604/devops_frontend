@@ -1,17 +1,34 @@
 import dsaEmergencyPlanApi from '@/api/dsa/dsaEmergencyPlan'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
-import { getApiUrl } from '@/utils/utils'
+import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
+import preview from '@/preview/preview.vue'
+
+const Base64 = require('js-base64').Base64
 
 export default {
   directives: { permission },
+  components:{
+    preview
+  },
   data() {
     return {
       formVisible: false,
+      //预览弹窗
+      previewVisible: false,
       formTitle: '添加',
+      previewTitle: '预览',
+      previewStyle:{
+        height:'600px',
+        width: '100%'
+      },
+      previewFileUrl:'',
+      fileType: 1,
       //上传路径
       uploadUrl:'',
+      //下载路径
+      downloadUrl:'',
       //后台token
       uploadHeaders: {
         'Authorization': ''
@@ -77,6 +94,7 @@ export default {
   methods: {
     init() {
       this.fetchData()
+      this.downloadUrl = getApiUrl() + '/file/download?idFile='
     },
     fetchData() {
       this.uploadUrl = getApiUrl() + '/file'
@@ -278,6 +296,17 @@ export default {
 
     },removeFile(file){
       this.form.fileId = ''
+    },
+    previewFile(record){
+      this.previewVisible = true;
+      let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
+      let previewUrl = originUrl + '&fullfilename=' + record.fileInfo.originalFileName;
+      let preview = getPreviewUrl(1)+encodeURIComponent(Base64.encode(previewUrl));
+      this.fileType = 1;
+      this.previewTitle = record.fileInfo.originalFileName;
+      this.previewFileUrl = preview;
+    },downloadFileINfo(record) {
+
     }
 
   }

@@ -2,10 +2,16 @@ import dsiParkEmergencyVehicleApi from '@/api/emergency/dsiParkEmergencyVehicle'
 import dsiEnterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
+import { getApiUrl, getPreviewUrl} from '@/utils/utils'
+import { getToken } from '@/utils/auth'
+import preview from '@/preview/preview.vue'
+
+const Base64 = require('js-base64').Base64
 
 export default {
   directives: { permission },
   constant:[dsiEnterprise],
+  components:{preview},
   data() {
     return {
       formVisible: false,
@@ -42,7 +48,14 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      uploadUrl:'',
+      uploadHeaders: {
+        'Authorization': ''
+      },
+      fileList:[],
+      multiple:true,
+
     }
   },
   filters: {
@@ -73,6 +86,9 @@ export default {
   methods: {
     init() {
       this.fetchData()
+      this.uploadUrl = getApiUrl() + '/file'
+      this.uploadHeaders['Authorization'] = getToken()
+      this.downloadUrl = getApiUrl() + '/file/download?idFile='
     },
     fetchData() {
       dsiEnterprise.queryAll().then(response =>{
@@ -181,6 +197,16 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+
+                  // for (let i = 0; i < this.fileList.length ; i++) {
+                  //   const tempData = {
+                  //     vehicle_id:response.data.id,
+                  //     fileId:this.fileList[i].id,
+                  //     orderNum:i+1
+                  //   }
+                  //   dsiParkEmergencyVehicleApi.addRelation(tempData).then()
+                  // }
+
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -190,6 +216,15 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+
+                  // for (let i = 0; i < this.fileList.length ; i++) {
+                  //   const tempData = {
+                  //     vehicle_id:response.data.id,
+                  //     fileId:this.fileList[i].id,
+                  //     orderNum:i+1
+                  //   }
+                  //   dsiParkEmergencyVehicleApi.addRelation(tempData).then()
+                  // }
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -217,6 +252,21 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
+
+        // var temp = null
+        //
+        // dsiParkEmergencyVehicleApi.queryDataByVehicleId(this.form.id).then(response=>{
+        //   temp = response.data
+        // })
+        //
+        // temp.forEach(item =>{
+        //   this.fileList.push({
+        //     "url":"",
+        //     "name":item.fileInfo.originalFileName,
+        //     "id":item.fileId,
+        //     "status":"success",
+        //   })
+        // })
         this.formTitle = '编辑应急车辆'
         this.formVisible = true
 
@@ -253,7 +303,28 @@ export default {
         }).catch(() => {
         })
       }
-    }
+    },handleChangeUpload(file,fileList){
+      this.fileList = fileList.slice(-10)
+    },
+    uploadSuccess(response) {
+      if (response.code === 20000) {
+        this.form.fileId = response.data.id
+      } else {
+        this.$message({
+          message: this.$t('common.uploadError'),
+          type: 'error'
+        })
+      }
+
+    },removeFile(file){
+      var arr = []
+      this.fileList.forEach(item =>{
+        if (item.id != file.id) {
+          arr.push(item)
+        }
+      })
+      this.fileList = arr
+    },
 
   }
 }

@@ -91,11 +91,19 @@ export default {
       list: null,
       listLoading: true,
       selRow: {},
-      yData:[1,3,5,3,6,8,7,6,9,5,7,9,8,7,5,4,6,9],
+      yData:[4,3,5,3,6,6.5,7,6,8.1,5,7,7.3,7,6,7,5,6,6.7],
       lineData:{
         title: {
           text: '设备监测曲线',
           left: '1%'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          left: '5%',
+          right: '15%',
+          bottom: '10%'
         },
         xAxis: {
           type: 'category',
@@ -107,10 +115,53 @@ export default {
           min:1,
           max:10
         },
+        visualMap: {
+          top: 100,
+          right:1,
+          pieces: [{
+            gt: 0,
+            lte: 8,
+            color: '#93CE07'
+          }, {
+            gt: 8,
+            lte: 9,
+            color: '#FBDB0F'
+          }, {
+            gt: 9,
+            lte: 10,
+            color: '#FC7D02'
+          }],
+          outOfRange: {
+            color: '#999'
+          }
+        },
+        toolbox: {
+          right: 10,
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
+          }
+        },
         series: [{
           // data: [150, 230, 224, 218, 135, 147, 260],
           data:[],
           type: 'line',
+          markLine: {
+            silent: true,
+            lineStyle: {
+              color: '#333'
+            },
+            data: [{
+              yAxis: 8
+            }, {
+              yAxis: 9
+            }, {
+              yAxis: 10
+            }]
+          }
 
         }]
       },
@@ -409,7 +460,10 @@ export default {
       return hours+':'+minutes+':'+second
     },pushData() {
       let timeStr = this.getDateTime()
-      let value = Math.floor(Math.random()*10)+1
+      // let value = Math.floor(Math.random()*10)+1
+      let value = Math.random()*4+4
+      // this.inscrse(value)
+
       this.lineData.xAxis.data.push(timeStr)
       this.lineData.series[0].data.push(value)
       this.$refs.myEchart.resize()
@@ -424,6 +478,10 @@ export default {
       this.yData = arr
       this.lineData.xAxis.data = []
       this.lineData.series[0].data = []
+    },inscrse(value) {
+      if (value >= 8) {
+        value = value - 2
+      }
     }
 
   }

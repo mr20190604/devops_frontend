@@ -29,5 +29,21 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  addReletion:function(params) {
+    return request({
+      url: '/vehicle/file',
+      method: 'post',
+      params
+    })
+  },
+  queryDataByVehicleId:function(vehicleId) {
+    return request({
+      url: '/vehicle/file/queryDataByVehicleId',
+      method: 'get',
+      params:{
+        vehicleId:vehicleId
+      }
+    })
+  },
 }
