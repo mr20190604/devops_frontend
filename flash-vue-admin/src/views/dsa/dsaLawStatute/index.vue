@@ -116,7 +116,7 @@
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/law/statute/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/law/statute/delete']">{{ $t('button.delete') }}</el-button>
-                  <el-button type="text" size="mini" icon="el-icon-view"  v-permission="['/law/statute/view']">预览</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-view"  @click.native="previewFile(scope.row)" v-permission="['/law/statute/view']">预览</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -212,6 +212,12 @@
                 </el-form-item>
 
             </el-form>
+        </el-dialog>
+        <el-dialog
+          :title="previewTitle"
+          :visible.sync="previewVisible"
+          width="50%" style="margin-top: 0px">
+          <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl" :fileType="fileType"></preview>
         </el-dialog>
     </div>
 </template>
