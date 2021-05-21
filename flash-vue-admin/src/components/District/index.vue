@@ -144,11 +144,10 @@ export default {
 
 <style lang="scss">
 
-  $default-height: 38px;
+  $default-height: 33px;
   $mini-height: 26px;
 
-  /*支持el-form的 inline 模式*/
-  .el-form--inline .vue-treeselect {
+ .vue-treeselect {
     width: 200px;
     height: $default-height;
   }

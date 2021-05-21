@@ -13,12 +13,12 @@
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
         {{ tag.name }}
-        <span v-if="tag.path!=='/enterpriseBaseinfo'" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        <span v-if="tag.path!==homePage" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
       <li @click="refreshSelectedTag(selectedTag)">{{ $t('other.refresh') }}</li>
-      <li v-if="selectedTag.path!=='/enterpriseBaseinfo'" @click="closeSelectedTag(selectedTag)">{{ $t('other.close') }}</li>
+      <li v-if="selectedTag.path!==homePage" @click="closeSelectedTag(selectedTag)">{{ $t('other.close') }}</li>
       <li @click="closeOthersTags">{{ $t('other.closeOthers') }}</li>
       <li @click="closeAllTags(selectedTag)">{{ $t('other.closeAll') }}</li>
     </ul>
@@ -37,7 +37,8 @@ export default {
       top: 0,
       left: 0,
       selectedTag: {},
-      affixTags: []
+      affixTags: [],
+      homePage: '/enterpriseBaseinfo'
     }
   },
   computed: {
@@ -72,7 +73,7 @@ export default {
     filterAffixTags(routes, basePath = '/') {
       let tags = []
       routes.forEach(route => {
-        if (route.meta && route.meta.affix) {
+        if (route.path === this.homePage) {
           const tagPath = path.resolve(basePath, route.path)
           tags.push({
             fullPath: tagPath,
