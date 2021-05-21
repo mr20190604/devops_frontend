@@ -34,7 +34,7 @@
                 <span> {{ user.email }}</span>
               </el-form-item>
               <el-form-item label="地址">
-                <span> 浦东大道290弄</span>
+                <span> 合肥市高新区</span>
               </el-form-item>
             </el-form>
           </el-tab-pane>
