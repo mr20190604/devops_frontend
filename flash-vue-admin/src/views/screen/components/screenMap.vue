@@ -9,7 +9,7 @@
     >
       <bm-marker v-for="marker in markers" :key="marker.lng" :position="{lng: marker.lng, lat:marker.lat}" />
     </baidu-map>
-    <div style="position: relative;height: 250px;top:-260px;pointer-events:none;">
+    <div style="position: relative;height: 170px;top:-170px;pointer-events:none;overflow: hidden">
       <div class="subTitle">
         <p>实时预警列表</p>
       </div>
@@ -25,7 +25,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) in data" :key="index" style="text-align: center;">
+          <tr
+            v-for="(item,index) in data"
+            :key="index"
+            style="text-align: center;"
+            :style="{'marginTop':marginTop+'px'}"
+          >
             <td>{{ item.equipment }}</td>
             <td>{{ item.time }}</td>
             <td>{{ item.condition===1?"正常":"异常" }}</td>
@@ -45,61 +50,62 @@ export default {
   name: 'ScreenMap',
   data() {
     return {
+      marginTop: 0,
       data: [
         {
           equipment: 'DQ8274-032',
           time: '12:32:15',
           condition: 0,
           level: 1,
-          description: '经监测,A区域二氧化硫浓度超标',
+          description: '经监测C区域氨气浓度超标',
           rate: 1
         }, {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
+          equipment: 'DQ8274-025',
+          time: '12:32:47',
           condition: 0,
           level: 2,
           description: '经监测,A区域二氧化硫浓度超标',
           rate: 1
         },
         {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
+          equipment: 'DQ8274-027',
+          time: '12:20:16',
           condition: 0,
           level: 2,
-          description: '经监测,A区域二氧化硫浓度超标',
+          description: '经监测, D区域二氧化氮浓度超标',
           rate: 2
         },
         {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
+          equipment: 'DQ8274-045',
+          time: '11:32:46',
           condition: 0,
           level: 3,
-          description: '经监测,A区域二氧化硫浓度超标',
+          description: '经监测,F区域一氧化碳浓度超标',
           rate: 2
         }, {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
+          equipment: 'DQ8274-056',
+          time: '11:12:37',
           condition: 0,
-          level: 3,
-          description: '经监测,A区域二氧化硫浓度超标',
+          level: 2,
+          description: '经监测,E区域甲烷浓度超标',
           rate: 4
         }, {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
+          equipment: 'DQ8274-045',
+          time: '11:20:25',
           condition: 0,
           level: 3,
-          description: '经监测,A区域二氧化硫浓度超标',
+          description: '经监测,B区域乙烯浓度超标',
           rate: 3
         }, {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
+          equipment: 'DQ8274-030',
+          time: '11:08:11',
           condition: 0,
-          level: 3,
+          level: 2,
           description: '经监测,A区域二氧化硫浓度超标',
           rate: 4
         }, {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
+          equipment: 'DQ8274-085',
+          time: '10:45:04',
           condition: 0,
           level: 3,
           description: '经监测,A区域二氧化硫浓度超标',
@@ -131,12 +137,23 @@ export default {
       ]
     }
   },
+  created() {
+    setInterval(this.showWarningData, 50)
+  },
   methods: {
     mapReady({ BMap, map }) {
       // 在node_modules里面的vue-baidu-map/components/map/Map.vue 修改api版本2.0为3.0
       map.setMapStyleV2({
         styleId: 'fe3bc41ca0e11f7dfa8986537af0dca7'
       })
+    },
+    showWarningData() {
+      this.marginTop -= 1
+      if (this.marginTop < -18) {
+        this.data.push(this.data[0])
+        this.data.shift()
+        this.marginTop = 0
+      }
     }
   }
 }

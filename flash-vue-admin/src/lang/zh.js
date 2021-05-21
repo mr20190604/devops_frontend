@@ -112,10 +112,11 @@ export default {
     valueInput: '请输入参数值',
     lengthValidation: '长度在 2 到 20 个字符'
   },
-  other:{
+  other: {
     refresh: '刷新',
+    close: '关闭',
     closeOthers: '关闭其他',
-    closeAll: '关闭所有',
+    closeAll: '关闭所有'
   }
 }
 

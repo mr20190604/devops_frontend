@@ -3,7 +3,7 @@
     <el-col :span="8">
       <p class="iconTitle coveredArea">建造面积</p>
       <p class="info">
-        <span class="quantity">2,818.9</span>
+        <span class="quantity">2,818.45</span>
         <span class="unit">m<sup>2</sup></span>
       </p>
     </el-col>
@@ -11,20 +11,20 @@
       <p class="iconTitle enterpriseNum">企业数量</p>
       <p class="info">
         <span class="quantity">382</span>
-        <span class="unit">栋</span>
+        <span class="unit">家</span>
       </p>
     </el-col>
     <el-col :span="8">
       <p class="iconTitle personNum">园区人口</p>
       <p class="info">
-        <span class="quantity">3,029,929</span>
+        <span class="quantity">3,029</span>
         <span class="unit">人</span>
       </p>
     </el-col>
     <el-col :span="8">
-      <p class="iconTitle realtimeArea">实时监测范围</p>
+      <p class="iconTitle realtimeArea">监测范围</p>
       <p class="info">
-        <span class="quantity">2,818.9</span>
+        <span class="quantity">3,516.95</span>
         <span class="unit">m<sup>2</sup></span>
       </p>
     </el-col>
@@ -38,8 +38,8 @@
     <el-col :span="8">
       <p class="iconTitle equipmentWear">设备损耗</p>
       <p class="info">
-        <span class="quantity dangerText">2,818.9</span>
-        <span class="unit">㎡</span>
+        <span class="quantity dangerText">35</span>
+        <span class="unit">台</span>
       </p>
     </el-col>
   </el-row>
@@ -60,7 +60,7 @@ export default {
   .iconTitle {
     color: rgb(243, 255, 255, 0.8);
     font-size: 16px;
-    padding: 10px 0 10px 70px;
+    padding: 10px 0 10px 55px;
     margin: 0;
 
     &:before {
@@ -116,7 +116,7 @@ export default {
   .unit {
     color: #fff;
     font-size: 14px;
-    margin-left: 20px;
+    margin-left: 10px;
   }
 
   .warningText {

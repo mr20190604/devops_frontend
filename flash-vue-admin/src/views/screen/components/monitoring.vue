@@ -21,7 +21,7 @@ export default {
 <style scoped lang="scss">
 
   .el-col{
-    padding: 10px;
+    padding: 5px 10px 0 10px;
   }
 
   .border{
@@ -30,12 +30,12 @@ export default {
   }
 
   .el-image {
-    margin-left: 8px;
-    margin-top: 8px;
+    padding: 8px 8px 0 8px;
+    width: 100%;
   }
 
   p {
-    margin: 5px 0;
+    margin: 0;
     padding: 0;
     text-align: center;
     color: white;

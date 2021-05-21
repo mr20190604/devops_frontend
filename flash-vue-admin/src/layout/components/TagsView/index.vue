@@ -13,14 +13,14 @@
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
         {{ tag.name }}
-        <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        <span v-if="tag.path!=='/enterpriseBaseinfo'" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">{{$t('other.refresh')}}</li>
-      <li v-if="!(selectedTag.meta&&selectedTag.meta.affix)" @click="closeSelectedTag(selectedTag)">Close</li>
-      <li @click="closeOthersTags">{{$t('other.closeOthers')}}</li>
-      <li @click="closeAllTags(selectedTag)">{{$t('other.closeAll')}}</li>
+      <li @click="refreshSelectedTag(selectedTag)">{{ $t('other.refresh') }}</li>
+      <li v-if="selectedTag.path!=='/enterpriseBaseinfo'" @click="closeSelectedTag(selectedTag)">{{ $t('other.close') }}</li>
+      <li @click="closeOthersTags">{{ $t('other.closeOthers') }}</li>
+      <li @click="closeAllTags(selectedTag)">{{ $t('other.closeAll') }}</li>
     </ul>
   </div>
 </template>
@@ -128,7 +128,7 @@ export default {
         this.$nextTick(() => {
           this.$router.replace({
             // path: '/redirect' + fullPath
-              path : fullPath + '?'+ new Date().getTime()
+            path: fullPath + '?' + new Date().getTime()
           })
         })
       })

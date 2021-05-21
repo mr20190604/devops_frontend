@@ -8,7 +8,7 @@
           :color="colors"
           :stroke-width="24"
           :show-text="false"
-          :width="150"
+          :width="130"
           stroke-linecap="square"
           style="margin-left: 20px;margin-top: 50px"
         />
@@ -102,7 +102,8 @@ export default {
     color: #9fe4e5;
     border-right: 1px solid $tableBorderColor;
     border-bottom: 1px solid $tableBorderColor;
-    margin: 30px 10px 0 10px;
+    margin: 50px 10px 0 10px;
+    font-size: 12px;
   }
 
   td {
@@ -118,8 +119,9 @@ export default {
   }
 
   .left > p {
-    margin: -95px 0 0 0;
-    padding: 0;
+    margin: -85px 0 0 0;
+    padding: 0 0 0 12px;
     text-align: center;
+    font-size: 14px;
   }
 </style>

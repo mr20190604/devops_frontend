@@ -42,9 +42,9 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if(response.headers.token){
-      //如果后台通过header返回token，说明token已经更新，则更新客户端本地token
-      store.dispatch('user/updateToken',{token:response.headers.token})
+    if (response.headers.token) {
+      // 如果后台通过header返回token，说明token已经更新，则更新客户端本地token
+      store.dispatch('user/updateToken', { token: response.headers.token })
     }
     // if the custom code is not 20000, it is judged as an error.
     if (res.code && res.code !== 20000) {
@@ -73,11 +73,11 @@ service.interceptors.response.use(
     }
   },
   error => {
-    if(error.response.status === 401){
-      store.dispatch('user/logout').then(()=>{
+    if (error.response.status === 401) {
+      store.dispatch('user/logout').then(() => {
         router.replace({
           path: '/login',
-          query:{redirect:router.currentRoute.path}
+          query: { redirect: router.currentRoute.path }
         })
       })
       return
@@ -87,7 +87,7 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
-    return Promise.reject(error )
+    return Promise.reject(error)
   }
 )
 

@@ -7,8 +7,8 @@ const state = {
   token: getToken(),
   name: '',
   avatar: '',
-  permissions:null,
-  roles:[]
+  permissions: null,
+  roles: []
 }
 
 const mutations = {
@@ -21,13 +21,13 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
-  SET_PROFILE:(state,profile) => {
+  SET_PROFILE: (state, profile) => {
     state.profile = profile
   },
-  SET_PERMISSIONS:(state,permissions) => {
+  SET_PERMISSIONS: (state, permissions) => {
     state.permissions = permissions
   },
-  SET_ROLES:(state,roles) => {
+  SET_ROLES: (state, roles) => {
     state.roles = roles
   }
 }
@@ -57,22 +57,22 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        console.log('data',data)
-        const { name, profile,permissions,roles } = data
+        console.log('data', data)
+        const { name, profile, permissions, roles } = data
         commit('SET_NAME', name)
         commit('SET_AVATAR', profile.avatar)
-        commit('SET_PROFILE',profile)
-        commit('SET_ROLES',roles)
-        commit('SET_PERMISSIONS',permissions)
+        commit('SET_PROFILE', profile)
+        commit('SET_ROLES', roles)
+        commit('SET_PERMISSIONS', permissions)
         resolve(data)
       }).catch(error => {
-        console.log('user',error)
+        console.log('user', error)
         reject('Verification failed, please Login again.')
         router.replace({
           path: '/login',
-          query:{redirect:router.currentRoute.path}
+          query: { redirect: router.currentRoute.path }
         })
-        //reject(error)
+        // reject(error)
       })
     })
   },
@@ -84,9 +84,9 @@ const actions = {
         commit('SET_TOKEN', '')
         commit('SET_NAME', '')
         commit('SET_AVATAR', '')
-        commit('SET_PROFILE',{})
-        commit('SET_ROLES',[])
-        commit('SET_PERMISSIONS',[])
+        commit('SET_PROFILE', {})
+        commit('SET_ROLES', [])
+        commit('SET_PERMISSIONS', [])
         removeToken()
         resetRouter()
         resolve()
@@ -104,8 +104,8 @@ const actions = {
       resolve()
     })
   },
-  updateToken({commit},{token}){
-    console.log('newToken',token)
+  updateToken({ commit }, { token }) {
+    console.log('newToken', token)
     commit('SET_TOKEN', token)
     setToken(token)
   }

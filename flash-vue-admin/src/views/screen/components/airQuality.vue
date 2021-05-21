@@ -74,7 +74,7 @@ export default {
         {
           name: '底部',
           type: 'pictorialBar',
-          symbolSize: [100, 22],
+          symbolSize: [80, 22],
           symbolOffset: [0, 11],
           animation: false,
           itemStyle: {
@@ -94,7 +94,7 @@ export default {
         {
           name: '柱体',
           type: 'bar',
-          barWidth: 100,
+          barWidth: 80,
           animation: false,
           itemStyle: {
             normal: {
@@ -107,7 +107,7 @@ export default {
         {
           name: '顶部',
           type: 'pictorialBar',
-          symbolSize: [100, 22],
+          symbolSize: [80, 22],
           symbolOffset: [0, -11],
           animation: false,
           symbolPosition: 'end',

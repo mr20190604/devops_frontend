@@ -73,8 +73,9 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.loading = false
+            console.log(this.redirect)
             this.$router.push({ path: this.redirect })
-          }).catch((err) => {
+          }).catch(() => {
             this.loading = false
           })
         } else {

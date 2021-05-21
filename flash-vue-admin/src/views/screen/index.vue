@@ -8,7 +8,7 @@
         <img src="../../assets/img/太阳.png" alt="太阳">
         <span class="weather">{{ weather }}</span>
         <span class="temperature">{{ temperature }}℃</span>
-        <el-link href="/" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>
+        <el-link href="/#/platform" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>
       </p>
     </div>
     <div class="content">
@@ -190,13 +190,13 @@ export default {
   }
 
   .left, .right {
-    width: 30%;
+    width: 25%;
     margin: 5px;
     float: left;
   }
 
   .center {
-    width: calc(40% - 30px);
+    width: calc(50% - 30px);
     margin: 5px;
     float: left;
   }
