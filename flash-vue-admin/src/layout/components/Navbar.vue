@@ -29,12 +29,11 @@
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
           <!--          <img class="user-avatar" src="@/assets/img/太阳.png">-->
-          <p style="height: 40px;line-height: 25px; width: 115px;">
+          <p style="height: 40px;line-height: 25px;padding-right: 15px;cursor: pointer;">
             欢迎您 {{ $store.state.user.name }}  |&nbsp;&nbsp;
-            <img class="user-avatar" style="width: 20px;height: 20px;position: absolute;padding-right: 1px;margin-top: 1px" src="/head.png">
-            <i class="el-icon-caret-bottom" style="margin-top: -20px;"/>
+            <img class="user-avatar" style="width: 20px;height: 20px;position: absolute;padding-right: 1px;margin-top: 1px;" src="/head.png">
+            <i class="el-icon-caret-bottom" style="margin-top: -20px;margin-left: -10px" />
           </p>
-
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/account/profile">
