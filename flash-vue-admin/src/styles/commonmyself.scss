@@ -92,4 +92,25 @@
   height: 35px;
 }
 
-
+.el-dialog-style .el-dialog__header{
+  display: none;
+}
+/*.enterprise{
+  visibility:visible
+}*/
+.el-dialog__body{
+  padding: 0px 0px 20px;
+}
+.app-container{
+  padding: 0px 20px 0px;
+}
+.el-pagination.is-background{
+  padding: 20px 20px 0px;
+  margin-bottom: 5px;
+}
+.el-textarea__inner{
+  height: 100px;
+}
+.el-table.el-table--fit.el-table--border.el-table--enable-row-hover.el-table--enable-row-transition{
+  margin-bottom: 20px;
+}
