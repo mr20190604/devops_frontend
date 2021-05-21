@@ -46,31 +46,20 @@ export const constantRoutes = [
     name: '大屏'
   },
   {
+    path: '/platform',
+    component: () => import('@/views/platform/index'),
+    name: '大屏'
+  },
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-   {
+  {
     path: '/',
     component: Layout,
-    redirect: '/enterpriseBaseinfo'
-    /* children: [{
-      path: 'enterprise_info',
-      name: 'GIS',
-      component: () => import('@/views/dsi/enterprise_baseinfo/index'),
-      meta: { title: 'dashboard', icon: 'dashboard', affix: true }
-    }]*/
-  }, /*{
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'GIS',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'dashboard', icon: 'dashboard', affix: true }
-    }]
-  },*/
+    redirect: '/platform'
+  },
   {
     path: '/account',
     component: Layout,
