@@ -2,6 +2,8 @@
     <div class="app-container">
         <div class="block">
           <el-form label-width="120px" :inline="true">
+
+
             <el-form-item label="设备编号">
               <el-input v-model="listQuery.equipCode"  placeholder="请输入编号"></el-input>
             </el-form-item>
@@ -29,10 +31,6 @@
 
               </el-select>
             </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
-                <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-              </el-form-item>
             <br>
             <el-form-item label="处置状态">
               <el-select v-model="listQuery.isFeedBack"  placeholder="--请选择--">
@@ -49,6 +47,10 @@
               <el-date-picker type="datetime" v-model="listQuery.endTime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
             </el-form-item>
 
+            <el-form-item style="float: right;margin-right: 100px">
+              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-form-item>
 
 
           </el-form>

@@ -2,31 +2,41 @@
     <div class="app-container">
         <div class="block">
           <el-form label-width="120px" :inline="true">
-            <el-form-item label="人员名称">
-              <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
-            </el-form-item>
-            <el-form-item label="所在行政区">
-              <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
-            </el-form-item>
-            <el-form-item label="现工作单位">
-              <el-input v-model="listQuery.enterpriseId"  placeholder="请输入所属企业"></el-input>
-            </el-form-item>
-            <el-form-item label="是否专家">
-              <el-select v-model="listQuery.isExpert"  placeholder="是否专家">
-                <el-option
-                  v-for="item in isExpert"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
+            <el-row>
 
-
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              <el-form-item label="人员名称">
+                <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
               </el-form-item>
+              <el-form-item label="所在行政区">
+                <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
+              </el-form-item>
+              <el-form-item label="现工作单位">
+                <el-input v-model="listQuery.enterpriseId"  placeholder="请输入所属企业"></el-input>
+              </el-form-item>
+            </el-row>
+
+            <el-row>
+              <el-form-item label="是否专家">
+                <el-select v-model="listQuery.isExpert"  placeholder="是否专家">
+                  <el-option
+                    v-for="item in isExpert"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item style="float: right;margin-right: 100px">
+                <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-form-item>
+
+            </el-row>
+
+
+
+
+
           </el-form>
             <br>
             <el-row>
@@ -34,6 +44,7 @@
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/person/add']">{{ $t('button.add') }}</el-button>
                     <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/person/delete']">批量删除</el-button>
                 </el-col>
+
             </el-row>
         </div>
 

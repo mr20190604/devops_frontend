@@ -35,12 +35,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-              </el-button>
-              <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-              </el-button>
-            </el-form-item>
+
           <br>
             <el-form-item label="公布日期">
               <el-date-picker type="date" v-model="listQuery.publicationDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="请选择日期"></el-date-picker>
@@ -48,6 +43,12 @@
             <!--<el-form-item label="适用类型">-->
               <!--<el-input v-model="listQuery.adaptType"  placeholder="请选择适用类型"></el-input>-->
             <!--</el-form-item>-->
+            <el-form-item style="float: right;margin-right: 100px">
+              <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+              </el-button>
+              <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+              </el-button>
+            </el-form-item>
 
 
           </el-form>

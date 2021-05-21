@@ -17,11 +17,7 @@
               <el-form-item label="地址">
                 <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
               </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
-            <br>
+
               <el-form-item label="所属企业">
                 <el-select v-model="listQuery.enterpriseId"  placeholder="请选择所属企业">
                   <el-option
@@ -32,6 +28,12 @@
                   </el-option>
                 </el-select>
               </el-form-item>
+
+            <el-form-item style="float: right;margin-right: 100px">
+              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-form-item>
+            <br>
           </el-form>
 
           <br>
@@ -65,12 +67,16 @@
             </el-table-column>
           <el-table-column label="所属企业">
             <template slot-scope="scope">
-              {{scope.row.dsiEnterpriseBaseinfo.enterpriseName}}
+                <template v-if="scope.row.dsiEnterpriseBaseinfo !== null" id="enterprise1">{{scope.row.dsiEnterpriseBaseinfo.enterpriseName}}</template>
+                <template v-else="scope.row.enterpriseId == null" id="enterprise2"></template>
             </template>
           </el-table-column>
           <el-table-column label="行政区划">
             <template slot-scope="scope">
-              {{scope.row.dsiEnterpriseBaseinfo.districtName}}
+              <template v-if="scope.row.dsiEnterpriseBaseinfo != null" id="district1">{{scope.row.dsiEnterpriseBaseinfo.districtName}}</template>
+              <template v-else="scope.row.dsiEnterpriseBaseinfo == null" id="district2"></template>
+
+              <!--{{scope.row.dsiEnterpriseBaseinfo.districtName}}-->
             </template>
           </el-table-column>
           <el-table-column label="地址">

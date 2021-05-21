@@ -23,10 +23,7 @@
               <el-form-item  label="地址">
                 <el-input v-model="listQuery.enterpriseAddress"  placeholder="请输入所在地址"></el-input>
               </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
+
           <br>
               <el-form-item  label="法人">
                 <el-input v-model="listQuery.legalPerson"  placeholder="请输入法人名称"></el-input>
@@ -42,7 +39,10 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-
+            <el-form-item style="float: right;margin-right: 100px">
+              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-form-item>
 
           </el-form>
 

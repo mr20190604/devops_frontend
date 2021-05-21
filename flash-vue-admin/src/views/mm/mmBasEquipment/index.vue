@@ -2,28 +2,42 @@
     <div class="app-container">
         <div class="block">
             <el-form label-width="120px" :inline="true" >
-              <el-form-item label="设备类型">
-                <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"  placeholder="请选择"/>
-              </el-form-item>
-              <el-form-item label="设备编号">
-                <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号"></el-input>
-              </el-form-item>
+              <el-row>
+                <el-form-item label="设备类型">
+                  <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"  placeholder="请选择"/>
+                </el-form-item>
+                <el-form-item label="设备编号">
+                  <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号"></el-input>
+                </el-form-item>
 
-              <el-form-item label="设备状态">
-                <dict-select v-model="listQuery.equipmentStatus1" dict-name="设备状态" placeholder="请选择"/>
-              </el-form-item>
+                <el-form-item label="设备状态">
+                  <dict-select v-model="listQuery.equipmentStatus1" dict-name="设备状态" placeholder="请选择"/>
+                </el-form-item>
 
-              <el-form-item label="上报时间">
-                <el-date-picker type="datetime" v-model="listQuery.startTime" placeholder="开始时间"></el-date-picker>
-                <el-date-picker type="datetime" v-model="listQuery.endTime" placeholder="结束时间"></el-date-picker>
-              </el-form-item>
+              </el-row>
+
+              <el-row>
+
+                <el-form-item label="上报时间">
+                  <el-date-picker type="datetime" v-model="listQuery.startTime" placeholder="开始时间"></el-date-picker>
+                  <el-date-picker type="datetime" v-model="listQuery.endTime" placeholder="结束时间"></el-date-picker>
+                </el-form-item>
+
+                <el-form-item style="float: right;margin-right: 100px">
+
+                  <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+                  <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+                </el-form-item>
+
+
+              </el-row>
+
+
+
+
+
+
             </el-form>
-            <el-row  :gutter="20">
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
-            </el-row>
             <br>
         </div>
 

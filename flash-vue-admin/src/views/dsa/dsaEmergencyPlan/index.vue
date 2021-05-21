@@ -2,38 +2,47 @@
     <div class="app-container">
         <div class="block">
           <el-form label-width="120px" :inline="true">
-            <el-form-item label="预案名称">
-              <el-input v-model="listQuery.planName" placeholder="请输预案名称"></el-input>
-            </el-form-item>
-            <el-form-item label="所属行业">
-              <el-select v-model="listQuery.industryId" placeholder="请选择所属行业">
-                <el-option
-                  v-for="item in industry_type"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="来源单位">
-              <el-input v-model="listQuery.planUnit" placeholder="请输来源单位"></el-input>
-            </el-form-item>
-            <el-form-item label="预案类型">
-              <el-select v-model="listQuery.planTypeId" placeholder="请选择预案类型">
-                <el-option
-                  v-for="item in plan_type"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
+            <el-row>
+              <el-form-item label="预案名称">
+                <el-input v-model="listQuery.planName" placeholder="请输预案名称"></el-input>
+              </el-form-item>
+              <el-form-item label="所属行业">
+                <el-select v-model="listQuery.industryId" placeholder="请选择所属行业">
+                  <el-option
+                    v-for="item in industry_type"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="来源单位">
+                <el-input v-model="listQuery.planUnit" placeholder="请输来源单位"></el-input>
+              </el-form-item>
+            </el-row>
+
+            <el-row>
+              <el-form-item label="预案类型">
+                <el-select v-model="listQuery.planTypeId" placeholder="请选择预案类型">
+                  <el-option
+                    v-for="item in plan_type"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item style="float: right;margin-right: 100px">
                 <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
                 </el-button>
                 <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
                 </el-button>
               </el-form-item>
+            </el-row>
+
+
+
           </el-form>
 
             <br>
@@ -93,8 +102,9 @@
             </el-table-column>
             <el-table-column label="附件">
                 <template slot-scope="scope">
-                  <div style="color: #409EFF" v-if="scope.row.fileId != null || scope.row.fileId != ''" @click="downloadFileINfo(scope.row.fileInfo)">{{scope.row.fileInfo.originalFileName}}</div>
-                  <!--<template v-if="scope.row.fileId != null || scope.row.fileId != ''"></template>-->
+                  <div style="color: #409EFF" v-if="scope.row.fileInfo != null " @click="downloadFileINfo(scope.row.fileInfo)" id="file1">{{scope.row.fileInfo.originalFileName}}</div>
+                  <div style="color: #409EFF" v-else="scope.row.fileInfo != null " @click="downloadFileINfo(scope.row.fileInfo)" id="file2"></div>
+
                 </template>
             </el-table-column>
             <el-table-column label="登记人" width="100">
