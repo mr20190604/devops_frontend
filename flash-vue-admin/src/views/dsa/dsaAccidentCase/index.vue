@@ -5,28 +5,10 @@
             <el-form-item label="事故名称">
               <el-input v-model="listQuery.accidentName"  placeholder="请输事故名称"></el-input>
             </el-form-item>
-            <el-form-item label="事故时间">
-              <el-date-picker v-model="listQuery.accidentTime"
-                              type="datetimerange"
-                              range-separator="至"
-                              start-placeholder="开始日期"
-                              end-placeholder="结束日期"
-                              value-format="yyyy-MM-dd HH:mm">
-              </el-date-picker>
-            </el-form-item>
+
             <el-form-item label="事故地点">
               <el-input v-model="listQuery.accidentAddress"  placeholder="请输事故地点"></el-input>
             </el-form-item>
-            <!--<el-form-item label="死亡人数">
-              <el-select v-model="listQuery.isValid"  placeholder="请输入死亡人数">
-                <el-option
-                  v-for="item in timeliness"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>-->
             <el-form-item label="事件类型">
               <el-select v-model="listQuery.accidentType"  placeholder="请选择事件类型">
                 <el-option
@@ -47,15 +29,35 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item style="float: right;margin-right: 100px">
+                <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+                </el-button>
+                <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+                </el-button>
+              </el-form-item>
+            <br>
+            <el-form-item label="事故时间">
+              <el-date-picker v-model="listQuery.accidentTime"
+                              type="datetimerange"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期"
+                              value-format="yyyy-MM-dd HH:mm">
+              </el-date-picker>
+            </el-form-item>
+            <!--<el-form-item label="死亡人数">
+              <el-select v-model="listQuery.isValid"  placeholder="请输入死亡人数">
+                <el-option
+                  v-for="item in timeliness"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>-->
+
           </el-form>
-          <el-row :gutter="24">
-            <el-col :span="6">
-              <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-              </el-button>
-              <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-              </el-button>
-            </el-col>
-          </el-row>
+
             <br>
             <el-row>
                 <el-col :span="24">
@@ -144,7 +146,7 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
+                width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
@@ -204,7 +206,7 @@
                         </el-form-item>
                     </el-col>-->
                 </el-row>
-                <el-form-item>
+                <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
@@ -217,7 +219,7 @@
 <script src="./dsaAccidentCase.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
+<style rel="stylesheet/scss" lang="scss"  >
+    @import "src/styles/commonmyself.scss";
 </style>
 

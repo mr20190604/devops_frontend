@@ -10,10 +10,7 @@
               <dict-select v-model="listQuery.alarmLevel" dict-name="报警等级" placeholder="--请选择--"></dict-select>
             </el-form-item>
 
-            <el-form-item label="报警时间">
-              <el-date-picker type="datetime" v-model="listQuery.startTime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
-              <el-date-picker type="datetime" v-model="listQuery.endTime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
-            </el-form-item>
+
 
             <el-form-item label="设备类型">
               <el-select v-model="listQuery.monitorType"  placeholder="--请选择--">
@@ -32,7 +29,11 @@
 
               </el-select>
             </el-form-item>
-
+            <el-form-item style="float: right;margin-right: 100px">
+                <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-form-item>
+            <br>
             <el-form-item label="处置状态">
               <el-select v-model="listQuery.isFeedBack"  placeholder="--请选择--">
                 <el-option
@@ -43,15 +44,15 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="报警时间">
+              <el-date-picker type="datetime" v-model="listQuery.startTime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
+              <el-date-picker type="datetime" v-model="listQuery.endTime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
+            </el-form-item>
+
 
 
           </el-form>
-            <el-row  :gutter="20">
-                <el-col :span="6">
-                    <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                    <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-col>
-            </el-row>
+
             <br>
             <el-row>
                 <el-col :span="24">
@@ -158,7 +159,7 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
+                width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <!--<el-col :span="12">
@@ -313,7 +314,7 @@
                         </el-form-item>
                     </el-col>-->
                 </el-row>
-                <el-form-item>
+                <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
@@ -326,7 +327,7 @@
 <script src="./mmAlarmInfo.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
+<style rel="stylesheet/scss" lang="scss"  >
+    @import "src/styles/commonmyself.scss";
 </style>
 

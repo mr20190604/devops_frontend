@@ -3,7 +3,7 @@
     <div class="block">
           <el-form label-width="120px" :inline="true">
             <el-form-item label="关键字">
-              <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
+              <el-input v-model="listQuery.key" placeholder="编码、名称" />
             </el-form-item>
             <el-form-item label="是否有毒">
               <dict-select v-model="listQuery.isPoisonHarm" dict-name="是否" />
@@ -14,16 +14,17 @@
             <el-form-item label="形状类型">
               <dict-select v-model="listQuery.formId" dict-name="形状类型" />
             </el-form-item>
+            <el-form-item style="float: right;margin-right: 100px">
+              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+              </el-button>
+              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+              </el-button>
+            </el-form-item>
             <br>
             <el-form-item label="生产企业">
               <enterprise v-model="listQuery.enterpriseId" />
             </el-form-item>
-      <el-form-item style="float: right;margin-right: 200px">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-          </el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-          </el-button>
-      </el-form-item>
+
         </el-form>
 
       <br>
