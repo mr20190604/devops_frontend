@@ -29,5 +29,14 @@ export default {
         id: id
       }
     })
+  },
+  removeBatch: function(ids) {
+    return request({
+      url: '/bas/build/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
   }
 }

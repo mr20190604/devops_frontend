@@ -1,5 +1,5 @@
 import mmBasBuildApi from '@/api/mm/mmBasBuild'
-import permission from '@/directive/permission/index.js'
+import permission from '@/directive/permission/index'
 
 export default {
   directives: { permission },
@@ -30,9 +30,10 @@ export default {
         targetType: undefined
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection: []
     }
   },
   filters: {
@@ -112,8 +113,11 @@ export default {
       this.listQuery.limit = limit
       this.fetchData()
     },
-    handleCurrentChange(currentRow, oldCurrentRow) {
+    handleCurrentChange(currentRow) {
       this.selRow = currentRow
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -147,7 +151,7 @@ export default {
           delete formData.modifyTime
 
           if (formData.id) {
-            mmBasBuildApi.update(formData).then(response => {
+            mmBasBuildApi.update(formData).then(() => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
@@ -156,7 +160,7 @@ export default {
               this.formVisible = false
             })
           } else {
-            mmBasBuildApi.add(formData).then(response => {
+            mmBasBuildApi.add(formData).then(() => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
@@ -202,13 +206,13 @@ export default {
     },
     remove() {
       if (this.checkSel()) {
-        var id = this.selRow.id
+        const id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-          mmBasBuildApi.remove(id).then(response => {
+          mmBasBuildApi.remove(id).then(() => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
@@ -223,6 +227,40 @@ export default {
         }).catch(() => {
         })
       }
+    },
+    removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        mmBasBuildApi.removeBatch(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
     }
 
   }

@@ -72,7 +72,7 @@ export default {
     filterAffixTags(routes, basePath = '/') {
       let tags = []
       routes.forEach(route => {
-        if (route.meta && route.meta.affix) {
+        if (route.path === '/enterpriseBaseinfo') {
           const tagPath = path.resolve(basePath, route.path)
           tags.push({
             fullPath: tagPath,

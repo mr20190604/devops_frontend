@@ -14,18 +14,25 @@
         <el-form-item label="联系人">
           <el-input v-model="listQuery.contactper" placeholder="请输入联系人" />
         </el-form-item>
-        <el-form-item style="float: right;margin-right: 100px">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-          </el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-          </el-button>
-        </el-form-item>
-        <br>
         <el-form-item label="目标类型">
           <dict-select dict-name="防护目标" placeholder="请选择目标类型" />
         </el-form-item>
-
-
+        <el-form-item style="float: right;margin-right: 100px">
+          <el-button
+            type="success"
+            size="mini"
+            icon="el-icon-search"
+            @click.native="search"
+          >{{ $t('button.search') }}
+          </el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            icon="el-icon-refresh"
+            @click.native="reset"
+          >{{ $t('button.reset') }}
+          </el-button>
+        </el-form-item>
       </el-form>
       <br>
       <el-row>
@@ -38,20 +45,12 @@
             @click.native="add"
           >{{ $t('button.add') }}
           </el-button>
-         <!-- <el-button
-            v-permission="['/bas/build/update']"
-            type="primary"
-            size="mini"
-            icon="el-icon-edit"
-            @click.native="edit"
-          >{{ $t('button.edit') }}
-          </el-button>-->
           <el-button
             v-permission="['/bas/build/delete']"
             type="danger"
             size="mini"
             icon="el-icon-delete"
-            @click.native="remove"
+            @click.native="removeBatch"
           >批量删除
           </el-button>
         </el-col>
@@ -64,21 +63,21 @@
       element-loading-text="Loading"
       border
       fit
+      :row-key="row=>row.id"
       highlight-current-row
       @current-change="handleCurrentChange"
+      @selection-change="handleSelectionChange"
     >
       <el-table-column
         type="selection"
         width="55"
         :reserve-selection="true"
-      >
-      </el-table-column>
+      />
       <el-table-column
         type="index"
         width="50"
         label="序号"
-      >
-      </el-table-column>
+      />
       <el-table-column label="建筑名称">
         <template slot-scope="scope">
           {{ scope.row.buildName }}
@@ -167,17 +166,17 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="防护等级">
-              <dict-select dict-name="防护等级" />
+              <dict-select v-model="form.levelCode" dict-name="防护等级" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="目标类型">
-              <dict-select dict-name="防护目标" placeholder="请选择目标类型" />
+              <dict-select v-model="form.targetType" dict-name="防护目标" placeholder="请选择目标类型" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="所在地区">
-              <district  v-model="form.districtCode" placeholder="请选择所在地区" />
+              <district v-model="form.districtCode" placeholder="请选择所在地区" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -197,12 +196,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="人数">
-              <el-input v-model="form.personNum" minlength="1" placeholder="请输入人数" />
+              <el-input v-model="form.personNum" minlength="1" placeholder="请输入人数" type="number" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="面积(万平方米)">
-              <el-input v-model="form.engrossArea" minlength="1" placeholder="请输入面积" />
+              <el-input v-model="form.engrossArea" minlength="1" placeholder="请输入面积" type="number" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
