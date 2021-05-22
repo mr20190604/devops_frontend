@@ -5,6 +5,7 @@ import {getDicts} from "../../../api/system/dict";
 import { getApiUrl, getPreviewUrl} from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 import preview from '@/preview/preview.vue'
+import {downloadFile} from  '@/preview/preview.js'
 
 const Base64 = require('js-base64').Base64
 
@@ -55,6 +56,18 @@ export default {
       },
       fileList:[],
       multiple:true,
+      fileType: 1,
+      previewStyle:{
+        height:'600px',
+        width: '100%'
+      },
+      previewFileUrl:'',
+      previewVisible: false,
+      previewTitle: '预览',
+      viewTitle:'附件预览',
+      viewVisible:false,
+      fileLoading:true,
+      files:null
 
     }
   },
@@ -88,7 +101,9 @@ export default {
       this.fetchData()
       this.uploadUrl = getApiUrl() + '/file'
       this.uploadHeaders['Authorization'] = getToken()
-      this.downloadUrl = getApiUrl() + '/file/download?idFile='
+      // this.downloadUrl = getApiUrl() + '/file/download?idFile='
+      this.downloadUrl = getApiUrl() + '/file/getImgStream?idFile='
+
     },
     fetchData() {
       dsiEnterprise.queryAll().then(response =>{
@@ -338,7 +353,25 @@ export default {
         }
       })
       this.fileList = arr
-    },
+    },previewFile(record){
+      this.previewVisible = true;
+      let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.realFileName;
+      let previewUrl = originUrl + '&fullfilename=' + record.fileInfo.realFileName;
+      let preview = getPreviewUrl(2)+encodeURIComponent(Base64.encode(previewUrl));
+      this.fileType = 2;
+      this.previewTitle = record.fileInfo.originalFileName;
+      this.previewFileUrl = preview;
+    },openFileView(record) {
+      this.viewVisible = true
+      dsiParkEmergencyVehicleApi.queryDataByVehicleId(record.id).then(response=>{
+        this.files = response.data
+        if (this.files) {
+          this.previewFile(this.files[0])
+        }
+      })
+      this.fileLoading = false
+
+    }
 
   }
 }

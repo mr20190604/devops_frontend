@@ -359,7 +359,6 @@ export default {
       this.fileType = 1;
       this.previewTitle = record.lawName;
       this.previewFileUrl = preview;
-      debugger
     }
   },
 }
