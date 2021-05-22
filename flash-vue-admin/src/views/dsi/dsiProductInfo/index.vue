@@ -81,15 +81,13 @@
         type="selection"
         width="55"
         :reserve-selection="true"
-      >
-      </el-table-column>
+      />
       <el-table-column
         type="index"
         width="50"
         label="序号"
-      >
-      </el-table-column>
-     <!-- <el-table-column label="产品编码">
+      />
+      <!-- <el-table-column label="产品编码">
         <template slot-scope="scope">
           {{ scope.row.productCode }}
         </template>

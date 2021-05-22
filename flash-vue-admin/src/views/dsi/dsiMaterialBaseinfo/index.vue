@@ -1,24 +1,23 @@
 <template>
   <div class="app-container">
     <div class="block">
-          <el-form label-width="120px" :inline="true">
-            <el-form-item label="关键字">
-              <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
-            </el-form-item>
-            <el-form-item label="原料类别">
-              <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
-            </el-form-item>
-            <el-form-item label="是否中间产品">
-              <dict-select v-model="listQuery.isOriginal" dict-name="是否" placeholder="是否中间产品" />
-            </el-form-item>
-
-          <el-form-item style="float: right;margin-right: 100px">
+      <el-form label-width="120px" :inline="true">
+        <el-form-item label="关键字:">
+          <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
+        </el-form-item>
+        <el-form-item label="原料类别:">
+          <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
+        </el-form-item>
+        <el-form-item label="是否中间产品:">
+          <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="是否中间产品" />
+        </el-form-item>
+        <el-form-item style="float: right;margin-right: 100px">
           <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
           </el-button>
           <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
           </el-button>
-          </el-form-item>
-        </el-form>
+        </el-form-item>
+      </el-form>
       <br>
       <el-row>
         <el-col :span="24">
@@ -30,20 +29,12 @@
             @click.native="add"
           >{{ $t('button.add') }}
           </el-button>
-          <!--<el-button
-            v-permission="['/material/baseinfo/update']"
-            type="primary"
-            size="mini"
-            icon="el-icon-edit"
-            @click.native="edit"
-          >{{ $t('button.edit') }}
-          </el-button>-->
           <el-button
             v-permission="['/material/baseinfo/delete']"
             type="danger"
             size="mini"
             icon="el-icon-delete"
-            @click.native="remove"
+            @click.native="removeBatch"
           >批量删除</el-button>
         </el-col>
       </el-row>
@@ -55,21 +46,21 @@
       element-loading-text="Loading"
       border
       fit
+      :row-key="row=>row.id"
       highlight-current-row
       @current-change="handleCurrentChange"
+      @selection-change="handleSelectionChange"
     >
       <el-table-column
         type="selection"
         width="55"
         :reserve-selection="true"
-      >
-      </el-table-column>
+      />
       <el-table-column
         type="index"
         width="50"
         label="序号"
-      >
-      </el-table-column>
+      />
       <el-table-column label="原料编码">
         <template slot-scope="scope">
           {{ scope.row.materialCode }}

@@ -2,18 +2,17 @@
   <div class="app-container">
     <div class="block">
       <el-form label-width="120px" :inline="true">
-        <el-form-item label="关键字">
+        <el-form-item label="关键字:">
           <el-input v-model="listQuery.key" placeholder="编号、名称、地点、描述" />
         </el-form-item>
-        <el-form-item label="事件类型">
-          <dict-select dict-name="事件类型" />
+        <el-form-item label="事件类型:">
+          <dict-select v-model="listQuery.eventType" dict-name="事件类型" />
         </el-form-item>
         <el-form-item style="float: right;margin-right: 100px">
           <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
           <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
         </el-form-item>
       </el-form>
-      <br>
       <el-row>
         <el-col :span="24">
           <el-button
@@ -33,7 +32,6 @@
         </el-col>
       </el-row>
     </div>
-
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -87,7 +85,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <el-pagination
       background
       layout="total, sizes, prev, pager, next, jumper"
@@ -108,27 +105,27 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="事件编码">
+            <el-form-item label="事件编码:">
               <el-input v-model="form.eventCode" minlength="1" placeholder="请输入事件编码" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="事件类型">
+            <el-form-item label="事件类型:">
               <dict-select v-model="form.eventType" dict-name="事件类型" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="事件名称">
+            <el-form-item label="事件名称:">
               <el-input v-model="form.eventName" minlength="1" placeholder="请输入事件名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="事件地点">
+            <el-form-item label="事件地点:">
               <el-input v-model="form.eventAddress" minlength="1" placeholder="请输入事件地点" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="事件描述">
+            <el-form-item label="事件描述:">
               <el-input v-model="form.eventDesc" minlength="1" placeholder="请输入事件描述" />
             </el-form-item>
           </el-col>
@@ -137,7 +134,6 @@
           <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
           <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
-
       </el-form>
     </el-dialog>
   </div>
