@@ -69,7 +69,7 @@ export default {
     resetPwd: '重置密码'
   },
   common: {
-    mustSelectOne: '请选中操作项!',
+    mustSelectOne: '请选中操作记录!',
     deleteConfirm: '你确认删除该记录？',
     tooltip: '提示',
     warning: '警告',

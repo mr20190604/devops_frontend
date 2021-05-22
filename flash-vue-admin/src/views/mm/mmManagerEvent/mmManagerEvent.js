@@ -1,5 +1,6 @@
 import mmManagerEventApi from '@/api/mm/mmManagerEvent'
 import permission from '@/directive/permission/index'
+import th from 'element-ui/src/locale/lang/th'
 
 export default {
   directives: { permission },
@@ -77,7 +78,8 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.key = undefined
+      this.listQuery.eventType = undefined
       this.fetchData()
     },
     handleFilter() {

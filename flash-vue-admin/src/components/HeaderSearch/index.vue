@@ -8,7 +8,7 @@
       filterable
       default-first-option
       remote
-      placeholder="Search"
+      placeholder="菜单查询"
       class="header-search-select"
       @change="change"
     >
@@ -18,11 +18,9 @@
 </template>
 
 <script>
-// fuse is a lightweight fuzzy-search module
-// make search results more in line with expectations
 import Fuse from 'fuse.js'
 import path from 'path'
-import {generateTitle} from "../../utils/i18n";
+import { generateTitle } from '../../utils/i18n'
 
 export default {
   name: 'HeaderSearch',
@@ -37,7 +35,7 @@ export default {
   },
   computed: {
     routes() {
-      return  this.$store.state.menu.routes
+      return this.$store.state.menu.routes
     }
   },
   watch: {
@@ -109,9 +107,8 @@ export default {
           path: path.resolve(basePath, router.path),
           title: [...prefixTitle]
         }
-
-        if (router.meta && router.meta.title) {
-          data.title = [...data.title, this.generateTitle(router.meta.title)]
+        if (router.name) {
+          data.title = [...data.title, router.name]
 
           if (router.redirect !== 'noRedirect') {
             // only push the routes with title

@@ -29,5 +29,15 @@ export default {
         id: id
       }
     })
+  },
+  removeBatch: function(ids) {
+    return request({
+      url: '/material/baseinfo/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
   }
+
 }

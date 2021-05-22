@@ -20,7 +20,7 @@
       <li @click="refreshSelectedTag(selectedTag)">{{ $t('other.refresh') }}</li>
       <li v-if="selectedTag.path!==homePage" @click="closeSelectedTag(selectedTag)">{{ $t('other.close') }}</li>
       <li @click="closeOthersTags">{{ $t('other.closeOthers') }}</li>
-      <li @click="closeAllTags(selectedTag)">{{ $t('other.closeAll') }}</li>
+      <li v-if="selectedTag.path!==homePage" @click="closeAllTags(selectedTag)">{{ $t('other.closeAll') }}</li>
     </ul>
   </div>
 </template>

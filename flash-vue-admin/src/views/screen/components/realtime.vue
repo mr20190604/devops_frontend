@@ -78,10 +78,10 @@ export default {
       const last = that.data[that.data.length - 1][0]
       const array = last.split(':')
       let date = new Date(2021, 1, 1, array[0], array[1], array[2])
-      date = new Date(date.getTime() + 1000 * 60)
+      date = new Date(date.getTime() + 1000 * 3)
       const num = Math.floor(Math.random() * 100)
       that.data.push([that.dateFormat('HH:MM:SS', date), num])
-    }, 1000 * 60)
+    }, 1000 * 3)
   },
   methods: {
     dateFormat: function(fmt, date) {

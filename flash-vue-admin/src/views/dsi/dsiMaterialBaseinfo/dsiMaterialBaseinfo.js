@@ -24,12 +24,15 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        id: undefined
+        key: undefined,
+        materialType: undefined,
+        isDanger: undefined
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection: []
     }
   },
   filters: {
@@ -80,7 +83,9 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.key = undefined
+      this.listQuery.materialType = undefined
+      this.listQuery.isDanger = undefined
       this.fetchData()
     },
     handleFilter() {
@@ -108,6 +113,9 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -228,6 +236,40 @@ export default {
         }).catch(() => {
         })
       }
+    },
+    removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        dsiMaterialBaseinfoApi.removeBatch(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
     }
 
   }
