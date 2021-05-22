@@ -116,10 +116,14 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否重大危险源">
-              <el-radio-group v-model="form.isDangerSource" minlength=1>
-                <el-radio :label="1">是</el-radio>
-                <el-radio :label="0">否</el-radio>
-              </el-radio-group>
+              <el-select v-model="form.isDangerSource" minlength=1>
+                <el-option
+                  v-for="item in isDangerSource"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -154,21 +158,21 @@
         >
           <el-col :span="5">
             <el-form-item label="风险物质">
-              <el-input v-model="rec.materialId" minlength=1></el-input>
+              <el-input class="el-input-style" v-model="rec.materialId" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="现存量">
-              <el-input v-model="rec.currentStock" minlength=1></el-input>
+              <el-input class="el-input-style" v-model="rec.currentStock" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="临界量">
-              <el-input v-model="rec.criticalQuantity" minlength=1></el-input>
+              <el-input class="el-input-style" v-model="rec.criticalQuantity" minlength=1></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">&nbsp;
-            <el-button @click.prevent="removeDetail(rec)" type="danger" icon="el-icon-delete">{{ $t('button.delete') }}
+          <el-col :span="4" style="margin-left: 100px">&nbsp;
+            <el-button @click.prevent="removeDetail(rec)" type="danger" icon="el-icon-delete"  >{{ $t('button.delete') }}
             </el-button>
           </el-col>
 

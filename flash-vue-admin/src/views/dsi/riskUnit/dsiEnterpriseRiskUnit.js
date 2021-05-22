@@ -29,7 +29,7 @@ export default {
         currentStock:'',
         criticalQuantity:''
       },*/
-
+      isDangerSource:[],
       risk_type:[],
       listQuery: {
         page: 1,
@@ -83,6 +83,10 @@ export default {
       getDicts('风险类型').then(response =>{
         this.risk_type = response.data
       })
+      getDicts('是否').then(response =>{
+        this.isDangerSource = response.data
+      })
+      isDangerSource
     },
     search() {
       this.fetchData()
@@ -133,7 +137,7 @@ export default {
       }
     },
     add() {
-      this.resetForm;
+      this.resetForm();
       this.formTitle = '添加风险单元',
       this.formVisible = true
       //this.form=[];

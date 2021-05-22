@@ -62,7 +62,6 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/accident/case/add']">{{ $t('button.add') }}</el-button>
-                    <!--<el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/accident/case/update']">{{ $t('button.edit') }}</el-button>-->
                     <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/accident/case/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
