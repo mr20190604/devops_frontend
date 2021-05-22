@@ -29,5 +29,27 @@ export default {
                 id: id
             }
         })
-    }
+    },queryDataByStatuteId:function(statuteId) {
+    return request({
+      url: '/statute/file/queryDataByStatuteId',
+      method: 'get',
+      params:{
+        statuteId:statuteId
+      }
+    })
+  },removeByStatuteId:function(statuteId) {
+    return request({
+      url: '/statute/file/removeByStatuteId',
+      method: 'delete',
+      params:{
+        statuteId:statuteId
+      }
+    })
+  },addRelation:function(params) {
+    return request({
+      url: '/statute/file',
+      method: 'post',
+      params
+    })
+  },
 }

@@ -30,14 +30,14 @@ export default {
             }
         })
     },
-  addReletion:function(params) {
+  addRelation:function(params) {
     return request({
       url: '/vehicle/file',
       method: 'post',
       params
     })
   },
-  queryDataByVehicleId:function(vehicleId) {
+   queryDataByVehicleId:function(vehicleId) {
     return request({
       url: '/vehicle/file/queryDataByVehicleId',
       method: 'get',
@@ -45,5 +45,14 @@ export default {
         vehicleId:vehicleId
       }
     })
+  },removeByVehicleId:function(vehicleId) {
+    return request({
+      url: '/vehicle/file/removeByVehicleId',
+      method: 'delete',
+      params:{
+        vehicleId:vehicleId
+      }
+    })
   },
+
 }

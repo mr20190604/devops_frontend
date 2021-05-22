@@ -228,23 +228,23 @@
                             <el-input v-model="form.latitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
-                  <!--<el-col :span="12">-->
-                    <!--<el-form-item label="选择文件">-->
-                      <!--<el-upload-->
-                        <!--:action="uploadUrl"-->
-                        <!--:headers="uploadHeaders"-->
-                        <!--:on-change="handleChangeUpload"-->
-                        <!--:on-success="uploadSuccess"-->
-                        <!--accept=".jpg,.png,.jpeg,.gif,.bmp"-->
-                        <!--:on-remove="removeFile"-->
-                        <!--:file-list="fileList"-->
-                        <!--:multiple="multiple"-->
-                      <!--&gt;-->
-                        <!--<el-button size="small" type="primary">点击上传</el-button>-->
-                        <!--<div slot="tip" >最大上传大小10Mb</div>-->
-                      <!--</el-upload>-->
-                    <!--</el-form-item>-->
-                  <!--</el-col>-->
+                  <el-col :span="12">
+                    <el-form-item label="选择文件">
+                      <el-upload
+                        :action="uploadUrl"
+                        :headers="uploadHeaders"
+                        :on-change="handleChangeUpload"
+                        :on-success="uploadSuccess"
+                        accept=".jpg,.png,.jpeg,.gif,.bmp"
+                        :on-remove="removeFile"
+                        :file-list="fileList"
+                        :multiple="multiple"
+                      >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" >最大上传大小10Mb</div>
+                      </el-upload>
+                    </el-form-item>
+                  </el-col>
 
                 </el-row>
                 <el-form-item id="myself">

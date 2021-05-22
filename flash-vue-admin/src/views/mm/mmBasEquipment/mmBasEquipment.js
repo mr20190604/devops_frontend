@@ -93,10 +93,10 @@ export default {
       selRow: {},
       yData:[4,3,5,3,6,6.5,7,6,8.1,5,7,7.3,7,6,7,5,6,6.7],
       lineData:{
-        title: {
-          text: '设备监测曲线',
-          left: '1%'
-        },
+        // title: {
+        //   // text: '设备监测曲线',
+        //   left: '1%'
+        // },
         tooltip: {
           trigger: 'axis'
         },
@@ -116,17 +116,23 @@ export default {
           max:10
         },
         visualMap: {
-          top: 100,
-          right:1,
+          // top: 100,
+          // right:1,
+          x:'center',
+          y:'top',
+          orient:"horizontal",
           pieces: [{
+            label:'三级报警',
             gt: 0,
             lte: 8,
             color: '#93CE07'
           }, {
+            label:'二级报警',
             gt: 8,
             lte: 9,
             color: '#FBDB0F'
           }, {
+            label:'一级报警',
             gt: 9,
             lte: 10,
             color: '#FC7D02'

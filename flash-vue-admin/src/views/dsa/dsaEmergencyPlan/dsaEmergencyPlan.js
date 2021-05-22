@@ -63,7 +63,8 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      multiple:true,
     }
   },
   filters: {
@@ -188,7 +189,7 @@ export default {
                 planUnit:this.form.planUnit,
                 planVersion:this.form.planVersion,
                 editorDate:this.form.editorDate,
-                fileId:this.form.fileId,
+                // fileId:this.form.fileId,
                 register:this.form.register,
                 isDel:this.form.isDel,
             }
@@ -198,6 +199,21 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                  dsaEmergencyPlanApi.removeByPlanId(formData.id).then(response =>{
+                  })
+                  for (let i = 0; i < this.fileList.length ; i++) {
+                    let fileId = '';
+                    if (this.fileList[i].id) {
+                      fileId = this.fileList[i].id
+                    }  else {
+                      fileId = this.fileList[i].response.data.id
+                    }
+                    const tempData = {
+                      planId:formData.id,
+                      fileId:fileId,
+                    }
+                    dsaEmergencyPlanApi.addRelation(tempData).then()
+                  }
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -207,6 +223,13 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                  for (let i = 0; i < this.fileList.length ; i++) {
+                    const tempData = {
+                      planId:response.data.id,
+                      fileId:this.fileList[i].response.data.id,
+                    }
+                    dsaEmergencyPlanApi.addRelation(tempData).then()
+                  }
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -232,18 +255,25 @@ export default {
     },
     edit() {
       if (this.checkSel()) {
-        var arr = [];
-        if (this.selRow.fileInfo)  {
-          arr.push({
-            "url":"",
-            "name":this.selRow.fileInfo.originalFileName,
-            "id":this.selRow.fileId,
-            "status":"success",
-          })
-        }
-        this.fileList = arr
+
         this.isAdd = false
         this.form = this.selRow
+        this.fileList = []
+
+        let temp = null;
+        dsaEmergencyPlanApi.queryDataByPlanId(this.form.id).then(response=>{
+          temp = response.data
+          if(temp) {
+            temp.forEach(item =>{
+              this.fileList.push({
+                "url":"",
+                "name":item.fileInfo.originalFileName,
+                "id":item.fileId,
+                "status":"success",
+              })
+            })
+          }
+        })
         this.formTitle = '编辑'
         this.formVisible = true
 
@@ -282,20 +312,30 @@ export default {
       }
     },
     handleChangeUpload(file,fileList){
-      this.fileList = fileList.slice(-1)
+      this.fileList = fileList.slice(-10)
     },
     uploadSuccess(response) {
-      if (response.code === 20000) {
-        this.form.fileId = response.data.id
-      } else {
-        this.$message({
-          message: this.$t('common.uploadError'),
-          type: 'error'
-        })
-      }
+      // if (response.code === 20000) {
+      //   this.form.fileId = response.data.id
+      // } else {
+      //   this.$message({
+      //     message: this.$t('common.uploadError'),
+      //     type: 'error'
+      //   })
+      // }
 
     },removeFile(file){
-      this.form.fileId = ''
+      var arr = []
+      this.fileList.forEach(item =>{
+        if(item.response) {
+          if(item.response.data.id != file.id) {
+            arr.push((item))
+          }
+        } else if(item.id != file.id) {
+          arr.push(item)
+        }
+      })
+      this.fileList = arr
     },
     previewFile(record){
       this.previewVisible = true;

@@ -29,5 +29,27 @@ export default {
                 id: id
             }
         })
-    }
+    },queryDataByPlanId:function(planId) {
+    return request({
+      url: '/plan/file/queryDataByPlanId',
+      method: 'get',
+      params:{
+        planId:planId
+      }
+    })
+  },removeByPlanId:function(planId) {
+    return request({
+      url: '/plan/file/removeByPlanId',
+      method: 'delete',
+      params:{
+        planId:planId
+      }
+    })
+  },addRelation:function(params) {
+    return request({
+      url: '/plan/file',
+      method: 'post',
+      params
+    })
+  },
 }

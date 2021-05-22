@@ -69,7 +69,8 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      multiple:true,
     }
   },
   filters: {
@@ -202,7 +203,7 @@ export default {
                 publicationDate:this.form.publicationDate,
                 remark:this.form.remark,
                 isDel:this.form.isDel,
-                fileId:this.form.fileId
+                // fileId:this.form.fileId
             }
             if(formData.id){
                 dsaLawStatuteApi.update(formData).then(response => {
@@ -210,6 +211,21 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                  dsaLawStatuteApi.removeByStatuteId(formData.id).then(response =>{
+                  })
+                  for (let i = 0; i < this.fileList.length ; i++) {
+                    let fileId = '';
+                    if (this.fileList[i].id) {
+                      fileId = this.fileList[i].id
+                    }  else {
+                      fileId = this.fileList[i].response.data.id
+                    }
+                    const tempData = {
+                      statuteId:formData.id,
+                      fileId:fileId,
+                    }
+                    dsaLawStatuteApi.addRelation(tempData).then()
+                  }
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -219,6 +235,13 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                  for (let i = 0; i < this.fileList.length ; i++) {
+                    const tempData = {
+                      statuteId:response.data.id,
+                      fileId:this.fileList[i].response.data.id,
+                    }
+                    dsaLawStatuteApi.addRelation(tempData).then()
+                  }
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -245,22 +268,26 @@ export default {
     },
     edit() {
       if (this.checkSel()) {
-        // this.form.fileList = this.form.fileInfo
         this.resetForm()
-        var arr = [];
-        if (this.selRow.fileInfo)  {
-          arr.push({
-            "url":"",
-            "name":this.selRow.fileInfo.originalFileName,
-            "id":this.selRow.fileId,
-            "status":"success",
-          })
-        }
-
-        this.fileList = arr
-
+        this.fileList = []
         this.isAdd = false
         this.form = this.selRow
+        let temp = null;
+        dsaLawStatuteApi.queryDataByStatuteId(this.form.id).then(response=>{
+          temp = response.data
+          if(temp) {
+            temp.forEach(item =>{
+              this.fileList.push({
+                "url":"",
+                "name":item.fileInfo.originalFileName,
+                "id":item.fileId,
+                "status":"success",
+              })
+            })
+          }
+        })
+
+
         this.formTitle = '编辑法律法规库'
         this.formVisible = true
 
@@ -299,20 +326,30 @@ export default {
       }
     },
     handleChangeUpload(file,fileList){
-      this.fileList = fileList.slice(-1)
+      this.fileList = fileList.slice(-10)
     },
     uploadSuccess(response) {
-      if (response.code === 20000) {
-        this.form.fileId = response.data.id
-      } else {
-        this.$message({
-          message: this.$t('common.uploadError'),
-          type: 'error'
-        })
-      }
+      // if (response.code === 20000) {
+      //   this.form.fileId = response.data.id
+      // } else {
+      //   this.$message({
+      //     message: this.$t('common.uploadError'),
+      //     type: 'error'
+      //   })
+      // }
 
     },removeFile(file){
-      this.form.fileId = ''
+      var arr = []
+      this.fileList.forEach(item =>{
+        if(item.response) {
+          if(item.response.data.id != file.id) {
+            arr.push((item))
+          }
+        } else if(item.id != file.id) {
+          arr.push(item)
+        }
+      })
+      this.fileList = arr
     },
     previewFile(record){
       this.previewVisible = true;
@@ -320,7 +357,7 @@ export default {
       let previewUrl = originUrl + '&fullfilename=' + record.fileInfo.originalFileName;
       let preview = getPreviewUrl(1)+encodeURIComponent(Base64.encode(previewUrl));
       this.fileType = 1;
-      this.previewTitle = record.fileInfo.originalFileName;
+      this.previewTitle = record.lawName;
       this.previewFileUrl = preview;
       debugger
     }

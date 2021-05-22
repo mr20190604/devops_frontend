@@ -166,6 +166,7 @@ export default {
       this.formTitle = '添加应急车辆',
       this.formVisible = true
       this.isAdd = true
+      this.fileList = []
 
       if(this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
@@ -197,15 +198,22 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
-
-                  // for (let i = 0; i < this.fileList.length ; i++) {
-                  //   const tempData = {
-                  //     vehicle_id:response.data.id,
-                  //     fileId:this.fileList[i].id,
-                  //     orderNum:i+1
-                  //   }
-                  //   dsiParkEmergencyVehicleApi.addRelation(tempData).then()
-                  // }
+                  dsiParkEmergencyVehicleApi.removeByVehicleId(formData.id).then(response =>{
+                  })
+                  for (let i = 0; i < this.fileList.length ; i++) {
+                    let fileId = '';
+                    if (this.fileList[i].id) {
+                      fileId = this.fileList[i].id
+                    }  else {
+                      fileId = this.fileList[i].response.data.id
+                    }
+                    const tempData = {
+                      vehicleId:formData.id,
+                      fileId:fileId,
+                      orderNum:i+1
+                    }
+                    dsiParkEmergencyVehicleApi.addRelation(tempData).then()
+                  }
 
                     this.fetchData()
                     this.formVisible = false
@@ -216,15 +224,14 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
-
-                  // for (let i = 0; i < this.fileList.length ; i++) {
-                  //   const tempData = {
-                  //     vehicle_id:response.data.id,
-                  //     fileId:this.fileList[i].id,
-                  //     orderNum:i+1
-                  //   }
-                  //   dsiParkEmergencyVehicleApi.addRelation(tempData).then()
-                  // }
+                  for (let i = 0; i < this.fileList.length ; i++) {
+                    const tempData = {
+                      vehicleId:response.data.id,
+                      fileId:this.fileList[i].response.data.id,
+                      orderNum:i+1
+                    }
+                    dsiParkEmergencyVehicleApi.addRelation(tempData).then()
+                  }
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -253,20 +260,23 @@ export default {
         this.isAdd = false
         this.form = this.selRow
 
-        // var temp = null
-        //
-        // dsiParkEmergencyVehicleApi.queryDataByVehicleId(this.form.id).then(response=>{
-        //   temp = response.data
-        // })
-        //
-        // temp.forEach(item =>{
-        //   this.fileList.push({
-        //     "url":"",
-        //     "name":item.fileInfo.originalFileName,
-        //     "id":item.fileId,
-        //     "status":"success",
-        //   })
-        // })
+        var temp = null
+        this.fileList = []
+
+
+        dsiParkEmergencyVehicleApi.queryDataByVehicleId(this.form.id).then(response=>{
+          temp = response.data
+          if(temp) {
+            temp.forEach(item =>{
+              this.fileList.push({
+                "url":"",
+                "name":item.fileInfo.originalFileName,
+                "id":item.fileId,
+                "status":"success",
+              })
+            })
+          }
+        })
         this.formTitle = '编辑应急车辆'
         this.formVisible = true
 
@@ -319,7 +329,11 @@ export default {
     },removeFile(file){
       var arr = []
       this.fileList.forEach(item =>{
-        if (item.id != file.id) {
+        if(item.response) {
+          if(item.response.data.id != file.id) {
+            arr.push((item))
+          }
+        } else if(item.id != file.id) {
           arr.push(item)
         }
       })
