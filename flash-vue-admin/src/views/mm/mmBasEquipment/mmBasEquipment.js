@@ -92,6 +92,7 @@ export default {
       listLoading: true,
       selRow: {},
       yData:[4,3,5,3,6,6.5,7,6,8.1,5,7,7.3,7,6,7,5,6,6.7],
+      xData:[],
       lineData:{
         // title: {
         //   // text: '设备监测曲线',
@@ -122,20 +123,24 @@ export default {
           y:'top',
           orient:"horizontal",
           pieces: [{
-            label:'三级报警',
+            label:'正常',
             gt: 0,
             lte: 8,
-            color: '#93CE07'
+            color: '#1939ce'
           }, {
-            label:'二级报警',
+            label:'一级报警',
             gt: 8,
             lte: 9,
             color: '#FBDB0F'
           }, {
-            label:'一级报警',
+            label:'二级报警',
             gt: 9,
             lte: 10,
             color: '#FC7D02'
+          },{
+            label:'一级报警',
+            gt: 10,
+            color: '#fc1f0d'
           }],
           outOfRange: {
             color: '#999'
@@ -437,14 +442,16 @@ export default {
     },viewCurve(row) {
       this.formTitle = '监测曲线'
       this.formVisible = true
-      this.lineData.series[0].data = this.yData
+
       let a = this.getHour()+':'+this.getMinitu()
       let second = this.getSecond()
 
-      for (let i = 0; i < this.lineData.series[0].data.length; i++) {
-        let temp = second-(this.lineData.series[0].data.length -i);
-        this.lineData.xAxis.data.push(a+':'+temp)
+      for (let i = 0; i < this.yData.length; i++) {
+        let temp = second-(this.yData.length -i);
+        this.xData.push(a+':'+temp)
       }
+      this.lineData.series[0].data = this.yData
+      this.lineData.xAxis.data = this.xData
       this.timer = setInterval(this.pushData,1000*3)
 
     },getHour(){
@@ -466,9 +473,7 @@ export default {
       return hours+':'+minutes+':'+second
     },pushData() {
       let timeStr = this.getDateTime()
-      // let value = Math.floor(Math.random()*10)+1
       let value = Math.random()*4+4
-      // this.inscrse(value)
 
       this.lineData.xAxis.data.push(timeStr)
       this.lineData.series[0].data.push(value)
@@ -476,11 +481,13 @@ export default {
     },closeTimer() {
       this.timer = null
       let arr = []
+      let tem = []
       for (let i = 0; i < this.yData.length ; i++) {
         if (i <= 17) {
           arr.push(this.yData[i])
         }
       }
+      this.xData = tem
       this.yData = arr
       this.lineData.xAxis.data = []
       this.lineData.series[0].data = []

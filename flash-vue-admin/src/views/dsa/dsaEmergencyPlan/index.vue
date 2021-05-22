@@ -34,9 +34,9 @@
               </el-form-item>
 
               <el-form-item style="float: right;margin-right: 100px">
-                <el-button type="success" size="mini"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+                <el-button type="primary"   icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
                 </el-button>
-                <el-button type="primary" size="mini"  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+                <el-button    icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
                 </el-button>
               </el-form-item>
             </el-row>
@@ -100,13 +100,13 @@
                     {{scope.row.editorDate}}
                 </template>
             </el-table-column>
-            <el-table-column label="附件">
-                <template slot-scope="scope">
-                  <div style="color: #409EFF" v-if="scope.row.fileInfo != null " @click="downloadFileINfo(scope.row.fileInfo)" id="file1">{{scope.row.fileInfo.originalFileName}}</div>
-                  <div style="color: #409EFF" v-else="scope.row.fileInfo != null " @click="downloadFileINfo(scope.row.fileInfo)" id="file2"></div>
+            <!--<el-table-column label="附件">-->
+                <!--<template slot-scope="scope">-->
+                  <!--<div style="color: #409EFF" v-if="scope.row.fileInfo != null " @click="downloadFileINfo(scope.row.fileInfo)" id="file1">{{scope.row.fileInfo.originalFileName}}</div>-->
+                  <!--<div style="color: #409EFF" v-else="scope.row.fileInfo != null " @click="downloadFileINfo(scope.row.fileInfo)" id="file2"></div>-->
 
-                </template>
-            </el-table-column>
+                <!--</template>-->
+            <!--</el-table-column>-->
             <el-table-column label="登记人" width="100">
                 <template slot-scope="scope">
                     {{scope.row.register}}

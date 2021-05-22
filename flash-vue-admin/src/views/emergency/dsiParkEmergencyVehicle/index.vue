@@ -29,8 +29,8 @@
               </el-select>
                 </el-form-item>
             <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
             </el-form-item>
             <br>
                   <el-form-item label="车辆型号">
@@ -41,9 +41,9 @@
             <br>
             <el-row>
                 <el-col :span="24">
-                    <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/vehicle/add']">{{ $t('button.add') }}</el-button>
+                    <el-button type="primary"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/vehicle/add']">{{ $t('button.add') }}</el-button>
                     <!--<el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/park/emergency/vehicle/update']">{{ $t('button.edit') }}</el-button>-->
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/vehicle/delete']">批量删除</el-button>
+                    <el-button  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/vehicle/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
