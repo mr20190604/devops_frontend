@@ -10,7 +10,7 @@ const previewSuffixs = ['pdf','doc','docx','xlsx','xls','csv','bmp','jpg','jpeg'
  * */
 export function isCanPreview(fileName) {
   if(fileName && fileName.lastIndexOf(".") > -1) {
-    let suffix = fileName.substring(fileName.lastIndexOf("."), fileName.length);
+    let suffix = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length);
     let value = previewSuffixs.find(value=> value === suffix);
     if(value) {
       return true;
