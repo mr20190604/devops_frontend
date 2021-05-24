@@ -1,7 +1,6 @@
 const apiUrl = process.env.VUE_APP_BASE_API
 const previewUrl_1 = process.env.VUE_APP_BASE_PREVIEW_1
 const previewUrl_2 = process.env.VUE_APP_BASE_PREVIEW_2
-const previewUrl_3 = process.env.VUE_APP_BASE_PREVIEW_3
 
 
 export function getApiUrl() {
