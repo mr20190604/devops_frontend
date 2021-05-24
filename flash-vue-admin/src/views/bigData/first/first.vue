@@ -9,7 +9,7 @@
         </el-radio-group>
           <span class="demonstration">指定时间：</span>
           <el-date-picker
-            v-model="data"
+            v-model="date"
             type="datetimerange"
             range-separator="至"
             start-placeholder="选择开始日期"
