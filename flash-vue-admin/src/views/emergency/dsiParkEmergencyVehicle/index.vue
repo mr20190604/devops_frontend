@@ -78,7 +78,7 @@
                     {{scope.row.vehicleLicense}}
                 </template>
             </el-table-column>
-            <el-table-column label="车辆编号">
+            <el-table-column label="车辆编号" width="100px">
                 <template slot-scope="scope">
                     {{scope.row.vehicleCode}}
                 </template>
@@ -93,12 +93,12 @@
                     {{scope.row.vehicleModel}}
                 </template>
             </el-table-column>
-            <el-table-column label="行政区划">
+            <el-table-column label="行政区划" width="100px">
                 <template slot-scope="scope">
                     {{scope.row.districtName}}
                 </template>
             </el-table-column>
-            <el-table-column label="负责人">
+            <el-table-column label="负责人" width="80px">
                 <template slot-scope="scope">
                     {{scope.row.vehicleResponsible}}
                 </template>
@@ -128,10 +128,12 @@
                     {{scope.row.isDel}}
                 </template>
             </el-table-column>-->
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="200px">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/vehicle/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/park/emergency/vehicle/delete']">{{ $t('button.delete') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-view"  @click.native="openFileView(scope.row)" >预览</el-button>
+
                 </template>
             </el-table-column>
         </el-table>
@@ -204,7 +206,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="负责人"  >
+                        <el-form-item label="负责人" >
                             <el-input v-model="form.vehicleResponsible" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
@@ -235,7 +237,7 @@
                         :headers="uploadHeaders"
                         :on-change="handleChangeUpload"
                         :on-success="uploadSuccess"
-                        accept=".jpg,.png,.jpeg,.gif,.bmp"
+                        accept=".jpg,.png,.jpeg,.gif,.bmp,.doc"
                         :on-remove="removeFile"
                         :file-list="fileList"
                         :multiple="multiple"
@@ -254,6 +256,37 @@
 
             </el-form>
         </el-dialog>
+      <el-dialog
+        :title="viewTitle"
+        :visible.sync="viewVisible"
+        width="50%" style="margin-top: 0px"
+      >
+        <el-table :data="files"
+                  v-loading="fileLoading"
+                  element-loading-text="Loading"
+                  border
+        >
+          <el-table-column label="文件名称">
+            <template slot-scope="scope" >
+              <div style="color: #409EFF"  @click="previewFile(scope.row)">{{scope.row.fileInfo.originalFileName}}</div>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="上传时间">
+            <template slot-scope="scope">
+              {{scope.row.createTime}}
+            </template>
+          </el-table-column>
+        </el-table>
+
+      </el-dialog>
+
+      <el-dialog
+        :title="previewTitle"
+        :visible.sync="previewVisible"
+        width="50%" style="margin-top: 0px">
+        <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl" :fileType="fileType"></preview>
+      </el-dialog>
     </div>
 </template>
 

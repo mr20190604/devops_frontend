@@ -24,8 +24,8 @@ export default {
   },
   data() {
     return {
-      title: 'web-flash Admin',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: '数据资源一体化子系统',
+      logo: '/img/logo.png'
     }
   }
 }

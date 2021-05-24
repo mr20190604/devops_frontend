@@ -23,15 +23,12 @@
           <i style="display: inline-block;width: 18px;height: 18px;background-image:url('/jczx.png');background-position: center;background-size: 18px;margin-top: 16px;" />
         </a>
         <search id="header-search" class="right-menu-item" title="快速入口" />
-        <!--<a class="right-menu-item" target="_blank" title="文档" href="https://enilu.gitee.io/web-flash" style="vertical-align: top;"><i class="el-icon-document" /></a>
-        <lang-select class="international right-menu-item" />-->
       </template>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <!--          <img class="user-avatar" src="@/assets/img/太阳.png">-->
           <p style="height: 40px;line-height: 25px;padding-right: 15px;cursor: pointer;">
             欢迎您 {{ $store.state.user.name }}  |&nbsp;&nbsp;
-            <img class="user-avatar" style="width: 20px;height: 20px;position: absolute;padding-right: 1px;margin-top: 1px;" src="/head.png">
+            <img class="user-avatar" style="width: 20px;height: 20px;position: absolute;padding-right: 1px;margin-top: 1px;" src="/head.png" alt="">
             <i class="el-icon-caret-bottom" style="margin-top: -20px;margin-left: -10px" />
           </p>
         </div>
@@ -58,14 +55,12 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    LangSelect,
     Search
   },
   computed: {

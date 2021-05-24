@@ -199,11 +199,11 @@
                       :headers="uploadHeaders"
                       :on-change="handleChangeUpload"
                       :on-success="uploadSuccess"
-                      accept=".doc,.docx,.pdf,.zip,.rar"
                       :on-remove="removeFile"
                       :file-list="fileList"
                       :multiple="multiple"
                     >
+                      <!--accept=".doc,.docx,.pdf,.zip,.rar"-->
                       <el-button size="small" type="primary">点击上传</el-button>
                       <div slot="tip" >最大上传大小10Mb</div>
                     </el-upload>
@@ -219,6 +219,8 @@
 
             </el-form>
         </el-dialog>
+
+
         <el-dialog
           :title="previewTitle"
           :visible.sync="previewVisible"
