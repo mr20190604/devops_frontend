@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      enterpriseId:'',
       activeName:'first',
       formVisible: false,
       formTitle: '添加数据资源一体化子系统--企业信息',
@@ -200,72 +201,68 @@ export default {
       }
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
-    // save() {
-    //   this.$refs['form'].validate((valid) => {
-    //     if (valid) {
-    //       const formData = {
-    //         id: this.form.id,
-    //         code: this.form.code,
-    //         enterpriseName: this.form.enterpriseName,
-    //         enterpriseAddress: this.form.enterpriseAddress,
-    //         riskLevel: this.form.riskLevel,
-    //         legalPerson: this.form.legalPerson,
-    //         registerCode: this.form.registerCode,
-    //         envSafeLeader: this.form.envSafeLeader,
-    //         emergencyWorker: this.form.emergencyWorker,
-    //         emergencyTeam: this.form.emergencyTeam,
-    //         parkId: this.form.parkId,
-    //         industryId: this.form.industryId,
-    //         districtCode: this.form.districtCode,
-    //         employmentNo: this.form.employmentNo,
-    //         isDangerSource: this.form.isDangerSource,
-    //         foreignUnit: this.form.foreignUnit,
-    //         enterpriseOtel: this.form.enterpriseOtel,
-    //         enterpriseFax: this.form.enterpriseFax,
-    //         enterpriseEmergencyTel: this.form.enterpriseEmergencyTel,
-    //         enterpriseEmail: this.form.enterpriseEmail,
-    //         isDel: this.form.isDel,
-    //         managementSituation: this.form.managementSituation,
-    //         enterpriseNature: this.form.enterpriseNature
-    //       }
-    //
-    //       if (formData.id) {
-    //         /*dsiEnterpriseBaseinfoApi.update(formData).then(response => {
-    //           this.$message({
-    //             message: this.$t('common.optionSuccess'),
-    //             type: 'success'
-    //           })
-    //           this.fetchData()
-    //           this.formVisible = false*/
-    //           this.showtabs();
-    //         //})
-    //       } else {
-    //         dsiEnterpriseBaseinfoApi.add(formData).then(response => {
-    //           this.$message({
-    //             message: this.$t('common.optionSuccess'),
-    //             type: 'success'
-    //           })
-    //           this.fetchData()
-    //           this.formVisible = false
-    //         })
-    //       }
-    //
-    //     } else {
-    //       return false
-    //     }
-    //
-    //   })
-    // },
-    showtabs(){
+    save() {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          const formData = {
+            id: this.form.id,
+            code: this.form.code,
+            enterpriseName: this.form.enterpriseName,
+            enterpriseAddress: this.form.enterpriseAddress,
+            riskLevel: this.form.riskLevel,
+            legalPerson: this.form.legalPerson,
+            registerCode: this.form.registerCode,
+            envSafeLeader: this.form.envSafeLeader,
+            emergencyWorker: this.form.emergencyWorker,
+            emergencyTeam: this.form.emergencyTeam,
+            parkId: this.form.parkId,
+            industryId: this.form.industryId,
+            districtCode: this.form.districtCode,
+            employmentNo: this.form.employmentNo,
+            isDangerSource: this.form.isDangerSource,
+            foreignUnit: this.form.foreignUnit,
+            enterpriseOtel: this.form.enterpriseOtel,
+            enterpriseFax: this.form.enterpriseFax,
+            enterpriseEmergencyTel: this.form.enterpriseEmergencyTel,
+            enterpriseEmail: this.form.enterpriseEmail,
+            isDel: this.form.isDel,
+            managementSituation: this.form.managementSituation,
+            enterpriseNature: this.form.enterpriseNature
+          }
+          if (formData.id) {
+            dsiEnterpriseBaseinfoApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            dsiEnterpriseBaseinfoApi.add(formData).then(response => {
+              console.log(response);
+              /*this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })*/
+              this.enterpriseId = response.data.id;
+              if(this.enterpriseId) {
+                this.activeName="second";
+              } else {
+                this.activeName = 'first';
+              }
+             /* this.fetchData()
+              this.formVisible = false*/
+            })
+          }
 
-      if(this.$route.query.activeName!=null){
-        this.activeName = this.$route.query.activeName;
-        let current1 = this.activeName;
-        if(current1=='second'){
-          this.$refs['zbsq'].loadingData();//进入页面要调用的函数
+        } else {
+          return false
         }
-      }
+
+      })
     },
+
     checkSel() {
       if (this.selRow && this.selRow.id) {
         return true
@@ -355,9 +352,6 @@ export default {
       }).catch(() => {
       })
     },
-    kjManager(){
-        this.activeName="second"
-        this
-    }
+
   }
 }

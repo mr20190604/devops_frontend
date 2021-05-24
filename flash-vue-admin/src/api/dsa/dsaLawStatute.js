@@ -39,7 +39,7 @@ export default {
       }
     })
   }
-    },queryDataByStatuteId:function(statuteId) {
+    ,queryDataByStatuteId:function(statuteId) {
     return request({
       url: '/statute/file/queryDataByStatuteId',
       method: 'get',
