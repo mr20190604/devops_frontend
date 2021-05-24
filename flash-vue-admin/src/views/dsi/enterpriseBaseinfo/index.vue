@@ -52,13 +52,15 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/enterpriseBaseinfo/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/enterpriseBaseinfo/delete']">批量删除</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="removeBatch" v-permission="['/enterpriseBaseinfo/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
 
 
-        <el-table :ref="enterpriseTable" :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+        <el-table  :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+                  :row-key="row=>row.id"
+                  @selection-change="handleSelectionChange"
                   @current-change="handleCurrentChange" >
 
 
@@ -154,7 +156,7 @@
                 :visible.sync="formVisible"
                 width="70%">
           <template>
-            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+            <el-tabs  v-model="activeName" type="card" >
               <el-tab-pane label="添加企业信息" name="first" style="visibility: visible">
 
                 <el-form ref="form" :model="form" :rules="rules" label-width="120px">
@@ -268,13 +270,13 @@
 
                   </el-row>
                   <el-form-item id="myself">
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
+                    <el-button type="primary" @click="kjManager">{{ $t('button.submit') }}</el-button>
                     <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
                   </el-form-item>
 
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane label="产品信息" name="second">
+              <el-tab-pane label="产品信息" name="second" id="second" ref="zbsq" >
                 <materialInfo></materialInfo>
               </el-tab-pane>
               <el-tab-pane label="风险单元" name="third">

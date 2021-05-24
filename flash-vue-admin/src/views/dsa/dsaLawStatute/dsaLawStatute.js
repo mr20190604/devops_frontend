@@ -70,6 +70,7 @@ export default {
       list: null,
       listLoading: true,
       selRow: {},
+      selection:[],
       multiple:true,
     }
   },
@@ -160,6 +161,9 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -341,8 +345,8 @@ export default {
     },removeFile(file){
       var arr = []
       this.fileList.forEach(item =>{
-        if(item.response && file.response) {
-          if(item.response.data.id != file.response.data.id) {
+        if(item.response) {
+          if(item.response.data.id != file.id) {
             arr.push((item))
           }
         } else if(item.id != file.id) {
@@ -359,6 +363,41 @@ export default {
       this.fileType = 1;
       this.previewTitle = record.lawName;
       this.previewFileUrl = preview;
+      debugger
+    },
+    removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        dsaLawStatuteApi.removeBatch1(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
     }
-  },
+  }
 }

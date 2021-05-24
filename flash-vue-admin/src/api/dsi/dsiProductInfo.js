@@ -30,7 +30,7 @@ export default {
       }
     })
   },
-  removeBatch: function(ids) {
+  removeBatch1: function(ids) {
     return request({
       url: '/product/info/removeBatch',
       method: 'delete',

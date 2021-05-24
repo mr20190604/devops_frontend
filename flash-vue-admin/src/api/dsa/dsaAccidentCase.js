@@ -29,5 +29,14 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  removeBatch1: function(ids) {
+    return request({
+      url: '/accident/case/removeBatch1',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
+  }
 }

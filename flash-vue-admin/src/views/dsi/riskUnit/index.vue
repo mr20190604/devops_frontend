@@ -32,7 +32,7 @@
                      v-permission="['/riskUnit/add']">{{ $t('button.add') }}
           </el-button>
 
-          <el-button type="danger"  size="mini" icon="el-icon-delete" @click.native="remove"
+          <el-button type="danger"  size="mini" icon="el-icon-delete" @click.native="removeBatch"
                      v-permission="['/riskUnit/delete']">批量删除
           </el-button>
         </el-col>
@@ -40,7 +40,9 @@
     </div>
 
 
-    <el-table :ref="enterpriseRiskUnitTable" :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+    <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+              :row-key="row=>row.id"
+              @selection-change="handleSelectionChange"
               @current-change="handleCurrentChange">
       <el-table-column
         type="selection"
@@ -152,7 +154,7 @@
         <el-form-item
           v-for="(rec, index) in form.details"
           :label="'风险物质' + (index+1)"
-          :key="rec.headPerson"
+          :key="rec.materialId"
           :prop="'details.' + index + '.value'"
           :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
         >

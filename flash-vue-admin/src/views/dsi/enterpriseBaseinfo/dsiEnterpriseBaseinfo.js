@@ -65,9 +65,10 @@ export default {
       //所属行业下拉数据
       industry_list:[],
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection: []
     }
   },
   enterpriseTable:null,
@@ -159,7 +160,9 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
-
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -197,57 +200,71 @@ export default {
       }
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
-    save() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          const formData = {
-            id: this.form.id,
-            code: this.form.code,
-            enterpriseName: this.form.enterpriseName,
-            enterpriseAddress: this.form.enterpriseAddress,
-            riskLevel: this.form.riskLevel,
-            legalPerson: this.form.legalPerson,
-            registerCode: this.form.registerCode,
-            envSafeLeader: this.form.envSafeLeader,
-            emergencyWorker: this.form.emergencyWorker,
-            emergencyTeam: this.form.emergencyTeam,
-            parkId: this.form.parkId,
-            industryId: this.form.industryId,
-            districtCode: this.form.districtCode,
-            employmentNo: this.form.employmentNo,
-            isDangerSource: this.form.isDangerSource,
-            foreignUnit: this.form.foreignUnit,
-            enterpriseOtel: this.form.enterpriseOtel,
-            enterpriseFax: this.form.enterpriseFax,
-            enterpriseEmergencyTel: this.form.enterpriseEmergencyTel,
-            enterpriseEmail: this.form.enterpriseEmail,
-            isDel: this.form.isDel,
-            managementSituation: this.form.managementSituation,
-            enterpriseNature: this.form.enterpriseNature
-          }
-          if (formData.id) {
-            dsiEnterpriseBaseinfoApi.update(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              this.fetchData()
-              this.formVisible = false
-            })
-          } else {
-            dsiEnterpriseBaseinfoApi.add(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              this.fetchData()
-              this.formVisible = false
-            })
-          }
-        } else {
-          return false
+    // save() {
+    //   this.$refs['form'].validate((valid) => {
+    //     if (valid) {
+    //       const formData = {
+    //         id: this.form.id,
+    //         code: this.form.code,
+    //         enterpriseName: this.form.enterpriseName,
+    //         enterpriseAddress: this.form.enterpriseAddress,
+    //         riskLevel: this.form.riskLevel,
+    //         legalPerson: this.form.legalPerson,
+    //         registerCode: this.form.registerCode,
+    //         envSafeLeader: this.form.envSafeLeader,
+    //         emergencyWorker: this.form.emergencyWorker,
+    //         emergencyTeam: this.form.emergencyTeam,
+    //         parkId: this.form.parkId,
+    //         industryId: this.form.industryId,
+    //         districtCode: this.form.districtCode,
+    //         employmentNo: this.form.employmentNo,
+    //         isDangerSource: this.form.isDangerSource,
+    //         foreignUnit: this.form.foreignUnit,
+    //         enterpriseOtel: this.form.enterpriseOtel,
+    //         enterpriseFax: this.form.enterpriseFax,
+    //         enterpriseEmergencyTel: this.form.enterpriseEmergencyTel,
+    //         enterpriseEmail: this.form.enterpriseEmail,
+    //         isDel: this.form.isDel,
+    //         managementSituation: this.form.managementSituation,
+    //         enterpriseNature: this.form.enterpriseNature
+    //       }
+    //
+    //       if (formData.id) {
+    //         /*dsiEnterpriseBaseinfoApi.update(formData).then(response => {
+    //           this.$message({
+    //             message: this.$t('common.optionSuccess'),
+    //             type: 'success'
+    //           })
+    //           this.fetchData()
+    //           this.formVisible = false*/
+    //           this.showtabs();
+    //         //})
+    //       } else {
+    //         dsiEnterpriseBaseinfoApi.add(formData).then(response => {
+    //           this.$message({
+    //             message: this.$t('common.optionSuccess'),
+    //             type: 'success'
+    //           })
+    //           this.fetchData()
+    //           this.formVisible = false
+    //         })
+    //       }
+    //
+    //     } else {
+    //       return false
+    //     }
+    //
+    //   })
+    // },
+    showtabs(){
+
+      if(this.$route.query.activeName!=null){
+        this.activeName = this.$route.query.activeName;
+        let current1 = this.activeName;
+        if(current1=='second'){
+          this.$refs['zbsq'].loadingData();//进入页面要调用的函数
         }
-      })
+      }
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {
@@ -303,7 +320,44 @@ export default {
         }).catch(() => {
         })
       }
-    }
+    },
+    removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
 
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        dsiEnterpriseBaseinfoApi.removeBatch1(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
+    },
+    kjManager(){
+        this.activeName="second"
+        this
+    }
   }
 }

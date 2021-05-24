@@ -29,5 +29,14 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  removeBatch1: function(ids) {
+    return request({
+      url: '/dsi/enterprise/risk/unit/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
+  }
 }

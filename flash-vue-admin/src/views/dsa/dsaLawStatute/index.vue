@@ -56,28 +56,26 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/law/statute/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/law/statute/delete']">批量删除</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="removeBatch" v-permission="['/law/statute/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
 
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+                  @selection-change="handleSelectionChange"
+                  :row-key="row=>row.id"
                   @current-change="handleCurrentChange">
           <el-table-column
             type="selection"
             width="55"
             :reserve-selection="true"
-          >
-          </el-table-column>
+          />
           <el-table-column
             type="index"
             width="50"
             label="序号"
-          >
-          </el-table-column>
-
-
+          />
             <el-table-column label="文件标题">
                 <template slot-scope="scope">
                     {{scope.row.lawName}}

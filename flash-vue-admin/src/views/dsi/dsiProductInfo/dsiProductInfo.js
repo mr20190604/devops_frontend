@@ -1,6 +1,5 @@
 import dsiProductInfoApi from '@/api/dsi/dsiProductInfo'
 import permission from '@/directive/permission/index.js'
-
 export default {
   directives: { permission },
   data() {
@@ -17,6 +16,9 @@ export default {
         enterpriseId: '',
         id: ''
       },
+      productList:null,
+      //用于保存产品临时数据，最后统一提交
+      product_list:[],
       materialVisible: false,
       listQuery: {
         page: 1,
@@ -79,6 +81,7 @@ export default {
       })
     },
     search() {
+
       this.fetchData()
     },
     reset() {
@@ -165,9 +168,18 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
+              var enterpriseId=response.data.id
+              console.log(enterpriseId)
+
+              this.material_list.forEach(item =>{
+                item.enterpriseId = enterpriseId
+                dsiProductInfoApi.add(item).then()
+              })
+              this.material_list = [];
               this.fetchData()
               this.formVisible = false
             })
+
           }
         } else {
           return false

@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true">
-        <el-form-item label="产品名称">
-          <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
-        </el-form-item>
-        <el-form-item label="产品型号">
-          <el-input v-model="listQuery.productModel" placeholder="输入产品型号" />
-        </el-form-item>
-        <!-- <el-form-item label="是否有毒">
+         <!-- <el-form label-width="120px" :inline="true">
+            <el-form-item label="产品名称">
+              <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
+            </el-form-item>
+            <el-form-item label="产品型号">
+              <el-input v-model="listQuery.productModel" placeholder="输入产品型号" />
+            </el-form-item>
+           &lt;!&ndash; <el-form-item label="是否有毒">
               <dict-select v-model="listQuery.isPoisonHarm" dict-name="是否" />
             </el-form-item>
             <el-form-item label="是否易燃易爆">
@@ -70,7 +70,7 @@
 
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="productList"
       element-loading-text="Loading"
       border
       fit
@@ -304,7 +304,7 @@
 
       </el-form>
     </el-dialog>
-    <!--
+<!--
     <el-dialog
       :title="formTitle"
       :visible.sync="materialVisible"

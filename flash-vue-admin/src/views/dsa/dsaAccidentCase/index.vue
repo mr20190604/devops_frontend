@@ -62,26 +62,26 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/accident/case/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/accident/case/delete']">批量删除</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="removeBatch1" v-permission="['/accident/case/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
 
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                  @current-change="handleCurrentChange">
+                  :row-key="row=>row.id"
+                  @current-change="handleCurrentChange"
+                  @selection-change="handleSelectionChange">
           <el-table-column
             type="selection"
             width="55"
             :reserve-selection="true"
-          >
-          </el-table-column>
+          />
           <el-table-column
             type="index"
             width="50"
             label="序号"
-          >
-          </el-table-column>
+          />
           <el-table-column label="事故名称">
                 <template slot-scope="scope">
                     {{scope.row.accidentName}}
@@ -156,7 +156,6 @@
                     <el-col :span="12">
                         <el-form-item label="事故时间"  >
                             <el-date-picker v-model="form.accidentTime" class="date_picker"
-                                            :picker-options="pickerOptions"
                                             value-format="yyyy/MM/dd" minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
