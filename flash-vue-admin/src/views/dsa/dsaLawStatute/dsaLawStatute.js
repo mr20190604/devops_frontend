@@ -72,6 +72,8 @@ export default {
       selRow: {},
       selection:[],
       multiple:true,
+      fileLoading:true,
+      files:null
     }
   },
   filters: {
@@ -184,6 +186,7 @@ export default {
     },
     add() {
       this.resetForm()
+      this.fileList = []
       this.formTitle = '添加法律法规库',
       this.formVisible = true
       this.isAdd = true
@@ -357,10 +360,14 @@ export default {
     },
     previewFile(record){
       this.previewVisible = true;
+      dsaLawStatuteApi.queryDataByStatuteId(record.id).then(response =>{
+        this.files = response.data
+      })
+      this.fileLoading = false
+    },viewFile(record) {
+      debugger
       let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
-      let previewUrl = originUrl + '&fullfilename=' + record.fileInfo.originalFileName;
-      let preview = getPreviewUrl(1)+encodeURIComponent(Base64.encode(previewUrl));
-      this.fileType = 1;
+      let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
       this.previewTitle = record.lawName;
       this.previewFileUrl = preview;
       debugger

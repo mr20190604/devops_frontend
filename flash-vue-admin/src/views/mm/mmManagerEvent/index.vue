@@ -6,7 +6,7 @@
           <el-input v-model="listQuery.key" placeholder="编号、名称、地点、描述" />
         </el-form-item>
         <el-form-item label="事件类型：">
-          <dict-select dict-name="事件类型" />
+          <dict-select v-model="listQuery.eventType" dict-name="事件类型" />
         </el-form-item>
         <el-form-item class="listSearch">
           <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
@@ -100,7 +100,8 @@
       @next-click="fetchNext"
     />
 
-    <el-dialog class="dialogTitleBackground dialogTitle"
+    <el-dialog
+      class="dialogTitleBackground dialogTitle"
       :title="formTitle"
       :visible.sync="formVisible"
       width="60%"
