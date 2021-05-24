@@ -327,8 +327,8 @@ export default {
     },removeFile(file){
       var arr = []
       this.fileList.forEach(item =>{
-        if(item.response) {
-          if(item.response.data.id != file.id) {
+        if(item.response && file.response) {
+          if(item.response.data.id != file.response.data.id) {
             arr.push((item))
           }
         } else if(item.id != file.id) {

@@ -223,7 +223,7 @@ export default {
       this.listQuery.id = ''
       this.listQuery.equipmentCode = ''
       this.listQuery.equipmentType = ''
-      this.equipmentRunStatus = ''
+      this.listQuery.equipmentStatus1= ''
       this.listQuery.startTime = ''
       this.listQuery.endTime = ''
       this.fetchData()

@@ -359,20 +359,13 @@ export default {
     },saveMaterial(){
       this.$refs['materialForm'].validate((valid) => {
         if (valid) {
-         var a =  this.materialForm.validityTerm
-          if (a) {
-            a = a +" 00:00:00";
-          } else {
-            a = ""
-          }
-
           const formData = {
             id: this.materialForm.id,
             materialName: this.materialForm.materialName,
             materialType: this.materialForm.materialType,
             chUnitId: this.materialForm.chUnitId,
             materialNum: this.materialForm.materialNum,
-            validityTermStr: a,
+            validityTerm: this.materialForm.validityTerm,
             poolId: this.form.id,
             materialTypeName: null,
             chUnitIdName:null
@@ -384,17 +377,11 @@ export default {
                 arr.push(item)
               }
             })
-            // var index = this.material_list.indexOf(formData)
-            // for(var i = 0;i < this.material_list.length;i++) {
-            //   if (index != i) {
-            //     arr.push(this.material_list[i])
-            //   }
-            // }
             this.material_list = arr
             this.material_list.push(formData)
             this.material_list.remove
+            this.initMaterialList(this.form.id)
             this.materialList = this.material_list
-
           } else {
             if (formData.id) {
               dsiParkEmergency.update(formData).then(response =>{
@@ -402,6 +389,7 @@ export default {
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
+                this.initMaterialList(this.form.id)
 
               })
             } else {
@@ -410,8 +398,9 @@ export default {
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-
+                this.initMaterialList(this.form.id)
               })
+
 
             }
           }
@@ -419,7 +408,7 @@ export default {
         else {
           return false
         }
-        this.initMaterialList(this.form.id)
+
         this.materialVisible = false
 
       })

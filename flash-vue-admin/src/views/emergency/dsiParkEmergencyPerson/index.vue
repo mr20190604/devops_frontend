@@ -11,7 +11,7 @@
                 <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
               </el-form-item>
               <el-form-item label="现工作单位">
-                <el-input v-model="listQuery.enterpriseId"  placeholder="请输入所属企业"></el-input>
+                <el-input v-model="listQuery.workPlace"  placeholder="请输入工作单位"></el-input>
               </el-form-item>
             </el-row>
 

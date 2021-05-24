@@ -49,7 +49,7 @@ export default {
         id: undefined,
         name:'',
         districtCode:'',
-        enterpriseId:'',
+        workPlace:'',
         isExpert:''
       },
       total: 0,

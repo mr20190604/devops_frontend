@@ -2,6 +2,8 @@
     <div class="app-container">
         <div class="block">
           <el-form  label-width="120px" :inline="true" >
+
+            <el-row>
               <el-form-item label="名称">
                 <el-input v-model="listQuery.repositoriesName" placeholder="请输入资源库名称"></el-input>
               </el-form-item>
@@ -17,7 +19,10 @@
               <el-form-item label="地址">
                 <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
               </el-form-item>
+            </el-row>
 
+
+            <el-row>
               <el-form-item label="所属企业">
                 <el-select v-model="listQuery.enterpriseId"  placeholder="请选择所属企业">
                   <el-option
@@ -29,10 +34,13 @@
                 </el-select>
               </el-form-item>
 
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
+              <el-form-item style="float: right;margin-right: 100px">
+                <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-form-item>
+            </el-row>
+
+
             <br>
           </el-form>
 
@@ -214,20 +222,18 @@
                     {{scope.row.materialNum}}
                   </template>
                 </el-table-column>
-                <template v-if="materialAdd == false">
                   <el-table-column label="有效期">
                     <template slot-scope="scope">
                       {{scope.row.validityTerm}}
                     </template>
                   </el-table-column>
-                </template>
-                <template v-else>
-                  <el-table-column label="有效期">
-                    <template slot-scope="scope">
-                      {{scope.row.validityTermStr}}
-                    </template>
-                  </el-table-column>
-                </template>
+                <!--<template v-else>-->
+                  <!--<el-table-column label="有效期">-->
+                    <!--<template slot-scope="scope">-->
+                      <!--{{scope.row.validityTermStr}}-->
+                    <!--</template>-->
+                  <!--</el-table-column>-->
+                <!--</template>-->
 
                 <el-table-column label="操作">
                   <template slot-scope="scope">
@@ -290,7 +296,7 @@
 
             <el-col :span="12">
               <el-form-item label="有效期"  >
-                <el-date-picker v-model="materialForm.validityTerm" type="date" placeholder="请选择"   value-format="yyyy/MM/dd"></el-date-picker>
+                <el-date-picker v-model="materialForm.validityTerm" type="date" placeholder="请选择"   value-format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>

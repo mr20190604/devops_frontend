@@ -28,14 +28,15 @@
                 </el-option>
               </el-select>
                 </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
+
             <br>
                   <el-form-item label="车辆型号">
               <el-input v-model="listQuery.vehicleModel" placeholder="请选择车辆型号"></el-input>
                   </el-form-item>
+            <el-form-item style="float: right;margin-right: 100px">
+              <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-form-item>
 
           </el-form>
             <br>
@@ -237,7 +238,7 @@
                         :headers="uploadHeaders"
                         :on-change="handleChangeUpload"
                         :on-success="uploadSuccess"
-                        accept=".jpg,.png,.jpeg,.gif,.bmp,.doc"
+                        accept=".jpg,.png,.jpeg,.gif,.bmp"
                         :on-remove="removeFile"
                         :file-list="fileList"
                         :multiple="multiple"

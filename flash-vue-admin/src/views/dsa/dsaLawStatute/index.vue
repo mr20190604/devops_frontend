@@ -202,6 +202,7 @@
                       :on-remove="removeFile"
                       :file-list="fileList"
                       :multiple="multiple"
+                      accept=".doc,.docx,.pdf,.zip,.rar"
                     >
                       <!--accept=".doc,.docx,.pdf,.zip,.rar"-->
                       <el-button size="small" type="primary">点击上传</el-button>

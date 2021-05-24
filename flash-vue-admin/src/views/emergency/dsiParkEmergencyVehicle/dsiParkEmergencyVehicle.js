@@ -44,6 +44,11 @@ export default {
         page: 1,
         limit: 10,
         id: undefined,
+        vehicleModel:'',
+        vehicleLicense:'',
+        vehicleType:'',
+        vehicleResponsible:'',
+        enterpriseId:'',
 
       },
       total: 0,
@@ -131,6 +136,11 @@ export default {
     },
     reset() {
       this.listQuery.id = ''
+      this.listQuery.enterpriseId = ''
+      this.listQuery.vehicleModel = ''
+      this.listQuery.vehicleResponsible = ''
+      this.listQuery.vehicleType = ''
+      this.listQuery.vehicleLicense = ''
       this.fetchData()
     },
     handleFilter() {
@@ -178,6 +188,7 @@ export default {
       }
     },
     add() {
+      this.resetForm()
       this.formTitle = '添加应急车辆',
       this.formVisible = true
       this.isAdd = true
@@ -344,8 +355,8 @@ export default {
     },removeFile(file){
       var arr = []
       this.fileList.forEach(item =>{
-        if(item.response) {
-          if(item.response.data.id != file.id) {
+        if(item.response && file.response) {
+          if(item.response.data.id != file.response.data.id) {
             arr.push((item))
           }
         } else if(item.id != file.id) {

@@ -411,11 +411,11 @@ export default {
             this.person_id_list.push(item.id)
           })
         }
+        this.initPersonList(null)
         this.personVisible = false
 
       }
     },viewPerson(record) {
-      if (this.checkSel()) {
         this.personSelRow = record
         this.personForm = this.personSelRow
         this.personTitle = '应急人员信息查看'
@@ -425,7 +425,6 @@ export default {
           this.$refs['personForm'].resetFields()
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
-      }
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
