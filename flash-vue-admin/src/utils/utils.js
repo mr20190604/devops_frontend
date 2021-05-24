@@ -35,9 +35,7 @@ export function getPreviewUrl(ct, previewUrl, names) {
   let previewPath;
   let files;
   /**多文件处理*/
-  if(previewUrl.indexOf("|") > -1) {
-    files = previewUrl.split("|");
-  }
+  files = previewUrl.split("|");
   if(!names || names.length !== files.length) {
     console.error("没有传入文件名数组");
     return;
