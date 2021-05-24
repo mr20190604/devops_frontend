@@ -225,8 +225,35 @@
         <el-dialog
           :title="previewTitle"
           :visible.sync="previewVisible"
-          width="50%" style="margin-top: 0px">
-          <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
+          width="60%"style="margin-top: 0px;">
+
+          <el-row style="width: 100%;height: 600px;background: blue">
+            <el-col style="width: 20%;height: 600px;background: #0BB20C">
+              <div class="grid-content bg-purple" >
+                <el-table :data="files" v-loading="fileLoading" element-loading-text="Loading">
+                  <el-table-column label="附件名称">
+                    <template slot-scope="scope">
+                      <div @click="viewFile(scope.row)">
+                        {{scope.row.fileInfo.originalFileName}}
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+            </div>
+            </el-col>
+            <el-col style="width: 80%;height: 600px;background: #1f2d3d">
+              <div class="grid-content bg-purple">
+              <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
+              </div>
+
+            </el-col>
+          </el-row>
+
+
+          <!--<div>-->
+            <!--<preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl" :fileType="fileType"></preview>-->
+          <!--</div>-->
+          <!---->
         </el-dialog>
     </div>
 </template>

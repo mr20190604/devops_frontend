@@ -1,7 +1,7 @@
 import dsaLawStatuteApi from '@/api/dsa/dsaLawStatute'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
-import { getApiUrl, getPreviewUrl, getPort, getAccessAddress} from '@/utils/utils'
+import { getApiUrl, getPreviewUrl} from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 import preview from '@/preview/preview.vue'
 
@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      fileType: 1,
       previewStyle:{
         height:'600px',
         width: '100%'
@@ -70,6 +71,8 @@ export default {
       listLoading: true,
       selRow: {},
       multiple:true,
+      fileLoading:true,
+      files:null
     }
   },
   filters: {
@@ -179,6 +182,7 @@ export default {
     },
     add() {
       this.resetForm()
+      this.fileList = []
       this.formTitle = '添加法律法规库',
       this.formVisible = true
       this.isAdd = true
@@ -351,12 +355,15 @@ export default {
       this.fileList = arr
     },
     previewFile(record){
-      debugger
       this.previewVisible = true;
-      let originUrl = this.downloadUrl + 154 + '&fileName=1.jpg';
-      originUrl = originUrl + "|" + this.downloadUrl+155+'&fileName=3.jpg';
-
-      let preview = getPreviewUrl(2, originUrl,['1.jpg','3.jpg']);
+      dsaLawStatuteApi.queryDataByStatuteId(record.id).then(response =>{
+        this.files = response.data
+      })
+      this.fileLoading = false
+    },viewFile(record) {
+      debugger
+      let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
+      let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
       this.previewTitle = record.lawName;
       this.previewFileUrl = preview;
     }
