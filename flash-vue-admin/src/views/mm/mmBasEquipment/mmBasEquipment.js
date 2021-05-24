@@ -128,7 +128,7 @@ export default {
             lte: 8,
             color: '#1939ce'
           }, {
-            label:'一级报警',
+            label:'三级报警',
             gt: 8,
             lte: 9,
             color: '#FBDB0F'

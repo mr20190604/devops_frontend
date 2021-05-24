@@ -357,6 +357,12 @@ export default {
     },downloadFileINfo(record) {
 
     },viewFile(record) {
+      if(!record.fileInfo) {
+        this.$message({
+          message: this.$t('不存在预览文件'),
+          type: 'success'
+        })
+      }
       if(!isCanPreview(record.fileInfo.originalFileName)) {
         this.$message({
           message: this.$t('该文件类型不支持预览'),
