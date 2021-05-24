@@ -15,7 +15,7 @@ export default {
         districtCode: '',
         address: '',
         personOtel: '',
-        contactper: '',
+        personName: '',
         personNum: '',
         notes: '',
         id: ''
@@ -26,7 +26,7 @@ export default {
         buildName: undefined,
         districtCode: undefined,
         levelCode: undefined,
-        contactper: undefined,
+        personName: undefined,
         targetType: undefined
       },
       total: 0,
@@ -86,7 +86,7 @@ export default {
       this.listQuery.buildName = undefined
       this.listQuery.districtCode = undefined
       this.listQuery.levelCode = undefined
-      this.listQuery.contactper = undefined
+      this.listQuery.personName = undefined
       this.listQuery.targetType = undefined
       this.fetchData()
     },
@@ -127,7 +127,7 @@ export default {
         districtCode: '',
         address: '',
         personOtel: '',
-        contactper: '',
+        personName: '',
         personNum: '',
         notes: '',
         id: ''

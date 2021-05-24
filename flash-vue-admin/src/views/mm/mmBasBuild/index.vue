@@ -11,10 +11,10 @@
         <el-form-item label="防护等级:">
           <dict-select v-model="listQuery.levelCode" dict-name="防护等级" />
         </el-form-item>
-        <el-form-item label="联系人:">
-          <el-input v-model="listQuery.contactper" placeholder="请输入联系人" />
+        <el-form-item label="负责人:">
+          <el-input v-model="listQuery.personName" placeholder="请输入负责人" />
         </el-form-item>
-        <br/>
+        <br>
         <el-form-item label="目标类型:">
           <dict-select v-model="listQuery.targetType" dict-name="防护目标" placeholder="请选择目标类型" />
         </el-form-item>
@@ -78,6 +78,11 @@
       <el-table-column label="建筑名称">
         <template slot-scope="scope">
           {{ scope.row.buildName }}
+        </template>
+      </el-table-column>
+      <el-table-column label="目标类型">
+        <template slot-scope="scope">
+          {{ scope.row.targetTypeName }}
         </template>
       </el-table-column>
       <el-table-column label="防护等级">
@@ -150,6 +155,7 @@
     />
 
     <el-dialog
+      class="dialogTitleBackground dialogTitle"
       :title="formTitle"
       :visible.sync="formVisible"
       width="60%"
