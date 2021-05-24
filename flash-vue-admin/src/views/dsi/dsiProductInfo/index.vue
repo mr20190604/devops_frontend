@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true">
-        <el-form-item label="产品名称">
-          <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
-        </el-form-item>
-        <el-form-item label="产品型号">
-          <el-input v-model="listQuery.productModel" placeholder="输入产品型号" />
-        </el-form-item>
-        <!-- <el-form-item label="是否有毒">
+         <!-- <el-form label-width="120px" :inline="true">
+            <el-form-item label="产品名称">
+              <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
+            </el-form-item>
+            <el-form-item label="产品型号">
+              <el-input v-model="listQuery.productModel" placeholder="输入产品型号" />
+            </el-form-item>
+           &lt;!&ndash; <el-form-item label="是否有毒">
               <dict-select v-model="listQuery.isPoisonHarm" dict-name="是否" />
             </el-form-item>
             <el-form-item label="是否易燃易爆">
@@ -27,7 +27,7 @@
           <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
           </el-button>
         </el-form-item>
-      </el-form>
+      <!--</el-form>-->
 
       <br>
       <el-row>
@@ -70,7 +70,7 @@
 
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="productList"
       element-loading-text="Loading"
       border
       fit
@@ -111,15 +111,19 @@
       </el-table-column>
       <el-table-column label="腐蚀性">
         <template slot-scope="scope">
-          {{ scope.row.isCorrosive }}
+          {{ scope.row.isCorrosiveName }}
         </template>
       </el-table-column>
       <el-table-column label="毒性">
         <template slot-scope="scope">
-          {{ scope.row.isPoisonHarm }}
+          {{ scope.row.isPoisonHarmName }}
         </template>
       </el-table-column>
-
+      <el-table-column label="放射性">
+        <template slot-scope="scope">
+          {{ scope.row.isRadioactivityName }}
+        </template>
+      </el-table-column>
       <!--<el-table-column label="形状类型">
         <template slot-scope="scope">
           {{ scope.row.formName }}
@@ -167,6 +171,7 @@
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
+      :modal="false"
       width="70%"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
@@ -183,22 +188,50 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="易燃易爆">
-              <dict-select v-model="form.isInflammableExplosive" dict-name="是否" />
+              <el-select v-model="form.isInflammableExplosive">
+                <el-option
+                  v-for="item in judge_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="腐蚀性">
-              <dict-select v-model="form.isCorrosive" dict-name="是否" />
+              <el-select v-model="form.isCorrosive" >
+                <el-option
+                  v-for="item in judge_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="毒性">
-              <dict-select v-model="form.isPoisonHarm" dict-name="是否" />
+              <el-select v-model="form.isPoisonHarm" >
+                <el-option
+                  v-for="item in judge_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="放射性">
-              <dict-select v-model="form.isRadioactivity" dict-name="是否" />
+              <el-select v-model="form.isRadioactivity"  >
+                <el-option
+                  v-for="item in judge_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -212,91 +245,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item align="right" style="margin-right: 50px">
-          <el-button type="primary" align="center" @click="addMaterial">添加新物资</el-button>
-        </el-form-item>
-        <el-table
-          v-loading="listLoading"
-          :data="list"
-          element-loading-text="Loading"
-          border
-          fit
-          highlight-current-row
-          @current-change="handleCurrentChange"
-        >
-          <el-table-column
-            type="selection"
-            width="55"
-            :reserve-selection="true"
-          />
-          <el-table-column
-            type="index"
-            width="50"
-            label="序号"
-          />
 
-          <el-table-column label="化学名称">
-            <template slot-scope="scope">
-              {{ scope.row.chemistryName }}
-            </template>
-          </el-table-column>
-
-          <el-table-column label="中文别名">
-            <template slot-scope="scope">
-              {{ scope.row.shortName }}
-            </template>
-          </el-table-column>
-          <el-table-column label="原料类别">
-            <template slot-scope="scope">
-              {{ scope.row.materialTypeName }}
-            </template>
-          </el-table-column>
-          <el-table-column label="理化性质">
-            <template slot-scope="scope">
-              {{ scope.row.physicochemicalProperties }}
-            </template>
-          </el-table-column>
-          <el-table-column label="健康危害">
-            <template slot-scope="scope">
-              {{ scope.row.healthHazards }}
-            </template>
-          </el-table-column>
-          <el-table-column label="危险特性">
-            <template slot-scope="scope">
-              {{ scope.row.dangerousCharacteristic }}
-            </template>
-          </el-table-column>
-          <el-table-column label="CAS编号">
-            <template slot-scope="scope">
-              {{ scope.row.casCode }}
-            </template>
-          </el-table-column>
-          <el-table-column label="是否危化品">
-            <template slot-scope="scope">
-              {{ scope.row.isDangerName }}
-            </template>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button
-                v-permission="['/material/baseinfo/update']"
-                type="text"
-                size="mini"
-                icon="el-icon-edit"
-                @click.native="editItem(scope.row)"
-              >{{ $t('button.edit') }}
-              </el-button>
-              <el-button
-                v-permission="['/material/baseinfo/delete']"
-                type="text"
-                size="mini"
-                icon="el-icon-delete"
-                @click.native="removeItem(scope.row)"
-              >{{ $t('button.delete') }}
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
         <el-form-item id="myself">
           <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
           <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
@@ -304,72 +253,7 @@
 
       </el-form>
     </el-dialog>
-    <!--
-    <el-dialog
-      :title="formTitle"
-      :visible.sync="materialVisible"
-      width="70%"
-    >
-      <el-form ref="materialForm" :model="materialForm" :rules="rules" label-width="120px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="原料编码">
-              <el-input v-model="materialForm.materialCode" minlength="1" placeholder="请输入原料编码" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="化学名称">
-              <el-input v-model="materialForm.chemistryName" minlength="1" placeholder="请输入化学名称" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="英文名称">
-              <el-input v-model="materialForm.englishName" minlength="1" placeholder="请输入英文名称" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="中文别名">
-              <el-input v-model="materialForm.shortName" minlength="1" placeholder="请输入中文别名" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="原料类别">
-              <dict-select v-model="materialForm.materialType" dict-name="原料类别" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="理化性质">
-              <el-input v-model="materialForm.physicochemicalProperties" minlength="1" placeholder="请输入理化性质" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="健康危害">
-              <el-input v-model="materialForm.healthHazards" minlength="1" placeholder="请输入健康危害" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="危险特性">
-              <el-input v-model="materialForm.dangerousCharacteristic" minlength="1" placeholder="请输入危险特性" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="CAS编号">
-              <el-input v-model="materialForm.casCode" minlength="1" placeholder="请输入CAS编号" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="是否中间产品">
-              <dict-select v-model="materialForm.isOriginal" dict-name="是否" placeholder="请选择是否中间产品" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item class="myself">
-          <el-button type="primary" @click="saveProductMaterial">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
-        </el-form-item>
 
-      </el-form>
-    </el-dialog>-->
   </div>
 </template>
 

@@ -35,5 +35,14 @@ export default {
       url: '/dsi/enterprise/info/queryAll',
       method: 'get'
     })
+  },
+  removeBatch1: function(ids) {
+    return request({
+      url: '/dsi/enterprise/info/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
   }
 }

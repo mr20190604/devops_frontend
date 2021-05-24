@@ -32,9 +32,10 @@ export default {
         id: undefined
       },
       total: 0,
-      list: null,
+      list:[],
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection: []
     }
   },
   filters: {
@@ -110,8 +111,11 @@ export default {
       this.listQuery.limit = limit
       this.fetchData()
     },
-    handleCurrentChange(currentRow, oldCurrentRow) {
+    handleCurrentChange(currentRow) {
       this.selRow = currentRow
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -127,6 +131,7 @@ export default {
       }
     },
     add() {
+      this.resetForm(),
       this.formTitle = '添加事故案例库',
       this.formVisible = true
       this.isAdd = true
@@ -151,7 +156,7 @@ export default {
                 isDel:this.form.isDel,
             }
             if(formData.id){
-                dsaAccidentCaseApi.update(formData).then(response => {
+                dsaAccidentCaseApi.update(formData).then(() => {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
@@ -160,7 +165,7 @@ export default {
                     this.formVisible = false
                 })
             }else{
-                dsaAccidentCaseApi.add(formData).then(response => {
+                dsaAccidentCaseApi.add(formData).then(() => {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
@@ -228,7 +233,41 @@ export default {
         }).catch(() => {
         })
       }
-    }
+    },
+    removeBatch1() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
 
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        console.log(ids);
+        dsaAccidentCaseApi.removeBatch1(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
+    }
   }
 }

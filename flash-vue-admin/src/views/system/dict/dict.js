@@ -152,7 +152,6 @@ export default {
           var arr = val.split(':')
           details.push({ 'key': arr[0], 'value': arr[1] })
         })
-        console.log(details);
         this.form = { name: this.selRow.name, id: this.selRow.id, details: details, detail: this.selRow.detail }
         console.log(this.form);
         this.formVisible = true

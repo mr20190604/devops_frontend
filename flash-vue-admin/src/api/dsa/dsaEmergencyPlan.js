@@ -52,4 +52,14 @@ export default {
       params
     })
   },
+
+  removeBatch1: function(ids) {
+    return request({
+      url: '/emergency/plan/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
+  }
 }

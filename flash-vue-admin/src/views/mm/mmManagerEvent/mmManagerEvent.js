@@ -122,6 +122,7 @@ export default {
       }
     },
     add() {
+      this.resetForm()
       this.formTitle = '添加应急事件'
       this.formVisible = true
       this.isAdd = true

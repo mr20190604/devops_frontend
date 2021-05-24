@@ -1,8 +1,9 @@
 import dsiProductInfoApi from '@/api/dsi/dsiProductInfo'
 import permission from '@/directive/permission/index.js'
-
+import {getDicts} from "../../../api/system/dict";
 export default {
   directives: { permission },
+  props:['enterpriseId'],
   data() {
     return {
       formVisible: false,
@@ -15,8 +16,21 @@ export default {
         isInflammableExplosive: '',
         formId: '',
         enterpriseId: '',
+        isCorrosive:'',
+        isRadioactivity:'',
+        storageStandards:'',
+        productDesc:'',
+        productModel:'',
+        isPoisonHarmName:'',
+        isInflammableExplosiveName:'',
+        isCorrosiveName:'',
+        isRadioactivityName:'',
         id: ''
       },
+      judge_list:[],
+      productList:null,
+      //用于保存产品临时数据，最后统一提交
+      product_list:[],
       materialVisible: false,
       listQuery: {
         page: 1,
@@ -76,9 +90,13 @@ export default {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
+      });
+      getDicts('是否').then(response => {
+        this.judge_list = response.data
       })
     },
     search() {
+
       this.fetchData()
     },
     reset() {
@@ -134,7 +152,7 @@ export default {
       this.formVisible = true
       this.isAdd = true
 
-      if (this.$refs['form'] !== undefined) {
+      if (this.$refs['form']) {
         this.$refs['form'].resetFields()
       }
     },
@@ -147,8 +165,13 @@ export default {
             productName: this.form.productName,
             isPoisonHarm: this.form.isPoisonHarm,
             isInflammableExplosive: this.form.isInflammableExplosive,
+            isRadioactivity:this.form.isRadioactivity,
+            isCorrosive:this.form.isCorrosive,
             formId: this.form.formId,
-            enterpriseId: this.form.enterpriseId
+            productModel:this.form.productModel,
+            storageStandards:this.form.storageStandards,
+            productDesc:this.form.productDesc,
+            enterpriseId:28,
           }
           if (formData.id) {
             dsiProductInfoApi.update(formData).then(response => {
@@ -165,9 +188,18 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
+             /* var enterpriseId=response.data.id
+              console.log(enterpriseId)*/
+
+              this.material_list.forEach(item =>{
+                item.enterpriseId = enterpriseId
+                dsiProductInfoApi.add(item).then()
+              })
+              this.material_list = [];
               this.fetchData()
               this.formVisible = false
             })
+
           }
         } else {
           return false

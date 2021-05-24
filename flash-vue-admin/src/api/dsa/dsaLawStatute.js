@@ -29,7 +29,17 @@ export default {
                 id: id
             }
         })
-    },queryDataByStatuteId:function(statuteId) {
+    },
+  removeBatch1: function(ids) {
+    return request({
+      url: '/law/statute/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
+  }
+    ,queryDataByStatuteId:function(statuteId) {
     return request({
       url: '/statute/file/queryDataByStatuteId',
       method: 'get',

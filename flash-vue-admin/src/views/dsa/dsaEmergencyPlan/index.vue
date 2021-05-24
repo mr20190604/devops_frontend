@@ -50,26 +50,26 @@
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/emergency/plan/add']">{{ $t('button.add') }}</el-button>
                     <!--<el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/emergency/plan/update']">{{ $t('button.edit') }}</el-button>-->
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/emergency/plan/delete']">批量删除</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="removeBatch" v-permission="['/emergency/plan/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
 
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                  @current-change="handleCurrentChange">
+                  @current-change="handleCurrentChange"
+                  :row-key="row=>row.id"
+                  @selection-change="handleSelectionChange">
           <el-table-column
             type="selection"
             width="55"
             :reserve-selection="true"
-          >
-          </el-table-column>
+          />
           <el-table-column
             type="index"
             width="50"
             label="序号"
-          >
-          </el-table-column>
+          />
           <el-table-column label="预案名称">
                 <template slot-scope="scope">
                     {{scope.row.planName}}
@@ -182,7 +182,6 @@
                     <el-col :span="12">
                         <el-form-item label="编制时间"  >
                             <el-date-picker v-model="form.editorDate"  class="date_picker"
-                                            :picker-options="pickerOptions"
                                             value-format="yyyy-MM-dd"  minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>

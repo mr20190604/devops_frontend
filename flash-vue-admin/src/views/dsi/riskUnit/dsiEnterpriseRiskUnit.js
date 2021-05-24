@@ -39,7 +39,8 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection: []
     }
   },
   filters: {
@@ -52,7 +53,7 @@ export default {
       return statusMap[status]
     }
   },
-  enterpriseRiskUnitTable:null,
+ // enterpriseRiskUnitTable:null,
   computed: {
 
     //表单验证
@@ -86,7 +87,6 @@ export default {
       getDicts('是否').then(response =>{
         this.isDangerSource = response.data
       })
-      isDangerSource
     },
     search() {
       this.fetchData()
@@ -121,6 +121,9 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -209,23 +212,21 @@ export default {
     },
     editItem(record){
       this.selRow = record
-      // this.materialAdd = false
+      //this.materialAdd = false
       this.edit()
       // this.initEmerMaterialList(this.selRow.id)
     },
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
-        this.form = this.selRow
         this.formTitle = '编辑风险单元'
         var detail = this.selRow.detail.split(';')
         var details = []
         detail.forEach(function (val, index) {
           var arr = val.split(',')
-
           details.push({'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2]})
         })
-        console.log(details);
+        console.log(this.selRow);
         //this.form = { name: this.selRow.name, id: this.selRow.id, details: details, detail: this.selRow.detail }
         this.form.details = details;
         this.formVisible = true
@@ -316,7 +317,40 @@ export default {
         }
       })
       this.form.details = details
-    }
+    },
+    removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
 
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        dsiEnterpriseRiskUnitApi.removeBatch1(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
+    }
   }
 }

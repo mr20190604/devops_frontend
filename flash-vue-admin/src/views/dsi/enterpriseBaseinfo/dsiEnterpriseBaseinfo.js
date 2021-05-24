@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      enterpriseId:'',
       activeName:'first',
       formVisible: false,
       formTitle: '添加数据资源一体化子系统--企业信息',
@@ -65,9 +66,10 @@ export default {
       //所属行业下拉数据
       industry_list:[],
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection: []
     }
   },
   enterpriseTable:null,
@@ -159,7 +161,9 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
-
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -236,19 +240,29 @@ export default {
             })
           } else {
             dsiEnterpriseBaseinfoApi.add(formData).then(response => {
-              this.$message({
+              console.log(response);
+              /*this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
-              })
-              this.fetchData()
-              this.formVisible = false
+              })*/
+              this.enterpriseId = response.data.id;
+              if(this.enterpriseId) {
+                this.activeName="second";
+              } else {
+                this.activeName = 'first';
+              }
+             /* this.fetchData()
+              this.formVisible = false*/
             })
           }
+
         } else {
           return false
         }
+
       })
     },
+
     checkSel() {
       if (this.selRow && this.selRow.id) {
         return true
@@ -303,7 +317,41 @@ export default {
         }).catch(() => {
         })
       }
-    }
+    },
+    removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        dsiEnterpriseBaseinfoApi.removeBatch1(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
+    },
 
   }
 }
