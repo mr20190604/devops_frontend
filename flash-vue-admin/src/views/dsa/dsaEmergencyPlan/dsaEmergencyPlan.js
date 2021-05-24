@@ -4,6 +4,8 @@ import {getDicts} from "../../../api/system/dict";
 import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 import preview from '@/preview/preview.vue'
+import {isCanPreview} from '@/preview/preview.js'
+
 
 const Base64 = require('js-base64').Base64
 
@@ -65,6 +67,8 @@ export default {
       listLoading: true,
       selRow: {},
       multiple:true,
+      files:null,
+      fileLoading:true
     }
   },
   filters: {
@@ -339,14 +343,27 @@ export default {
     },
     previewFile(record){
       this.previewVisible = true;
-      let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
-      let previewUrl = originUrl + '&fullfilename=' + record.fileInfo.originalFileName;
-      let preview = getPreviewUrl(1)+encodeURIComponent(Base64.encode(previewUrl));
-      this.fileType = 1;
-      this.previewTitle = record.fileInfo.originalFileName;
-      this.previewFileUrl = preview;
+      dsaEmergencyPlanApi.queryDataByPlanId(record.id).then(response=>{
+        this.files = response.data
+        if (this.files) {
+          this.viewFile(this.files[0])
+        }
+      })
+      this.fileLoading = false
     },downloadFileINfo(record) {
 
+    },viewFile(record) {
+      if(!isCanPreview(record.fileInfo.originalFileName)) {
+        this.$message({
+          message: this.$t('该文件类型不支持预览'),
+          type: 'success'
+        })
+      } else {
+        let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
+        let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
+        this.previewTitle = record.lawName;
+        this.previewFileUrl = preview;
+      }
     }
 
   }
