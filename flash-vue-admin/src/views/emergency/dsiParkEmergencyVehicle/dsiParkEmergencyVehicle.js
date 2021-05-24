@@ -366,12 +366,24 @@ export default {
       this.fileList = arr
     },previewFile(record){
       this.previewVisible = true;
-      let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.realFileName;
-      let previewUrl = originUrl + '&fullfilename=' + record.fileInfo.realFileName;
-      let preview = getPreviewUrl(2)+encodeURIComponent(Base64.encode(previewUrl));
-      this.fileType = 2;
-      this.previewTitle = record.fileInfo.originalFileName;
-      this.previewFileUrl = preview;
+      let temp = ''
+      let arr = []
+
+      dsiParkEmergencyVehicleApi.queryDataByVehicleId(record.id).then(response =>{
+        if (response.data) {
+          for (let i = 0; i < response.data.length ; i++) {
+            if (i == response.data.length -1) {
+              temp = temp+this.downloadUrl+response.data[i].fileInfo.id+'&fileName='+response.data[i].fileInfo.originalFileName
+            } else {
+              temp = temp+this.downloadUrl+response.data[i].fileInfo.id+'&fileName='+response.data[i].fileInfo.originalFileName+'|'
+            }
+            arr.push(response.data[i].fileInfo.originalFileName)
+          }
+          let originUrl = temp
+          let preview = getPreviewUrl(2,temp,arr)
+          this.previewFileUrl = preview
+        }
+      })
     },openFileView(record) {
       this.viewVisible = true
       dsiParkEmergencyVehicleApi.queryDataByVehicleId(record.id).then(response=>{

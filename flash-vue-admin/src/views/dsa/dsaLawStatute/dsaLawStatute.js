@@ -4,6 +4,7 @@ import {getDicts} from "../../../api/system/dict";
 import { getApiUrl, getPreviewUrl} from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 import preview from '@/preview/preview.vue'
+import {isCanPreview} from '@/preview/preview.js'
 
 const Base64 = require('js-base64').Base64
 
@@ -348,8 +349,8 @@ export default {
     },removeFile(file){
       var arr = []
       this.fileList.forEach(item =>{
-        if(item.response) {
-          if(item.response.data.id != file.id) {
+        if(item.response && file.response) {
+          if(item.response.data.id != file.response.data.id) {
             arr.push((item))
           }
         } else if(item.id != file.id) {
@@ -362,17 +363,31 @@ export default {
       this.previewVisible = true;
       dsaLawStatuteApi.queryDataByStatuteId(record.id).then(response =>{
         this.files = response.data
+        if (this.files) {
+          this.viewFile(this.files[0])
+        }
       })
       this.fileLoading = false
     },viewFile(record) {
-      debugger
-      let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
-      let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
-      this.previewTitle = record.lawName;
-      this.previewFileUrl = preview;
-      debugger
-    },
-    removeBatch() {
+      if(!record.fileInfo) {
+        this.$message({
+          message: this.$t('不存在预览文件'),
+          type: 'success'
+        })
+      }
+      if(!isCanPreview(record.fileInfo.originalFileName)) {
+        this.$message({
+          message: this.$t('该文件类型不支持预览'),
+          type: 'success'
+        })
+      } else {
+        let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
+        let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
+        this.previewTitle = record.lawName;
+        this.previewFileUrl = preview;
+      }
+
+    },removeBatch() {
       let ids = this.selection.map(item => {
         return item.id
       })
@@ -406,5 +421,5 @@ export default {
       }).catch(() => {
       })
     }
-  }
+  },
 }

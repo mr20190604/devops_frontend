@@ -133,7 +133,7 @@
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/vehicle/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/park/emergency/vehicle/delete']">{{ $t('button.delete') }}</el-button>
-                    <el-button type="text" size="mini" icon="el-icon-view"  @click.native="openFileView(scope.row)" >预览</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-view"  @click.native="previewFile(scope.row)" >预览</el-button>
 
                 </template>
             </el-table-column>
