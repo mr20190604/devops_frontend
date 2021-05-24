@@ -226,7 +226,7 @@
           :title="previewTitle"
           :visible.sync="previewVisible"
           width="50%" style="margin-top: 0px">
-          <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl" :fileType="fileType"></preview>
+          <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
         </el-dialog>
     </div>
 </template>

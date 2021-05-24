@@ -1,0 +1,291 @@
+{
+  "currentToday": {
+    "title":{
+      "all": ["甲烷","vocs","氮化物","硫化物","C2H2","苯","C7H8","SO2","SO3","CH3OH","其他"],
+      "jw": [
+        "甲烷","其他"
+      ],
+      "gl": ["vocs","氮化物","硫化物","C2H2","苯","其他"],
+      "yc": ["C7H8","SO2","SO3","CH3OH","其他"]
+    },
+    "val": {
+      "all": [
+        {
+          "name": "甲烷",
+          "value": "20"
+        },{
+          "name": "vocs",
+          "value": "10"
+        },{
+          "name": "氮化物",
+          "value": "24"
+        },{
+          "name": "硫化物",
+          "value": "18"
+        },{
+          "name": "C2H2",
+          "value": "32"
+        },{
+          "name": "苯",
+          "value": "19"
+        },{
+          "name": "C7H8",
+          "value": "20"
+        },{
+          "name": "SO2",
+          "value": "32"
+        },{
+          "name": "SO3",
+          "value": "19"
+        },{
+          "name": "CH3OH",
+          "value": "21"
+        },{
+          "name": "其他",
+          "value": "85"
+        }
+      ],
+      "jw": [
+        {
+          "name": "甲烷",
+          "value": "20"
+        },{
+          "name": "其他",
+          "value": "70"
+        }
+      ],
+      "gl": [
+        {
+          "name": "vocs",
+          "value": "10"
+        },{
+          "name": "氮化物",
+          "value": "24"
+        },{
+          "name": "硫化物",
+          "value": "18"
+        },{
+          "name": "C2H2",
+          "value": "32"
+        },{
+          "name": "苯",
+          "value": "19"
+        },{
+          "name": "其他",
+          "value": "7"
+        }
+      ],
+      "yc": [
+        {
+          "name": "C7H8",
+          "value": "20"
+        },{
+          "name": "SO2",
+          "value": "32"
+        },{
+          "name": "SO3",
+          "value": "19"
+        },{
+          "name": "CH3OH",
+          "value": "21"
+        },{
+          "name": "其他",
+          "value": "8"
+        }
+      ]
+    }
+  },
+  "currentWeek": {
+    "title":{
+      "all": ["甲烷","vocs","氮化物","硫化物","C2H2","苯","C7H8","SO2","SO3","CH3OH","其他"],
+      "jw": [
+        "甲烷","其他"
+      ],
+      "gl": ["vocs","氮化物","硫化物","C2H2","苯","其他"],
+      "yc": ["C7H8","SO2","SO3","CH3OH","其他"]
+    },
+    "val": {
+      "all": [
+        {
+          "name": "甲烷",
+          "value": "50"
+        },{
+          "name": "vocs",
+          "value": "20"
+        },{
+          "name": "氮化物",
+          "value": "44"
+        },{
+          "name": "硫化物",
+          "value": "38"
+        },{
+          "name": "C2H2",
+          "value": "62"
+        },{
+          "name": "苯",
+          "value": "39"
+        },{
+          "name": "C7H8",
+          "value": "40"
+        },{
+          "name": "SO2",
+          "value": "42"
+        },{
+          "name": "SO3",
+          "value": "39"
+        },{
+          "name": "CH3OH",
+          "value": "51"
+        },{
+          "name": "其他",
+          "value": "115"
+        }
+      ],
+      "jw": [
+        {
+          "name": "甲烷",
+          "value": "50"
+        },{
+          "name": "其他",
+          "value": "90"
+        }
+      ],
+      "gl": [
+        {
+          "name": "vocs",
+          "value": "20"
+        },{
+          "name": "氮化物",
+          "value": "44"
+        },{
+          "name": "硫化物",
+          "value": "38"
+        },{
+          "name": "C2H2",
+          "value": "62"
+        },{
+          "name": "苯",
+          "value": "39"
+        },{
+          "name": "其他",
+          "value": "10"
+        }
+      ],
+      "yc": [
+        {
+          "name": "C7H8",
+          "value": "40"
+        },{
+          "name": "SO2",
+          "value": "42"
+        },{
+          "name": "SO3",
+          "value": "39"
+        },{
+          "name": "CH3OH",
+          "value": "51"
+        },{
+          "name": "其他",
+          "value": "15"
+        }
+      ]
+    }
+  },
+  "currentMonth": {
+    "title":{
+      "all": ["甲烷","vocs","氮化物","硫化物","C2H2","苯","C7H8","SO2","SO3","CH3OH","其他"],
+      "jw": [
+        "甲烷","其他"
+      ],
+      "gl": ["vocs","氮化物","硫化物","C2H2","苯","其他"],
+      "yc": ["C7H8","SO2","SO3","CH3OH","其他"]
+    },
+    "val": {
+      "all": [
+        {
+          "name": "甲烷",
+          "value": "100"
+        },{
+          "name": "vocs",
+          "value": "60"
+        },{
+          "name": "氮化物",
+          "value": "74"
+        },{
+          "name": "硫化物",
+          "value": "58"
+        },{
+          "name": "C2H2",
+          "value": "72"
+        },{
+          "name": "苯",
+          "value": "49"
+        },{
+          "name": "C7H8",
+          "value": "60"
+        },{
+          "name": "SO2",
+          "value": "72"
+        },{
+          "name": "SO3",
+          "value": "79"
+        },{
+          "name": "CH3OH",
+          "value": "61"
+        },{
+          "name": "其他",
+          "value": "245"
+        }
+      ],
+      "jw": [
+        {
+          "name": "甲烷",
+          "value": "100"
+        },{
+          "name": "其他",
+          "value": "140"
+        }
+      ],
+      "gl": [
+        {
+          "name": "vocs",
+          "value": "60"
+        },{
+          "name": "氮化物",
+          "value": "74"
+        },{
+          "name": "硫化物",
+          "value": "58"
+        },{
+          "name": "C2H2",
+          "value": "72"
+        },{
+          "name": "苯",
+          "value": "49"
+        },{
+          "name": "其他",
+          "value": "50"
+        }
+      ],
+      "yc": [
+        {
+          "name": "C7H8",
+          "value": "60"
+        },{
+          "name": "SO2",
+          "value": "72"
+        },{
+          "name": "SO3",
+          "value": "79"
+        },{
+          "name": "CH3OH",
+          "value": "61"
+        },{
+          "name": "其他",
+          "value": "55"
+        }
+      ]
+    }
+  }
+}
+

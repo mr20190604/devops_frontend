@@ -1,7 +1,4 @@
 import request from '@/utils/request'
-import { getApiUrl } from '@/utils/utils'
-
-const Base64 = require('js-base64').Base64
 
 /**
  * 配置相关可以预览的文件后后缀
@@ -10,7 +7,6 @@ const previewSuffixs = ['pdf','doc','docx','xlsx','xls','csv','bmp','jpg','jpeg'
 /**
  * 用来判断是否可以预览的方法
  * 当该文件后缀匹配上返回true
- *
  * */
 export function isCanPreview(fileName) {
   if(fileName && fileName.lastIndexOf(".") > -1) {
