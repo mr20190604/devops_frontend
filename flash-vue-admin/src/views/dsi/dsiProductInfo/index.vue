@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="block">
-          <el-form label-width="120px" :inline="true">
-            <el-form-item label="产品名称">
-              <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
-            </el-form-item>
-            <el-form-item label="产品型号">
-              <el-input v-model="listQuery.productModel" placeholder="输入产品型号" />
-            </el-form-item>
-           <!-- <el-form-item label="是否有毒">
+      <el-form label-width="120px" :inline="true">
+        <el-form-item label="产品名称">
+          <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
+        </el-form-item>
+        <el-form-item label="产品型号">
+          <el-input v-model="listQuery.productModel" placeholder="输入产品型号" />
+        </el-form-item>
+        <!-- <el-form-item label="是否有毒">
               <dict-select v-model="listQuery.isPoisonHarm" dict-name="是否" />
             </el-form-item>
             <el-form-item label="是否易燃易爆">
@@ -21,13 +21,13 @@
             <el-form-item label="生产企业">
               <enterprise v-model="listQuery.enterpriseId" />
             </el-form-item>-->
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-              </el-button>
-              <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-              </el-button>
-            </el-form-item>
-        </el-form>
+        <el-form-item style="float: right;margin-right: 100px">
+          <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+          </el-button>
+          <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+          </el-button>
+        </el-form-item>
+      </el-form>
 
       <br>
       <el-row>
@@ -61,7 +61,7 @@
             type="danger"
             size="mini"
             icon="el-icon-delete"
-            @click.native="remove"
+            @click.native="removeBatch"
           >批量删除
           </el-button>
         </el-col>
@@ -74,8 +74,10 @@
       element-loading-text="Loading"
       border
       fit
+      :row-key="row=>row.id"
       highlight-current-row
       @current-change="handleCurrentChange"
+      @selection-change="handleSelectionChange"
     >
       <el-table-column
         type="selection"
@@ -201,17 +203,17 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="存储标准">
-              <el-input v-model="form.storageStandards"  style="width: 71%" />
+              <el-input v-model="form.storageStandards" style="width: 71%" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="产品说明">
-              <el-input type="textarea" v-model="form.productDesc"  style="width: 71%"/>
+              <el-input v-model="form.productDesc" type="textarea" style="width: 71%" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item align="right" style="margin-right: 50px">
-          <el-button type="primary"  align="center" @click="addMaterial">添加新物资</el-button>
+          <el-button type="primary" align="center" @click="addMaterial">添加新物资</el-button>
         </el-form-item>
         <el-table
           v-loading="listLoading"
@@ -226,14 +228,12 @@
             type="selection"
             width="55"
             :reserve-selection="true"
-          >
-          </el-table-column>
+          />
           <el-table-column
             type="index"
             width="50"
             label="序号"
-          >
-          </el-table-column>
+          />
 
           <el-table-column label="化学名称">
             <template slot-scope="scope">
@@ -304,7 +304,7 @@
 
       </el-form>
     </el-dialog>
-<!--
+    <!--
     <el-dialog
       :title="formTitle"
       :visible.sync="materialVisible"

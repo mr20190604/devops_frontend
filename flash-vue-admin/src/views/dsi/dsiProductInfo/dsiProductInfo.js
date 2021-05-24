@@ -28,9 +28,10 @@ export default {
         enterpriseId: undefined
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection: []
     }
   },
   filters: {
@@ -113,6 +114,9 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -202,7 +206,7 @@ export default {
     },
     remove() {
       if (this.checkSel()) {
-        let id = this.selRow.id
+        const id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
@@ -223,32 +227,64 @@ export default {
         }).catch(() => {
         })
       }
-    },resetMaterialForm(){
+    }, removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        dsiProductInfoApi.removeBatch(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
+    },
+    resetMaterialForm() {
       this.materialForm = {
-        code:'',
-        materialName:'',
-        materialType:'',
-        materialNum:'',
-        chUnitId:'',
-        validityTerm:'',
-        poolId:'',
-        isDel:'',
-        id:''
+        code: '',
+        materialName: '',
+        materialType: '',
+        materialNum: '',
+        chUnitId: '',
+        validityTerm: '',
+        poolId: '',
+        isDel: '',
+        id: ''
       }
     },
     addMaterial() {
       this.resetMaterialForm()
       this.materialVisible = true
       this.materialTitle = '添加应急物资信息'
-
-    },editMaterialItem(record) {
+    }, editMaterialItem(record) {
       this.resetMaterialForm()
       this.materialVisible = true
       this.materialTitle = '编辑应急物资信息'
       this.materialForm = record
-
     },
-    saveProductMaterial(){
+    saveProductMaterial() {
       this.$refs['materialForm'].validate((valid) => {
         if (valid) {
           const formData = {
@@ -260,12 +296,12 @@ export default {
             physicochemicalProperties: this.materialForm.physicochemicalProperties,
             poolId: this.form.id,
             materialTypeName: null,
-            chUnitIdName:null
+            chUnitIdName: null
           }
           if (this.materialAdd) {
-            var arr = [];
-            this.material_list.forEach(item =>{
-              if(item.materialName != formData.materialName) {
+            var arr = []
+            this.material_list.forEach(item => {
+              if (item.materialName != formData.materialName) {
                 arr.push(item)
               }
             })
@@ -279,36 +315,29 @@ export default {
             this.material_list.push(formData)
             this.material_list.remove
             this.materialList = this.material_list
-
           } else {
             if (formData.id) {
-              dsiParkEmergency.update(formData).then(response =>{
+              dsiParkEmergency.update(formData).then(response => {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-
               })
             } else {
-              dsiParkEmergency.add(formData).then(response =>{
+              dsiParkEmergency.add(formData).then(response => {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-
               })
-
             }
           }
-        }
-        else {
+        } else {
           return false
         }
         this.initMaterialList(this.form.id)
         this.materialVisible = false
-
       })
-
-    },
+    }
   }
 }

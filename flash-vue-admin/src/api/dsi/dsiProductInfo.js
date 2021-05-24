@@ -29,5 +29,14 @@ export default {
         id: id
       }
     })
+  },
+  removeBatch: function(ids) {
+    return request({
+      url: '/product/info/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
   }
 }

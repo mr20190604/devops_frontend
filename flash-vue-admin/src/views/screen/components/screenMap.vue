@@ -109,9 +109,9 @@ export default {
         lat: 32.993585
       },
       defaultIcon: {
-        url: '/head.png',
+        url: '/img/normal.png',
         size: {
-          width: 40, height: 40
+          width: 72, height: 69
         }
       },
       infoWindow: {
@@ -461,7 +461,7 @@ export default {
     mapReady({ BMap, map }) {
       this.map = map
       this.BMap = BMap
-      // 在node_modules里面的vue-baidu-map/components/map/Map.vue 修改api版本2.0为3.0
+      // 在node_modules里面的vue-baidu-map/components/map/Map.vue 修改api版本2.0为3.0 并重新build
       map.setMapStyleV2({
         styleId: 'fe3bc41ca0e11f7dfa8986537af0dca7'
       })
@@ -481,7 +481,7 @@ export default {
       const point = new this.BMap.Point(marker.lng, marker.lat)
       this.map.panTo(point)
       this.resetMarker()
-      marker.icon = { url: 'http://developer.baidu.com/map/jsdemo/img/fox.gif', size: { width: 300, height: 157 }}
+      marker.icon = { url: '/img/selected.png', size: { width: 72, height: 69 }}
       this.infoWindow = marker
       this.infoWindow.show = true
 
@@ -589,7 +589,6 @@ export default {
     position: absolute;
     border-radius: 27px;
     margin-top: -72px;
-    background: black;
     font-size: 5px;
     color: white;
   }
@@ -632,4 +631,9 @@ export default {
     padding: 0 10px;
   }
 
+</style>
+<style lang="scss">
+  #top>.el-progress .el-progress__text{
+    display: none;
+  }
 </style>
