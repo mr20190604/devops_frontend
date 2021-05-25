@@ -80,6 +80,8 @@ export default {
     selectEquipment(value) {
       this.pieData.legend.data = this.currentData.title[value];
       this.pieData.series[0].data = this.currentData.val[value];
+      self.$refs.firstChart.clear();
+      self.$refs.firstChart.mergeOptions(self.pieData) ;
     }
   }
 }

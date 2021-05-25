@@ -29,7 +29,7 @@
         </el-select>
         </div>
       <el-card >
-        <v-chart style="width: 100%;" :options="pieData" ref="lineChart"/>
+        <v-chart ref="firstChart" style="width: 100%;" :options="pieData"/>
       </el-card>
     </div>
 </template>

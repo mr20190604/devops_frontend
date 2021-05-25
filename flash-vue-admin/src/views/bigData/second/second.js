@@ -114,6 +114,8 @@ export default {
           }
         );
       }
+      self.$refs.secondChart.clear();
+      self.$refs.secondChart.mergeOptions(self.barData) ;
     }
   }
 }
