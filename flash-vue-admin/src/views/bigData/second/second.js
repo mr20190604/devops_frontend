@@ -38,7 +38,7 @@ export default {
           data: ['甲烷探测仪', '开放光路分析仪','傅里叶红外遥测仪']
         },
         toolbox:{
-          right:700,
+          right:500,
           show: true,
           feature: {
             saveAsImage :{ show: true}

@@ -23,7 +23,7 @@ export default {
           x: 'center'
         },
         toolbox:{
-          right:750,
+          right:500,
           show: true,
           feature: {
             saveAsImage :{ show: true}
