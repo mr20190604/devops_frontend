@@ -16,13 +16,13 @@
       <br>
       <el-row>
         <el-col :span="24">
-          <el-button
+          <!--<el-button
             v-permission="['/manager/event/add']"
             type="success"
             size="mini"
             icon="el-icon-plus"
             @click.native="add"
-          >{{ $t('button.add') }}</el-button>
+          >{{ $t('button.add') }}</el-button>-->
           <el-button
             v-permission="['/manager/event/delete']"
             type="danger"
