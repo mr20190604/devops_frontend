@@ -3,14 +3,14 @@ import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
 import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
-import preview from '@/preview/preview.vue'
-import {isCanPreview} from '@/preview/preview.js'
+// import preview from '@/preview/preview.vue'
+import {isCanPreview} from '@/utils/preview.js'
 
 
 export default {
   directives: { permission },
   components:{
-    preview
+    // preview
   },
   data() {
     return {

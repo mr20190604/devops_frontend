@@ -4,15 +4,15 @@ import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
 import { getApiUrl, getPreviewUrl} from '@/utils/utils'
 import { getToken } from '@/utils/auth'
-import preview from '@/preview/preview.vue'
-import {downloadFile} from  '@/preview/preview.js'
+// import preview from '@/preview/preview.vue'
+import {downloadFile} from  '@/utils/preview.js'
 
 const Base64 = require('js-base64').Base64
 
 export default {
   directives: { permission },
   constant:[dsiEnterprise],
-  components:{preview},
+  // components:{preview},
   data() {
     return {
       formVisible: false,
