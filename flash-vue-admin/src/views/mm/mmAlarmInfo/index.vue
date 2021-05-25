@@ -59,7 +59,7 @@
             <el-row>
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/mmAlarmInfo/check']">审核</el-button>
-                    <el-button type="primary" size="mini"  icon="el-icon-plus" @click.native="edit" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>
+                    <el-button type="primary" size="mini"  icon="el-icon-plus" @click.native="dispose()" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>
                     <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="remove" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
                   <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="remove" v-permission="['/mmAlarmInfo/event']">生成事件</el-button>
                 </el-col>
@@ -125,15 +125,11 @@
               <template  v-if="scope.row.isAudit === 1">已审核</template>
             </template>
           </el-table-column>
-          <el-table-column label="审核人">
-            <template slot-scope="scope">
-              {{scope.row.auditPerson}}
-            </template>
-          </el-table-column>
             <el-table-column label="处置状态">
               <template slot-scope="scope">
                 <template  v-if="scope.row.isFeedback === 0">未处置</template>
-                <template  v-if="scope.row.isFeedback === 1">已处置</template>
+                <template  v-if="scope.row.isFeedback === 1">处置中</template>
+                <template  v-if="scope.row.isFeedback === 2">已处置</template>
               </template>
 
             </el-table-column>
@@ -164,21 +160,6 @@
                 width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
-                    <!--<el-col :span="12">
-                        <el-form-item label="编号"  >
-                            <el-input v-model="form.alarmCode" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="所在分区"  >
-                            <el-input v-model="form.districtCode" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="报警设备"  >
-                            <el-input v-model="form.equipmentId" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
                     <el-col :span="12">
                         <el-form-item label="报警类型"  >
                             <el-select v-model="form.monitorType" minlength=1>
@@ -221,53 +202,19 @@
                       <el-input v-model="form.alarmValue" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
-                 <!-- <el-col :span="12">
-                    <el-form-item label="设备名称"  >
-                      <el-input v-model="form" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="设备位置"  >
-                      <el-input v-model="form" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="设备类型"  >
-                      <el-input v-model="form" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>-->
+
                   <el-col :span="12">
                     <el-form-item label="报警设备"  >
                       <el-input v-model="form.equipmentId" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
-                    <!--<el-col :span="12">
-                        <el-form-item label="最高级别报警值"  >
-                            <el-input v-model="form.alarmMaxValue" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
-                   <!-- <el-col :span="12">
-                        <el-form-item label="最高级别报警时间"  >
-                            <el-input v-model="form.alarmMaxTime" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="最高报警级别（字典）"  >
-                            <el-input v-model="form.alarmMaxLevel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="报警解除时间"  >
-                            <el-input v-model="form.alarmRelieveTime" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    -->
+
                   <el-col :span="12">
                     <el-form-item label="审核结果"  >
-                      <el-radio-group v-model="form.isDangerSource" minlength=1>
-                        <el-radio :label="1">是</el-radio>
-                        <el-radio :label="0">否</el-radio>
-                      </el-radio-group>
+                      <el-select v-model="form.auditStatus" minlength=1>
+                        <el-option key="1" label="确认报警" value="1" ></el-option>
+                        <el-option key="0" label="误报" value="0" ></el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -277,44 +224,9 @@
                   </el-col>
                     <el-col :span="12">
                         <el-form-item label="审核意见"  >
-                            <el-input v-model="form.auditOpinion" minlength=1></el-input>
+                            <el-input type="textarea" v-model="form.auditOpinion" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
-                   <!-- <el-col :span="12">
-                        <el-form-item label="审核人"  >
-                            <el-input v-model="form.auditPerson" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="是否进行处置（0：否，1：是）"  >
-                            <el-input v-model="form.isFeedback" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="报警解除标识（0：否，1：是）"  >
-                            <el-input v-model="form.isRelieve" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="初步判断"  >
-                            <el-input v-model="form.prejudgment" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="是否生成事件（0：否，1：是）"  >
-                            <el-input v-model="form.isGenEvent" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="报警审核时间"  >
-                            <el-input v-model="form.auditTime" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="逻辑删除"  >
-                            <el-input v-model="form.isDel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
                 </el-row>
                 <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
@@ -323,6 +235,119 @@
 
             </el-form>
         </el-dialog>
+
+      <el-dialog
+        :title="disposeTitle"
+        :visible.sync="disposeVisible"
+        width="60%">
+        <div id="disposeDiv" v-show="vShow">
+          <el-form ref="disposeForm" :model="disposeForm" :rules="rules" label-width="120px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="处置状态"  >
+                  <el-select v-model="disposeForm.handleStatus" minlength=1>
+                    <el-option key="1" label="处置中" value="1"></el-option>
+                    <el-option key="2" label="已处置" value="2"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="primary" @click="addDispose()">处置</el-button>
+
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="处置说明"  >
+                  <el-input type="textarea" v-model="disposeForm.handleConent" minlength=1></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="选择文件"  >
+                  <el-upload
+                    :action="uploadUrl"
+                    :headers="uploadHeaders"
+                    :on-change="handleChangeUpload"
+                    accept=".doc,.docx,.pdf,.zip,.rar"
+                    :on-remove="removeFile"
+                    :file-list="fileList"
+                    :multiple="multiple"
+                  >
+
+
+
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" >最大上传大小10Mb</div>
+                  </el-upload>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+          </el-form>
+        </div>
+
+        <el-table :data="disposeList" v-loading="disposeLoading" element-loading-text="Loading" border fit>
+          <el-table-column label="处置时间">
+            <template slot-scope="scope">
+              {{scope.row.createTime}}
+            </template>
+          </el-table-column>
+
+          <el-table-column label="处置人">
+            <template slot-scope="scope">
+              {{scope.row.user.name}}
+            </template>
+          </el-table-column>
+
+          <el-table-column label="处置说明">
+            <template slot-scope="scope">
+              {{scope.row.handleConent}}
+            </template>
+          </el-table-column>
+          <el-table-column label="处置状态">
+            <template slot-scope="scope">
+              <template v-if="scope.row.handleStatus == 1" id="handleStatus1">处置中</template>
+              <template v-if="scope.row.handleStatus == 2" id="handleStatus2">已处置</template>
+            </template>
+          </el-table-column>
+          <el-table-column label="附件">
+            <template slot-scope="scope">
+              <el-button type="text" size="mini" icon="el-icon-view" @click.native="previewFile(scope.row)" >预览</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+      <el-dialog
+        :title="previewTitle"
+        :visible.sync="previewVisible"
+        width="60%"style="margin-top: 0px;">
+
+        <el-row style="width: 100%;height: 600px">
+          <el-col style="width: 20%;height: 620px">
+            <div class="grid-content bg-purple" >
+              <el-table :data="files" v-loading="fileLoading" element-loading-text="Loading">
+                <el-table-column label="附件名称">
+                  <template slot-scope="scope">
+                    <div @click="viewFile(scope.row)">
+                      {{scope.row.fileInfo.originalFileName}}
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-col>
+          <el-col style="width: 80%;height: 600px;padding-top: 20px">
+            <div class="grid-content bg-purple">
+              <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
+            </div>
+
+          </el-col>
+        </el-row>
+      </el-dialog>
+
+
     </div>
 </template>
 

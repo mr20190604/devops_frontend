@@ -101,10 +101,11 @@ export default {
     init() {
       this.fetchData()
       this.downloadUrl = getApiUrl() + '/file/download?idFile='
-    },
-    fetchData() {
       this.uploadUrl = getApiUrl() + '/file'
       this.uploadHeaders['Authorization'] = getToken()
+    },
+    fetchData() {
+
       this.listLoading = true
         dsaEmergencyPlanApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
@@ -168,7 +169,6 @@ export default {
         planUnit:'',
         planVersion:'',
         editorDate:'',
-        fileId:'',
         register:'',
         isDel:'',
         id: '',
@@ -197,7 +197,6 @@ export default {
                 planUnit:this.form.planUnit,
                 planVersion:this.form.planVersion,
                 editorDate:this.form.editorDate,
-                // fileId:this.form.fileId,
                 register:this.form.register,
                 isDel:this.form.isDel,
             }
