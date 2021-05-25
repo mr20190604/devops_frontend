@@ -276,10 +276,10 @@
 
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane label="产品信息" name="second" ref="second"  >
+              <el-tab-pane label="产品信息" name="second" ref="second"  disabled="disabled">
                 <productInfo :enterpriseId="enterpriseId"></productInfo>
               </el-tab-pane>
-              <el-tab-pane  label="风险单元" name="third" >
+              <el-tab-pane  label="风险单元" name="third" disabled="disabled">
                 <unitInfo :enterpriseId="enterpriseId"></unitInfo>
               </el-tab-pane>
             </el-tabs>
