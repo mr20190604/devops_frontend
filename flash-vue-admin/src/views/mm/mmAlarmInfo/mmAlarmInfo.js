@@ -41,7 +41,8 @@ export default {
         auditTime:'',
         isDel:'',
         id: '',
-        auditStatus:''
+        auditStatus:'',
+        monitorTypeName:''
       },
       disposeForm:{
         alarmId:'',
@@ -120,7 +121,10 @@ export default {
         height:'600px',
         width: '100%'
       },
-      vShow:true
+      vShow:true,
+      acceptTitle:'信息发送',
+      acceptVisible:false,
+      acceptPersn:[]
 
     }
   },
@@ -464,6 +468,17 @@ export default {
         this.previewFileUrl = preview;
       }
 
+    },openAccept() {
+      if(this.checkSel()) {
+        this.acceptTitle = '信息通知'
+        this.acceptVisible = true
+        mmAlarmInfoApi.getAcceptPerson().then(response=>{
+          this.acceptPersn = response.data
+          debugger
+        })
+
+
+      }
     }
 
   }

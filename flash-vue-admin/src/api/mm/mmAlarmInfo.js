@@ -54,7 +54,7 @@ export default {
   },addRelation:function(params) {
       return request({
         url:'/alarm/handle/file/add',
-        method:'post',
+        method:'POST',
         params
       })
 
@@ -66,6 +66,10 @@ export default {
           handleId:handleId
         }
       })
-    
+  },getAcceptPerson:function () {
+    return request({
+      url:'/alarm/infogetAcceptPerson',
+      method:'GET'
+    })
   }
 }

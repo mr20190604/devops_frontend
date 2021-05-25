@@ -60,7 +60,7 @@
                 <el-col :span="24">
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/mmAlarmInfo/check']">审核</el-button>
                     <el-button type="primary" size="mini"  icon="el-icon-plus" @click.native="dispose()" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="remove" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
+                    <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="openAccept()" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
                   <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="remove" v-permission="['/mmAlarmInfo/event']">生成事件</el-button>
                 </el-col>
             </el-row>
@@ -94,7 +94,7 @@
           </el-table-column>
             <el-table-column label="报警类型">
                 <template slot-scope="scope">
-                    {{scope.row.monitorType}}
+                    {{scope.row.monitorTypeName}}
                 </template>
             </el-table-column>
           <el-table-column label="报警位置">
@@ -345,6 +345,11 @@
 
           </el-col>
         </el-row>
+      </el-dialog>
+      <el-dialog
+        :title="acceptTitle"
+        :visible.sync="acceptVisible"
+        width="60%"style="margin-top: 0px;">
       </el-dialog>
 
 
