@@ -246,12 +246,6 @@
 
             </el-col>
           </el-row>
-
-
-          <!--<div>-->
-            <!--<preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl" :fileType="fileType"></preview>-->
-          <!--</div>-->
-          <!---->
         </el-dialog>
     </div>
 </template>

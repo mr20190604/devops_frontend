@@ -45,8 +45,6 @@ export default {
         timeName:'',
         formulateOfficeName:'',
         lawNatureName:'',
-
-        fileId:'',
         fileInfo:''
       },
       //附件集合
@@ -182,7 +180,6 @@ export default {
         id: '',
         fileInfo:'',
         fileList:[],
-        fileId:''
       }
     },
     add() {
@@ -211,7 +208,6 @@ export default {
                 publicationDate:this.form.publicationDate,
                 remark:this.form.remark,
                 isDel:this.form.isDel,
-                // fileId:this.form.fileId
             }
             if(formData.id){
                 dsaLawStatuteApi.update(formData).then(response => {
