@@ -19,6 +19,7 @@ export default {
         dangerousCharacteristic: '',
         casCode: '',
         isDanger: '',
+        isDangerName:'',
         id: ''
       },
       listQuery: {
@@ -145,6 +146,7 @@ export default {
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          console.log(this.form.id);
           const formData = {
             id: this.form.id,
             materialCode: this.form.materialCode,

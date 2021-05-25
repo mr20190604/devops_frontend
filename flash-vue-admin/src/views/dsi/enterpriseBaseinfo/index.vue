@@ -276,11 +276,11 @@
 
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane label="产品信息" name="second" id="second" ref="zbsq" >
-                <materialInfo :enterpriseId="enterpriseId"></materialInfo>
+              <el-tab-pane label="产品信息" name="second" ref="second"  >
+                <productInfo :enterpriseId="enterpriseId"></productInfo>
               </el-tab-pane>
-              <el-tab-pane label="风险单元" name="third">
-                <unitInfo></unitInfo>
+              <el-tab-pane  label="风险单元" name="third" >
+                <unitInfo :enterpriseId="enterpriseId"></unitInfo>
               </el-tab-pane>
             </el-tabs>
           </template>

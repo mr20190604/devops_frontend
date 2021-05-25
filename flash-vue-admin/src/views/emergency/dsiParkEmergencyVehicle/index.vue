@@ -44,13 +44,15 @@
                 <el-col :span="24">
                     <el-button type="primary"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/vehicle/add']">{{ $t('button.add') }}</el-button>
                     <!--<el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/park/emergency/vehicle/update']">{{ $t('button.edit') }}</el-button>-->
-                    <el-button  icon="el-icon-delete" @click.native="remove" v-permission="['/park/emergency/vehicle/delete']">批量删除</el-button>
+                    <el-button type="danger" icon="el-icon-delete" @click.native="removeBatch" v-permission="['/park/emergency/vehicle/delete']">批量删除</el-button>
                 </el-col>
             </el-row>
         </div>
 
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+                  :row-key="row=>row.id"
+                  @selection-change="handleSelectionChange"
                   @current-change="handleCurrentChange">
           <el-table-column
             type="selection"

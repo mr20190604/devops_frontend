@@ -55,6 +55,7 @@ export default {
       list: null,
       listLoading: true,
       selRow: {},
+      selection: [],
       uploadUrl:'',
       uploadHeaders: {
         'Authorization': ''
@@ -168,6 +169,9 @@ export default {
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     },
     resetForm() {
       this.form = {
@@ -394,7 +398,41 @@ export default {
       })
       this.fileLoading = false
 
-    }
+    },
+    removeBatch() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      ids = ids.join(',')
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        dsiParkEmergencyVehicleApi.removeBatch1(ids).then(() => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
+        }).catch(err => {
+          this.$notify.error({
+            title: '错误',
+            message: err
+          })
+        })
+      }).catch(() => {
+      })
+    },
 
   }
 }

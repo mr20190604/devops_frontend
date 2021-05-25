@@ -1,9 +1,15 @@
 import dsiProductInfoApi from '@/api/dsi/dsiProductInfo'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
+import materialInfo from '@/views/dsi/dsiMaterialBaseinfo/index.vue';
+import dsiMaterialBaseinfoApi from '@/api/dsi/dsiMaterialBaseinfo';
+import dsiProductFromMaterialApi from '@/api/dsi/dsiProductFromMaterial';
 export default {
   directives: { permission },
   props:['enterpriseId'],
+  component:{
+    materialInfo
+  },
   data() {
     return {
       formVisible: false,
@@ -15,7 +21,7 @@ export default {
         isPoisonHarm: '',
         isInflammableExplosive: '',
         formId: '',
-        enterpriseId: '',
+        enterpriseId: this.enterpriseId,
         isCorrosive:'',
         isRadioactivity:'',
         storageStandards:'',
@@ -27,6 +33,7 @@ export default {
         isRadioactivityName:'',
         id: ''
       },
+      productAdd:true,
       judge_list:[],
       productList:null,
       //用于保存产品临时数据，最后统一提交
@@ -39,13 +46,15 @@ export default {
         isPoisonHarm: undefined,
         isInflammableExplosive: undefined,
         formId: undefined,
-        enterpriseId: undefined
+        enterpriseId: this.enterpriseId
       },
+      materialList:[],
       total: 0,
       list: [],
       listLoading: true,
       selRow: {},
-      selection: []
+      selection: [],
+      addVisible:false
     }
   },
   filters: {
@@ -59,18 +68,19 @@ export default {
     }
   },
   computed: {
-
     // 表单验证
     rules() {
       return {
         // cfgName: [
         //   { required: true, message: this.$t('config.name') + this.$t('common.isRequired'), trigger: 'blur' },
-        //   { min: 3, max: 2000, message: this.$t('config.name') + this.$t('config.lengthValidation'), trigger: 'blur' }
+
         // ]
       }
     }
   },
   created() {
+    console.log(this.enterpriseId);
+    this.listQuery.enterpriseId=this.enterpriseId;
     this.init()
   },
   watch: {
@@ -78,18 +88,26 @@ export default {
       if (!newValue) {
         this.resetForm()
       }
+    },
+    'enterpriseId':function () {
+      this.listQuery.enterpriseId=this.enterpriseId;
+      this.fetchData();
     }
   },
   methods: {
     init() {
+      this.listQuery.enterpriseId=this.enterpriseId;
       this.fetchData()
+
     },
     fetchData() {
-      this.listLoading = true
+      // this.listLoading = true
+      this.listQuery.enterpriseId=this.enterpriseId;
       dsiProductInfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
-        this.listLoading = false
+        console.log(this.list);
         this.total = response.data.total
+        this.listLoading = false
       });
       getDicts('是否').then(response => {
         this.judge_list = response.data
@@ -151,7 +169,6 @@ export default {
       this.formTitle = '添加产品信息'
       this.formVisible = true
       this.isAdd = true
-
       if (this.$refs['form']) {
         this.$refs['form'].resetFields()
       }
@@ -165,44 +182,36 @@ export default {
             productName: this.form.productName,
             isPoisonHarm: this.form.isPoisonHarm,
             isInflammableExplosive: this.form.isInflammableExplosive,
-            isRadioactivity:this.form.isRadioactivity,
-            isCorrosive:this.form.isCorrosive,
+            isRadioactivity: this.form.isRadioactivity,
+            isCorrosive: this.form.isCorrosive,
             formId: this.form.formId,
-            productModel:this.form.productModel,
-            storageStandards:this.form.storageStandards,
-            productDesc:this.form.productDesc,
-            enterpriseId:28,
+            productModel: this.form.productModel,
+            storageStandards: this.form.storageStandards,
+            productDesc: this.form.productDesc,
+            enterpriseId: this.enterpriseId,
           }
-          if (formData.id) {
-            dsiProductInfoApi.update(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
+          if (this.productAdd) {
+            if (formData.id) {
+              dsiProductInfoApi.update(formData).then(response => {
+                this.$message({
+                  message: this.$t('common.optionSuccess'),
+                  type: 'success'
+                })
+
+                this.formVisible = false;
+                this.fetchData();
               })
-              this.fetchData()
-              this.formVisible = false
-            })
+            } else {
+              dsiProductInfoApi.add(formData).then(response => {
+                this.fetchData()
+                this.formVisible = false
+              })
+
+            }
+
           } else {
-            dsiProductInfoApi.add(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-             /* var enterpriseId=response.data.id
-              console.log(enterpriseId)*/
-
-              this.material_list.forEach(item =>{
-                item.enterpriseId = enterpriseId
-                dsiProductInfoApi.add(item).then()
-              })
-              this.material_list = [];
-              this.fetchData()
-              this.formVisible = false
-            })
-
+            return false
           }
-        } else {
-          return false
         }
       })
     },
@@ -226,7 +235,6 @@ export default {
         this.form = this.selRow
         this.formTitle = '编辑产品信息'
         this.formVisible = true
-
         if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
@@ -235,6 +243,20 @@ export default {
     removeItem(record) {
       this.selRow = record
       this.remove()
+    },
+    selectMaterial(){
+      if (this.checkSel()) {
+        this.isAdd = false
+        this.form = this.selRow
+        console.log(this.form.id);
+        this.formTitle = '选择原料'
+        this.materialVisible = true
+        dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
+          this.materialList = response.data.records
+          this.listLoading = false
+          this.total = response.data.total
+        })
+      }
     },
     remove() {
       if (this.checkSel()) {
@@ -293,83 +315,108 @@ export default {
       }).catch(() => {
       })
     },
-    resetMaterialForm() {
-      this.materialForm = {
-        code: '',
-        materialName: '',
-        materialType: '',
-        materialNum: '',
-        chUnitId: '',
-        validityTerm: '',
-        poolId: '',
-        isDel: '',
-        id: ''
-      }
+    addMaterial(){
+      this.formTitle = '添加原料'
+      this.addVisible = true
+      this.isAdd = true
+
+     /* if (this.$refs['form'] !== undefined) {
+        this.$refs['form'].resetFields()
+      }*/
     },
-    addMaterial() {
-      this.resetMaterialForm()
-      this.materialVisible = true
-      this.materialTitle = '添加应急物资信息'
-    }, editMaterialItem(record) {
-      this.resetMaterialForm()
-      this.materialVisible = true
-      this.materialTitle = '编辑应急物资信息'
-      this.materialForm = record
-    },
-    saveProductMaterial() {
-      this.$refs['materialForm'].validate((valid) => {
-        if (valid) {
-          const formData = {
-            materialCode: this.materialForm.materialCode,
-            chemistryName: this.materialForm.chemistryName,
-            englishName: this.materialForm.englishName,
-            shortName: this.materialForm.shortName,
-            materialType: this.materialForm.materialType,
-            physicochemicalProperties: this.materialForm.physicochemicalProperties,
-            poolId: this.form.id,
-            materialTypeName: null,
-            chUnitIdName: null
-          }
-          if (this.materialAdd) {
-            var arr = []
-            this.material_list.forEach(item => {
-              if (item.materialName != formData.materialName) {
-                arr.push(item)
-              }
-            })
-            // var index = this.material_list.indexOf(formData)
-            // for(var i = 0;i < this.material_list.length;i++) {
-            //   if (index != i) {
-            //     arr.push(this.material_list[i])
-            //   }
-            // }
-            this.material_list = arr
-            this.material_list.push(formData)
-            this.material_list.remove
-            this.materialList = this.material_list
-          } else {
+    saveMaterial(){
+
+        this.$refs['form1'].validate((valid) => {
+          if (valid) {
+            const formData = {
+              id: this.form.id,
+              materialCode: this.form.materialCode,
+              chemistryName: this.form.chemistryName,
+              englishName: this.form.englishName,
+              shortName: this.form.shortName,
+              materialType: this.form.materialType,
+              physicochemicalProperties: this.form.physicochemicalProperties,
+              healthHazards: this.form.healthHazards,
+              dangerousCharacteristic: this.form.dangerousCharacteristic,
+              casCode: this.form.casCode,
+              isDanger: this.form.isDanger
+            }
             if (formData.id) {
-              dsiParkEmergency.update(formData).then(response => {
+              dsiMaterialBaseinfoApi.update(formData).then(response => {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
+                this.fetchData1()
+                this.addVisible = false
               })
             } else {
-              dsiParkEmergency.add(formData).then(response => {
+              dsiMaterialBaseinfoApi.add(formData).then(response => {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
+                this.fetchData1()
+                this.addVisible = false
               })
             }
+          } else {
+            return false
           }
-        } else {
-          return false
-        }
-        this.initMaterialList(this.form.id)
-        this.materialVisible = false
+        })
+      },
+    fetchData1() {
+      this.listLoading = true
+      dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
+        this.materialList = response.data.records
+        this.listLoading = false
+        this.total = response.data.total
       })
+    },
+    saveProduct(){
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      for(let i=0;i<ids.length;i++) {
+        const formMaterial = {
+          id: '',
+          productId: this.form.id,
+          materialId: ids[i]
+        }
+        dsiProductFromMaterialApi.add(formMaterial);
+      }
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData();
+          this.materialVisible=false;
+
+      },
+
+    viewProduct(){
+      if (this.checkSel()) {
+        this.isAdd = false
+        this.form = this.selRow
+        console.log(this.form.id);
+        this.formTitle = '查看产品信息'
+        this.productVisible = true
+        dsiProductFromMaterialApi.getList(this.listQuery).then(response => {
+          this.materialList = response.data.records
+          this.listLoading = false
+          this.total = response.data.total
+        })
+      }
     }
+
   }
 }

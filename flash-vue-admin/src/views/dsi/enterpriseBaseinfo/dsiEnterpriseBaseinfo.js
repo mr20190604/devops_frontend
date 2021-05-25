@@ -2,13 +2,13 @@ import dsiEnterpriseBaseinfoApi from '@/api/dsi/dsiEnterpriseBaseinfo'
 import permission from '@/directive/permission/index.js'
 import {remove, getList, save, update, getDicts} from '@/api/system/dict'
 import district from '@/components/District/index'
-import materialInfo from '@/views/dsi/dsiProductInfo/index.vue'
+import productInfo from '@/views/dsi/dsiProductInfo/index.vue'
 import unitInfo from '@/views/dsi/riskUnit/index.vue'
 
 export default {
   directives: {permission},
   components:{
-    materialInfo,
+    productInfo,
     district,
     unitInfo
   },
@@ -193,6 +193,7 @@ export default {
     add() {
       this.resetForm()
       this.formTitle = '添加企业信息',
+        this.activeName="first"
 
         this.formVisible = true
       this.isAdd = true
@@ -235,16 +236,13 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
-              this.fetchData()
-              this.formVisible = false
+              this.activeName="second";
+              /*this.fetchData()
+              this.formVisible = false*/
+
             })
           } else {
             dsiEnterpriseBaseinfoApi.add(formData).then(response => {
-              console.log(response);
-              /*this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })*/
               this.enterpriseId = response.data.id;
               if(this.enterpriseId) {
                 this.activeName="second";
@@ -282,6 +280,7 @@ export default {
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '编辑企业信息'
+        this.activeName="first"
         this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {

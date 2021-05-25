@@ -54,5 +54,13 @@ export default {
       }
     })
   },
-
+  removeBatch1: function(ids) {
+    return request({
+      url: '/park/emergency/vehicle/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
+      }
+    })
+  }
 }
