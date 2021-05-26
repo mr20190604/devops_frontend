@@ -421,7 +421,7 @@
         :title="genEventTitle"
         :visible.sync="genEventVisible"
       >
-        <genEvent :alarmRow="selRow" @closeGenEvent="closeGenEvent"></genEvent>
+        <genEvent v-if="genEventVisible" :alarmRow="selRow" @closeGenEvent="closeGenEvent"></genEvent>
       </el-dialog>
 
     </div>
