@@ -61,14 +61,14 @@
                     <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/mmAlarmInfo/check']">审核</el-button>
                     <el-button type="primary" size="mini"  icon="el-icon-plus" @click.native="dispose()" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>
                     <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="openAccept()" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
-                  <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="remove" v-permission="['/mmAlarmInfo/event']">生成事件</el-button>
+                  <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="openGenEvent()" v-permission="['/mmAlarmInfo/saveEventAndFiles']">生成事件</el-button>
                 </el-col>
             </el-row>
         </div>
 
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                  @current-change="handleCurrentChange">
+                  @current-change="handleCurrentChange" :row-key="getRowKey">
           <el-table-column
             type="selection"
             width="55"
@@ -181,7 +181,6 @@
                         <el-form-item label="最新报警时间"  >
                             <el-date-picker v-model="form.alarmTime"
                                             class="date_picker"
-                                            :picker-options="pickerOptions"
                                             value-format="yyyy/MM/dd" minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -418,6 +417,12 @@
         </div>
       </el-dialog>
 
+      <el-dialog class="dialogTitleBackground dialogTitle"
+        :title="genEventTitle"
+        :visible.sync="genEventVisible"
+      >
+        <genEvent :alarmRow="selRow" @closeGenEvent="closeGenEvent"></genEvent>
+      </el-dialog>
 
     </div>
 </template>
