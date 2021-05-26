@@ -4,7 +4,7 @@ import {getDicts} from "../../../api/system/dict";
 import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 // import preview from '@/preview/preview.vue'
-import {isCanPreview} from '@/utils/preview.js'
+import {isCanPreview,downloadFile} from '@/utils/preview.js'
 import process from '@/components/Process/process.vue'
 
 import ECharts from 'vue-echarts/components/ECharts'
@@ -711,7 +711,13 @@ export default {
       })
 
 
+    },downloads(record) {
+    const param = {
+      idFile:record.fileInfo.id,
+      fileName:record.fileInfo.originalFileName
     }
+    downloadFile('/file/download',param,record.fileInfo.originalFileName)
+  }
 
   }
 }

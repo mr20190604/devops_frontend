@@ -3,9 +3,8 @@ import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
 import { getApiUrl, getPreviewUrl} from '@/utils/utils'
 import { getToken } from '@/utils/auth'
-// import preview from '@/preview/preview.vue'
 import {isCanPreview,downloadFile} from '@/utils/preview.js'
-import {getFileStream} from "../../../utils/preview";
+
 
 const Base64 = require('js-base64').Base64
 
@@ -420,7 +419,7 @@ export default {
     },downloads(record) {
       const param = {
         idFile:record.fileInfo.id,
-        name:record.fileInfo.originalFileName
+        fileName:record.fileInfo.originalFileName
       }
       downloadFile('/file/download',param,record.fileInfo.originalFileName)
     }
