@@ -135,8 +135,8 @@
             </el-table-column>
             <el-table-column label="操作" width="200px">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini">流程</el-button>
-                  <el-button type="text" size="mini">监测曲线</el-button>
+                    <el-button type="text" size="mini" @click="openProcess(scope.row)">流程</el-button>
+                  <el-button type="text" size="mini" @click="openCurve(scope.row)">监测曲线</el-button>
                   <el-button type="text" size="mini">定位</el-button>
                 </template>
             </el-table-column>
@@ -275,9 +275,6 @@
                     :file-list="fileList"
                     :multiple="multiple"
                   >
-
-
-
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" >最大上传大小10Mb</div>
                   </el-upload>
@@ -349,7 +346,76 @@
       <el-dialog
         :title="acceptTitle"
         :visible.sync="acceptVisible"
-        width="60%"style="margin-top: 0px;">
+        width="40%"style="margin-top: 0px;">
+
+        <div style="padding-left: 10%">
+          <template>
+            <el-transfer
+              v-model="value"
+              :titles="['接收人列表','接收人']"
+              :data="acceptPerson"
+            ></el-transfer>
+          </template>
+        </div>
+
+        <div>
+
+          <el-form ref="acceptForm" :model="acceptForm" :rules="rules" label-width="120px">
+            <el-row>
+              <el-col style="padding-top: 20px" :span="20">
+                <el-form-item label="通知内容"  >
+                  <el-input type="textarea" v-model="acceptForm.noticeContent" minlength=1></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-row>
+              <el-col :span="20">
+                <el-form-item align="center">
+                  <el-button type="primary" @click="msgSend()">发送</el-button>
+                  <el-button  @click="acceptVisible = false">取消</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-dialog>
+
+       <el-dialog
+      :title="formTitle"
+      :visible.sync="processVisiable"
+      width="60%"
+    >
+      <div>
+        <process :checkList="checkList" :disposeList="disposeList" :acceptList="acceptList"></process>
+      </div>
+
+    </el-dialog>
+
+      <el-dialog
+        :title="formTitle"
+        :visible.sync="echartVisiable"
+        width="50%"
+      >
+        <div style="padding-left: 10px">
+          <el-form  :inline="true">
+            <el-form-item>
+              <el-button  icon="el-icon-search" >本日</el-button>
+              <el-button  icon="el-icon-search" >本周</el-button>
+              <el-button  icon="el-icon-search" >本月</el-button>
+            </el-form-item>
+            <el-form-item label="">
+              <el-date-picker type="datetime"  value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
+              <el-date-picker type="datetime"  value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
+            </el-form-item>
+            <el-button type="primary" icon="el-icon-search" >{{ $t('button.search') }}</el-button>
+          </el-form>
+
+        </div>
+
+        <div align="center" style="width: 100%">
+          <v-chart :options="lineData" ref="myEchart" style="width: 80%;"/>
+        </div>
       </el-dialog>
 
 
@@ -359,7 +425,7 @@
 <script src="./mmAlarmInfo.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss"  >
+<style rel="stylesheet/scss" lang="scss" >
     @import "src/styles/commonmyself.scss";
 </style>
 

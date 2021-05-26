@@ -7,6 +7,15 @@ export default {
             params
         })
     },
+  queryById:function(id) {
+    return request({
+      url: '/alarm/info/queryById',
+      method: 'get',
+      params:{
+        id:id
+      }
+    })
+  },
     add:function(params) {
         return request({
             url: '/alarm/info',
@@ -68,8 +77,24 @@ export default {
       })
   },getAcceptPerson:function () {
     return request({
-      url:'/alarm/infogetAcceptPerson',
+      url:'/alarm/info/getAcceptPerson',
       method:'GET'
     })
+  },msgSend:function(params) {
+      return request({
+        url:'/alarm/info/saveNotice',
+        method:'POST',
+        data:params
+      })
+  },queryNoticeByAlarmId(alarmId) {
+    return request({
+      url:'/alarm/info/queryNoticeByAlarmId',
+      method:'get',
+      params:{
+        alarmId:alarmId
+      }
+    })
+
   }
+
 }

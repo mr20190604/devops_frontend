@@ -4,7 +4,8 @@ import {getDicts} from "../../../api/system/dict";
 import { getApiUrl, getPreviewUrl} from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 // import preview from '@/preview/preview.vue'
-import {isCanPreview} from '@/utils/preview.js'
+import {isCanPreview,downloadFile} from '@/utils/preview.js'
+import {getFileStream} from "../../../utils/preview";
 
 const Base64 = require('js-base64').Base64
 
@@ -104,10 +105,10 @@ export default {
     init() {
       this.fetchData();
       this.downloadUrl = getApiUrl() + '/file/download?idFile='
-    },
-    fetchData() {
       this.uploadUrl = getApiUrl() + '/file'
       this.uploadHeaders['Authorization'] = getToken()
+    },
+    fetchData() {
       this.listLoading = true
         dsaLawStatuteApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
@@ -416,6 +417,12 @@ export default {
         })
       }).catch(() => {
       })
+    },downloads(record) {
+      const param = {
+        idFile:record.fileInfo.id,
+        name:record.fileInfo.originalFileName
+      }
+      downloadFile('/file/download',param,record.fileInfo.originalFileName)
     }
   },
 }
