@@ -585,7 +585,6 @@ export default {
 
     },
     closeGenEvent() {
-      debugger
       this.genEventVisible = false;
     },
     openGenEvent(){
