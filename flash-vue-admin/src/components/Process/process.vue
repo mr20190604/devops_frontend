@@ -31,6 +31,29 @@
          </div>
         </el-card>
       </el-timeline-item>
+      <el-timeline-item timestamp="信息发送" placement="top">
+        <el-card v-if="acceptList != null">
+          <div>
+            <el-table :data="acceptList" v-loading="false" element-loading-text="Loading" border>
+              <el-table-column label="发送时间">
+                <template slot-scope="scope">
+                  {{scope.row.createTime}}
+                </template>
+              </el-table-column>
+              <el-table-column label="信息内容">
+                <template slot-scope="scope">
+                  {{scope.row.noticeContent}}
+                </template>
+              </el-table-column>
+              <el-table-column label="接收人">
+                <template slot-scope="scope">
+                  {{scope.row.receive.name}}
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="处置" placement="top">
         <el-card v-if="disposeList != null">
           <div>
@@ -62,29 +85,7 @@
           </div>
         </el-card>
       </el-timeline-item>
-      <el-timeline-item timestamp="信息发送" placement="top">
-        <el-card v-if="acceptList != null">
-          <div>
-            <el-table :data="acceptList" v-loading="false" element-loading-text="Loading" border>
-              <el-table-column label="发送时间">
-                <template slot-scope="scope">
-                  {{scope.row.createTime}}
-                </template>
-              </el-table-column>
-              <el-table-column label="信息内容">
-                <template slot-scope="scope">
-                  {{scope.row.noticeContent}}
-                </template>
-              </el-table-column>
-              <el-table-column label="接收人">
-                <template slot-scope="scope">
-                  {{scope.row.auditUser.name}}
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </el-card>
-      </el-timeline-item>
+
     </el-timeline>
 
   </div>

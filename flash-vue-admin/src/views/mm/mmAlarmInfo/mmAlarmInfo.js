@@ -605,11 +605,12 @@ export default {
     },msgSend() {
       this.$refs['acceptForm'].validate((valid) => {
         if (valid) {
-          // mmAlarmInfoApi.getAcceptPerson().then(response =>{
-          //
-          //   console.log(response.data)
-          // })
-          mmAlarmInfoApi.msgSend(this.selRow.id,this.acceptForm.noticeContent,this.value).then(response =>{
+          const formData = {
+            alarmId:this.selRow.id,
+            content:this.acceptForm.noticeContent,
+            receives:this.value
+          }
+          mmAlarmInfoApi.msgSend(formData).then(response =>{
             this.$message({
               message: this.$t('发送成功'),
               type: 'success'
@@ -705,7 +706,8 @@ export default {
       })
 
       mmAlarmInfoApi.queryNoticeByAlarmId(record.id).then(response=>{
-        this.acceptList = response.data()
+        debugger
+        this.acceptList = response.data
       })
 
 

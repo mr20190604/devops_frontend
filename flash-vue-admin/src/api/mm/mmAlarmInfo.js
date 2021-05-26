@@ -80,15 +80,11 @@ export default {
       url:'/alarm/info/getAcceptPerson',
       method:'GET'
     })
-  },msgSend:function(alarmId,noticeContent,users) {
+  },msgSend:function(params) {
       return request({
         url:'/alarm/info/saveNotice',
         method:'POST',
-        params:{
-          alarmId:alarmId,
-          noticeContent:noticeContent,
-          users:users
-        }
+        data:params
       })
   },queryNoticeByAlarmId(alarmId) {
     return request({

@@ -226,7 +226,7 @@
           width="60%"style="margin-top: 0px;">
 
           <el-row style="width: 100%;height: 600px">
-            <el-col style="width: 20%;height: 620px">
+            <el-col style="width: 25%;height: 620px">
               <div class="grid-content bg-purple" >
                 <el-table :data="files" v-loading="fileLoading" element-loading-text="Loading">
                   <el-table-column label="附件名称">
@@ -236,10 +236,15 @@
                       </div>
                     </template>
                   </el-table-column>
+                  <el-table-column label="操作">
+                    <template slot-scope="scope">
+                      <el-button type="text" size="mini" icon="el-icon-download"  @click.native="downloads(scope.row)" >下载</el-button>
+                    </template>
+                  </el-table-column>
                 </el-table>
             </div>
             </el-col>
-            <el-col style="width: 80%;height: 600px;padding-top: 20px">
+            <el-col style="width: 75%;height: 600px;padding-top: 20px">
               <div class="grid-content bg-purple">
               <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
               </div>
