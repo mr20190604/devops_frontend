@@ -1,4 +1,4 @@
-import charts from  '@/views/bigData/bigDataEcharts'
+import charts from  '@/utils/localEcharts'
 import data from '@/views/bigData/third/third.json'
 
 export default {
