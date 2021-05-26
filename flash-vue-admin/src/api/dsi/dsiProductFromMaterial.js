@@ -1,10 +1,12 @@
 import request from '@/utils/request'
 export default {
-    getList:function(params) {
+    getList:function(productId) {
         return request({
             url: '/product/from/material/list',
             method: 'get',
-            params
+            params:{
+              productId:productId
+            }
         })
     },
     add:function(params) {

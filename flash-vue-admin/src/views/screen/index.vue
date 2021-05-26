@@ -27,7 +27,7 @@
         </div>
         <div class="warningData">
           <div class="subTitle">
-            <p>预警数据</p>
+            <p>预警统计</p>
           </div>
           <warning-data />
         </div>
@@ -51,10 +51,10 @@
           </div>
         </div>
       </div>
-      <div class="left">
+      <div class="right">
         <div class="discharge">
           <div class="subTitle">
-            <p>废弃排放数据</p>
+            <p>废气排放数据</p>
           </div>
           <discharge />
         </div>
@@ -156,8 +156,8 @@ export default {
   .header {
     width: 100%;
     height: 80px;
-    background: url('../../assets/img/头部.png') no-repeat bottom;
-    background-size: 1920px 50px;
+    background: url('../../assets/img/头部.png') no-repeat ;
+    background-size: 1920px 80px;
   }
 
   .title {
@@ -186,7 +186,7 @@ export default {
   }
 
   .content {
-    margin: 10px 26px;
+    margin: 10px 8px;
   }
 
   .left, .right {
@@ -213,7 +213,7 @@ export default {
 
   .map {
     height: 626px;
-    background-image: url("../../assets/img/底框.png");
+    background-image: url("../../assets/img/mapBox.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     margin: 15px 0;

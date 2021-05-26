@@ -38,5 +38,10 @@ export default {
         ids: ids
       }
     })
-  }
+  },
+  /*queryMaterialById:function (id) {
+    return request({
+      url:'/'
+    })
+  }*/
 }

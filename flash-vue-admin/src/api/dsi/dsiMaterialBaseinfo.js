@@ -38,6 +38,15 @@ export default {
         ids: ids
       }
     })
+  },
+  getSelected:function(ids){
+    return request({
+      url:'/material/baseinfo/getSelected',
+      method: 'get',
+      params: {
+        ids: ids
+      }
+    })
   }
 
 }

@@ -17,6 +17,7 @@ export default {
       enterpriseId:'',
       activeName:'first',
       formVisible: false,
+      enterpriseVisible:false,
       formTitle: '添加数据资源一体化子系统--企业信息',
       isAdd: true,
       form: {
@@ -69,7 +70,7 @@ export default {
       list: [],
       listLoading: true,
       selRow: {},
-      selection: []
+      selection: [],
     }
   },
   enterpriseTable:null,
@@ -133,7 +134,6 @@ export default {
       this.listQuery.enterpriseAddress = ''
       this.listQuery.legalPerson = ''
       this.listQuery.riskLevel = ''
-
       this.fetchData()
     },
     handleFilter() {
@@ -193,7 +193,7 @@ export default {
     add() {
       this.resetForm()
       this.formTitle = '添加企业信息',
-        this.activeName="first"
+        // this.activeName="first"
 
         this.formVisible = true
       this.isAdd = true
@@ -238,14 +238,15 @@ export default {
               })
               this.activeName="second";
               /*this.fetchData()
-              this.formVisible = false*/
+              this. = false*/
 
             })
           } else {
             dsiEnterpriseBaseinfoApi.add(formData).then(response => {
               this.enterpriseId = response.data.id;
+              this.enterpriseName=response.data.enterpriseName;
               if(this.enterpriseId) {
-                this.activeName="second";
+                 this.activeName="second";
               } else {
                 this.activeName = 'first';
               }
@@ -280,7 +281,7 @@ export default {
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '编辑企业信息'
-        this.activeName="first"
+        // this.activeName="first"
         this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {
@@ -351,6 +352,25 @@ export default {
       }).catch(() => {
       })
     },
-
+    viewMaterial(){
+      if (this.checkSel()) {
+        this.isAdd = false
+        this.form = this.selRow
+        this.formTitle = '查看企业信息'
+        this.enterpriseVisible = true
+        if (this.$refs['form'] !== undefined) {
+          this.$refs['form'].resetFields()
+        }
+        //如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
+    },
+    handleClick(activeName, oldActiveName) {
+      let self = this;
+      if(!this.enterpriseId){
+        alert("请先添加企业信息！");
+        return false;
+      }
+      return true
+    }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;height: 100%;">
+  <div style="width: 100%;height: 100%; position: relative;">
     <baidu-map
       style="width: 100%;height: 100%;"
       :scroll-wheel-zoom="true"
@@ -11,58 +11,93 @@
         v-for="marker in data"
         :key="marker.lng"
         :position="{lng: marker.lng, lat:marker.lat}"
-        :icon="marker.icon||defaultIcon"
+        :icon="marker.icon"
         @click="handleMarkerClick(marker)"
       />
+
+      <bm-info-window
+        :position="infoWindow"
+        :show="infoWindow.show"
+        :offset="{height:60,width:120}"
+        animation="BMAP_ANIMATION_BOUNCE"
+        @close="infoWindowClose"
+        @open="infoWindowOpen"
+      >
+        <div class="infoBox">
+          <img src="../../../assets/img/close.png" class="close" alt="" @click="infoWindowClose">
+          <div class="title">
+            <p>
+              <i class="el-icon-map-location" />
+              <span> {{ infoWindow.address }}</span>
+            </p>
+          </div>
+          <div id="top">
+            <el-progress
+              type="dashboard"
+              :show-text="false"
+              :percentage="infoWindow.riskCount"
+              :width="70"
+              :stroke-width="4"
+              color="#34fff8"
+            />
+            <div id="circle1" class="circle">
+              <p class="quantity" style="color: #34fff8">{{ infoWindow.riskCount }}</p>
+              <p class="title">风险源</p>
+            </div>
+            <el-progress
+              type="dashboard"
+              :show-text="false"
+              :percentage="infoWindow.todayAlarmCount"
+              :width="70"
+              :stroke-width="4"
+              color="#b22d36"
+            />
+            <div id="circle2" class="circle">
+              <p class="quantity" style="color: #b22d36">{{ infoWindow.riskCount }}</p>
+              <p class="title">今日报警</p>
+            </div>
+            <el-progress
+              type="dashboard"
+              :show-text="false"
+              :percentage="infoWindow.historyAlarmCount"
+              :width="70"
+              :stroke-width="4"
+              color="#f19c4b"
+            />
+            <div id="circle3" class="circle">
+              <p class="quantity" style="color: #f19c4b">{{ infoWindow.riskCount }}</p>
+              <p class="title">历史报警</p>
+            </div>
+          </div>
+          <div style="margin-top: 5px;">
+            <img src="../../../assets/img/水滴.png" alt="" style="float: left;margin-left: 10px;display: inline-block;">
+            <div style="float: left;width: 100px;font-size: 12px">
+              <p style="color: #34fff8;padding-left: 8px;">水流量</p>
+              <p style="color: white;padding-left: 8px;margin-top: 5px;font-size: 14px;">{{ infoWindow.waterSpeed
+              }}升/秒</p>
+            </div>
+            <div style="clear: both;" />
+            <el-row style="font-size: 10px;color: white;margin-top: 15px">
+              <el-col v-for="item in infoWindow.statistics" :key="item.matter" :span="8">
+                <p class="type" v-html="item.matter" />
+                <el-progress :percentage="50" :stroke-width="4" :show-text="false" color="#5fced2" />
+                <p class="percentage">{{ item.concentration }} ug/m<sup>3</sup></p>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+      </bm-info-window>
     </baidu-map>
-    <div v-show="infoWindow.show" class="infoBox">
-      <img src="../../../assets/img/close.png" class="close" alt="" @click="infoWindowClose">
-      <div class="title">
-        <p>
-          <i class="el-icon-map-location" />
-          <span> {{ infoWindow.address }}</span>
-        </p>
-      </div>
-      <div id="top">
-        <el-progress type="dashboard" :percentage="infoWindow.riskCount" :width="70" :stroke-width="4" color="#34fff8" />
-        <div id="circle1" class="circle">
-          <p class="quantity" style="color: #34fff8">{{ infoWindow.riskCount }}</p>
-          <p class="title">风险源</p>
-        </div>
-        <el-progress type="dashboard" :percentage="infoWindow.todayAlarmCount" :width="70" :stroke-width="4" color="#b22d36" />
-        <div id="circle2" class="circle">
-          <p class="quantity" style="color: #b22d36">{{ infoWindow.riskCount }}</p>
-          <p class="title">今日报警</p>
-        </div>
-        <el-progress type="dashboard" :percentage="infoWindow.historyAlarmCount" :width="70" :stroke-width="4" color="#f19c4b" />
-        <div id="circle3" class="circle">
-          <p class="quantity" style="color: #f19c4b">{{ infoWindow.riskCount }}</p>
-          <p class="title">历史报警</p>
-        </div>
-      </div>
-      <div style="margin-top: 5px;">
-        <img src="../../../assets/img/水滴.png" alt="" style="float: left;margin-left: 10px;">
-        <div style="float: left;width: 100px;font-size: 12px">
-          <p style="color: #34fff8;padding-left: 8px;">水流量</p>
-          <p style="color: white;padding-left: 8px;margin-top: 5px;font-size: 14px;">{{ infoWindow.waterSpeed }}升/秒</p>
-        </div>
-        <div style="clear: both;" />
-        <el-row style="font-size: 10px;color: white;margin-top: 15px">
-          <el-col v-for="item in infoWindow.statistics" :key="item.matter" :span="8">
-            <p class="type" v-html="item.matter" />
-            <el-progress :percentage="50" :stroke-width="4" :show-text="false" color="#5fced2" />
-            <p class="percentage">{{ item.concentration }} ug/m<sup>3</sup></p>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
+    <div
+      style="position: absolute;top:0;height: 100%;width: 100%;box-shadow:rgb(11, 234, 235) 0 0 18px inset;pointer-events: none;"
+    />
     <div style="position: relative;height: 170px;top:-170px;overflow: hidden;cursor: pointer;pointer-events: none;">
       <div class="subTitle">
         <p>实时预警列表</p>
       </div>
       <table border="0" cellspacing="0" cellpadding="0" style="pointer-events: auto;">
         <thead>
-          <tr style="text-align: center;background: #333333;">
+          <tr style="text-align: center;background: #222;">
             <td>设备</td>
             <td>时间</td>
             <td>状况</td>
@@ -78,12 +113,20 @@
             style="text-align: center;"
             :style="{'marginTop':marginTop+'px'}"
             @click="handleRowClick(item)"
+            @mouseover="handleMouseOver"
+            @mouseout="handleMouseOut"
           >
             <td>{{ item.equipment }}</td>
             <td>{{ item.time }}</td>
             <td>{{ item.condition===1?'正常':'异常' }}</td>
             <td :style="{color:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}">
-              {{ item.level===1?'一级':item.level===2?'二级':'三级' }}
+              <p>
+                <span>{{ item.level===1?'一级':item.level===2?'二级':'三级' }}</span>
+                <span
+                  style="width: 10px;height: 10px;display: inline-block;"
+                  :style="{background:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}"
+                />
+              </p>
             </td>
             <td>{{ item.description }}</td>
             <td>{{ item.rate===1?'待分配':item.rate===2?'待处理':item.rate===3?'待审核':'已结案' }}</td>
@@ -102,17 +145,12 @@ export default {
   data() {
     return {
       marginTop: 0,
+      interval: undefined,
       BMap: undefined,
       map: undefined,
       center: {
         lng: 117.566797,
         lat: 32.993585
-      },
-      defaultIcon: {
-        url: '/img/normal.png',
-        size: {
-          width: 72, height: 69
-        }
       },
       infoWindow: {
         show: false,
@@ -455,7 +493,8 @@ export default {
     }
   },
   created() {
-    setInterval(this.showWarningData, 100)
+    this.initMarkers()
+    this.handleMouseOut()
   },
   methods: {
     mapReady({ BMap, map }) {
@@ -464,6 +503,15 @@ export default {
       // 在node_modules里面的vue-baidu-map/components/map/Map.vue 修改api版本2.0为3.0 并重新build
       map.setMapStyleV2({
         styleId: 'fe3bc41ca0e11f7dfa8986537af0dca7'
+      })
+      this.map.addEventListener('zoomend', function(e) {
+        const zoom = map.getZoom()
+        // const size = zoom * 10
+        // // 计算图标大小
+        // this.data.forEach(marker => {
+        //   marker.icon.opts.imageSize.height = size
+        //   marker.icon.opts.imageSize.width = size
+        // })
       })
     },
     showWarningData() {
@@ -474,27 +522,49 @@ export default {
         this.marginTop = 0
       }
     },
+    handleMouseOver() {
+      clearInterval(this.interval)
+    },
+    handleMouseOut() {
+      this.interval = setInterval(this.showWarningData, 100)
+    },
     handleRowClick(row) {
       this.handleMarkerClick(row)
     },
     handleMarkerClick(marker) {
       const point = new this.BMap.Point(marker.lng, marker.lat)
       this.map.panTo(point)
-      this.resetMarker()
-      marker.icon = { url: '/img/selected.png', size: { width: 72, height: 69 }}
+      this.resetMarkers()
+      marker.selected = true
       this.infoWindow = marker
       this.infoWindow.show = true
-
-      this.data.forEach(item => {
-        console.log(item.icon)
-      })
     },
     infoWindowClose() {
       this.infoWindow.show = false
     },
-    resetMarker() {
-      this.data.forEach(item => {
-        item.icon = null
+    infoWindowOpen() {
+      this.infoWindow.show = true
+    },
+    initMarkers() {
+      this.data.forEach(marker => {
+        marker.icon = {
+          url: marker.level === 1 ? '/img/first.png' : marker.level === 2 ? '/img/second.png' : '/img/three.png',
+          size: {
+            width: 72,
+            height: 69
+          },
+          opts: {
+            imageSize: {
+              width: 40,
+              height: 40
+            }
+          }
+        }
+      })
+    },
+    resetMarkers() {
+      this.data.forEach(marker => {
+        marker.selected = false
       })
     }
   }
@@ -538,14 +608,13 @@ export default {
   }
 
   .infoBox {
-    position: absolute;
-    right: 530px;
-    top: 130px;
-    height: 300px;
-    width: 250px;
-    background-image: url('../../../assets/img/小底框.png');
+    background-image: url('../../../assets/img/infoBox.png');
     background-size: 100% 100%;
     overflow: hidden;
+    pointer-events: none;
+    display: inline-block !important;
+    height: 300px;
+    width: 250px;
   }
 
   .close {
@@ -553,6 +622,8 @@ export default {
     margin-right: 8px;
     margin-top: 8px;
     cursor: pointer;
+    pointer-events: auto;
+    display: inline-block;
   }
 
   .title {
@@ -579,7 +650,7 @@ export default {
 
   #top > .el-progress {
     margin: 10px 5px;
-    transform: rotate(180deg);
+    transform: scaleY(-1);
     color: transparent !important;
   }
 
@@ -588,7 +659,7 @@ export default {
     width: 54px;
     position: absolute;
     border-radius: 27px;
-    margin-top: -72px;
+    margin-top: -73px;
     font-size: 5px;
     color: white;
   }
@@ -598,10 +669,11 @@ export default {
     padding: 0;
     width: 100%;
     text-align: center;
+    background: transparent;
   }
 
   .circle > .quantity {
-    margin-top: 7px;
+    margin-top: 12px;
   }
 
   .circle > .title {
@@ -610,30 +682,87 @@ export default {
 
   #circle1 {
     border: 2px dotted #34fff8;
-    margin-left: 13px;
+    margin-left: 11px;
   }
 
   #circle2 {
     border: 2px dotted #b22d36;
-    margin-left: 97px;
+    margin-left: 95px;
   }
 
   #circle3 {
     border: 2px dotted #f19c4b;
-    margin-left: 182px;
+    margin-left: 180px;
   }
 
-  .el-row p{
+  .el-row p {
     margin: 5px 0 5px 10px;
   }
 
-  .el-row .el-progress{
+  .el-row .el-progress {
     padding: 0 10px;
   }
 
 </style>
 <style lang="scss">
-  #top>.el-progress .el-progress__text{
+  #top > .el-progress .el-progress__text {
     display: none;
   }
+
+  .el-progress-bar__outer {
+    background: transparent;
+  }
+
+  /*!*地图标题*!*/
+  .BMap_bubble_title {
+    display: none;
+  }
+
+  /*!* 消息内容 *!*/
+  .BMap_bubble_content {
+    background-color: transparent;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+  }
+
+  /* 内容 */
+  .BMap_pop div:nth-child(9) {
+    top: 35px !important;
+  }
+
+  /*左上角删除按键*/
+  .BMap_pop img {
+    display: none;
+  }
+
+  .BMap_top {
+    display: none;
+  }
+
+  .BMap_bottom {
+    display: none;
+  }
+
+  .BMap_center {
+    display: none;
+  }
+
+  /*隐藏边角*/
+  .BMap_pop > div:nth-child(1) {
+    display: none;
+  }
+
+  .BMap_pop > div:nth-child(3) {
+    display: none;
+  }
+
+  .BMap_pop > div:nth-child(5) {
+    display: none;
+  }
+
+  .BMap_pop > div:nth-child(7) {
+    display: none;
+  }
+
 </style>
