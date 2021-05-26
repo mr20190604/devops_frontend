@@ -5,14 +5,35 @@ import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 // import preview from '@/preview/preview.vue'
 import {isCanPreview} from '@/utils/preview.js'
+import process from '@/components/Process/process.vue'
+
+import ECharts from 'vue-echarts/components/ECharts'
+import 'echarts/lib/chart/bar'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/chart/map'
+import 'echarts/lib/chart/radar'
+import 'echarts/lib/chart/scatter'
+import 'echarts/lib/chart/effectScatter'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/polar'
+import 'echarts/lib/component/geo'
+import 'echarts/lib/component/legend'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/visualMap'
+import 'echarts/lib/component/dataset'
+import 'echarts/map/js/world'
 
 
 export default {
   directives: { permission },
   components:{
     // preview
+    chart:ECharts,
+    process
   },
   data() {
+
     return {
       formVisible: false,
       formTitle: '添加报警基本信息',
@@ -42,7 +63,8 @@ export default {
         isDel:'',
         id: '',
         auditStatus:'',
-        monitorTypeName:''
+        monitorTypeName:'',
+        auditUser:''
       },
       disposeForm:{
         alarmId:'',
@@ -96,10 +118,13 @@ export default {
       list: null,
       listLoading: true,
       selRow: {},
+      checkList:null,
+      //报警处置模块
       disposeVisible:false,
       disposeTitle:'报警处置',
       disposeList:null,
       disposeLoading:true,
+      //附件上传、预览模块
       previewFileUrl:'',
       fileType: 1,
       //上传路径
@@ -121,12 +146,113 @@ export default {
         height:'600px',
         width: '100%'
       },
+      //信息发送模块
       vShow:true,
       acceptTitle:'信息发送',
       acceptVisible:false,
-      acceptPersn:[]
+      acceptPerson:[],
+      acceptList:null,
+      value:[],
+      acceptForm:{
+        id:'',
+        noticeContent:'',
+        noticeStatus:'',
+        recipient:'',
+        alarmId:''
+      },
+      //监测曲线模块
+      echartVisiable:false,
+      yData:[],
+      xData:[],
+      lineData:{
+        // title: {
+        //   // text: '设备监测曲线',
+        //   left: '1%'
+        // },
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          left: '5%',
+          right: '15%',
+          bottom: '10%'
+        },
+        xAxis: {
+          type: 'category',
+          // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data:[]
+        },
+        yAxis: {
+          type: 'value',
+          min:1,
+          max:10
+        },
+        visualMap: {
+          // top: 100,
+          // right:1,
+          x:'center',
+          y:'top',
+          orient:"horizontal",
+          pieces: [{
+            label:'正常',
+            gt: 0,
+            lte: 8,
+            color: '#1939ce'
+          }, {
+            label:'三级报警',
+            gt: 8,
+            lte: 9,
+            color: '#FBDB0F'
+          }, {
+            label:'二级报警',
+            gt: 9,
+            lte: 10,
+            color: '#FC7D02'
+          },{
+            label:'一级报警',
+            gt: 10,
+            color: '#fc1f0d'
+          }],
+          outOfRange: {
+            color: '#999'
+          }
+        },
+        toolbox: {
+          right: 10,
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        series: [{
+          // data: [150, 230, 224, 218, 135, 147, 260],
+          data:[],
+          type: 'line',
+          markLine: {
+            silent: true,
+            lineStyle: {
+              color: '#333'
+            },
+            data: [{
+              yAxis: 8
+            }, {
+              yAxis: 9
+            }, {
+              yAxis: 10
+            }]
+          }
 
-    }
+        }]
+      },
+      //流程
+      processVisiable:false,
+
+    };
+
+
   },
   filters: {
     statusFilter(status) {
@@ -472,13 +598,117 @@ export default {
       if(this.checkSel()) {
         this.acceptTitle = '信息通知'
         this.acceptVisible = true
-        mmAlarmInfoApi.getAcceptPerson().then(response=>{
-          this.acceptPersn = response.data
-          debugger
-        })
+        this.value = []
+        this.acceptForm.noticeContent = ''
+        this.initAcceptPerson()
+      }
+    },msgSend() {
+      this.$refs['acceptForm'].validate((valid) => {
+        if (valid) {
+          // mmAlarmInfoApi.getAcceptPerson().then(response =>{
+          //
+          //   console.log(response.data)
+          // })
+          mmAlarmInfoApi.msgSend(this.selRow.id,this.acceptForm.noticeContent,this.value).then(response =>{
+            this.$message({
+              message: this.$t('发送成功'),
+              type: 'success'
+            })
+          })
+        } else {
+          return false
+        }
 
+        this.acceptVisible = false
+      })
+
+
+    },
+    //初始化发送人列表信息
+    initAcceptPerson() {
+      const data = []
+      mmAlarmInfoApi.getAcceptPerson().then(response =>{
+        if (response.data) {
+          response.data.forEach(item=>{
+            data.push({
+              key: item.id,
+              label: item.name,
+            })
+          })
+        }
+      })
+      this.acceptPerson = data
+
+    },
+    //监测曲线
+    openCurve(record) {
+      this.clearEchart()
+      this.formTitle = '监测曲线'
+      this.echartVisiable = true
+      let time = new Date(record.alarmTime)
+
+      let year = time.getFullYear()
+      let month = time.getMonth()+1
+      let day = time.getDate()
+      let second = time.getSeconds();
+
+
+      for (let i = 1; i < 20; i++) {
+        let hours = time.getHours()
+        let minitu = time.getMinutes()
+
+        let tmp = minitu-(20-i)
+        if (tmp < 0){
+          hours = hours -1
+          tmp = 60+tmp
+        }
+        let value = Math.random()*4+4
+        // this.lineData.xAxis.data.push(year+'-'+month+'-'+day+' '+hours+':'+tmp+':00')
+        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
+
+        this.lineData.series[0].data.push(value)
 
       }
+
+      this.lineData.xAxis.data.push(time.getHours()+':'+time.getMinutes()+':'+second)
+      this.lineData.series[0].data.push(record.alarmValue)
+
+      for (let i = 1; i < 20; i++) {
+        let hours = time.getHours()
+        let minitu = time.getMinutes()
+        let tmp = minitu+i
+        if (tmp > 60){
+          hours = hours +1
+          tmp = tmp-60
+        }
+        let value = Math.random()*4+4
+        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
+        // this.lineData.xAxis.data.push(year+'-'+month+'-'+day+' '+hours+':'+tmp+':00')
+
+        this.lineData.series[0].data.push(value)
+      }
+      this.$refs.myEchart.resize()
+    },clearEchart() {
+      this.lineData.xAxis.data=[]
+      this.lineData.series[0].data = []
+    },
+    //流程
+    openProcess(record) {
+      this.formTitle = '流程查看'
+      this.processVisiable = true
+      mmAlarmInfoApi.queryDisposeByAlarm(record.id).then(response=>{
+        this.disposeList = response.data
+      })
+
+      mmAlarmInfoApi.queryById(record.id).then(response=>{
+        this.checkList = response.data
+      })
+
+      mmAlarmInfoApi.queryNoticeByAlarmId(record.id).then(response=>{
+        this.acceptList = response.data()
+      })
+
+
     }
 
   }
