@@ -38,7 +38,7 @@
             size="mini"
             icon="el-icon-plus"
             @click.native="add"
-          >{{ $t('button.add') }}
+          >添加产品
           </el-button>
           <el-button
             v-permission="['/product/info/add']"
@@ -54,7 +54,7 @@
             size="mini"
             icon="el-icon-view"
             @click="viewProduct"
-          >查看产品信息
+          >查看已选原料
           </el-button>
           <!--<el-button
             v-permission="['/product/info/delete']"
@@ -373,26 +373,6 @@
           {{ scope.row.isDangerName }}
         </template>
       </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button
-            v-permission="['/material/baseinfo/update']"
-            type="text"
-            size="mini"
-            icon="el-icon-edit"
-            @click.native="editItem(scope.row)"
-          >{{ $t('button.edit') }}
-          </el-button>
-         <!-- <el-button
-            v-permission="['/material/baseinfo/delete']"
-            type="text"
-            size="mini"
-            icon="el-icon-delete"
-            @click.native="removeItem(scope.row)"
-          >{{ $t('button.delete') }}
-          </el-button>-->
-        </template>
-      </el-table-column>
     </el-table>
       <el-pagination
         background
@@ -477,32 +457,40 @@
       </el-form>
     </el-dialog>
     <el-dialog
-      :title="'查看产品信息'"
+      :title="'查看产品原料'"
       :visible.sync="productVisible"
       :modal="false"
       width="70%"
     >
+      <!--<el-form label-width="120px" :inline="true">
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="企业名称">
+              <el-input v-model="this.enterpriseName"  />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="产品名称">
+              <el-input v-model="listQuery.productName"  />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="产品编码">
+              <el-input v-model="listQuery.productName"  />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>-->
       <el-table
         v-loading="listLoading"
-        :data="materialList"
+        :data="selectedList"
         element-loading-text="Loading"
         border
         fit
-        :row-key="row=>row.id"
         highlight-current-row
         @current-change="handleCurrentChange"
-        @selection-change="handleSelectionChange"
       >
-        <el-table-column
-          type="selection"
-          width="55"
-          :reserve-selection="true"
-        />
-        <!-- <el-table-column
-           type="index"
-           width="50"
-           label="序号"
-         />-->
+
         <el-table-column label="原料编码">
           <template slot-scope="scope">
             {{ scope.row.materialCode }}
@@ -553,27 +541,11 @@
             {{ scope.row.isDangerName }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button
-              v-permission="['/material/baseinfo/update']"
-              type="text"
-              size="mini"
-              icon="el-icon-edit"
-              @click.native="editItem(scope.row)"
-            >{{ $t('button.edit') }}
-            </el-button>
-            <!-- <el-button
-               v-permission="['/material/baseinfo/delete']"
-               type="text"
-               size="mini"
-               icon="el-icon-delete"
-               @click.native="removeItem(scope.row)"
-             >{{ $t('button.delete') }}
-             </el-button>-->
-          </template>
-        </el-table-column>
+
       </el-table>
+      <div style="text-align: center" >
+        <el-button type="danger" @click.native="productVisible = false">返回</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
