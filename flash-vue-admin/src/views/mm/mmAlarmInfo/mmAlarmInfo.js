@@ -4,37 +4,23 @@ import {getDicts} from "../../../api/system/dict";
 import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 // import preview from '@/preview/preview.vue'
-import {isCanPreview,downloadFile} from '@/utils/preview.js'
+import {isCanPreview} from '@/utils/preview.js'
 import process from '@/components/Process/process.vue'
 
-import ECharts from 'vue-echarts/components/ECharts'
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/chart/map'
-import 'echarts/lib/chart/radar'
-import 'echarts/lib/chart/scatter'
-import 'echarts/lib/chart/effectScatter'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/polar'
-import 'echarts/lib/component/geo'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/visualMap'
-import 'echarts/lib/component/dataset'
-import 'echarts/map/js/world'
-
+import charts from  '@/utils/localEcharts'
 
 export default {
   directives: { permission },
   components:{
-    // preview
-    chart:ECharts,
+    genEvent,
+    chart: charts.ECharts,
     process
   },
   data() {
 
     return {
+      genEventTitle:'生成事件',
+      genEventVisible:false,
       formVisible: false,
       formTitle: '添加报警基本信息',
       isAdd: true,
@@ -281,6 +267,9 @@ export default {
       this.downloadUrl = getApiUrl() + '/file/download?idFile='
       this.uploadUrl = getApiUrl() + '/file'
       this.uploadHeaders['Authorization'] = getToken()
+    },
+    getRowKey(row) {
+      return row.id;
     },
     fetchData() {
 
@@ -594,6 +583,15 @@ export default {
         this.previewFileUrl = preview;
       }
 
+    },
+    closeGenEvent() {
+      debugger
+      this.genEventVisible = false;
+    },
+    openGenEvent(){
+      if(this.checkSel()) {
+        this.genEventVisible = true;
+      }
     },openAccept() {
       if(this.checkSel()) {
         this.acceptTitle = '信息通知'
