@@ -36,7 +36,7 @@ export function downloadFile(url, param, fileName) {
     downloadElement.click();//点击下载
     document.body.removeChild(downloadElement); //下载完成移除元素
     window.URL.revokeObjectURL(href); //释放掉blob对象
-    this.$message.success(`操作成功`);
+    // this.$message.success(`操作成功`);
   });
 }
 
@@ -44,6 +44,7 @@ export function getFileStream(url, params) {
   return request({
     url: url,
     method: 'get',
+    responseType: 'arraybuffer',
     params
   })
 }
