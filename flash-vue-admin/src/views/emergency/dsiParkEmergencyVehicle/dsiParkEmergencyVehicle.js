@@ -1,4 +1,5 @@
 import dsiParkEmergencyVehicleApi from '@/api/emergency/dsiParkEmergencyVehicle'
+import fileDelete from '@/api/mm/genEvent/genEvent'
 import dsiEnterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
 import permission from '@/directive/permission/index.js'
 import {getDicts} from "../../../api/system/dict";
@@ -10,6 +11,7 @@ import {downloadFile} from  '@/utils/preview.js'
 const Base64 = require('js-base64').Base64
 
 export default {
+  name:'fileDelete',
   directives: { permission },
   constant:[dsiEnterprise],
   // components:{preview},
@@ -34,7 +36,8 @@ export default {
         longitude:'',
         latitude:'',
         isDel:'',
-        id: ''
+        id: '',
+        dsiVehicleFiles:''
       },
       //车辆类别
       vehicleType_list:[],
@@ -328,11 +331,15 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
+          //在删除车辆数据时同时删除附件及其附件信息
+
             dsiParkEmergencyVehicleApi.remove(id).then(response => {
+              this.removeRow(this.selRow)
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
+
             this.fetchData()
           }).catch( err=> {
             this.$notify.error({
@@ -347,19 +354,20 @@ export default {
       this.fileList = fileList.slice(-10)
     },
     uploadSuccess(response) {
-      if (response.code === 20000) {
-        this.form.fileId = response.data.id
-      } else {
-        this.$message({
-          message: this.$t('common.uploadError'),
-          type: 'error'
-        })
-      }
 
     },removeFile(file){
-      var arr = []
+      let arr = []
+      const param = {
+        idFile:null
+      }
+      if (file.response) {
+        param.idFile = file.response.data.id
+      } else {
+        param.idFile = file.id
+      }
       this.fileList.forEach(item =>{
         if(item.response && file.response) {
+          param.idFile = file.response.data.id
           if(item.response.data.id != file.response.data.id) {
             arr.push((item))
           }
@@ -368,6 +376,7 @@ export default {
         }
       })
       this.fileList = arr
+      this.removeFileItem(param)
     },previewFile(record){
       this.previewVisible = true;
       let temp = ''
@@ -418,10 +427,14 @@ export default {
         cancelButtonText: this.$t('button.cancel'),
         type: 'warning'
       }).then(() => {
+
         dsiParkEmergencyVehicleApi.removeBatch1(ids).then(() => {
           this.$message({
             message: this.$t('common.optionSuccess'),
             type: 'success'
+          })
+          this.selection.forEach(item =>{
+            this.removeRow(item)
           })
           this.fetchData()
         }).catch(err => {
@@ -434,6 +447,33 @@ export default {
       })
     },toggleSelection(row) {
       this.$refs.vehicleTable.toggleRowSelection(row)
+    },removeRow(row) {
+      if(row.dsiVehicleFiles) {
+        row.dsiVehicleFiles.forEach(item =>{
+          this.removeDataFile(item)
+        })
+      }
+    }
+    ,removeDataFile(record) {
+      if (record.fileInfo) {
+        const param = {
+          idFile:record.fileInfo.id
+        }
+        this.removeFileItem(param)
+      }
+    },cancleDelete() {
+      this.formVisible = false
+      this.fileList.forEach(item =>{
+        if (item.response) {
+          const param = {
+            idFile:item.response.data.id
+          }
+          this.removeFileItem(param)
+        }
+      })
+    }
+    ,removeFileItem(param) {
+      fileDelete.deleteFile(param).then()
     }
 
   }

@@ -216,7 +216,7 @@
 
                 <el-form-item id="myself">
                     <el-button  type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button  @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button  @click.native="cancleDelete">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>

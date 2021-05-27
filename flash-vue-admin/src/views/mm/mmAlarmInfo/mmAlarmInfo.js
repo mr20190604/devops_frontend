@@ -6,10 +6,13 @@ import { getToken } from '@/utils/auth'
 import {isCanPreview} from '@/utils/preview.js'
 import genEvent from '@/views/mm/mmAlarmInfo/genEvent/genEvent.vue'
 import process from '@/components/Process/process.vue'
+import fileDelete from '@/api/mm/genEvent/genEvent'
+
 
 import charts from  '@/utils/localEcharts'
 
 export default {
+  name:'fileDelete',
   directives: { permission },
   components:{
     genEvent,
@@ -544,6 +547,14 @@ export default {
       this.fileList = fileList.slice(-10)
     },removeFile(file){
       var arr = []
+      const param = {
+        idFile:null
+      }
+      if (file.response) {
+        param.idFile = file.response.data.id
+      } else {
+        param.idFile = file.id
+      }
       this.fileList.forEach(item =>{
         if(item.response && file.response) {
           if(item.response.data.id != file.response.data.id) {
@@ -554,6 +565,8 @@ export default {
         }
       })
       this.fileList = arr
+      this.removeFileItem(param)
+
     },
     previewFile(record){
       this.previewVisible = true;
@@ -703,18 +716,18 @@ export default {
       })
 
       mmAlarmInfoApi.queryNoticeByAlarmId(record.id).then(response=>{
-        debugger
         this.acceptList = response.data
       })
-
-
     },downloads(record) {
     const param = {
       idFile:record.fileInfo.id,
       fileName:record.fileInfo.originalFileName
     }
     downloadFile('/file/download',param,record.fileInfo.originalFileName)
-  }
+    },
+    removeFileItem(param) {
+      fileDelete.deleteFile(param).then()
+    }
 
   }
 }

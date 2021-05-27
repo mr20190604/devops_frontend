@@ -119,21 +119,7 @@
                     {{scope.row.manufacturer}}
                 </template>
             </el-table-column>
-            <!--<el-table-column label="经度">
-                <template slot-scope="scope">
-                    {{scope.row.longitude}}
-                </template>
-            </el-table-column>
-            <el-table-column label="纬度">
-                <template slot-scope="scope">
-                    {{scope.row.latitude}}
-                </template>
-            </el-table-column>
-            <el-table-column label="逻辑删除">
-                <template slot-scope="scope">
-                    {{scope.row.isDel}}
-                </template>
-            </el-table-column>-->
+
             <el-table-column label="操作" width="200px">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/vehicle/update']">{{ $t('button.edit') }}</el-button>
@@ -257,7 +243,7 @@
                 </el-row>
                 <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button @click.native="cancleDelete">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>

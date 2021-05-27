@@ -4,11 +4,14 @@ import {getDicts} from "../../../api/system/dict";
 import { getApiUrl, getPreviewUrl} from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 import {isCanPreview,downloadFile} from '@/utils/preview.js'
+import fileDelete from '@/api/mm/genEvent/genEvent'
+
 
 
 const Base64 = require('js-base64').Base64
 
 export default {
+  name:'fileDelete',
   directives: { permission},
   // components:{
   //   preview
@@ -45,7 +48,8 @@ export default {
         timeName:'',
         formulateOfficeName:'',
         lawNatureName:'',
-        fileInfo:''
+        fileInfo:'',
+        dsaStatuteFiles:''
       },
       //附件集合
       fileList:[],
@@ -314,11 +318,12 @@ export default {
           type: 'warning'
         }).then(() => {
             dsaLawStatuteApi.remove(id).then(response => {
-            this.$message({
-              message: this.$t('common.optionSuccess'),
-              type: 'success'
-            })
-            this.fetchData()
+              this.removeRow(this.selRow)
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
           }).catch( err=> {
             this.$notify.error({
               title: '错误',
@@ -344,6 +349,14 @@ export default {
 
     },removeFile(file){
       var arr = []
+      const param = {
+        idFile:null
+      }
+      if (file.response) {
+        param.idFile = file.response.data.id
+      } else {
+        param.idFile = file.id
+      }
       this.fileList.forEach(item =>{
         if(item.response && file.response) {
           if(item.response.data.id != file.response.data.id) {
@@ -353,6 +366,7 @@ export default {
           arr.push(item)
         }
       })
+      this.removeFileItem(param)
       this.fileList = arr
     },
     previewFile(record){
@@ -384,6 +398,7 @@ export default {
       }
 
     },removeBatch() {
+      debugger
       let ids = this.selection.map(item => {
         return item.id
       })
@@ -403,6 +418,9 @@ export default {
         type: 'warning'
       }).then(() => {
         dsaLawStatuteApi.removeBatch1(ids).then(() => {
+          this.selection.forEach(item =>{
+            this.removeRow(item)
+          })
           this.$message({
             message: this.$t('common.optionSuccess'),
             type: 'success'
@@ -424,7 +442,34 @@ export default {
       downloadFile('/file/download',param,record.fileInfo.originalFileName)
     },toggleSelection(row) {
       this.$refs.statuteTable.toggleRowSelection(row)
-    },
+    },removeRow(row) {
+      if(row.dsaStatuteFiles) {
+        row.dsaStatuteFiles.forEach(item =>{
+          this.removeDataFile(item)
+        })
+      }
+    }
+    ,removeDataFile(record) {
+      if (record.fileInfo) {
+        const param = {
+          idFile:record.fileInfo.id
+        }
+        this.removeFileItem(param)
+      }
+    },cancleDelete() {
+      this.formVisible = false
+      this.fileList.forEach(item =>{
+        if (item.response) {
+          const param = {
+            idFile:item.response.data.id
+          }
+          this.removeFileItem(param)
+        }
+      })
+    }
+    ,removeFileItem(param) {
+      fileDelete.deleteFile(param).then()
+    }
 
   },
 }

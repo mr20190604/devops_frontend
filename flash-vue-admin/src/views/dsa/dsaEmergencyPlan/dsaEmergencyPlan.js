@@ -5,11 +5,14 @@ import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 // import preview from '@/preview/preview.vue'
 import {isCanPreview,downloadFile} from '@/utils/preview.js'
+import fileDelete from '@/api/mm/genEvent/genEvent'
+
 
 
 const Base64 = require('js-base64').Base64
 
 export default {
+  name:'fileDelete',
   directives: { permission },
   components:{
     // preview
@@ -49,7 +52,8 @@ export default {
         industryName:'',
         planTypeName:'',
         id: '',
-        fileInfo:''
+        fileInfo:'',
+        dsaPlanFiles:''
       },
       //附件集合
       fileList:[],
@@ -306,6 +310,7 @@ export default {
           type: 'warning'
         }).then(() => {
             dsaEmergencyPlanApi.remove(id).then(response => {
+              this.removeRow(this.selRow)
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
@@ -336,6 +341,14 @@ export default {
 
     },removeFile(file){
       var arr = []
+      const param = {
+        idFile:null
+      }
+      if (file.response) {
+        param.idFile = file.response.data.id
+      } else {
+        param.idFile = file.id
+      }
       this.fileList.forEach(item =>{
         if(item.response && file.response) {
           if(item.response.data.id != file.response.data.id) {
@@ -346,6 +359,8 @@ export default {
         }
       })
       this.fileList = arr
+      this.removeFileItem(param)
+
     },
     previewFile(record){
       this.previewVisible = true;
@@ -395,6 +410,9 @@ export default {
         type: 'warning'
       }).then(() => {
         dsaEmergencyPlanApi.removeBatch1(ids).then(() => {
+          this.selection.forEach(item =>{
+            this.removeRow(item)
+          })
           this.$message({
             message: this.$t('common.optionSuccess'),
             type: 'success'
@@ -416,6 +434,33 @@ export default {
       downloadFile('/file/download',param,record.fileInfo.originalFileName)
     },toggleSelection(row) {
       this.$refs.planTable.toggleRowSelection(row)
+    },removeRow(row) {
+      if(row.dsaPlanFiles) {
+        row.dsaPlanFiles.forEach(item =>{
+          this.removeDataFile(item)
+        })
+      }
+    }
+    ,removeDataFile(record) {
+      if (record.fileInfo) {
+        const param = {
+          idFile:record.fileInfo.id
+        }
+        this.removeFileItem(param)
+      }
+    },cancleDelete() {
+      this.formVisible = false
+      this.fileList.forEach(item =>{
+        if (item.response) {
+          const param = {
+            idFile:item.response.data.id
+          }
+          this.removeFileItem(param)
+        }
+      })
+    }
+    ,removeFileItem(param) {
+      fileDelete.deleteFile(param).then()
     }
 
 

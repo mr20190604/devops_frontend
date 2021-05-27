@@ -349,7 +349,6 @@ export default {
       })
     },toggleSelection(row) {
       this.$refs.riskUnitTable.toggleRowSelection(row)
-    }
     },
     onInput(){
       this.$forceUpdate();
