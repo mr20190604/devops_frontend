@@ -30,13 +30,20 @@ export default {
             }
         })
     },
-  removeBatch1: function(ids) {
-    return request({
-      url: '/dsi/enterprise/risk/unit/removeBatch',
-      method: 'delete',
-      params: {
-        ids: ids
-      }
-    })
-  }
+    removeBatch1: function(ids) {
+      return request({
+        url: '/dsi/enterprise/risk/unit/removeBatch',
+        method: 'delete',
+        params: {
+          ids: ids
+        }
+      })
+    },
+    addUnit:function (params) {
+      return request({
+        url:'/dsi/enterprise/risk/unit/addUnit',
+        method:'get',
+        params
+      })
+    }
 }

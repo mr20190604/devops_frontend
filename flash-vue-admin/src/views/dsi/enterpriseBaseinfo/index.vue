@@ -160,7 +160,7 @@
                 :visible.sync="formVisible"
                 width="70%">
           <template>
-            <el-tabs  v-model="activeName" type="card" :before-leave="handleClick">
+            <el-tabs  v-model="activeName" type="card" :before-leave="handleClick" >
               <el-tab-pane label="添加企业信息" name="first" style="visibility: visible">
                 <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                   <el-row>

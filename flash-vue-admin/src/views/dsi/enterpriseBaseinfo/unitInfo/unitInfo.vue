@@ -18,12 +18,12 @@
         </el-form-item>
 
 
-      <el-form-item   style="float: right;margin-right: 100px">
+        <el-form-item   style="float: right;margin-right: 100px">
           <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
           </el-button>
           <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
           </el-button>
-      </el-form-item>
+        </el-form-item>
       </el-form>
       <br>
       <el-row>
@@ -40,12 +40,10 @@
     </div>
 
 
-    <el-table ref="riskUnitTable" :data="list" v-loading="listLoading" element-loading-text="Loading" border
+    <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               :row-key="row=>row.id"
               @selection-change="handleSelectionChange"
-              @current-change="handleCurrentChange"
-              @row-click="toggleSelection"
-    >
+              @current-change="handleCurrentChange">
       <el-table-column
         type="selection"
         width="55"
@@ -109,9 +107,11 @@
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
-      width="60%">
+      :modal="false"
+      width="70%">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
+
           <el-col :span="12">
             <el-form-item label="风险单元名称">
               <el-input v-model="form.riskName" minlength=1></el-input>
@@ -155,11 +155,10 @@
         <el-form-item
           v-for="(rec, index) in form.details"
           :label="'风险物质' + (index+1)"
-          :key="index+rec.materialId"
+          :key="index"
           :prop="'details.' + index + '.value'"
-          :rules="{required: false, message: '不能为空', trigger: 'blur'}"
+          :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
         >
-          <p>{{JSON.stringify(form.details)}}</p>
           <el-col :span="5">
             <el-form-item label="风险物质">
               <el-input class="el-input-style" v-model="rec.materialId" minlength=1 @input="onInput()"></el-input>
@@ -195,10 +194,8 @@
   </div>
 </template>
 
-<script src="./dsiEnterpriseRiskUnit.js"></script>
-
+<script  src="./unitInfo.js"></script>
 
 <style rel="stylesheet/scss" lang="scss" >
   @import "src/styles/commonmyself.scss";
 </style>
-

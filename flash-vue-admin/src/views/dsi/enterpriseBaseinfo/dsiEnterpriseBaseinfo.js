@@ -3,7 +3,7 @@ import permission from '@/directive/permission/index.js'
 import {remove, getList, save, update, getDicts} from '@/api/system/dict'
 import district from '@/components/District/index'
 import productInfo from '@/views/dsi/dsiProductInfo/index.vue'
-import unitInfo from '@/views/dsi/riskUnit/index.vue'
+import unitInfo from '@/views/dsi/enterpriseBaseinfo/unitInfo/unitInfo.vue'
 
 export default {
   directives: {permission},

@@ -1,7 +1,7 @@
 import dsiEnterpriseRiskUnitApi from '@/api/dsi/dsiEnterpriseRiskUnit'
 import permission from '@/directive/permission/index.js'
 import { remove, getList, save, update, getDicts } from '@/api/system/dict'
-import dsiEnterpriseRiskMaterial from "../../../api/dsi/dsiEnterpriseRiskMaterial";
+import dsiEnterpriseRiskMaterial from "../../../../api/dsi/dsiEnterpriseRiskMaterial";
 
 export default {
   directives: { permission },
@@ -13,7 +13,7 @@ export default {
       isAdd: true,
       form: {
         riskName:'',
-        enterpriseId:'',
+        enterpriseId:this.enterpriseId,
         isDangerSource:'',
         riskType:[],
         headPerson:'',
@@ -24,18 +24,19 @@ export default {
         riskTypeName:'',
         detail:'',
       },
-     /* form1:{
-        materialId:'',
-        riskUnitId:'',
-        currentStock:'',
-        criticalQuantity:''
-      },*/
+      /* form1:{
+         materialId:'',
+         riskUnitId:'',
+         currentStock:'',
+         criticalQuantity:''
+       },*/
       isDangerSource:[],
       risk_type:[],
       listQuery: {
         page: 1,
         limit: 10,
-        id: undefined
+        id: undefined,
+        enterpriseId:this.enterpriseId
       },
       total: 0,
       list: [],
@@ -54,7 +55,7 @@ export default {
       return statusMap[status]
     }
   },
- // enterpriseRiskUnitTable:null,
+  // enterpriseRiskUnitTable:null,
   computed: {
 
     //表单验证
@@ -68,18 +69,31 @@ export default {
     }
   },
   created() {
+    this.listQuery.enterpriseId=this.enterpriseId;
     this.init()
+  },
+  watch:{
+    formVisible(newValue) {
+      if (!newValue) {
+        this.resetForm()
+      }
+    },
+    'enterpriseId':function () {
+      this.listQuery.enterpriseId=this.enterpriseId;
+      this.fetchData();
+    }
   },
   methods: {
     init() {
+      this.listQuery.enterpriseId=this.enterpriseId;
       this.fetchData()
     },
     fetchData() {
       this.listLoading = true
-        dsiEnterpriseRiskUnitApi.getList(this.listQuery).then(response => {
-        this.list = response.data.records
-          console.log(response.data.records);
-        this.listLoading = false
+      this.listQuery.enterpriseId=this.enterpriseId;
+      dsiEnterpriseRiskUnitApi.addUnit(this.listQuery).then(response => {
+        this.list = response.data.records;
+        this.listLoading = false;
         this.total = response.data.total
       })
       getDicts('风险类型').then(response =>{
@@ -143,59 +157,59 @@ export default {
     add() {
       this.resetForm();
       this.formTitle = '添加风险单元',
-      this.formVisible = true
+        this.formVisible = true
       //this.form=[];
       this.isAdd = true
       //this.materialAdd = true
-     /* if(this.$refs['form'] !== undefined) {
-        this.$refs['form'].resetFields()
-      }*/
+      /* if(this.$refs['form'] !== undefined) {
+         this.$refs['form'].resetFields()
+       }*/
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+    },
     save() {
-      var self=this
+      let self=this
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                riskName:this.form.riskName,
-                enterpriseId:this.form.enterpriseId,
-                isDangerSource:this.form.isDangerSource,
-                riskType:this.form.riskType,
-                headPerson:this.form.headPerson,
-                personTel:this.form.personTel,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                dsiEnterpriseRiskUnitApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                dsiEnterpriseRiskUnitApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                  var riskId = response.data.id
-                  console.log(self.form.details)
-                  for (var item in self.form.details) {
-                    const formData1 = {
-                      riskUnitId:riskId,
-                      materialId:self.form.details[item].materialId,
-                      currentStock:self.form.details[item].currentStock,
-                      criticalQuantity:self.form.details[item].criticalQuantity,
-                    }
-                    dsiEnterpriseRiskMaterial.add(formData1).then();
-                  }
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id:this.form.id,
+            riskName:this.form.riskName,
+            enterpriseId:this.enterpriseId,
+            isDangerSource:this.form.isDangerSource,
+            riskType:this.form.riskType,
+            headPerson:this.form.headPerson,
+            personTel:this.form.personTel,
+            isDel:this.form.isDel,
+          }
+          if(formData.id){
+            dsiEnterpriseRiskUnitApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }else{
+            dsiEnterpriseRiskUnitApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              var riskId = response.data.id
+              console.log(self.form.details)
+              for (var item in self.form.details) {
+                const formData1 = {
+                  riskUnitId:riskId,
+                  materialId:self.form.details[item].materialId,
+                  currentStock:self.form.details[item].currentStock,
+                  criticalQuantity:self.form.details[item].criticalQuantity,
+                }
+                dsiEnterpriseRiskMaterial.add(formData1).then();
+              }
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -230,7 +244,6 @@ export default {
         this.form=this.selRow;
         this.form.details = details;
         this.formVisible = true
-
       }
     },
     removeItem(record){
@@ -245,7 +258,7 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiEnterpriseRiskUnitApi.remove(id).then(response => {
+          dsiEnterpriseRiskUnitApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
@@ -347,9 +360,6 @@ export default {
         })
       }).catch(() => {
       })
-    },toggleSelection(row) {
-      this.$refs.riskUnitTable.toggleRowSelection(row)
-    }
     },
     onInput(){
       this.$forceUpdate();

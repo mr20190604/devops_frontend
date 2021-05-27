@@ -6,7 +6,7 @@ import dsiMaterialBaseinfoApi from '@/api/dsi/dsiMaterialBaseinfo';
 import dsiProductFromMaterialApi from '@/api/dsi/dsiProductFromMaterial';
 export default {
   directives: { permission },
-  props:['enterpriseId','enterpriseName'],
+  props:['enterpriseId'],
   component:{
     materialInfo
   },
@@ -82,7 +82,6 @@ export default {
     }
   },
   created() {
-    console.log(this.enterpriseId);
     this.listQuery.enterpriseId=this.enterpriseId;
     this.init()
   },
