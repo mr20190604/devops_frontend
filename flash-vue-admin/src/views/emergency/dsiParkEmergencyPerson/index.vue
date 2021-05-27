@@ -50,6 +50,7 @@
 
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
+                  @selection-change="handleSelectionChange"
                   @current-change="handleCurrentChange"
                   @row-click="toggleSelection"
                   ref="personTable"

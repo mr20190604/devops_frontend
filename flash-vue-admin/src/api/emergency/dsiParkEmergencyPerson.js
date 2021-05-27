@@ -77,5 +77,11 @@ export default {
         personIds:arr
       }
     })
+  },removeBatch:function(param) {
+    return request({
+      url: '/park/emergency/person/removeBatch',
+      method: 'delete',
+      data:param
+    })
   }
 }
