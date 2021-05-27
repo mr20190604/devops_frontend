@@ -348,6 +348,8 @@ export default {
         })
       }).catch(() => {
       })
+    },toggleSelection(row) {
+      this.$refs.riskUnitTable.toggleRowSelection(row)
     }
   }
 }

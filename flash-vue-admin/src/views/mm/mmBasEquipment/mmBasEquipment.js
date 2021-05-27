@@ -491,10 +491,8 @@ export default {
       this.yData = arr
       this.lineData.xAxis.data = []
       this.lineData.series[0].data = []
-    },inscrse(value) {
-      if (value >= 8) {
-        value = value - 2
-      }
+    },toggleSelection(row) {
+      this.$refs.equipmentTable.toggleRowSelection(row)
     }
 
   }

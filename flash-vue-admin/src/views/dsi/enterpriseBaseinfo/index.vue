@@ -59,10 +59,13 @@
         </div>
 
 
-        <el-table  :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+        <el-table ref="enterpriseTable" :data="list" v-loading="listLoading" element-loading-text="Loading" border
                   :row-key="row=>row.id"
+                  @row-click="toggleSelection"
                   @selection-change="handleSelectionChange"
-                  @current-change="handleCurrentChange" >
+                  @current-change="handleCurrentChange"
+
+        >
 
 
           <el-table-column

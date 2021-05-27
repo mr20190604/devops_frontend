@@ -428,6 +428,8 @@ export default {
         })
 
       }
+    },toggleSelection(row) {
+      this.$refs.productTable.toggleRowSelection(row)
     }
 
   }

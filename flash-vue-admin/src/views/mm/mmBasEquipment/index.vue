@@ -42,8 +42,16 @@
         </div>
 
 
-        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                  @current-change="handleCurrentChange">
+        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
+                  @current-change="handleCurrentChange"
+                  @row-click="toggleSelection"
+                  ref="equipmentTable"
+        >
+          <el-table-column
+            type="selection"
+            width="55"
+            :reserve-selection="true"
+          />
           <el-table-column type="index" width="50px" label="序号">
           </el-table-column>
             <el-table-column label="设备名称">

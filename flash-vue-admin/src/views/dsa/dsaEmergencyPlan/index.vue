@@ -56,10 +56,12 @@
         </div>
 
 
-        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+        <el-table ref="planTable" :data="list" v-loading="listLoading" element-loading-text="Loading" border
                   @current-change="handleCurrentChange"
                   :row-key="row=>row.id"
-                  @selection-change="handleSelectionChange">
+                  @selection-change="handleSelectionChange"
+                  @row-click="toggleSelection"
+        >
           <el-table-column
             type="selection"
             width="55"

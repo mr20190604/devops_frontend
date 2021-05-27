@@ -422,6 +422,8 @@ export default {
         fileName:record.fileInfo.originalFileName
       }
       downloadFile('/file/download',param,record.fileInfo.originalFileName)
+    },toggleSelection(row) {
+      this.$refs.statuteTable.toggleRowSelection(row)
     }
   },
 }

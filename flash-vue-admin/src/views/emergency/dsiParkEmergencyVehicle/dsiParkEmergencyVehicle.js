@@ -432,7 +432,9 @@ export default {
         })
       }).catch(() => {
       })
-    },
+    },toggleSelection(row) {
+      this.$refs.vehicleTable.toggleRowSelection(row)
+    }
 
   }
 }

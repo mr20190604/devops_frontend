@@ -371,6 +371,9 @@ export default {
         return false;
       }
       return true
+    },toggleSelection(row) {
+      this.$refs.enterpriseTable.toggleRowSelection(row)
     }
+    }
+
   }
-}

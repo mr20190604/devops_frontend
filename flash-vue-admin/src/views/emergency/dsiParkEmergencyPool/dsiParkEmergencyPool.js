@@ -457,6 +457,8 @@ export default {
       var monthn = now.getMonth()+1;
       var yearn  = now.getFullYear();
       this.selectMonth = yearn+"-"+monthn
+    },toggleSelection(row) {
+      this.$refs.poolTable.toggleRowSelection(row)
     }
 
   }

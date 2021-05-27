@@ -67,9 +67,12 @@ export default {
       listLoading: true,
       selection:[],
       selRow: {},
+      //附件操作
       multiple:true,
       files:null,
-      fileLoading:true
+      fileLoading:true,
+
+
     }
   },
   filters: {
@@ -411,6 +414,8 @@ export default {
         fileName:record.fileInfo.originalFileName
       }
       downloadFile('/file/download',param,record.fileInfo.originalFileName)
+    },toggleSelection(row) {
+      this.$refs.planTable.toggleRowSelection(row)
     }
 
 

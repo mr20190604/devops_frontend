@@ -273,6 +273,8 @@ export default {
       }).catch(() => {
       })
     }
-
+    ,toggleSelection(row) {
+      this.$refs.materialTable.toggleRowSelection(row)
+    }
   }
 }

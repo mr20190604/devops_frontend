@@ -53,7 +53,10 @@
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   :row-key="row=>row.id"
                   @selection-change="handleSelectionChange"
-                  @current-change="handleCurrentChange">
+                  @current-change="handleCurrentChange"
+                  @row-click="toggleSelection"
+                  ref="vehicleTable"
+        >
           <el-table-column
             type="selection"
             width="55"

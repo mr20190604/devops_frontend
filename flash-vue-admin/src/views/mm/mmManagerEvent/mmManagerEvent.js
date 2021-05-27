@@ -254,6 +254,8 @@ export default {
         })
       }).catch(() => {
       })
+    },toggleSelection(row) {
+      this.$refs.eventTable.toggleRowSelection(row)
     }
 
   }

@@ -39,11 +39,12 @@
       :data="list"
       element-loading-text="Loading"
       border
-      fit
       :row-key="row=>row.id"
-      highlight-current-row
       @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange"
+      @row-click="toggleSelection"
+
+      ref="eventTable"
     >
       <el-table-column
         type="selection"

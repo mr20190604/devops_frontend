@@ -428,6 +428,10 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },toggleSelection(row) {
+      this.$refs.teamTable.toggleRowSelection(row)
+    },personToggleSelection(row) {
+      this.$refs.emergencyPersonTable.toggleRowSelection(row)
     }
 
 

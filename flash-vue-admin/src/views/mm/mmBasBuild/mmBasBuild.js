@@ -261,6 +261,8 @@ export default {
         })
       }).catch(() => {
       })
+    },toggleSelection(row) {
+    this.$refs.buildTable.toggleRowSelection(row)
     }
 
   }

@@ -266,6 +266,8 @@ export default {
         }).catch(() => {
         })
       }
+    },toggleSelection(row) {
+      this.$refs.personTable.toggleRowSelection(row)
     }
 
   }

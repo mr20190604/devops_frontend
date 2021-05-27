@@ -44,8 +44,11 @@
         </div>
 
 
-        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                  @current-change="handleCurrentChange">
+        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
+                  @current-change="handleCurrentChange"
+                  @row-click="toggleSelection"
+                  ref="teamTable"
+        >
           <el-table-column
             type="selection"
             width="55"
@@ -93,45 +96,13 @@
               {{scope.row.personTel}}
             </template>
           </el-table-column>
-            <!--<el-table-column label="经度">
-                <template slot-scope="scope">
-                    {{scope.row.longitude}}
-                </template>
-            </el-table-column>
-            <el-table-column label="纬度">
-                <template slot-scope="scope">
-                    {{scope.row.latitude}}
-                </template>
-            </el-table-column>
 
-
-            <el-table-column label="队伍属性">
-                <template slot-scope="scope">
-                    {{scope.row.teamProperties}}
-                </template>
-            </el-table-column>-->
             <el-table-column label="队伍人数">
                 <template slot-scope="scope">
                     {{scope.row.personNumber}}
                 </template>
             </el-table-column>
-            <!--<el-table-column label="设备">
-                <template slot-scope="scope">
-                    {{scope.row.teamEquipment}}
-                </template>
-            </el-table-column>-->
 
-
-           <!-- <el-table-column label="备注">
-                <template slot-scope="scope">
-                    {{scope.row.remark}}
-                </template>
-            </el-table-column>
-            <el-table-column label="逻辑删除">
-                <template slot-scope="scope">
-                    {{scope.row.isDel}}
-                </template>
-            </el-table-column>-->
             <el-table-column label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/team/update']">{{ $t('button.edit') }}</el-button>
@@ -222,21 +193,7 @@
                         </el-form-item>
                     </el-col>
 
-                    <!--<el-col :span="12">
-                        <el-form-item label="队伍属性"  >
-                            <el-input v-model="form.teamProperties" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="备注"  >
-                      <el-input v-model="form.remark" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="逻辑删除"  >
-                            <el-input v-model="form.isDel" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>-->
+
                 </el-row>
 
               <el-form-item align="right" style="margin-right: 50px">
@@ -247,7 +204,6 @@
                         element-loading-text="Loading"
                         border fit highlight-current-row
                         @current-change="handleCurrentChange"
-
               >
 
                 <el-table-column label="名称">
@@ -313,6 +269,9 @@
             element-loading-text="Loading"
             border fit
             @selection-change="handleSelectionChange"
+            ref="emergencyPersonTable"
+            @row-click="personToggleSelection"
+
           >
             <el-table-column
             width="50px"

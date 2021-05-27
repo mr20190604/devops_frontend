@@ -54,8 +54,12 @@
         </div>
 
 
-        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                  @current-change="handleCurrentChange">
+        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
+                  @current-change="handleCurrentChange"
+                  @row-click="toggleSelection"
+                  ref="poolTable"
+
+        >
           <el-table-column
             type="selection"
             width="55"

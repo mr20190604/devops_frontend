@@ -268,6 +268,8 @@ export default {
         })
       }).catch(() => {
       })
+    },toggleSelection(row) {
+      this.$refs.accidentTable.toggleRowSelection(row)
     }
   }
 }
