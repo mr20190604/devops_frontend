@@ -1,10 +1,10 @@
 import mmAlarmInfoApi from '@/api/mm/mmAlarmInfo'
 import permission from '@/directive/permission/index.js'
-import {getDicts} from "../../../api/system/dict";
+import {getDicts} from "@/api/system/dict";
 import { getApiUrl,getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
-// import preview from '@/preview/preview.vue'
 import {isCanPreview} from '@/utils/preview.js'
+import genEvent from '@/views/mm/mmAlarmInfo/genEvent/genEvent.vue'
 import process from '@/components/Process/process.vue'
 
 import charts from  '@/utils/localEcharts'
