@@ -39,16 +39,41 @@ export default {
         data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
         axisLine: {
           lineStyle: {
-            color: '#fff'
+            color: '#244f5f'
+          }
+        },
+        axisLabel: {
+          textStyle: {
+            color: function() {
+              return '#fff'
+            }
           }
         }
       },
       yAxis: {
         name: '单位(条)',
         type: 'value',
+        nameTextStyle: {
+          color: '#fff'
+        },
         axisLine: {
           lineStyle: {
-            color: '#fff'
+            color: '#244f5f'
+          }
+        },
+        axisLabel: {
+          textStyle: {
+            color: function() {
+              return '#fff'
+            }
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: ['#244f5f'],
+            width: 1,
+            type: 'solid'
           }
         }
       },

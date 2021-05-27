@@ -5,6 +5,7 @@
 </template>
 <script>
 import 'echarts/lib/chart/line'
+import 'echarts/lib/component/tooltip'
 
 export default {
   name: 'RealTime',
@@ -16,12 +17,22 @@ export default {
   },
   created() {
     this.options = {
+      tooltip: {
+        trigger: 'axis'
+      },
       xAxis: {
         type: 'category',
         boundaryGap: false,
         axisLine: {
           lineStyle: {
-            color: '#fff'
+            color: '#244f5f'
+          }
+        },
+        axisLabel: {
+          textStyle: {
+            color: function() {
+              return '#fff'
+            }
           }
         }
       },
@@ -30,34 +41,48 @@ export default {
         boundaryGap: [0, '30%'],
         axisLine: {
           lineStyle: {
-            color: '#fff'
+            color: '#244f5f'
+          }
+        },
+        axisLabel: {
+          textStyle: {
+            color: function() {
+              return '#fff'
+            }
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: ['#244f5f'],
+            width: 1,
+            type: 'solid'
           }
         },
         max: 100
-      },
-      visualMap: {
-        type: 'piecewise',
-        show: false,
-        dimension: 0,
-        seriesIndex: 0,
-        pieces: [{
-          gt: 1,
-          lt: 3,
-          color: 'rgba(0, 0, 180, 0.4)'
-        }, {
-          gt: 5,
-          lt: 7,
-          color: 'rgba(0, 0, 180, 0.4)'
-        }]
       },
       series: [
         {
           type: 'line',
           smooth: 0.6,
           symbol: 'none',
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0, color: 'rgba(95,206,210,0.4)'
+              }, {
+                offset: 1, color: 'rgba(95,206,210,0)'
+              }]
+            }
+          },
           lineStyle: {
-            color: '#34fff8',
-            width: 3
+            color: 'rgba(95,206,210,1)',
+            width: 2
           },
           data: this.data
         }

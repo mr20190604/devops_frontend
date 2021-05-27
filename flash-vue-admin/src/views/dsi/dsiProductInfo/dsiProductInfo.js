@@ -6,7 +6,7 @@ import dsiMaterialBaseinfoApi from '@/api/dsi/dsiMaterialBaseinfo';
 import dsiProductFromMaterialApi from '@/api/dsi/dsiProductFromMaterial';
 export default {
   directives: { permission },
-  props:['enterpriseId'],
+  props:['enterpriseId','enterpriseName'],
   component:{
     materialInfo
   },
@@ -39,6 +39,7 @@ export default {
       //用于保存产品临时数据，最后统一提交
       product_list:[],
       materialVisible: false,
+      productVisible:false,
       listQuery: {
         page: 1,
         limit: 10,
@@ -49,6 +50,8 @@ export default {
         enterpriseId: this.enterpriseId
       },
       materialList:[],
+      selectedList:[],
+      materList:[],
       total: 0,
       list: [],
       listLoading: true,
@@ -405,16 +408,25 @@ export default {
 
     viewProduct(){
       if (this.checkSel()) {
-        this.isAdd = false
-        this.form = this.selRow
-        console.log(this.form.id);
-        this.formTitle = '查看产品信息'
-        this.productVisible = true
-        dsiProductFromMaterialApi.getList(this.listQuery).then(response => {
-          this.materialList = response.data.records
-          this.listLoading = false
-          this.total = response.data.total
+        this.form = this.selRow;
+        let ids='';
+        this.formTitle = '查看产品信息';
+        this.productVisible = true;
+        dsiProductFromMaterialApi.getList(this.form.id).then(response => {
+          console.log( response.data);
+         for(let i=0;i<response.data.length;i++){
+           if(i==0){
+             ids=ids+response.data[i].materialId;
+           }else {
+             ids=ids+','+response.data[i].materialId;
+           }
+         }
+          console.log(ids);
+          dsiMaterialBaseinfoApi.getSelected(ids).then(response=>{
+            this.selectedList=response.data;
+          })
         })
+
       }
     }
 

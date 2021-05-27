@@ -56,7 +56,7 @@ export default {
   },
   removeBatch1: function(ids) {
     return request({
-      url: '/park/emergency/vehicle/removeBatch',
+      url: '/park/emergency/vehicle/funremoveBatch',
       method: 'delete',
       params: {
         ids: ids
