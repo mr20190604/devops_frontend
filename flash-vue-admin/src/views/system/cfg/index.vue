@@ -1,54 +1,57 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row  :gutter="20">
-        <el-col :span="4">
-          <el-input v-model="listQuery.cfgName" size="mini" :placeholder="$t('config.name')"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-input v-model="listQuery.cfgValue" size="mini"  :placeholder="$t('config.value')"></el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/cfg/add']">{{ $t('button.add') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click.native="edit" v-permission="['/cfg/update']">{{ $t('button.edit') }}</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/cfg/delete']">{{ $t('button.delete') }}</el-button>
-          <el-button type="info" size="mini" icon="el-icon-document" @click.native="exportXls">{{ $t('button.export') }}</el-button>
-        </el-col>
-      </el-row>
+      <el-form>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="参数名：">
+                  <el-input v-model="listQuery.cfgName" size="mini" :placeholder="$t('config.name')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="参数值：">
+                  <el-input v-model="listQuery.cfgValue" size="mini"  :placeholder="$t('config.value')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-col>
+            </el-row>
+        </el-form>
     </div>
 
-
+ <div class="table-list">
+      <div class="btnLists">
+          <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/cfg/add']">{{ $t('button.add') }}</el-button>
+          <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="edit" v-permission="['/cfg/update']">{{ $t('button.edit') }}</el-button>
+          <el-button type="danger" size="mini" class="set-common-btn blue-button" @click.native="remove" v-permission="['/cfg/delete']">{{ $t('button.delete') }}</el-button>
+          <el-button type="info" size="mini" class="set-common-btn blank-blue-button" @click.native="exportXls">{{ $t('button.export') }}</el-button>
+      </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
     @current-change="handleCurrentChange">
 
-      <el-table-column label="ID">
+      <el-table-column label="ID" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.id}}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('config.name')">
+      <el-table-column :label="$t('config.name')" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.cfgName}}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('config.value')">
+      <el-table-column :label="$t('config.value')" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.cfgValue}}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('config.descript')">
+      <el-table-column :label="$t('config.descript')" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.cfgDesc}}
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/cfg/update']">{{ $t('button.edit') }}</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/cfg/delete']">{{ $t('button.delete') }}</el-button>
@@ -59,6 +62,7 @@
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -69,7 +73,7 @@
       @prev-click="fetchPrev"
       @next-click="fetchNext">
     </el-pagination>
-
+ </div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -105,9 +109,4 @@
 </template>
 
 <script src="./cfg.js"></script>
-
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
 

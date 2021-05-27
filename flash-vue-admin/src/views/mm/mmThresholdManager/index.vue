@@ -1,39 +1,46 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form :model="listQuery" ref="listQuery" label-width="120px" :inline="true" >
-            <el-form-item label="设备名称：">
-              <el-input v-model="listQuery.equipmentName"  placeholder="请输入设备名称"></el-input>
-            </el-form-item>
-            <el-form-item label="设备编号：">
-              <el-input v-model="listQuery.equipmentCode"  placeholder="请输入设备编号"></el-input>
-            </el-form-item>
-            <el-form-item label="审核状态：">
-              <dict-select v-model="listQuery.dictId" dict-name="阈值审核状态"  placeholder="请输入备名称"/>
-            </el-form-item>
-            <br>
-            <el-form-item label="设备类别：">
-              <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"/>
-            </el-form-item>
-
-            <el-form-item style="float: right;margin-right: 100px">
-                <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
-
-          </el-form>
-
-            <br>
-            <el-row>
-                <el-col :span="24">
-                    <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/mmThresholdManager/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/threshold/manager/update']">{{ $t('button.edit') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/threshold/manager/delete']">{{ $t('button.delete') }}</el-button>
+          <el-form :model="listQuery" ref="listQuery">
+            <el-row class="hasmarginBottom">
+                <el-col :span="6">
+                    <el-form-item label="设备名称：">
+                    <el-input v-model="listQuery.equipmentName"  placeholder="请输入设备名称"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="设备编号：">
+                    <el-input v-model="listQuery.equipmentCode"  placeholder="请输入设备编号"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="审核状态：">
+                    <dict-select v-model="listQuery.dictId" dict-name="阈值审核状态"  placeholder="请输入备名称"/>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="设备类别：">
+                    <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"/>
+                    </el-form-item>
                 </el-col>
             </el-row>
+            <el-row>
+              <el-col>
+                <el-form-item>
+                    <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                    <el-button  class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+                </el-form-item>
+             </el-col>
+            </el-row>
+          </el-form>
         </div>
 
-
+ <div class="table-list">
+      <div class="btnLists">
+            <el-button type="success" size="mini"  class="set-common-btn blue-button" @click.native="add" v-permission="['/mmThresholdManager/add']">{{ $t('button.add') }}</el-button>
+            <el-button type="primary" size="mini"  class="set-common-btn blank-blue-button" @click.native="edit" v-permission="['/threshold/manager/update']">{{ $t('button.edit') }}</el-button>
+            <el-button type="danger" size="mini"  class="set-common-btn blue-button" @click.native="remove" v-permission="['/threshold/manager/delete']">{{ $t('button.delete') }}</el-button>
+      </div>
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
                   :row-key="row=>row.id"
                   @current-change="handleCurrentChange">
@@ -43,53 +50,54 @@
             width="55"
             :reserve-selection="true"
           ></el-table-column>
-            <el-table-column type="index" width="50px" label="序号"></el-table-column>
-            <el-table-column label="设备类别" width="100px" align="center">
+            <el-table-column type="index" width="55px" label="序号"></el-table-column>
+            <el-table-column label="设备类别" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.equipmentTypeName}}
                 </template>
             </el-table-column>
-            <el-table-column label="设备名称" width="140px">
+            <el-table-column label="设备名称" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.mmBasEquipment.equipmentName}}
                 </template>
             </el-table-column>
-            <el-table-column label="设备编号" width="180px">
+            <el-table-column label="设备编号" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.mmBasEquipment.equipmentCode}}
                 </template>
             </el-table-column>
 
-            <el-table-column label="阈值状态" align="center" width="80px">
+            <el-table-column label="阈值状态" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.dictIdName}}
                 </template>
             </el-table-column>
-            <el-table-column label="审核日期" align="center" width="160px">
+            <el-table-column label="审核日期" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.auditTime}}
                 </template>
             </el-table-column>
-            <el-table-column label="审核人" align="center" width="80px">
+            <el-table-column label="审核人" show-overflow-tooltip>
                 <template slot-scope="scope">
                     <template v-if="scope.row.auditUser != null">{{scope.row.auditUser.name}}</template>
                 </template>
             </el-table-column>
-          <el-table-column label="设备位置">
+          <el-table-column label="设备位置" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.mmBasEquipment.equipmentInstallInfo.installLocation}}
             </template>
           </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/threshold/manager/update']">{{ $t('button.edit') }}</el-button>
-                    <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/threshold/manager/delete']">{{ $t('button.delete') }}</el-button>
+                    <el-button type="text" size="mini" class="set-common-btn blue-button" @click.native="editItem(scope.row)" v-permission="['/threshold/manager/update']">{{ $t('button.edit') }}</el-button>
+                    <el-button type="text" size="mini" class="set-common-btn blank-blue-button" @click.native="removeItem(scope.row)" v-permission="['/threshold/manager/delete']">{{ $t('button.delete') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <el-pagination
                 background
+                class="position-pagination"
                 layout="total, sizes, prev, pager, next, jumper"
                 :page-sizes="[10, 20, 50, 100,500]"
                 :page-size="listQuery.limit"
@@ -99,7 +107,7 @@
                 @prev-click="fetchPrev"
                 @next-click="fetchNext">
         </el-pagination>
-
+ </div>
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
@@ -158,8 +166,4 @@
 
 <script src="./mmThresholdManager.js"></script>
 
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
-</style>
 

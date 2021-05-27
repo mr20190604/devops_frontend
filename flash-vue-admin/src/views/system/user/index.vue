@@ -1,57 +1,66 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row  :gutter="20">
-        <el-col :span="4">
-          <el-input v-model="listQuery.account" size="mini" placeholder="请输入帐号"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-input v-model="listQuery.name" size="mini" placeholder="请输入姓名"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <dict-select v-model="listQuery.sex" dict-name="性别" placeholder="请选择性别" />
-        </el-col>
-
-        <el-col :span="4">
-          <el-input v-model="listQuery.phone" size="mini" placeholder="请输入手机号"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-select v-model="listQuery.status" size="mini" placeholder="账号状态">
-            <el-option
-              v-for="item in statusList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
-
-        <el-col :span="4">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/mgr/add']">
+      <el-form label-width="76px" class="align-right has-Label-Width">
+        <el-row class="hasmarginBottom">
+            <el-col :span="6">
+              <el-form-item label="帐号：">
+                <el-input v-model="listQuery.account" size="mini" placeholder="请输入帐号"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="姓名：">
+                <el-input v-model="listQuery.name" size="mini" placeholder="请输入姓名"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="性别：">
+                <dict-select v-model="listQuery.sex" dict-name="性别" placeholder="请选择性别" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="手机号：">
+                <el-input v-model="listQuery.phone" size="mini" placeholder="请输入手机号"></el-input>
+              </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6">
+              <el-form-item label="账号状态：">
+                <el-select v-model="listQuery.status" size="mini" placeholder="账号状态">
+                  <el-option
+                    v-for="item in statusList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="18">
+              <el-button type="success" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-col>
+        </el-row>
+      </el-form>
+    </div>
+<div class="table-list">
+      <div class="btnLists">
+          <el-button type="success" class="set-common-btn blue-button" @click.native="add" v-permission="['/mgr/add']">
             {{$t('button.add') }}
           </el-button>
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click.native="edit" v-permission="['/mgr/edit']">
+          <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="edit" v-permission="['/mgr/edit']">
             {{$t('button.edit') }}
           </el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/mgr/delete']">
+          <el-button type="danger" class="set-common-btn blue-button" @click.native="remove" v-permission="['/mgr/delete']">
             {{$t('button.delete') }}
           </el-button>
-          <el-button type="danger" size="mini" icon="el-icon-refresh-right" @click.native="resetPwd" v-permission="['/mgr/edit']">
+          <el-button type="danger" class="set-common-btn blank-blue-button" @click.native="resetPwd" v-permission="['/mgr/edit']">
             {{$t('button.resetPwd') }}
           </el-button>
 
-          <el-button type="info" size="mini" icon="el-icon-s-operation" @click.native="openRole" v-permission="['/mgr/setRole']">角色分配</el-button>
-        </el-col>
-      </el-row>
-    </div>
-
+          <el-button type="info" class="set-common-btn blue-button" @click.native="openRole" v-permission="['/mgr/setRole']">角色分配</el-button>
+      </div>
     <el-row>
       <el-col :span="4">
         <el-tree
@@ -68,40 +77,40 @@
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
     @current-change="handleCurrentChange">
 
-      <el-table-column label="账号">
+      <el-table-column label="账号" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.account}}
         </template>
       </el-table-column>
-      <el-table-column label="姓名">
+      <el-table-column label="姓名" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.name}}
         </template>
       </el-table-column>
 
 
-      <el-table-column label="部门">
+      <el-table-column label="部门" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.dept.simplename}}
         </template>
       </el-table-column>
 
-      <el-table-column label="电话">
+      <el-table-column label="电话" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.phone}}
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" min-width="120px">
+      <el-table-column label="创建时间" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.createTime}}
         </template>
       </el-table-column>
-      <el-table-column label="状态">
+      <el-table-column label="状态" show-overflow-tooltip>
         <template slot-scope="scope">
           <el-switch v-model="scope.row.status==1" @change="changeUserStatus(scope.row)"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" min-width="150px">
+      <el-table-column label="操作" width="268" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/mgr/edit']">
             {{$t('button.edit') }}
@@ -118,6 +127,7 @@
 
         <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -131,6 +141,7 @@
 
       </el-col>
     </el-row>
+  </div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -228,7 +239,5 @@
 </template>
 
 <script src="./user.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+
 

@@ -1,62 +1,63 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row  :gutter="20">
-        <el-col :span="4">
-          <el-input v-model="listQuery.name" size="mini" placeholder="请输入任务名"></el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/task/add']">{{ $t('button.add') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click.native="edit" v-permission="['/task/update']">{{ $t('button.edit') }}</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/task/delete']">{{ $t('button.delete') }}</el-button>
-        </el-col>
-      </el-row>
+        <el-form>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="任务名：">
+                  <el-input v-model="listQuery.name" size="mini" placeholder="请输入任务名"></el-input>
+                </el-form-item>
+              </el-col> 
+              <el-col :span="18">
+                <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-col>
+            </el-row>
+        </el-form>
     </div>
 
-
+<div class="table-list">
+      <div class="btnLists">
+          <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/task/add']">{{ $t('button.add') }}</el-button>
+          <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="edit" v-permission="['/task/update']">{{ $t('button.edit') }}</el-button>
+          <el-button type="danger" size="mini" class="set-common-btn blue-button" @click.native="remove" v-permission="['/task/delete']">{{ $t('button.delete') }}</el-button>
+      </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
     @current-change="handleCurrentChange">
-      <el-table-column label="任务名">
+      <el-table-column label="任务名" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.name}}
         </template>
       </el-table-column>
-      <el-table-column label="执行类" width="300">
+      <el-table-column label="执行类" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.jobClass}}
         </template>
       </el-table-column>
-      <el-table-column label="定时规则">
+      <el-table-column label="定时规则" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.cron}}
         </template>
       </el-table-column>
 
-      <el-table-column label="说明">
+      <el-table-column label="说明" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.note}}
         </template>
       </el-table-column>
 
-      <el-table-column label="最近执行时间">
+      <el-table-column label="最近执行时间" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.execAt}}
         </template>
       </el-table-column>
 
-      <el-table-column label="最近执行结果">
+      <el-table-column label="最近执行结果" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.execResult}}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="280" align="center">
+      <el-table-column label="操作" width="310" align="center">
         <template slot-scope="scope">
 
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/task/update']">{{ $t('button.edit') }}</el-button>
@@ -69,7 +70,7 @@
         </template>
       </el-table-column>
     </el-table>
-
+</div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -117,8 +118,4 @@
 
 <script src="./task.js"></script>
 
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
 

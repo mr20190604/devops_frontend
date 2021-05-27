@@ -1,54 +1,57 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row :gutter="20">
-        <el-col :span="4">
-          <el-input v-model="listQuery.name" size="mini" placeholder="请输入角色名称"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-input v-model="listQuery.tips" size="mini" placeholder="请输入角色编号"></el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/role/add']">{{ $t('button.add') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click.native="edit" v-permission="['/role/edit']">{{ $t('button.edit') }}</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/role/remove']">{{ $t('button.delete') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-setting" @click.native="openPermissions" v-permission="['/role/setAuthority']">权限配置</el-button>
-        </el-col>
-      </el-row>
+      <el-form>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="角色名称：">
+                  <el-input v-model="listQuery.name" size="mini" placeholder="请输入角色名称"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="角色编号：">
+                   <el-input v-model="listQuery.tips" size="mini" placeholder="请输入角色编号"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="success" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-col>
+            </el-row>
+      </el-form>
     </div>
 
-
+<div class="table-list">
+      <div class="btnLists">
+          <el-button type="success" class="set-common-btn blue-button" @click.native="add" v-permission="['/role/add']">{{ $t('button.add') }}</el-button>
+          <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="edit" v-permission="['/role/edit']">{{ $t('button.edit') }}</el-button>
+          <el-button type="danger" class="set-common-btn blue-button" @click.native="remove" v-permission="['/role/remove']">{{ $t('button.delete') }}</el-button>
+          <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="openPermissions" v-permission="['/role/setAuthority']">权限配置</el-button>
+      </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               @current-change="handleCurrentChange">
 
-      <el-table-column label="名称">
+      <el-table-column label="名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.name}}
         </template>
       </el-table-column>
-      <el-table-column label="编码">
+      <el-table-column label="编码" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.tips}}
         </template>
       </el-table-column>
-      <el-table-column label="所在部门">
+      <el-table-column label="所在部门" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.deptName}}
         </template>
       </el-table-column>
-      <el-table-column label="上级角色">
+      <el-table-column label="上级角色" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pName}}
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center" width="248">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/role/edit']">{{ $t('button.edit') }}</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/role/remove']">{{ $t('button.delete') }}</el-button>
@@ -61,6 +64,7 @@
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -71,7 +75,7 @@
       @prev-click="fetchPrev"
       @next-click="fetchNext">
     </el-pagination>
-
+</div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -145,6 +149,4 @@
 </template>
 
 <script src="./role.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+
