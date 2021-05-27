@@ -29,5 +29,12 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  removeBatch:function(param) {
+    return request({
+      url: '/park/emergency/team/removeBatch',
+      method: 'delete',
+      data:param
+    })
+  }
 }

@@ -70,7 +70,8 @@ export default {
       listLoading: true,
       selRow: {},
       materialRow:{},
-      selectMonth:null
+      selectMonth:null,
+      selection:[]
     }
   },
   filters: {
@@ -459,6 +460,46 @@ export default {
       this.selectMonth = yearn+"-"+monthn
     },toggleSelection(row) {
       this.$refs.poolTable.toggleRowSelection(row)
+    },handleSelectionChange(selection) {
+      this.selection = selection
+    },
+    batchDelete() {
+      if (this.selection.length > 0) {
+        this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+          confirmButtonText: this.$t('button.submit'),
+          cancelButtonText: this.$t('button.cancel'),
+          type: 'warning'
+        }).then(() => {
+          var arr = [];
+          this.selection.forEach(item =>{
+            arr.push(item.id)
+          })
+
+          const format = {
+            ids:arr
+          }
+          dsiParkEmergencyPoolApi.removeBatch(format).then(response =>{
+            this.$message({
+              message: this.$t('common.optionSuccess'),
+              type: 'success'
+            })
+            this.$refs.poolTable.clearSelection();
+            this.fetchData();
+          }).catch(err =>{
+            this.$notify.error({
+              title: '错误',
+              message: err
+            })
+          })
+        }).catch(() => {
+        })
+
+      } else {
+        this.$message({
+          message: this.$t('请选择要删除的行'),
+          type: 'warning'
+        })
+      }
     }
 
   }

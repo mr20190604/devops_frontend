@@ -55,7 +55,8 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      selection:[]
     }
   },
   filters: {
@@ -157,6 +158,7 @@ export default {
       }
     },
     add() {
+      this.resetForm()
       this.formTitle = '添加应急人员',
       this.formVisible = true
       this.isAdd = true
@@ -268,7 +270,47 @@ export default {
       }
     },toggleSelection(row) {
       this.$refs.personTable.toggleRowSelection(row)
+    },handleSelectionChange(val) {
+      this.selection = val;
+    },batchDelete() {
+      if (this.selection.length > 0) {
+        this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+          confirmButtonText: this.$t('button.submit'),
+          cancelButtonText: this.$t('button.cancel'),
+          type: 'warning'
+        }).then(() => {
+          let arr = [];
+          this.selection.forEach(item =>{
+            arr.push(item.id)
+          })
+
+          const format = {
+            ids:arr
+          }
+          dsiParkEmergencyPersonApi.removeBatch(format).then(response =>{
+            this.$message({
+              message: this.$t('common.optionSuccess'),
+              type: 'success'
+            })
+            this.$refs.personTable.clearSelection();
+            this.fetchData();
+          }).catch(err =>{
+            this.$notify.error({
+              title: '错误',
+              message: err
+            })
+          })
+        }).catch(() => {
+        })
+
+      } else {
+        this.$message({
+          message: this.$t('请选择要删除的行'),
+          type: 'warning'
+        })
+      }
     }
+
 
   }
 }

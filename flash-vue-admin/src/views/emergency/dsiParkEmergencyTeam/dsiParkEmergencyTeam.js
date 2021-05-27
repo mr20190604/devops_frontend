@@ -432,6 +432,43 @@ export default {
       this.$refs.teamTable.toggleRowSelection(row)
     },personToggleSelection(row) {
       this.$refs.emergencyPersonTable.toggleRowSelection(row)
+    },batchDelete() {
+      if (this.multipleSelection.length > 0) {
+        this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+          confirmButtonText: this.$t('button.submit'),
+          cancelButtonText: this.$t('button.cancel'),
+          type: 'warning'
+        }).then(() => {
+          let arr = [];
+          this.multipleSelection.forEach(item =>{
+            arr.push(item.id)
+          })
+
+          const format = {
+            ids:arr
+          }
+          dsiParkEmergencyTeamApi.removeBatch(format).then(response =>{
+            this.$message({
+              message: this.$t('common.optionSuccess'),
+              type: 'success'
+            })
+            this.$refs.teamTable.clearSelection();
+            this.fetchData();
+          }).catch(err =>{
+            this.$notify.error({
+              title: '错误',
+              message: err
+            })
+          })
+        }).catch(() => {
+        })
+
+      } else {
+        this.$message({
+          message: this.$t('请选择要删除的行'),
+          type: 'warning'
+        })
+      }
     }
 
 
