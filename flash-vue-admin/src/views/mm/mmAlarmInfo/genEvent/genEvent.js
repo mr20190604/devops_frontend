@@ -16,7 +16,7 @@ export default {
       uploadHeaders: {
         'Authorization': ''
       },
-      fileList:'',
+      fileList:[],
       multiple:true,
       fileLimit:10,
       mmManagerEvent: {
@@ -56,9 +56,17 @@ export default {
       let self = this;
       self.uploadUrl = getApiUrl() + '/file';
       this.uploadHeaders['Authorization'] = getToken();
-      self.mmManagerEvent.eventName = self.alarmRow.monitorTypeName +'_'+ self.alarmRow.equipment.equipmentName+'_' + self.alarmRow.alarmLevelName;
-      self.mmManagerEvent.eventAddress = self.alarmRow.equipment.equipmentInstallInfo.installLocation;
-      self.mmManagerEvent.eventModel = self.alarmRow.id;
+      if(self.alarmRow.mmManagerEvents && self.alarmRow.mmManagerEvents[0].mmManagerEventFiles) {
+        self.alarmRow.mmManagerEvents[0].mmManagerEventFiles.forEach(item =>{
+          self.fileList.push({name:item.fileInfo.originalFileName,status:"success",response:{data:{id:item.fileId}}});
+        });
+        self.mmManagerEvent = self.alarmRow.mmManagerEvents[0];
+      } else {
+        self.mmManagerEvent.eventName = self.alarmRow.monitorTypeName +'_'+ self.alarmRow.equipment.equipmentName+'_' + self.alarmRow.alarmLevelName;
+        self.mmManagerEvent.eventAddress = self.alarmRow.equipment.equipmentInstallInfo.installLocation;
+        self.mmManagerEvent.eventModel = self.alarmRow.id;
+      }
+
     },
     save() {
       let params = {
@@ -66,7 +74,8 @@ export default {
         mmManagerEventFiles:this.mmManagerEventFiles
       };
       genEvent.saveEventAndFiles(params).then(response=>{
-        console.log(response)
+        console.log(response);
+        this.closeGenEvent();
       });
     },
     getRowKey(row) {
