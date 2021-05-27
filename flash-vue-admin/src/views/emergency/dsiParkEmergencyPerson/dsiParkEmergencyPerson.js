@@ -268,7 +268,8 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.fetchData()
+              this.$refs.personTable.clearSelection();
+              this.fetchData()
           }).catch( err=> {
             this.$notify.error({
               title: '错误',

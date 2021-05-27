@@ -188,7 +188,7 @@
               <el-row>
                 <el-col :span="12">
                   <el-form-item label="联系电话："  >
-                    <el-input v-model="form.tel" minlength=1></el-input>
+                    <el-input v-model="form.tel" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
 
@@ -221,7 +221,7 @@
 
                 <el-col :span="12">
                   <el-form-item label="紧急联系方式："  >
-                    <el-input v-model="form.emergencyTel" minlength=1></el-input>
+                    <el-input v-model="form.emergencyTel" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>

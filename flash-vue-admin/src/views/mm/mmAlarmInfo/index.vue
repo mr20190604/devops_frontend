@@ -104,7 +104,7 @@
             </el-table-column>
           <el-table-column label="报警位置" show-overflow-tooltip>
             <template slot-scope="scope">
-              {{scope.row.equipment.equipmentInstallInfo.installLocation}}
+              <template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].installLocation}}</template>
             </template>
           </el-table-column>
 
