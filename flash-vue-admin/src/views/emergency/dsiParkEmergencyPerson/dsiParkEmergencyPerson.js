@@ -273,14 +273,14 @@ export default {
     },handleSelectionChange(val) {
       this.selection = val;
     },batchDelete() {
-      if (this.multipleSelection.length > 0) {
+      if (this.selection.length > 0) {
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
           let arr = [];
-          this.multipleSelection.forEach(item =>{
+          this.selection.forEach(item =>{
             arr.push(item.id)
           })
 
