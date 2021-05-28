@@ -219,20 +219,17 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
-                  dsaLawStatuteApi.removeByStatuteId(formData.id).then(response =>{
-                  })
+                  // dsaLawStatuteApi.removeByStatuteId(formData.id).then(response =>{
+                  // })
                   for (let i = 0; i < this.fileList.length ; i++) {
-                    let fileId = '';
-                    if (this.fileList[i].id) {
-                      fileId = this.fileList[i].id
-                    }  else {
-                      fileId = this.fileList[i].response.data.id
+                    if(this.fileList[i].response) {
+                      let fileId = this.fileList[i].response.data.id
+                      const tempData = {
+                        statuteId:formData.id,
+                        fileId:fileId,
+                      }
+                      dsaLawStatuteApi.addRelation(tempData).then()
                     }
-                    const tempData = {
-                      statuteId:formData.id,
-                      fileId:fileId,
-                    }
-                    dsaLawStatuteApi.addRelation(tempData).then()
                   }
                     this.fetchData()
                     this.formVisible = false
@@ -285,12 +282,14 @@ export default {
           temp = response.data
           if(temp) {
             temp.forEach(item =>{
-              this.fileList.push({
-                "url":"",
-                "name":item.fileInfo.originalFileName,
-                "id":item.fileId,
-                "status":"success",
-              })
+              if (item.fileInfo) {
+                this.fileList.push({
+                  "url":"",
+                  "name":item.fileInfo.originalFileName,
+                  "id":item.fileId,
+                  "status":"success",
+                })
+              }
             })
           }
         })
@@ -396,9 +395,7 @@ export default {
         this.previewTitle = record.lawName;
         this.previewFileUrl = preview;
       }
-
     },removeBatch() {
-      debugger
       let ids = this.selection.map(item => {
         return item.id
       })

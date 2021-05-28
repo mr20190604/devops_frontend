@@ -231,21 +231,16 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
-                  dsiParkEmergencyVehicleApi.removeByVehicleId(formData.id).then(response =>{
-                  })
+
                   for (let i = 0; i < this.fileList.length ; i++) {
-                    let fileId = '';
-                    if (this.fileList[i].id) {
-                      fileId = this.fileList[i].id
-                    }  else {
-                      fileId = this.fileList[i].response.data.id
+                    if(this.fileList[i].response) {
+                      let fileId = this.fileList[i].response.data.id
+                      const tempData = {
+                        vehicleId:formData.id,
+                        fileId:fileId,
+                      }
+                      dsiParkEmergencyVehicleApi.addRelation(tempData).then()
                     }
-                    const tempData = {
-                      vehicleId:formData.id,
-                      fileId:fileId,
-                      orderNum:i+1
-                    }
-                    dsiParkEmergencyVehicleApi.addRelation(tempData).then()
                   }
 
                     this.fetchData()
@@ -301,12 +296,14 @@ export default {
           temp = response.data
           if(temp) {
             temp.forEach(item =>{
-              this.fileList.push({
-                "url":"",
-                "name":item.fileInfo.originalFileName,
-                "id":item.fileId,
-                "status":"success",
-              })
+              if(item.fileInfo) {
+                this.fileList.push({
+                  "url":"",
+                  "name":item.fileInfo.originalFileName,
+                  "id":item.fileId,
+                  "status":"success",
+                })
+              }
             })
           }
         })
@@ -381,7 +378,7 @@ export default {
       this.previewVisible = true;
       let temp = ''
       let arr = []
-
+      let indexs = [];
       dsiParkEmergencyVehicleApi.queryDataByVehicleId(record.id).then(response =>{
         if (response.data) {
           for (let i = 0; i < response.data.length ; i++) {
