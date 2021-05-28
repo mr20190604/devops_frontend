@@ -1,30 +1,7 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true" >
-        <el-form-item label="风险名称">
-          <el-input v-model="listQuery.riskName"  placeholder="请输风险名称"></el-input>
-        </el-form-item>
 
-        <el-form-item label="风险类型">
-          <el-select v-model="listQuery.riskType"  placeholder="请选择风险类型">
-            <el-option
-              v-for="item in risk_type"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item   style="float: right;margin-right: 100px">
-          <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-          </el-button>
-          <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-          </el-button>
-        </el-form-item>
-      </el-form>
       <br>
       <el-row>
         <el-col :span="24">
@@ -88,7 +65,7 @@
         </template>
       </el-table-column>
     </el-table>
-
+<div style="">
     <el-pagination
       background
       layout="total, sizes, prev, pager, next, jumper"
@@ -100,16 +77,17 @@
       @prev-click="fetchPrev"
       @next-click="fetchNext">
     </el-pagination>
-
-
-
-
+    <div style="text-align: center">
+      <el-button type="primary" >{{ $t('button.submit') }}</el-button>
+      <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+    </div>
+</div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
-      width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      width="75%">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="height: 600px">
         <el-row>
 
           <el-col :span="12">

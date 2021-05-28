@@ -280,6 +280,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
+        this.enterpriseId=this.form.id;
         this.formTitle = '编辑企业信息'
         // this.activeName="first"
         this.formVisible = true
@@ -342,6 +343,7 @@ export default {
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
+          this.$refs.enterpriseTable.clearSelection();
           this.fetchData()
         }).catch(err => {
           this.$notify.error({

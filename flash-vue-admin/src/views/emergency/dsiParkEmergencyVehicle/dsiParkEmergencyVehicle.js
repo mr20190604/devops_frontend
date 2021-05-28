@@ -433,6 +433,7 @@ export default {
           this.selection.forEach(item =>{
             this.removeRow(item)
           })
+          this.$refs.vehicleTable.clearSelection();
           this.fetchData()
         }).catch(err => {
           this.$notify.error({

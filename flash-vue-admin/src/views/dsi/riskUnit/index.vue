@@ -159,7 +159,6 @@
           :prop="'details.' + index + '.value'"
           :rules="{required: false, message: '不能为空', trigger: 'blur'}"
         >
-          <p>{{JSON.stringify(form.details)}}</p>
           <el-col :span="5">
             <el-form-item label="风险物质">
               <el-input class="el-input-style" v-model="rec.materialId" minlength=1 @input="onInput()"></el-input>

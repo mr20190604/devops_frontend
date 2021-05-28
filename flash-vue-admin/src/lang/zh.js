@@ -47,7 +47,7 @@ export default {
     size: '布局大小'
   },
   login: {
-    title: '穹苍环境智能监测平台',
+    title: '苍穹环境智能监测平台',
     errorAccount: '请输入5到32位的数字和字母',
     errorPassword: '密码至少位5位',
     logIn: '登录',

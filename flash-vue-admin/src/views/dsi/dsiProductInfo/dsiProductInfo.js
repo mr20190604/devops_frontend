@@ -109,6 +109,7 @@ export default {
         this.list = response.data.records
         console.log(this.list);
         this.total = response.data.total
+        this.$refs.productTable.clearSelection();
         this.listLoading = false
       });
       getDicts('是否').then(response => {
@@ -117,15 +118,13 @@ export default {
     },
     search() {
 
-      this.fetchData()
+      this.fetchData1()
     },
     reset() {
       this.listQuery.key = undefined
-      this.listQuery.isPoisonHarm = undefined
-      this.listQuery.isInflammableExplosive = undefined
-      this.listQuery.formId = undefined
-      this.listQuery.enterpriseId = undefined
-      this.fetchData()
+      this.listQuery.materialType = undefined
+      this.listQuery.isDanger = undefined
+      this.fetchData1()
     },
     handleFilter() {
       this.listQuery.page = 1
@@ -168,6 +167,7 @@ export default {
       }
     },
     add() {
+      this.resetForm();
       this.formTitle = '添加产品信息'
       this.formVisible = true
       this.isAdd = true
@@ -405,28 +405,34 @@ export default {
 
       },
 
-    viewProduct(){
-      if (this.checkSel()) {
-        this.form = this.selRow;
-        let ids='';
-        this.formTitle = '查看产品信息';
-        this.productVisible = true;
-        dsiProductFromMaterialApi.getList(this.form.id).then(response => {
-          console.log( response.data);
-         for(let i=0;i<response.data.length;i++){
-           if(i==0){
-             ids=ids+response.data[i].materialId;
-           }else {
-             ids=ids+','+response.data[i].materialId;
+    viewProduct(record){
+
+
+        dsiProductFromMaterialApi.getList(record.id).then(response => {
+          console.log(response);
+         if(response.data.length){
+           let ids='';
+           this.formTitle = '查看产品信息';
+           this.productVisible = true;
+           for(let i=0;i<response.data.length;i++){
+             if(i==0){
+               ids=ids+response.data[i].materialId;
+             }else {
+               ids=ids+','+response.data[i].materialId;
+             }
            }
+           console.log(ids);
+           dsiMaterialBaseinfoApi.getSelected(ids).then(response=>{
+             this.selectedList=response.data;
+             this.listLoading = false
+           })
+         }else {
+           alert("请先添加原料！")
          }
-          console.log(ids);
-          dsiMaterialBaseinfoApi.getSelected(ids).then(response=>{
-            this.selectedList=response.data;
-          })
+
         })
 
-      }
+
     },toggleSelection(row) {
       this.$refs.productTable.toggleRowSelection(row)
     }
