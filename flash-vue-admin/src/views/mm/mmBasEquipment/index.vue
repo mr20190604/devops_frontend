@@ -78,7 +78,8 @@
 
             <el-table-column label="地址">
                 <template slot-scope="scope">
-                  {{scope.row.equipmentInstallInfo.installLocation}}
+                  <template v-if="scope.row.equipmentInstallInfo != null">{{scope.row.equipmentInstallInfo.installLocation}}
+                  </template>
                 </template>
             </el-table-column>
             <el-table-column label="实时值">

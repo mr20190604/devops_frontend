@@ -110,11 +110,11 @@
                     {{scope.row.accidentTypeName}}
                 </template>
             </el-table-column>
-            <el-table-column label="事故描述">
-                <template slot-scope="scope">
-                    {{scope.row.accidentDesc}}
-                </template>
-            </el-table-column>
+            <!--<el-table-column label="事故描述">-->
+                <!--<template slot-scope="scope">-->
+                    <!--{{scope.row.accidentDesc}}-->
+                <!--</template>-->
+            <!--</el-table-column>-->
             <el-table-column label="所属行业">
                 <template slot-scope="scope">
                     {{scope.row.industryTypeName}}
@@ -159,7 +159,7 @@
                     <el-col :span="12">
                         <el-form-item label="事故时间"  >
                             <el-date-picker v-model="form.accidentTime" class="date_picker"
-                                            value-format="yyyy/MM/dd" minlength=1></el-date-picker>
+                                            value-format="yyyy-MM-dd" minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -184,23 +184,24 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="所属行业"  >
+                      <el-select v-model="form.industryId" minlength=1>
+                        <el-option
+                          v-for="item in industry_type"
+                          :key="item.id"
+                          :label="item.name"
+                          :value="item.id">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
                     <el-col :span="12">
                         <el-form-item label="事故描述"  >
-                            <el-input v-model="form.accidentDesc" minlength=1></el-input>
+                            <el-input type="textarea" v-model="form.accidentDesc" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="所属行业"  >
-                            <el-select v-model="form.industryId" minlength=1>
-                              <el-option
-                                v-for="item in industry_type"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                              </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
+
                    <!-- <el-col :span="12">
                         <el-form-item label="逻辑删除"  >
                             <el-input v-model="form.isDel" minlength=1></el-input>

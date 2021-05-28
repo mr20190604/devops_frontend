@@ -217,9 +217,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="审核人"  >
-                      <el-input v-model="form.auditPerson" minlength=1></el-input>
-                    </el-form-item>
+
                   </el-col>
                     <el-col :span="12">
                         <el-form-item label="审核意见"  >
@@ -400,6 +398,7 @@
         :title="formTitle"
         :visible.sync="echartVisiable"
         width="50%"
+        @close="clearData"
       >
         <div style="padding-left: 10px">
           <el-form  :inline="true">

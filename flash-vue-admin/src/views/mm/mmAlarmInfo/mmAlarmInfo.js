@@ -698,7 +698,7 @@ export default {
 
         this.lineData.series[0].data.push(value)
       }
-      this.$refs.myEchart.resize()
+      // this.$refs.myEchart.resize()
     },clearEchart() {
       this.lineData.xAxis.data=[]
       this.lineData.series[0].data = []
@@ -727,6 +727,9 @@ export default {
     },
     removeFileItem(param) {
       fileDelete.deleteFile(param).then()
+    },clearData() {
+      this.lineData.xAxis.data = []
+      this.lineData.series[0].data = []
     }
 
   }
