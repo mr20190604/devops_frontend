@@ -34,7 +34,7 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: process.env.ENV === 'development' ? `http://ali201.9-heng.com/prod-api` : 'http://192.168.1.172:8080/api',
+        target: process.env.ENV === 'development' ? `http://127.0.0.1:8083` : 'http://192.168.1.172:8080/api',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

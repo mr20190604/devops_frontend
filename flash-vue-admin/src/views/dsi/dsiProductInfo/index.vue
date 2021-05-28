@@ -48,14 +48,14 @@
             @click="selectMaterial"
           >选择原料
           </el-button>
-          <el-button
+         <!-- <el-button
             v-permission="['/product/info/add']"
             type="success"
             size="mini"
             icon="el-icon-view"
             @click="viewProduct"
           >查看已选原料
-          </el-button>
+          </el-button>-->
           <!--<el-button
             v-permission="['/product/info/delete']"
             type="danger"
@@ -84,11 +84,11 @@
         width="55"
         :reserve-selection="true"
       />
-      <el-table-column
+     <!-- <el-table-column
         type="index"
         width="50"
         label="序号"
-      />
+      />-->
       <!-- <el-table-column label="产品编码">
         <template slot-scope="scope">
           {{ scope.row.productCode }}
@@ -137,6 +137,14 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
+            v-permission="['/product/info/add']"
+            type="text"
+            size="mini"
+            icon="el-icon-view"
+            @click="viewProduct(scope.row)"
+          >查看
+          </el-button>
+          <el-button
             v-permission="['/product/info/update']"
             type="text"
             size="mini"
@@ -175,9 +183,9 @@
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
-      width="70%"
+      width="75%"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="margin-left: 200px;height: 600px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="产品名称">
@@ -269,18 +277,18 @@
       :title="'选择原料'"
       :visible.sync="materialVisible"
       :modal="false"
-      width="70%"
+      width="75%"
     >
 
-      <el-form label-width="120px" :inline="true">
+      <el-form label-width="120px" :inline="true" style="height: 600px">
         <el-form-item label="关键字:">
           <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
         </el-form-item>
         <el-form-item label="原料类别:">
           <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
         </el-form-item>
-        <el-form-item label="是否中间产品:">
-          <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="是否中间产品" />
+        <el-form-item label="是否危化品:">
+          <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="请选择是否" />
         </el-form-item>
         <el-form-item style="float: right;margin-right: 100px">
           <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
@@ -297,11 +305,11 @@
             size="mini"
             icon="el-icon-plus"
             @click.native="addMaterial"
-          >{{ $t('button.add') }}
+          >添加新原料
           </el-button>
         </el-col>
       </el-row>
-      </el-form>
+
     <el-table
       v-loading="listLoading"
       :data="materialList"
@@ -312,6 +320,7 @@
       highlight-current-row
       @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange"
+      ref="materialTable"
     >
       <el-table-column
         type="selection"
@@ -389,6 +398,7 @@
         <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
         <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
       </div>
+      </el-form>
     </el-dialog>
     <el-dialog
       :title="'添加原料'"
@@ -444,8 +454,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否中间产品">
-              <dict-select v-model="form.isOriginal" dict-name="是否" placeholder="请选择是否中间产品" />
+            <el-form-item label="是否危化品">
+              <dict-select v-model="form.isDanger" dict-name="是否" placeholder="请选择是否" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -457,7 +467,7 @@
       </el-form>
     </el-dialog>
     <el-dialog
-      :title="'查看产品原料'"
+      :title="'已添加原料'"
       :visible.sync="productVisible"
       :modal="false"
       width="70%"

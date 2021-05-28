@@ -157,11 +157,12 @@
         <el-dialog class="el-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
+                width="75%"
+               >
           <template>
-            <el-tabs  v-model="activeName" type="card" :before-leave="handleClick" >
+            <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height: 600px">
               <el-tab-pane label="添加企业信息" name="first" style="visibility: visible">
-                <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+                <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="margin-left: 200px">
                   <el-row>
 
                     <el-col :span="12">
