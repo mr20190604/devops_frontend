@@ -32,7 +32,7 @@
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="信息发送" placement="top">
-        <el-card v-if="acceptList != null">
+        <el-card v-if="acceptList.length != 0">
           <div>
             <el-table :data="acceptList" v-loading="false" element-loading-text="Loading" border>
               <el-table-column label="发送时间">
@@ -55,7 +55,7 @@
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="处置" placement="top">
-        <el-card v-if="disposeList != null">
+        <el-card v-if="disposeList.length != 0">
           <div>
             <el-table :data="disposeList" v-loading="false" element-loading-text="Loading" border>
               <el-table-column label="处置时间">
