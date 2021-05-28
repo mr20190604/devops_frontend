@@ -252,6 +252,7 @@ export default {
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
+          this.$refs.buildTable.clearSelection();
           this.fetchData()
         }).catch(err => {
           this.$notify.error({

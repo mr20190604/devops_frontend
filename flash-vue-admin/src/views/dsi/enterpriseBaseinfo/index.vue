@@ -64,7 +64,6 @@
                   @row-click="toggleSelection"
                   @selection-change="handleSelectionChange"
                   @current-change="handleCurrentChange"
-
         >
 
 
