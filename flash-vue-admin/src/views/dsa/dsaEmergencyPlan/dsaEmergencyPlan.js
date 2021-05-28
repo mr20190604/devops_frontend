@@ -213,20 +213,16 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
-                  dsaEmergencyPlanApi.removeByPlanId(formData.id).then(response =>{
-                  })
+
                   for (let i = 0; i < this.fileList.length ; i++) {
-                    let fileId = '';
-                    if (this.fileList[i].id) {
-                      fileId = this.fileList[i].id
-                    }  else {
-                      fileId = this.fileList[i].response.data.id
+                    if (this.fileList[i].response){
+                      let fileId = this.fileList[i].response.data.id
+                      const tempData = {
+                        planId:formData.id,
+                        fileId:fileId,
+                      }
+                      dsaEmergencyPlanApi.addRelation(tempData).then()
                     }
-                    const tempData = {
-                      planId:formData.id,
-                      fileId:fileId,
-                    }
-                    dsaEmergencyPlanApi.addRelation(tempData).then()
                   }
                     this.fetchData()
                     this.formVisible = false
