@@ -5,7 +5,9 @@
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
-        <tags-view v-if="needTagsView" />
+        <!-- <breadcrumb class="breadcrumb-container" /> -->
+
+        <!-- <tags-view v-if="needTagsView" /> -->
       </div>
       <app-main />
     </div>
@@ -14,6 +16,7 @@
 
 <script>
 import { Navbar, Sidebar, AppMain, TagsView } from './components'
+import Breadcrumb from '@/components/Breadcrumb'
 import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
@@ -22,7 +25,8 @@ export default {
     Navbar,
     Sidebar,
     AppMain,
-    TagsView
+    TagsView,
+    Breadcrumb
   },
   mixins: [ResizeMixin],
   computed: {
@@ -68,6 +72,9 @@ export default {
       position: fixed;
       top: 0;
     }
+    .main-container{
+      background-color: #f2f5f9;
+    }
   }
   .drawer-bg {
     background: #000;
@@ -94,5 +101,8 @@ export default {
 
   .mobile .fixed-header {
     width: 100%;
+  }
+  .sidebar-container{
+    background-color: #1c273a;
   }
 </style>

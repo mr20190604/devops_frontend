@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <div class="block">
-          <!--<el-form label-width="120px" :inline="true">-->
+    <!-- <div class="block">
+         <el-form label-width="120px" :inline="true">-->
             <!--<el-form-item label="产品名称">
               <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
             </el-form-item>
@@ -29,8 +29,7 @@
         </el-form-item>
       </el-form>-->
 
-      <br>
-      <el-row>
+      <!-- <el-row>
         <el-col :span="24">
           <el-button
             v-permission="['/product/info/add']"
@@ -48,26 +47,44 @@
             @click="selectMaterial"
           >选择原料
           </el-button>
-         <!-- <el-button
+          <el-button
             v-permission="['/product/info/add']"
             type="success"
             size="mini"
             icon="el-icon-view"
             @click="viewProduct"
           >查看已选原料
-          </el-button>-->
-          <!--<el-button
+          </el-button>
+         <el-button
             v-permission="['/product/info/delete']"
             type="danger"
             size="mini"
             icon="el-icon-delete"
             @click.native="removeBatch"
           >批量删除
-          </el-button>-->
+          </el-button>
         </el-col>
-      </el-row>
-    </div>
-
+      </el-row> 
+    </div>-->
+    <div class="table-list">
+      <div class="btnLists">
+        <el-button
+            v-permission="['/product/info/add']"
+            type="primary"
+            size="mini"
+            icon="el-icon-plus"
+            @click.native="add"
+          >添加产品
+          </el-button>
+          <el-button
+            v-permission="['/product/info/add']"
+            type="primary"
+            size="mini"
+            icon="el-icon-plus"
+            @click="selectMaterial"
+          >选择原料
+          </el-button>
+            </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -175,6 +192,7 @@
       @prev-click="fetchPrev"
       @next-click="fetchNext"
     />
+    </div>
     <div style="text-align: center">
       <el-button type="primary" @click="saveProduct">保存</el-button>
       <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>

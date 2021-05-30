@@ -1,26 +1,29 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row  :gutter="20">
-        <el-col :span="6">
-          <el-input v-model="listQuery.title" size="mini" placeholder="标题"></el-input>
-        </el-col>
-
-        <el-col :span="6">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/banner/edit']">{{ $t('button.add') }}</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/banner/remove']">{{ $t('button.delete') }}</el-button>
-        </el-col>
-      </el-row>
+      <el-form label-width="120px" :inline="true">
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="标题：">
+                <el-input v-model="listQuery.title" size="mini" placeholder="标题"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item>
+               <el-button type="primary" size="mini" @click.native="search">{{ $t('button.search') }}</el-button>
+               <el-button size="mini" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      
     </div>
 
-
+<div class="table-list">
+      <div class="btnLists">
+        <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/banner/edit']">{{ $t('button.add') }}</el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/banner/remove']">{{ $t('button.delete') }}</el-button>
+      </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               @current-change="handleCurrentChange">
 
@@ -56,7 +59,7 @@
         </template>
       </el-table-column>
     </el-table>
-
+</div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -116,7 +119,3 @@
 
 <script src="./banner.js"></script>
 
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>

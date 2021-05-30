@@ -18,6 +18,8 @@ import i18n from './lang' // Internationalization
 import '@/icons' // icon
 import '@/permission' // permission control
 
+// 全局引用公共样式
+import '@/styles/commonStyle.scss'
 /**
  * 全局引用自定义公共组件
  */

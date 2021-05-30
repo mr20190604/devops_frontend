@@ -1,14 +1,12 @@
 <template>
   <div class="app-container">
-    <div class="block">
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/channel/edit']">{{ $t('button.add') }}</el-button>
+   
+    <div class="table-list">
+      <div class="btnLists">
+         <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/channel/edit']">{{ $t('button.add') }}</el-button>
           <el-button type="primary" size="mini" icon="el-icon-edit" @click.native="edit" v-permission="['/channel/edit']">{{ $t('button.edit') }}</el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/channel/remove']">{{ $t('button.delete') }}</el-button>
-        </el-col>
-      </el-row>
-    </div>
+      </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               @current-change="handleCurrentChange">
 
@@ -37,7 +35,7 @@
 
 
     </el-table>
-
+  </div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"

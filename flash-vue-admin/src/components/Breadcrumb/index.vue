@@ -73,11 +73,15 @@ export default {
   display: inline-block;
   font-size: 14px;
   line-height: 50px;
-  margin-left: 8px;
-
   .no-redirect {
-    color: #97a8be;
+    color: #333;
     cursor: text;
+    font-size: 16px;
+  }
+  .el-breadcrumb__item{
+    &:nth-of-type(1){
+      display: none;
+    }
   }
 }
 </style>

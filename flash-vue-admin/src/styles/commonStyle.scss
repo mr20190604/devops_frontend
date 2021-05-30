@@ -1,0 +1,137 @@
+.main-container{
+.table-list {
+    padding: 0 30px;
+    background-color: #fff;
+    margin-top: 16px;
+    .el-table {
+      height: 556px;
+      thead {
+        th {
+          background: #f1f1f1;
+          color: #333333;
+          font-size: 16px;
+          border-right: none;
+          font-weight: normal;
+          height: 55px;
+        }
+  
+      }
+  
+      td {
+        color: #333;
+        font-size: 14px;
+        border-right: none;
+        height: 50px;
+        padding: 0;
+      }
+      tr{
+        td{
+          &:last-child{
+            .cell{
+              display: flex;
+              justify-content: center;
+            }
+          }
+        }
+      }
+      tr:nth-child(even) {
+        background: #e8f3fb
+      }
+    }
+    .btnLists{
+      margin-bottom:12px;
+      padding-top: 14px;
+    }
+  }
+  .el-pagination{
+    text-align: right;
+   .el-select{
+    width: auto;
+    .el-input{
+      height: 28px;
+      line-height: 28px;
+    }
+  } 
+  &.is-background {
+    padding:0px 20px 18px;
+    .el-pager{
+      li{
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        color: #999;
+        &:not(.disabled).active{
+          background-color: #4571e7;
+        }
+        &:hover{
+          color: #4571e7;
+        }
+      }
+    }
+  }
+}
+.block{
+  padding: 40px 30px 20px;
+  background: #fff;
+  .el-form{
+    .el-form-item{
+      .el-form-item__label{
+        font-size: 18px;
+        font-weight: normal;
+        text-align: left;
+        padding-right: 0;
+        line-height: 30px;
+      }
+      .el-form-item__content{
+        line-height: 30px;
+        .el-input{
+          input{
+            width: 210px;
+            height: 30px;
+            line-height: 30px;
+          }
+        }
+        .vue-treeselect{
+          width: 210px;
+          height: 30px;
+          .vue-treeselect__control{
+            height: 30px;
+            line-height: 30px;
+          }
+        }
+        .el-button{
+            border-radius: 2px;
+            font-size: 18px;
+            width: 87px;
+            height: 44px;
+            color: #fff;
+            letter-spacing:4px;
+            &:hover{
+              color: #fff;
+            }
+          &.el-button--primary{
+            background-color: rgb(69, 113, 231);
+
+          }
+          &.el-button--default{
+            background-color: rgb(222, 96, 71);
+          }
+        }
+      }
+      
+    }
+  }
+}
+.navbar{
+  background-color: #fff;
+}
+
+.marginT20{
+  margin-top: 20px;
+}
+.white{
+  background: #fff;
+}
+}
+.app-container{
+  padding: 20px 0 20px;
+}
