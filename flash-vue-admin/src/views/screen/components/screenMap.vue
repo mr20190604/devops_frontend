@@ -121,11 +121,10 @@
             <td>{{ item.condition===1?'正常':'异常' }}</td>
             <td :style="{color:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}">
               <p>
-                <span>{{ item.level===1?'一级':item.level===2?'二级':'三级' }}</span>
                 <span
-                  style="width: 10px;height: 10px;display: inline-block;"
-                  :style="{background:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}"
-                />
+                  style="border-width: 1px; border-style: solid;"
+                  :style="{borderColor:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}"
+                >{{ item.level===1?'一级':item.level===2?'二级':'三级' }}</span>
               </p>
             </td>
             <td>{{ item.description }}</td>
@@ -500,7 +499,6 @@ export default {
     mapReady({ BMap, map }) {
       this.map = map
       this.BMap = BMap
-      // 在node_modules里面的vue-baidu-map/components/map/Map.vue 修改api版本2.0为3.0 并重新build
       map.setMapStyleV2({
         styleId: 'fe3bc41ca0e11f7dfa8986537af0dca7'
       })

@@ -3,15 +3,16 @@
     :value="content"
     :options="options"
     :placeholder="inner_placeholder"
-    :searchable="true"
+    :searchable="false"
     :load-options="loadOptions"
+    no-children-text="没有子级别"
     @input="handleInput"
   >
     <div slot="value-label" slot-scope="{ node }">{{ node.raw.valueLabel }}</div>
   </treeselect>
 </template>
 <script>
-import { LOAD_CHILDREN_OPTIONS } from '@riophae/vue-treeselect'
+import { LOAD_ROOT_OPTIONS, LOAD_CHILDREN_OPTIONS } from '@riophae/vue-treeselect'
 import mmBasDistrictApi from '@/api/mm/mmBasDistrict'
 
 export default {
@@ -33,7 +34,8 @@ export default {
   data() {
     return {
       content: null,
-      options: []
+      options: null,
+      isMatched: false
     }
   },
   computed: {
@@ -58,61 +60,61 @@ export default {
   watch: {
     value: function(newValue) {
       this.content = newValue
-    },
-    content: function(newValue) {
-      if (!newValue) {
-        this.content = undefined
-        return
-      }
-      let isExist = this.options.some(item => item.id === this.content)
-      if (!isExist) {
-        if (!this.parentCode || this.parentCode === '000000') {
-          let currentParentCode = this.content.substring(0, 2) + '0000'
-          let currentOptions = this.options.find(item => item.id === currentParentCode)
-          this.appendChildren(currentOptions).then(children => {
-            isExist = children.some(item => item.id === this.content)
-            if (!isExist) {
-              currentParentCode = this.content.substring(0, 4) + '00'
-              currentOptions = children.find(item => item.id === currentParentCode)
-              // 处理单独划市的情况
-              if (!currentOptions) {
-                currentParentCode = this.content.substring(0, 2) + '0100'
-                currentOptions = children.find(item => item.id === currentParentCode)
-              }
-              currentOptions && this.appendChildren(currentOptions)
-            }
-          })
-        } else {
-          const currentParentCode = this.content.substring(0, 4) + '00'
-          const currentOptions = this.options.find(item => item.id === currentParentCode)
-          currentOptions && this.appendChildren(currentOptions)
-        }
-      }
     }
   },
   created() {
-    mmBasDistrictApi.getChildren(this.parentCode || '000000').then(response => {
-      response.data.forEach(item => {
-        const obj = {
-          id: item.districtCode,
-          label: item.districtName,
-          valueLabel: item.districtName,
-          parentId: item.parentCode
-        }
-        if (item.parentCode.substring(2) === '0000') {
-          obj.children = null
-        }
-        this.options.push(obj)
-      })
-      this.content = this.value
-    })
+    this.content = this.value
   },
   methods: {
+    setDefaultExpanded(list) {
+      if (!this.content || this.isMatched) {
+        return
+      }
+      const matchOptions = list.find(item => item.id === this.content)
+      if (matchOptions) {
+        this.isMatched = true
+        return
+      }
+      let currentParentCode
+      let currentOptions
+      if (list[0].id.substring(2) === '0000') {
+        currentParentCode = this.content.substring(0, 2) + '0000'
+        currentOptions = list.find(item => item.id === currentParentCode)
+        if (currentOptions) {
+          currentOptions.isDefaultExpanded = true
+        }
+      } else if (list[0].id.substring(4) === '00') {
+        currentParentCode = this.content.substring(0, 4) + '00'
+        currentOptions = list.find(item => item.id === currentParentCode)
+        if (currentOptions) {
+          currentOptions.isDefaultExpanded = true
+        }
+      }
+    },
     loadOptions({ action, parentNode, callback }) {
-      if (action === LOAD_CHILDREN_OPTIONS) {
+      if (action === LOAD_ROOT_OPTIONS) {
+        mmBasDistrictApi.getChildren(this.parentCode || '000000').then(response => {
+          this.options = []
+          const list = response.data.map(item => {
+            const obj = {
+              id: item.districtCode,
+              label: item.districtName,
+              valueLabel: item.districtName,
+              parentId: item.parentCode
+            }
+            if (item.parentCode.substring(2) === '0000') {
+              obj.children = null
+            }
+            return obj
+          })
+          this.setDefaultExpanded(list)
+          this.options = list
+          callback && callback()
+        })
+      } else if (action === LOAD_CHILDREN_OPTIONS) {
         if (parentNode.children === null) {
           this.appendChildren(parentNode).then(() => {
-            callback()
+            callback && callback()
           })
         }
       }
@@ -120,17 +122,20 @@ export default {
     appendChildren(parentNode) {
       return mmBasDistrictApi.getChildren(parentNode.id).then(response => {
         parentNode.children = []
-        response.data.forEach(item => {
+        const list = response.data.map(item => {
           const obj = {
             id: item.districtCode,
             label: item.districtName,
-            valueLabel: parentNode.valueLabel + '-' + item.districtName
+            valueLabel: parentNode.valueLabel + '-' + item.districtName,
+            parentId: item.parentCode
           }
           if (item.parentCode.substring(2) === '0000') {
             obj.children = null
           }
-          parentNode.children.push(obj)
+          return obj
         })
+        this.setDefaultExpanded(list)
+        parentNode.children = list
         return Promise.resolve(parentNode.children)
       })
     },
@@ -147,7 +152,7 @@ export default {
   $default-height: 33px;
   $mini-height: 26px;
 
- .vue-treeselect {
+  .vue-treeselect {
     width: 200px;
     height: $default-height;
   }

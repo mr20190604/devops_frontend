@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import ECharts from 'vue-echarts/components/ECharts.vue'
 import '@/styles/index.scss' // global css
 
-import BaiduMap from 'vue-baidu-map'
+import BaiduMap from './lib/vue-baidu-map/components/index'
 Vue.use(BaiduMap, { ak: 'zNbp0kmxc8CmeWwkzHjA3boFq9nUVgIg' })
 
 import App from './App'
