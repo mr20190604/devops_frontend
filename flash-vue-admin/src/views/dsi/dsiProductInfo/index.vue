@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <!-- <div class="block">
-         <el-form label-width="120px" :inline="true">-->
+    <div class="block">
+          <!--<el-form label-width="120px" :inline="true">-->
             <!--<el-form-item label="产品名称">
               <el-input v-model="listQuery.productName" placeholder="输入产品名称" />
             </el-form-item>
@@ -29,7 +29,8 @@
         </el-form-item>
       </el-form>-->
 
-      <!-- <el-row>
+      <br>
+      <el-row>
         <el-col :span="24">
           <el-button
             v-permission="['/product/info/add']"
@@ -47,44 +48,26 @@
             @click="selectMaterial"
           >选择原料
           </el-button>
-          <el-button
+         <!-- <el-button
             v-permission="['/product/info/add']"
             type="success"
             size="mini"
             icon="el-icon-view"
             @click="viewProduct"
           >查看已选原料
-          </el-button>
-         <el-button
+          </el-button>-->
+          <!--<el-button
             v-permission="['/product/info/delete']"
             type="danger"
             size="mini"
             icon="el-icon-delete"
             @click.native="removeBatch"
           >批量删除
-          </el-button>
+          </el-button>-->
         </el-col>
-      </el-row> 
-    </div>-->
-    <div class="table-list">
-      <div class="btnLists">
-        <el-button
-            v-permission="['/product/info/add']"
-            type="primary"
-            size="mini"
-            icon="el-icon-plus"
-            @click.native="add"
-          >添加产品
-          </el-button>
-          <el-button
-            v-permission="['/product/info/add']"
-            type="primary"
-            size="mini"
-            icon="el-icon-plus"
-            @click="selectMaterial"
-          >选择原料
-          </el-button>
-            </div>
+      </el-row>
+    </div>
+
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -180,43 +163,44 @@
         </template>
       </el-table-column>
     </el-table>
+<div style="position:absolute;bottom: 30px;width: 100%">
+  <el-pagination
+    background
+    layout="total, sizes, prev, pager, next, jumper"
+    :page-sizes="[10, 20, 50, 100,500]"
+    :page-size="listQuery.limit"
+    :total="total"
+    @size-change="changeSize"
+    @current-change="fetchPage"
+    @prev-click="fetchPrev"
+    @next-click="fetchNext"
+  />
+  <div style="text-align: center">
+    <el-button type="primary" @click="saveProduct">保存</el-button>
+    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+  </div>
+</div>
 
-    <el-pagination
-      background
-      layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="[10, 20, 50, 100,500]"
-      :page-size="listQuery.limit"
-      :total="total"
-      @size-change="changeSize"
-      @current-change="fetchPage"
-      @prev-click="fetchPrev"
-      @next-click="fetchNext"
-    />
-    </div>
-    <div style="text-align: center">
-      <el-button type="primary" @click="saveProduct">保存</el-button>
-      <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-    </div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
       width="75%"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="margin-left: 200px;height: 600px">
-        <el-row>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="height: 600px">
+        <el-row style="margin-left: 200px;margin-top: 50px">
           <el-col :span="12">
-            <el-form-item label="产品名称">
+            <el-form-item label="产品名称：">
               <el-input v-model="form.productName" minlength="1" placeholder="请输入产品名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="产品型号">
+            <el-form-item label="产品型号：">
               <el-input v-model="form.productModel" minlength="1" placeholder="请输入产品型号" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="易燃易爆">
+            <el-form-item label="易燃易爆：">
               <el-select v-model="form.isInflammableExplosive">
                 <el-option
                   v-for="item in judge_list"
@@ -228,7 +212,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="腐蚀性">
+            <el-form-item label="腐蚀性：">
               <el-select v-model="form.isCorrosive" >
                 <el-option
                   v-for="item in judge_list"
@@ -240,7 +224,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="毒性">
+            <el-form-item label="毒性：">
               <el-select v-model="form.isPoisonHarm" >
                 <el-option
                   v-for="item in judge_list"
@@ -252,7 +236,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="放射性">
+            <el-form-item label="放射性：">
               <el-select v-model="form.isRadioactivity"  >
                 <el-option
                   v-for="item in judge_list"
@@ -264,12 +248,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="存储标准">
+            <el-form-item label="存储标准：">
               <el-input v-model="form.storageStandards" style="width: 71%" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="产品说明">
+            <el-form-item label="产品说明：">
               <el-input v-model="form.productDesc" type="textarea" style="width: 71%" />
             </el-form-item>
           </el-col>
@@ -327,7 +311,7 @@
           </el-button>
         </el-col>
       </el-row>
-
+<br>
     <el-table
       v-loading="listLoading"
       :data="materialList"
@@ -401,6 +385,7 @@
         </template>
       </el-table-column>
     </el-table>
+        <div style="position:absolute;bottom: 30px;width: 100%">
       <el-pagination
         background
         layout="total, sizes, prev, pager, next, jumper"
@@ -416,63 +401,64 @@
         <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
         <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
       </div>
+        </div>
       </el-form>
     </el-dialog>
     <el-dialog
       :title="'添加原料'"
       :visible.sync="addVisible"
       :modal="false"
-      width="70%"
+      width="75%"
     >
-      <el-form ref="form1" :model="form" :rules="rules" label-width="120px">
-        <el-row>
+      <el-form ref="form1" :model="form" :rules="rules" label-width="120px" style="height: 600px">
+        <el-row style="margin-top: 50px;margin-left: 200px">
           <el-col :span="12">
-            <el-form-item label="原料编码">
+            <el-form-item label="原料编码：">
               <el-input v-model="form.materialCode" minlength="1" placeholder="请输入原料编码" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="化学名称">
+            <el-form-item label="化学名称：">
               <el-input v-model="form.chemistryName" minlength="1" placeholder="请输入化学名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="英文名称">
+            <el-form-item label="英文名称：">
               <el-input v-model="form.englishName" minlength="1" placeholder="请输入英文名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="中文别名">
+            <el-form-item label="中文别名：">
               <el-input v-model="form.shortName" minlength="1" placeholder="请输入中文别名" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="原料类别">
+            <el-form-item label="原料类别：">
               <dict-select v-model="form.materialType" dict-name="原料类别" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="理化性质">
+            <el-form-item label="理化性质：">
               <el-input v-model="form.physicochemicalProperties" minlength="1" placeholder="请输入理化性质" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="健康危害">
+            <el-form-item label="健康危害：">
               <el-input v-model="form.healthHazards" minlength="1" placeholder="请输入健康危害" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="危险特性">
+            <el-form-item label="危险特性：">
               <el-input v-model="form.dangerousCharacteristic" minlength="1" placeholder="请输入危险特性" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="CAS编号">
+            <el-form-item label="CAS编号：">
               <el-input v-model="form.casCode" minlength="1" placeholder="请输入CAS编号" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否危化品">
+            <el-form-item label="是否危化品：">
               <dict-select v-model="form.isDanger" dict-name="是否" placeholder="请选择是否" />
             </el-form-item>
           </el-col>
@@ -488,7 +474,7 @@
       :title="'已添加原料'"
       :visible.sync="productVisible"
       :modal="false"
-      width="70%"
+      width="75%"
     >
       <!--<el-form label-width="120px" :inline="true">
         <el-row>
@@ -517,6 +503,7 @@
         fit
         highlight-current-row
         @current-change="handleCurrentChange"
+        style="height: 600px;margin-top: 50px"
       >
 
         <el-table-column label="原料编码">

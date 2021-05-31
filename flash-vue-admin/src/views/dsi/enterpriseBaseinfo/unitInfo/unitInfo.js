@@ -186,6 +186,18 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
+              var riskId = formData.id
+              dsiEnterpriseRiskMaterial.removeByUnitId(formData.id);
+              console.log(this.form.details)
+              for (var item in this.form.details) {
+                const formData1 = {
+                  riskUnitId:riskId,
+                  materialId:this.form.details[item].materialId,
+                  currentStock:this.form.details[item].currentStock,
+                  criticalQuantity:this.form.details[item].criticalQuantity,
+                }
+                dsiEnterpriseRiskMaterial.add(formData1).then();
+              }
               this.fetchData()
               this.formVisible = false
             })
@@ -196,7 +208,6 @@ export default {
                 type: 'success'
               })
               var riskId = response.data.id
-              console.log(self.form.details)
               for (var item in self.form.details) {
                 const formData1 = {
                   riskUnitId:riskId,
@@ -317,15 +328,18 @@ export default {
         criticalQuantity:''
       })
       this.form.details = details
+      this.$forceUpdate();
     },
     removeDetail(detail) {
-      let details = []
+      // this.form.details.splice(this.form.details.findIndex(item => item.materialId === detail.materialId), 1);
+      let details = [];
       this.form.details.forEach(function(val, index) {
         if (detail.materialId !== val.materialId) {
           details.push(val)
         }
       })
       this.form.details = details
+      this.$forceUpdate();
     },
     removeBatch() {
       let ids = this.selection.map(item => {

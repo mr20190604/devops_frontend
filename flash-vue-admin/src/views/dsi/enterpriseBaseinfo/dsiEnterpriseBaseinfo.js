@@ -193,7 +193,7 @@ export default {
     add() {
       this.resetForm()
       this.formTitle = '添加企业信息',
-        // this.activeName="first"
+        this.activeName="first"
 
         this.formVisible = true
       this.isAdd = true

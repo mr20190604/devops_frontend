@@ -32,12 +32,21 @@ export default {
     },
   listForUnitId:function(id) {
     return request({
-      url:'/enterprise/risk/material/listForUnitId',
-      method:'get',
-      params:{
-        id:id
+      url: '/enterprise/risk/material/listForUnitId',
+      method: 'get',
+      params: {
+        id: id
       }
     })
+  },
+  removeByUnitId:function(riskUnitId) {
+      return request({
+        url: '/enterprise/risk/material/removeByUnitId',
+        method: 'delete',
+        params:{
+          riskUnitId:riskUnitId
+        }
+      })
+    },
 
-  }
 }

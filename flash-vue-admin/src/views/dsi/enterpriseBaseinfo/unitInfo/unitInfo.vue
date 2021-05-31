@@ -65,7 +65,7 @@
         </template>
       </el-table-column>
     </el-table>
-<div style="">
+    <div style="position:absolute;bottom: 30px;width: 100%">
     <el-pagination
       background
       layout="total, sizes, prev, pager, next, jumper"
@@ -88,16 +88,16 @@
       :modal="false"
       width="75%">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="height: 600px">
-        <el-row>
+        <el-row style="margin-left: 200px;margin-top: 50px">
 
           <el-col :span="12">
-            <el-form-item label="风险单元名称">
+            <el-form-item label="风险单元名称：">
               <el-input v-model="form.riskName" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否重大危险源">
-              <el-select v-model="form.isDangerSource" minlength=1>
+            <el-form-item label="重大危险源：">
+              <el-select v-model="form.isDangerSource" minlength=1 placeholder="请选择是否">
                 <el-option
                   v-for="item in isDangerSource"
                   :key="item.id"
@@ -108,7 +108,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="风险类型">
+            <el-form-item label="风险类型：">
               <el-select v-model="form.riskType" minlength=1>
                 <el-option
                   v-for="item in risk_type"
@@ -120,16 +120,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="负责人">
+            <el-form-item label="负责人：">
               <el-input v-model="form.headPerson" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="联系电话">
+            <el-form-item label="联系电话：">
               <el-input v-model="form.personTel" minlength=1></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row style="margin-left: 200px">
         <el-form-item
           v-for="(rec, index) in form.details"
           :label="'风险物质' + (index+1)"
@@ -149,7 +150,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="临界量">
-              <el-input class="el-input-style" v-model="rec.criticalQuantity" minlength=1 @input="onInput()"></el-input>
+              <el-input class="el-input-style" v-model="rec.criticalQuantity " minlength=1 @input="onInput()"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 100px">&nbsp;
@@ -158,7 +159,7 @@
           </el-col>
 
         </el-form-item>
-
+        </el-row>
         <el-form-item id="myself">
           <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
           <el-button @click="addDetail">新增风险物质</el-button>
