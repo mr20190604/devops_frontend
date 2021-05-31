@@ -44,7 +44,6 @@
               <el-button  si icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
             </el-form-item>
 
-          </el-form>
 
 
 
@@ -63,8 +62,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-col>
-        </el-row>
       </el-form>
 
     </div>
@@ -171,7 +168,7 @@
                 </template>
             </el-table-column>
         </el-table>
-
+    </div>
         <el-pagination
                 background
                 layout="total, sizes, prev, pager, next, jumper"
@@ -184,7 +181,7 @@
                 @next-click="fetchNext">
         </el-pagination>
 
-        <el-dialog class="el-dialog-style"
+      <el-dialog class="el-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
                 width="75%"
