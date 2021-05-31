@@ -1,18 +1,22 @@
+
+*{
+  margin: 0;
+  padding:0;
+}
 .main-container{
 .table-list {
     padding: 0 30px;
     background-color: #fff;
-    margin-top: 16px;
     .el-table {
-      height: 556px;
+      height: 442x;
       thead {
         th {
-          background: #f1f1f1;
+          background: #e3e7ee;
           color: #333333;
           font-size: 16px;
           border-right: none;
           font-weight: normal;
-          height: 55px;
+          padding:8px 0;
         }
   
       }
@@ -21,7 +25,7 @@
         color: #333;
         font-size: 14px;
         border-right: none;
-        height: 50px;
+        height: 40px;
         padding: 0;
       }
       tr{
@@ -35,12 +39,12 @@
         }
       }
       tr:nth-child(even) {
-        background: #e8f3fb
+        background: #fafafa
       }
     }
     .btnLists{
       margin-bottom:12px;
-      padding-top: 14px;
+      padding-top: 10px;
     }
   }
   .el-pagination{
@@ -60,17 +64,26 @@
         border: 1px solid #e8e8e8;
         color: #999;
         &:not(.disabled).active{
-          background-color: #4571e7;
+          background-color: #1a80ff;
+          &:hover{
+            color: #fff;
+          }
         }
         &:hover{
-          color: #4571e7;
+          color: #1a80ff;
         }
       }
     }
   }
+  &.position-pagination{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
 }
+
 .block{
-  padding: 40px 30px 20px;
+  padding: 24px 30px 0px;
   background: #fff;
   .el-form{
     .el-form-item{
@@ -79,45 +92,43 @@
         font-weight: normal;
         text-align: left;
         padding-right: 0;
-        line-height: 30px;
+        line-height: 40px;
       }
       .el-form-item__content{
-        line-height: 30px;
+        line-height: 40px;
+        .el-select{
+          .el-input{
+            width: 210px;
+            height: 40px;
+          }
+        }
         .el-input{
           input{
             width: 210px;
-            height: 30px;
-            line-height: 30px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
           }
         }
         .vue-treeselect{
           width: 210px;
-          height: 30px;
+          height: 40px;
           .vue-treeselect__control{
-            height: 30px;
-            line-height: 30px;
+            height: 40px;
+            line-height: 40px;
           }
         }
-        .el-button{
-            border-radius: 2px;
-            font-size: 18px;
-            width: 87px;
-            height: 44px;
-            color: #fff;
-            letter-spacing:4px;
-            &:hover{
-              color: #fff;
-            }
-          &.el-button--primary{
-            background-color: rgb(69, 113, 231);
-
-          }
-          &.el-button--default{
-            background-color: rgb(222, 96, 71);
-          }
-        }
+       
+        
       }
       
+    }
+    .el-row{
+      &.marginZero{
+        .el-form-item{
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }
@@ -132,6 +143,47 @@
   background: #fff;
 }
 }
-.app-container{
-  padding: 20px 0 20px;
+// .app-container{
+//   padding: 20px 0 20px;
+// }
+.textAlignRight{
+  text-align: right;
+}
+.el-button{
+&.set-common-btn{
+   border:1px solid rgb(26, 128, 255);
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100px;
+    height: 40px;
+    color: #fff;
+    letter-spacing:4px;
+    
+  &.blue-button{
+    color: #fff;
+    background-color: #1a80ff;
+    &:hover{
+      color: #fff;
+    }
+  }
+  &.blank-blue-button{
+    color: #1a80ff;
+    background-color: #fff;
+    &:hover{
+      color: #1a80ff;
+      border:1px solid rgb(26, 128, 255);
+    }
+  }
+  
+}
+&.marginleft23{
+  margin-left: 23px;
+}
+}
+.font14{
+  font-size: 14px;
+}
+.updateText {
+  text-decoration: underline;
+  cursor: pointer;
 }

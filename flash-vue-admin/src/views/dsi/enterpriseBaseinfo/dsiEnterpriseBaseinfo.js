@@ -354,17 +354,17 @@ export default {
       }).catch(() => {
       })
     },
-    viewMaterial(){
-      if (this.checkSel()) {
+    viewMaterial(row){
+      // if (this.checkSel()) {
         this.isAdd = false
-        this.form = this.selRow
+        this.form = row
         this.formTitle = '查看企业信息'
         this.enterpriseVisible = true
         if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
-      }
+      // }
     },
     handleClick(activeName, oldActiveName) {
       let self = this;

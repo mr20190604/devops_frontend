@@ -66,7 +66,6 @@
       <el-table
         ref="riskUnitTable"
         :data="list"
-        height="556px"
         v-loading="listLoading"
         element-loading-text="Loading"
         border

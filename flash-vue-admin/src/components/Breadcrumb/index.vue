@@ -72,15 +72,20 @@ export default {
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;
-  line-height: 50px;
+  line-height: 56px;
   .no-redirect {
-    color: #333;
+    color: #b7bfc9;
     cursor: text;
     font-size: 16px;
   }
   .el-breadcrumb__item{
     &:nth-of-type(1){
       display: none;
+    }
+    &:nth-of-type(2){
+      .no-redirect{
+        color: #333;
+      }
     }
   }
 }

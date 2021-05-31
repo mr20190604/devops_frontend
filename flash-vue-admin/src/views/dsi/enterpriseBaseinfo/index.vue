@@ -1,72 +1,85 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form  label-width="120px" :inline="true" >
-              <el-form-item  label="企业名称：">
-                <el-input v-model="listQuery.enterpriseName"  placeholder="请输入企业名称"></el-input>
-              </el-form-item>
-
-              <el-form-item  label="所在地区：">
-                <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"/>
-              </el-form-item>
-
-              <el-form-item  label="经营状态：">
-                <el-select   v-model="listQuery.managementSituation" placeholder="请选择经营状态">
-                  <el-option
-                    v-for="item in management_status"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item  label="地址：">
-                <el-input v-model="listQuery.enterpriseAddress"  placeholder="请输入所在地址"></el-input>
-              </el-form-item>
-
-          <br>
-              <el-form-item  label="法人：">
-                <el-input v-model="listQuery.legalPerson"  placeholder="请输入法人名称"></el-input>
-              </el-form-item>
-
-              <el-form-item  label="风险等级：">
-                <el-select v-model="listQuery.riskLevel"  placeholder="请选择风险等级">
-                  <el-option
-                    v-for="item in risk_level"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button  si icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
-      </el-form>
-
-    </div>
+          <el-form label-width="102px" :inline="true" >
+            <el-row>
+              <el-col :span="6">
+                <el-form-item  label="企业名称：">
+                  <el-input v-model="listQuery.enterpriseName"  placeholder="请输入企业名称"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item  label="所在地区：">
+                  <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                 <el-form-item  label="经营状态：">
+                  <el-select   v-model="listQuery.managementSituation" placeholder="请选择经营状态">
+                    <el-option
+                      v-for="item in management_status"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                 <el-form-item  label="地址：">
+                  <el-input v-model="listQuery.enterpriseAddress"  placeholder="请输入所在地址"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row class="marginZero">
+              <el-col :span="6">
+                <el-form-item  label="风险等级：">
+                  <el-select v-model="listQuery.riskLevel"  placeholder="请选择风险等级">
+                    <el-option
+                      v-for="item in risk_level"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item  label="法人：">
+                  <el-input v-model="listQuery.legalPerson"  placeholder="请输入法人名称"></el-input>
+                </el-form-item>
+              </el-col>
+             
+            </el-row>
+            <el-row class="marginZero textAlignRight">
+               <el-col>
+                <el-form-item>
+                  <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                  <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+       </div>
     <div class="table-list">
       <div class="btnLists">
           <el-button
-            type="success"
-            size="mini"
-            icon="el-icon-plus"
+            type="primary"   
+            class="set-common-btn blue-button"
             @click.native="add"
             v-permission="['/enterpriseBaseinfo/add']"
             >{{ $t("button.add") }}</el-button
           >
-          <el-button
+          <!-- <el-button
             type="primary"
+            class="set-common-btn blank-blue-button"
             size="mini"
-            icon="el-icon-view"
             @click="viewMaterial"
             >查看企业信息</el-button
-          >
+          > -->
           <el-button
-            type="danger"
             size="mini"
-            icon="el-icon-delete"
+            class="set-common-btn blank-blue-button"
             @click.native="removeBatch"
             v-permission="['/enterpriseBaseinfo/delete']"
             >批量删除</el-button>
@@ -74,7 +87,6 @@
       <el-table
         ref="enterpriseTable"
         :data="list"
-        height="556px"
         v-loading="listLoading"
         element-loading-text="Loading"
         border
@@ -87,81 +99,83 @@
         </el-table-column>
         <el-table-column type="index" width="55" label="序号" align="center">
         </el-table-column>
-        <el-table-column label="企业名称">
+        <el-table-column label="企业名称" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.enterpriseName }}
+            <span class="updateText" @click="viewMaterial(scope.row)">{{ scope.row.enterpriseName }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="注册登记号">
+        <el-table-column label="注册登记号" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.registerCode }}
           </template>
         </el-table-column>
 
-        <el-table-column label="单位性质">
+        <el-table-column label="单位性质" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.enterpriseNature }}
           </template>
         </el-table-column>
-        <el-table-column label="地址">
+        <el-table-column label="地址" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.enterpriseAddress }}
           </template>
         </el-table-column>
-        <el-table-column label="风险等级">
+        <el-table-column label="风险等级" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.riskLevelName }}
           </template>
         </el-table-column>
-        <el-table-column label="行政区划">
+        <el-table-column label="行政区划" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.districtName }}
           </template>
         </el-table-column>
-        <el-table-column label="法人">
+        <el-table-column label="法人" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.legalPerson }}
           </template>
         </el-table-column>
 
-        <el-table-column label="环保安全负责人" width="140">
+        <el-table-column label="环保安全负责人" show-overflow-tooltip width="140">
           <template slot-scope="scope">
             {{ scope.row.envSafeLeader }}
           </template>
         </el-table-column>
 
-        <el-table-column label="负责人联系方式" width="140">
+        <el-table-column label="负责人联系方式" show-overflow-tooltip width="140">
           <template slot-scope="scope">
             {{ scope.row.envSafeLeader }}
           </template>
         </el-table-column>
 
-        <el-table-column label="经营状态">
+        <el-table-column label="经营状态" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.managementSituationName }}
           </template>
         </el-table-column>
 
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center" width="170">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/enterpriseBaseinfo/update']">{{ $t('button.edit') }}</el-button>
-                    <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/enterpriseBaseinfo/delete']">{{ $t('button.delete') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-edit" class="font14" @click.native="editItem(scope.row)" v-permission="['/enterpriseBaseinfo/update']">{{ $t('button.edit') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-delete" class="font14 marginleft23" @click.native="removeItem(scope.row)" v-permission="['/enterpriseBaseinfo/delete']">{{ $t('button.delete') }}</el-button>
                 </template>
             </el-table-column>
-        </el-table>
+      </el-table>
     </div>
         <el-pagination
-                background
-                layout="total, sizes, prev, pager, next, jumper"
-                :page-sizes="[10, 20, 50, 100,500]"
-                :page-size="listQuery.limit"
-                :total="total"
-                @size-change="changeSize"
-                @current-change="fetchPage"
-                @prev-click="fetchPrev"
-                @next-click="fetchNext">
+            background
+            class="position-pagination"
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-sizes="[10, 20, 50, 100,500]"
+            :page-size="listQuery.limit"
+            :total="total"
+            @size-change="changeSize"
+            @current-change="fetchPage"
+            @prev-click="fetchPrev"
+            @next-click="fetchNext">
         </el-pagination>
-
+    
+    <!-- 添加 -->
       <el-dialog class="el-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
@@ -297,6 +311,7 @@
           </template>
 
         </el-dialog>
+        <!-- 详情 -->
       <el-dialog class="el-dialog-style"
                  :title="formTitle"
                  :visible.sync="enterpriseVisible"
@@ -413,7 +428,7 @@
           </el-row>
           <div style="text-align: center">
             <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-            <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+            <el-button @click.native="enterpriseVisible = false">{{ $t('button.cancel') }}</el-button>
           </div>
 
         </el-form>

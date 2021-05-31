@@ -1,6 +1,15 @@
 <template>
   <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
+    <!-- 切换 -->
+    <ul class="screen-desk-warp" v-if="!isCollapse">
+       <router-link to="/" tag="li" class="index-li">
+         <img src="@/assets/img/slide-screen.png" alt="">
+       </router-link>
+       <router-link to="/" tag="li" class="index-li">
+        <img src="@/assets/img/slide-desk.png" alt="">
+       </router-link>
+    </ul>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -54,3 +63,15 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.screen-desk-warp{
+  display: flex;
+  justify-content: center;
+   background: #1c273a;
+   padding-bottom:26px;
+  li{
+    margin: 0 9px;
+    cursor: pointer;
+  }
+}
+</style>

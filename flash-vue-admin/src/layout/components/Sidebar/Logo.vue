@@ -44,35 +44,38 @@ export default {
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
-  background: #2b2f3a;
+  // height: 50px;
+  // line-height: 50px;
+  background: #1c273a;
   text-align: center;
   overflow: hidden;
+ padding: 30px 0 18px;
 
-  & .sidebar-logo-link {
+a{
+ &.sidebar-logo-link {
+    display: flex !important;
+    align-items: center;
     height: 100%;
-    width: 100%;
-
-    & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+    justify-content: center;
+    .sidebar-logo {
+      width:20px;
+      height: 20px;
       vertical-align: middle;
-      margin-right: 12px;
+      margin-right: 3px;
+      margin-left: 3px;
     }
 
-    & .sidebar-title {
-      display: inline-block;
+    .sidebar-title {
+      background: linear-gradient(to right, #429ced, #69e5d0);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
       margin: 0;
-      color: #fff;
-      font-weight: 600;
-      line-height: 50px;
-      font-size: 14px;
-      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+      font-size: 18px;
       vertical-align: middle;
     }
   }
-
+}
   &.collapse {
     .sidebar-logo {
       margin-right: 0px;
