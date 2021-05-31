@@ -43,25 +43,6 @@
               <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
               <el-button  si icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
             </el-form-item>
-
-
-
-
-            <br>
-            <el-row>
-              <el-col>
-                <el-form-item class="marginT20">
-                  <el-button
-                    type="primary"
-                    @click.native="search"
-                    >{{ $t("button.search") }}</el-button
-                  >
-                  <el-button si @click.native="reset">{{
-                    $t("button.reset")
-                  }}</el-button>
-                </el-form-item>
-              </el-col>
-            </el-row>
       </el-form>
 
     </div>
