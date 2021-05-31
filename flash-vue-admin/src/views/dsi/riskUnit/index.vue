@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true">
-        <el-row>
-          <el-col :span="8">
+      <el-form label-width="102px" :inline="true">
+        <el-row class="marginZero">
+          <el-col :span="6">
             <el-form-item label="风险名称：">
               <el-input
                 v-model="listQuery.riskName"
@@ -11,7 +11,7 @@
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="风险类型：">
               <el-select
                 v-model="listQuery.riskType"
@@ -27,16 +27,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item>
-              <el-button
-                type="primary"
-                @click.native="search"
-                >{{ $t("button.search") }}
-              </el-button>
-              <el-button @click.native="reset"
-                >{{ $t("button.reset") }}
-              </el-button>
+         
+        </el-row>
+        <el-row class="marginZero textAlignRight">
+          <el-col>
+             <el-form-item>
+                <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -46,18 +43,18 @@
     <div class="table-list">
       <div class="btnLists">
         <el-button
-          type="success"
+          type="primary"
           size="mini"
-          icon="el-icon-plus"
+          class="set-common-btn blue-button"
           @click.native="add"
           v-permission="['/riskUnit/add']"
           >{{ $t("button.add") }}
         </el-button>
 
         <el-button
-          type="danger"
+          type="primary"
           size="mini"
-          icon="el-icon-delete"
+          class="set-common-btn blank-blue-button"
           @click.native="removeBatch"
           v-permission="['/riskUnit/delete']"
           >批量删除
@@ -78,33 +75,34 @@
         </el-table-column>
         <el-table-column type="index" width="55" label="序号">
         </el-table-column>
-        <el-table-column label="风险单元名称">
+        <el-table-column label="风险单元名称" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.riskName }}
           </template>
         </el-table-column>
-        <el-table-column label="风险类型">
+        <el-table-column label="风险类型" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.riskTypeName }}
           </template>
         </el-table-column>
-        <el-table-column label="负责人">
+        <el-table-column label="负责人" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.headPerson }}
           </template>
         </el-table-column>
 
-        <el-table-column label="风险物质">
+        <el-table-column label="风险物质" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.detail }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button
               type="text"
               size="mini"
               icon="el-icon-edit"
+              class="font14"
               @click.native="editItem(scope.row)"
               v-permission="['/riskUnit/edit']"
               >{{ $t("button.edit") }}
@@ -113,6 +111,7 @@
               type="text"
               size="mini"
               icon="el-icon-delete"
+              class="font14 marginleft23"
               @click.native="removeItem(scope.row)"
               v-permission="['/riskUnit/delete']"
               >{{ $t("button.delete") }}
@@ -120,9 +119,10 @@
           </template>
         </el-table-column>
       </el-table>
-
+</div>
       <el-pagination
         background
+        class="position-pagination"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[10, 20, 50, 100, 500]"
         :page-size="listQuery.limit"
@@ -133,7 +133,7 @@
         @next-click="fetchNext"
       >
       </el-pagination>
-    </div>
+    
 
     <el-dialog :title="formTitle" :visible.sync="formVisible" width="60%">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">

@@ -28,14 +28,13 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item>
-              <el-button type="primary" @click.native="search"
-                >{{ $t("button.search") }}
-              </el-button>
-              <el-button @click.native="reset"
-                >{{ $t("button.reset") }}
-              </el-button>
+         
+        </el-row>
+        <el-row class="marginZero textAlignRight">
+          <el-col>
+             <el-form-item>
+                <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -44,18 +43,18 @@
     <div class="table-list">
       <div class="btnLists">
         <el-button
+         class="set-common-btn blue-button"
           v-permission="['/material/baseinfo/add']"
           type="success"
           size="mini"
-          icon="el-icon-plus"
           @click.native="add"
           >{{ $t("button.add") }}
         </el-button>
         <el-button
+         class="set-common-btn blank-blue-button"
           v-permission="['/material/baseinfo/delete']"
           type="danger"
           size="mini"
-          icon="el-icon-delete"
           @click.native="removeBatch"
           >批量删除</el-button
         >
@@ -76,63 +75,64 @@
           width="55"
           :reserve-selection="true"
         />
-        <el-table-column type="index" width="50" label="序号" />
-        <el-table-column label="原料编码">
+        <el-table-column type="index" width="55" label="序号" />
+        <el-table-column label="原料编码" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.materialCode }}
           </template>
         </el-table-column>
-        <el-table-column label="化学名称">
+        <el-table-column label="化学名称" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.chemistryName }}
           </template>
         </el-table-column>
-        <el-table-column label="英文名称">
+        <el-table-column label="英文名称" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.englishName }}
           </template>
         </el-table-column>
-        <el-table-column label="中文别名">
+        <el-table-column label="中文别名" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.shortName }}
           </template>
         </el-table-column>
-        <el-table-column label="原料类别">
+        <el-table-column label="原料类别" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.materialTypeName }}
           </template>
         </el-table-column>
-        <el-table-column label="理化性质">
+        <el-table-column label="理化性质" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.physicochemicalProperties }}
           </template>
         </el-table-column>
-        <el-table-column label="健康危害">
+        <el-table-column label="健康危害" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.healthHazards }}
           </template>
         </el-table-column>
-        <el-table-column label="危险特性">
+        <el-table-column label="危险特性" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.dangerousCharacteristic }}
           </template>
         </el-table-column>
-        <el-table-column label="CAS编号">
+        <el-table-column label="CAS编号" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.casCode }}
           </template>
         </el-table-column>
-        <el-table-column label="是否危化品">
+        <el-table-column label="是否危化品" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.isDangerName }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center" width="170">
           <template slot-scope="scope">
             <el-button
               v-permission="['/material/baseinfo/update']"
               type="text"
               size="mini"
+              class="font14"
               icon="el-icon-edit"
               @click.native="editItem(scope.row)"
               >{{ $t("button.edit") }}
@@ -141,6 +141,7 @@
               v-permission="['/material/baseinfo/delete']"
               type="text"
               size="mini"
+              class="font14 marginleft23"
               icon="el-icon-delete"
               @click.native="removeItem(scope.row)"
               >{{ $t("button.delete") }}
@@ -148,9 +149,10 @@
           </template>
         </el-table-column>
       </el-table>
-
+</div>
       <el-pagination
         background
+        class="position-pagination"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[10, 20, 50, 100, 500]"
         :page-size="listQuery.limit"
@@ -160,7 +162,7 @@
         @prev-click="fetchPrev"
         @next-click="fetchNext"
       />
-    </div>
+    
     <el-dialog :title="formTitle" :visible.sync="formVisible" width="70%">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>

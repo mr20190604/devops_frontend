@@ -29,10 +29,9 @@
         </el-form-item>
       </el-form>-->
 
-      <br>
       <el-row>
         <el-col :span="24">
-          <el-button
+          <!-- <el-button
             v-permission="['/product/info/add']"
             type="primary"
             size="mini"
@@ -47,7 +46,7 @@
             icon="el-icon-plus"
             @click="selectMaterial"
           >选择原料
-          </el-button>
+          </el-button> -->
          <!-- <el-button
             v-permission="['/product/info/add']"
             type="success"
@@ -67,7 +66,25 @@
         </el-col>
       </el-row>
     </div>
-
+ <div class="table-list">
+   <div class="btnLists">
+      <el-button
+           class="set-common-btn blue-button"
+            v-permission="['/product/info/add']"
+            type="primary"
+            size="mini"
+            @click.native="add"
+          >添加产品
+          </el-button>
+          <el-button
+           class="set-common-btn blank-blue-button"
+            v-permission="['/product/info/add']"
+            type="primary"
+            size="mini"
+            @click="selectMaterial"
+          >选择原料
+          </el-button>
+   </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -94,32 +111,32 @@
           {{ scope.row.productCode }}
         </template>
       </el-table-column>-->
-      <el-table-column label="产品名称">
+      <el-table-column label="产品名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.productName }}
         </template>
       </el-table-column>
-      <el-table-column label="产品型号">
+      <el-table-column label="产品型号" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.productModel }}
         </template>
       </el-table-column>
-      <el-table-column label="易燃易爆">
+      <el-table-column label="易燃易爆" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.isInflammableExplosiveName }}
         </template>
       </el-table-column>
-      <el-table-column label="腐蚀性">
+      <el-table-column label="腐蚀性" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.isCorrosiveName }}
         </template>
       </el-table-column>
-      <el-table-column label="毒性">
+      <el-table-column label="毒性" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.isPoisonHarmName }}
         </template>
       </el-table-column>
-      <el-table-column label="放射性">
+      <el-table-column label="放射性" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.isRadioactivityName }}
         </template>
@@ -134,9 +151,10 @@
           {{ scope.row.enterpriseName }}
         </template>
       </el-table-column>-->
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button
+           class="font14"
             v-permission="['/product/info/add']"
             type="text"
             size="mini"
@@ -145,6 +163,7 @@
           >查看
           </el-button>
           <el-button
+           class="font14 marginleft23"
             v-permission="['/product/info/update']"
             type="text"
             size="mini"
@@ -153,6 +172,7 @@
           >{{ $t('button.edit') }}
           </el-button>
           <el-button
+           class="font14 marginleft23"
             v-permission="['/product/info/delete']"
             type="text"
             size="mini"
@@ -163,6 +183,7 @@
         </template>
       </el-table-column>
     </el-table>
+  </div>
 <div style="position:absolute;bottom: 30px;width: 100%">
   <el-pagination
     background
