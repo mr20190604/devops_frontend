@@ -76,6 +76,13 @@
                 </template>
             </el-table-column>
 
+          <el-table-column label="数据状态">
+            <template slot-scope="scope">
+              <template v-if="scope.row.dataStatus == 0" id="dataStatus1">中断</template>
+              <template v-if="scope.row.dataStatus == 1" id="dataStatus2">正常</template>
+            </template>
+          </el-table-column>
+
             <el-table-column label="地址">
                 <template slot-scope="scope">
                   <template v-if="scope.row.equipmentInstallInfo != null">{{scope.row.equipmentInstallInfo.installLocation}}
@@ -84,7 +91,7 @@
             </el-table-column>
             <el-table-column label="实时值">
                 <template slot-scope="scope">
-                    {{scope.row.realValue}}
+                    {{scope.row.realValue}}<template v-if="scope.row.equipmentInstallInfo != null">{{scope.row.equipmentInstallInfo.equipmentUnit}}</template>
                 </template>
             </el-table-column>
             <el-table-column label="报送时间">
