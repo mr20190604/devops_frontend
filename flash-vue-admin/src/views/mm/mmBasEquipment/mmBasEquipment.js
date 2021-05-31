@@ -75,7 +75,9 @@ export default {
         equipmentTypeName:'',
         equipmentStatus1Name:'',
         realValue:'',
-        reportTime:''
+        reportTime:'',
+        dataStatus:'',
+        equipmentInstallInfo:''
       },
       listQuery: {
         page: 1,
