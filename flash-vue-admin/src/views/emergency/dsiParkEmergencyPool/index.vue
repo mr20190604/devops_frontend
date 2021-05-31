@@ -4,26 +4,26 @@
           <el-form  label-width="120px" :inline="true" >
 
             <el-row>
-              <el-form-item label="名称">
+              <el-form-item label="名称：">
                 <el-input v-model="listQuery.repositoriesName" placeholder="请输入资源库名称"></el-input>
               </el-form-item>
 
-              <el-form-item label="所在地区">
+              <el-form-item label="所在地区：">
                 <district v-model="listQuery.districtCode" placeholder="请选择所在地区"></district>
               </el-form-item>
 
-              <el-form-item label="负责人">
+              <el-form-item label="负责人：">
                 <el-input v-model="listQuery.personName"  placeholder="请输入负责人名称"></el-input>
               </el-form-item>
 
-              <el-form-item label="地址">
+              <el-form-item label="地址：">
                 <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
               </el-form-item>
             </el-row>
 
 
             <el-row>
-              <el-form-item label="所属企业">
+              <el-form-item label="所属企业：">
                 <el-select v-model="listQuery.enterpriseId"  placeholder="请选择所属企业">
                   <el-option
                     v-for="item in enterprise_list"
@@ -157,12 +157,12 @@
                         </el-form-item>
                     </el-col>-->
                     <el-col :span="12">
-                        <el-form-item label="资源库名称"  >
+                        <el-form-item label="资源库名称："  >
                             <el-input v-model="form.repositoriesName" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
-                    <el-form-item label="所属企业"  >
+                    <el-form-item label="所属企业："  >
                       <el-select v-model="form.enterpriseId" minlength=1>
                         <el-option
                           v-for="item in enterprise_list"
@@ -174,29 +174,29 @@
                     </el-form-item>
                   </el-col>
                     <el-col :span="12">
-                        <el-form-item label="负责人"  >
+                        <el-form-item label="负责人："  >
                             <el-input v-model="form.personName" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="联系电话"  >
+                        <el-form-item label="联系电话："  >
                             <el-input v-model="form.personTel" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
 
 
                     <el-col :span="12">
-                        <el-form-item label="经度"  >
+                        <el-form-item label="经度："  >
                             <el-input v-model="form.longitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="纬度"  >
+                        <el-form-item label="纬度："  >
                             <el-input v-model="form.latitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
-                    <el-form-item label="地址"  >
+                    <el-form-item label="地址："  >
                       <el-input v-model="form.address" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
@@ -265,12 +265,12 @@
         <el-form ref="materialForm" :model="materialForm" :rules="rules" label-width="120px">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="物资名称"  >
+              <el-form-item label="物资名称："  >
                 <el-input v-model="materialForm.materialName" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="类型"  >
+              <el-form-item label="类型："  >
                 <el-select v-model="materialForm.materialType" minlength=1>
                   <el-option
                     v-for="item in material_type"
@@ -282,7 +282,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="单位"  >
+              <el-form-item label="单位："  >
                 <el-select v-model="materialForm.chUnitId" id="chUnitId" minlength=1>
                   <el-option
                     v-for="item in material_num_unit"
@@ -294,14 +294,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="数量"  >
+              <el-form-item label="数量："  >
                 <el-input v-model="materialForm.materialNum" minlength=1></el-input>
               </el-form-item>
             </el-col>
 
 
             <el-col :span="12">
-              <el-form-item label="有效期"  >
+              <el-form-item label="有效期："  >
                 <el-date-picker v-model="materialForm.validityTerm" type="date" placeholder="请选择"   value-format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>

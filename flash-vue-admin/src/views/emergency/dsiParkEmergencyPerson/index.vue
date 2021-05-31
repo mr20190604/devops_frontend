@@ -4,19 +4,19 @@
           <el-form label-width="120px" :inline="true">
             <el-row>
 
-              <el-form-item label="人员名称">
+              <el-form-item label="人员名称：">
                 <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
               </el-form-item>
-              <el-form-item label="所在行政区">
+              <el-form-item label="所在行政区：">
                 <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
               </el-form-item>
-              <el-form-item label="现工作单位">
+              <el-form-item label="现工作单位：">
                 <el-input v-model="listQuery.workPlace"  placeholder="请输入工作单位"></el-input>
               </el-form-item>
             </el-row>
 
             <el-row>
-              <el-form-item label="是否专家">
+              <el-form-item label="是否专家：">
                 <el-select v-model="listQuery.isExpert"  placeholder="是否专家">
                   <el-option
                     v-for="item in isExpert"
@@ -147,13 +147,13 @@
 
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="人员名称"  >
+                  <el-form-item label="人员名称："  >
                     <el-input v-model="form.name" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="12">
-                  <el-form-item label="现工作单位"  >
+                  <el-form-item label="现工作单位："  >
                     <el-input v-model="form.workPlace" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
@@ -161,7 +161,7 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="性别"  >
+                  <el-form-item label="性别："  >
                     <el-select v-model="form.gender" minlength=1>
                       <el-option
                         v-for="item in sex"
@@ -173,20 +173,20 @@
                   </el-form-item>
                 </el-col>
                 <el-col  :span="12">
-                  <el-form-item label="行政区划">
+                  <el-form-item label="行政区划：">
                     <district v-model="form.districtCode"></district>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="联系电话"  >
+                  <el-form-item label="联系电话："  >
                     <el-input v-model="form.tel" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="12">
-                    <el-form-item label="地址"  >
+                    <el-form-item label="地址："  >
                       <el-input v-model="form.address" minlength=1></el-input>
                     </el-form-item>
                 </el-col>
@@ -194,46 +194,46 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="职称"  >
+                  <el-form-item label="职称："  >
                     <el-input v-model="form.professionalName" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="12">
-                  <el-form-item label="学历"  >
+                  <el-form-item label="学历："  >
                     <el-input v-model="form.educationName" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="紧急联系人"  >
+                  <el-form-item label="紧急联系人："  >
                     <el-input v-model="form.emergencyContact" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="12">
-                  <el-form-item label="紧急联系方式"  >
+                  <el-form-item label="紧急联系方式："  >
                     <el-input v-model="form.emergencyTel" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="职务"  >
+                  <el-form-item label="职务："  >
                     <el-input v-model="form.postName" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="12">
-                  <el-form-item label="专业特长"  >
+                  <el-form-item label="专业特长："  >
                     <el-input v-model="form.majorSpecialty" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="是否专家"  >
+                  <el-form-item label="是否专家："  >
                     <el-select v-model="form.isExpert" minlength=1>
                       <el-option
                         v-for="item in isExpert"

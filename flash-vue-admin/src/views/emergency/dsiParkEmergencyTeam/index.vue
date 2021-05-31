@@ -2,16 +2,16 @@
     <div class="app-container">
         <div class="block">
           <el-form label-width="120px" :inline="true" >
-            <el-form-item label="队伍名称">
+            <el-form-item label="队伍名称：">
               <el-input v-model="listQuery.name"  placeholder="请输入队伍名称"></el-input>
             </el-form-item>
-              <el-form-item label="所在地区">
+              <el-form-item label="所在地区：">
               <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"></district>
               </el-form-item>
-                <el-form-item label="负责人">
+                <el-form-item label="负责人：">
               <el-input v-model="listQuery.personContact"  placeholder="请输入负责人"></el-input>
                 </el-form-item>
-                  <el-form-item label="所属企业">
+                  <el-form-item label="所属企业：">
               <el-select v-model="listQuery.belongingUnit"  placeholder="请选择所属企业">
                   <el-option
                     v-for="item in enterprise_list"
@@ -23,7 +23,7 @@
                   </el-form-item>
 
             <br>
-                    <el-form-item label="地址">
+                    <el-form-item label="地址：">
               <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
                     </el-form-item>
             <el-form-item style="float: right;margin-right: 100px">
@@ -136,12 +136,12 @@
                         </el-form-item>
                     </el-col>-->
                     <el-col :span="12">
-                        <el-form-item label="队伍名称"  >
+                        <el-form-item label="队伍名称："  >
                             <el-input v-model="form.name" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
-                    <el-form-item label="所属企业"  >
+                    <el-form-item label="所属企业："  >
                       <el-select v-model="form.belongingUnit" minlength=1>
                         <el-option
                           v-for="item in enterprise_list"
@@ -153,43 +153,43 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="负责人"  >
+                    <el-form-item label="负责人："  >
                       <el-input v-model="form.personContact" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="联系电话"  >
+                    <el-form-item label="联系电话："  >
                       <el-input v-model="form.personTel" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="队伍性质"  >
+                    <el-form-item label="队伍性质："  >
                       <el-input v-model="form.teamNature" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="队伍人数"  >
+                    <el-form-item label="队伍人数："  >
                       <el-input v-model="form.personNumber" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
                     <el-col :span="12">
-                        <el-form-item label="地址"  >
+                        <el-form-item label="地址："  >
                             <el-input v-model="form.address" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
-                    <el-form-item label="抢险设备"  >
+                    <el-form-item label="抢险设备："  >
                       <el-input v-model="form.teamEquipment" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
 
                     <el-col :span="12">
-                        <el-form-item label="经度"  >
+                        <el-form-item label="经度："  >
                             <el-input v-model="form.longitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="纬度"  >
+                        <el-form-item label="纬度："  >
                             <el-input v-model="form.latitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>

@@ -2,10 +2,10 @@
     <div class="app-container">
         <div class="block">
           <el-form label-width="120px" :inline="true" >
-            <el-form-item label="车牌号码">
+            <el-form-item label="车牌号码：">
               <el-input v-model="listQuery.vehicleLicense"  placeholder="请输入车牌号码"></el-input>
             </el-form-item>
-            <el-form-item label="车辆类别">
+            <el-form-item label="车辆类别：">
               <el-select  v-model="listQuery.vehicleType"  placeholder="请选择车辆类别">
                 <el-option
                   v-for="item in vehicleType_list"
@@ -15,10 +15,10 @@
                 </el-option>
               </el-select>
             </el-form-item>
-              <el-form-item label="负责人">
+              <el-form-item label="负责人：">
               <el-input v-model="listQuery.vehicleResponsible"  placeholder="请输入负责人"></el-input>
               </el-form-item>
-                <el-form-item label="所属企业">
+                <el-form-item label="所属企业：">
               <el-select v-model="listQuery.enterpriseId"  placeholder="请输入所属企业">
                 <el-option
                   v-for="item in enterprise_list"
@@ -30,7 +30,7 @@
                 </el-form-item>
 
             <br>
-                  <el-form-item label="车辆型号">
+                  <el-form-item label="车辆型号：">
               <el-input v-model="listQuery.vehicleModel" placeholder="请选择车辆型号"></el-input>
                   </el-form-item>
             <el-form-item style="float: right;margin-right: 100px">
@@ -149,12 +149,12 @@
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="车辆名称"  >
+                        <el-form-item label="车辆名称："  >
                             <el-input v-model="form.vehicleName" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="归属企业"  >
+                        <el-form-item label="归属企业："  >
                             <el-select v-model="form.enterpriseId" minlength=1>
                               <el-option
                                 v-for="item in enterprise_list"
@@ -166,17 +166,17 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="车牌号"  >
+                        <el-form-item label="车牌号："  >
                             <el-input v-model="form.vehicleLicense" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="车辆编号"  >
+                        <el-form-item label="车辆编号："  >
                             <el-input v-model="form.vehicleCode" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="车辆类别"  >
+                        <el-form-item label="车辆类别："  >
                             <el-select v-model="form.vehicleType" minlength=1>
                               <el-option
                                 v-for="item in vehicleType_list"
@@ -188,42 +188,42 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="车辆型号"  >
+                        <el-form-item label="车辆型号："  >
                             <el-input v-model="form.vehicleModel" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="行政区划"  >
+                        <el-form-item label="行政区划："  >
                             <district v-model="form.districtCode" minlength=1></district>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="负责人" >
+                        <el-form-item label="负责人：" >
                             <el-input v-model="form.vehicleResponsible" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="联系电话"  >
+                        <el-form-item label="联系电话："  >
                             <el-input v-model="form.personTel" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="生产厂家"  >
+                        <el-form-item label="生产厂家："  >
                             <el-input v-model="form.manufacturer" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="经度"  >
+                        <el-form-item label="经度："  >
                             <el-input v-model="form.longitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="纬度"  >
+                        <el-form-item label="纬度："  >
                             <el-input v-model="form.latitude" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
-                    <el-form-item label="选择文件">
+                    <el-form-item label="选择文件：">
                       <el-upload
                         :action="uploadUrl"
                         :headers="uploadHeaders"

@@ -2,10 +2,10 @@
     <div class="app-container">
         <div class="block">
           <el-form label-width="120px" :inline="true" >
-            <el-form-item label="文件标题">
+            <el-form-item label="文件标题：">
               <el-input v-model="listQuery.lawName"  placeholder="请输文件标题"></el-input>
             </el-form-item>
-            <el-form-item label="制定机关">
+            <el-form-item label="制定机关：">
               <el-select v-model="listQuery.formulateOffice"  placeholder="请选择制定机关">
                 <el-option
                   v-for="item in formulateOffice_list"
@@ -15,7 +15,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="法律性质">
+            <el-form-item label="法律性质：">
               <el-select v-model="listQuery.lawNature"  placeholder="请选择法律性质">
                 <el-option
                   v-for="item in lawNature_list"
@@ -25,7 +25,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="时效性">
+            <el-form-item label="时效性：">
               <el-select v-model="listQuery.isValid"  placeholder="请选择时效性">
                 <el-option
                   v-for="item in timeliness"
@@ -37,7 +37,7 @@
             </el-form-item>
 
           <br>
-            <el-form-item label="公布日期">
+            <el-form-item label="公布日期：">
               <el-date-picker type="date" v-model="listQuery.publicationDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="请选择日期"></el-date-picker>
             </el-form-item>
             <!--<el-form-item label="适用类型">-->
@@ -142,12 +142,12 @@
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="法律法规名称"  >
+                        <el-form-item label="法律法规名称："  >
                             <el-input v-model="form.lawName" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="制定机关"  >
+                        <el-form-item label="制定机关："  >
                             <el-select v-model="form.formulateOffice" minlength=1>
                               <el-option
                                 v-for="item in formulateOffice_list"
@@ -159,7 +159,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="法律性质"  >
+                        <el-form-item label="法律性质："  >
                             <el-select v-model="form.lawNature" minlength=1>
 
                               <el-option
@@ -173,7 +173,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="时效性"  >
+                        <el-form-item label="时效性："  >
                             <el-select v-model="form.isValid" minlength=1>
                               <el-option
                                 v-for="item in timeliness"
@@ -185,7 +185,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="公布日期"  >
+                        <el-form-item label="公布日期："  >
                             <el-date-picker type="date" v-model="form.publicationDate" minlength=1
                             format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss"
                             ></el-date-picker>
@@ -194,7 +194,7 @@
                 </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="选择文件">
+                  <el-form-item label="选择文件：">
                     <el-upload
                       :action="uploadUrl"
                       :headers="uploadHeaders"

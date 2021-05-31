@@ -4,23 +4,23 @@
           <el-form label-width="120px" :inline="true">
 
 
-            <el-form-item label="设备编号">
+            <el-form-item label="设备编号：">
               <el-input v-model="listQuery.equipCode"  placeholder="请输入编号"></el-input>
             </el-form-item>
 
-            <el-form-item label="报警等级">
+            <el-form-item label="报警等级：">
               <dict-select v-model="listQuery.alarmLevel" dict-name="报警等级" placeholder="--请选择--"></dict-select>
             </el-form-item>
 
 
 
-            <el-form-item label="设备类型">
+            <el-form-item label="设备类型：">
               <el-select v-model="listQuery.monitorType"  placeholder="--请选择--">
 
               </el-select>
             </el-form-item>
 
-            <el-form-item label="审核状态">
+            <el-form-item label="审核状态：">
               <el-select v-model="listQuery.isAudit"  placeholder="--请选择--">
                 <el-option
                   v-for="item in check_list"
@@ -32,7 +32,7 @@
               </el-select>
             </el-form-item>
             <br>
-            <el-form-item label="处置状态">
+            <el-form-item label="处置状态：">
               <el-select v-model="listQuery.isFeedBack"  placeholder="--请选择--">
                 <el-option
                   v-for="item in feedback_list"
@@ -42,7 +42,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="报警时间">
+            <el-form-item label="报警时间：">
               <el-date-picker type="datetime" v-model="listQuery.startTime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
               <el-date-picker type="datetime" v-model="listQuery.endTime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
             </el-form-item>

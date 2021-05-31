@@ -3,10 +3,10 @@
         <div class="block">
           <el-form label-width="120px" :inline="true">
             <el-row>
-              <el-form-item label="预案名称">
+              <el-form-item label="预案名称：">
                 <el-input v-model="listQuery.planName" placeholder="请输预案名称"></el-input>
               </el-form-item>
-              <el-form-item label="所属行业">
+              <el-form-item label="所属行业：">
                 <el-select v-model="listQuery.industryId" placeholder="请选择所属行业">
                   <el-option
                     v-for="item in industry_type"
@@ -16,13 +16,13 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="来源单位">
+              <el-form-item label="来源单位：">
                 <el-input v-model="listQuery.planUnit" placeholder="请输来源单位"></el-input>
               </el-form-item>
             </el-row>
 
             <el-row>
-              <el-form-item label="预案类型">
+              <el-form-item label="预案类型：">
                 <el-select v-model="listQuery.planTypeId" placeholder="请选择预案类型">
                   <el-option
                     v-for="item in plan_type"
@@ -143,12 +143,12 @@
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="预案名称"  >
+                        <el-form-item label="预案名称："  >
                             <el-input v-model="form.planName" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="预案类型"  >
+                        <el-form-item label="预案类型："  >
                             <el-select v-model="form.planTypeId" minlength=1>
                               <el-option
                                 v-for="item in plan_type"
@@ -160,7 +160,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="所属行业"  >
+                        <el-form-item label="所属行业："  >
                             <el-select v-model="form.industryId" minlength=1>
                               <el-option
                                 v-for="item in industry_type"
@@ -172,24 +172,24 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="来源单位"  >
+                        <el-form-item label="来源单位："  >
                             <el-input v-model="form.planUnit" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="预案版本"  >
+                        <el-form-item label="预案版本："  >
                             <el-input v-model="form.planVersion" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="编制时间"  >
+                        <el-form-item label="编制时间："  >
                             <el-date-picker v-model="form.editorDate"  class="date_picker"
                                             value-format="yyyy-MM-dd"  minlength=1></el-date-picker>
                         </el-form-item>
                     </el-col>
 
                   <el-col :span="12">
-                    <el-form-item label="登记人"  >
+                    <el-form-item label="登记人："  >
                       <el-input v-model="form.register" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
@@ -198,7 +198,7 @@
                 </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="选择文件"  >
+                  <el-form-item label="选择文件："  >
                     <el-upload
                       :action="uploadUrl"
                       :headers="uploadHeaders"

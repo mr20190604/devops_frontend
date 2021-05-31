@@ -3,14 +3,14 @@
         <div class="block">
             <el-form label-width="120px" :inline="true" >
               <el-row>
-                <el-form-item label="设备类型">
+                <el-form-item label="设备类型：">
                   <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"  placeholder="请选择"/>
                 </el-form-item>
-                <el-form-item label="设备编号">
+                <el-form-item label="设备编号：">
                   <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号"></el-input>
                 </el-form-item>
 
-                <el-form-item label="设备状态">
+                <el-form-item label="设备状态：">
                   <dict-select v-model="listQuery.equipmentStatus1" dict-name="设备状态" placeholder="请选择"/>
                 </el-form-item>
 
@@ -18,7 +18,7 @@
 
               <el-row>
 
-                <el-form-item label="上报时间">
+                <el-form-item label="上报时间：">
                   <el-date-picker type="datetime" v-model="listQuery.startTime" placeholder="开始时间"></el-date-picker>
                   <el-date-picker type="datetime" v-model="listQuery.endTime" placeholder="结束时间"></el-date-picker>
                 </el-form-item>
