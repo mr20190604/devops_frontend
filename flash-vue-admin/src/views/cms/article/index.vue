@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="block">
-     <el-form label-width="120px" :inline="true">
+     <el-form>
        <el-row>
           <el-col :span="6">
             <el-form-item label="标题：">
@@ -30,44 +30,39 @@
           </el-col>
           <el-col :span="4">
             <el-form-item>
-             <el-button type="primary" size="mini" @click.native="search">{{ $t('button.search') }}</el-button>
-             <el-button  size="mini" @click.native="reset">{{ $t('button.reset') }}</el-button>
+             <el-button type="primary"  class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+             <el-button  class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
              </el-form-item>
           </el-col>
         </el-row>
      </el-form>
-
-
-
-     
-    
     </div>
 
 <div class="table-list">
       <div class="btnLists">
-         <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/cms/articleEdit']">{{ $t('button.add') }}</el-button>
-          <el-button type="primary" size="mini"  icon="el-icon-edit" @click.native="edit" v-permission="['/cms/articleEdit']">{{ $t('button.edit') }}</el-button>
-          <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="remove" v-permission="['/article/remove']">{{ $t('button.delete') }}</el-button>
+         <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/cms/articleEdit']">{{ $t('button.add') }}</el-button>
+          <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="edit" v-permission="['/cms/articleEdit']">{{ $t('button.edit') }}</el-button>
+          <el-button type="danger" size="mini" class="set-common-btn blue-button" @click.native="remove" v-permission="['/article/remove']">{{ $t('button.delete') }}</el-button>
       </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               @current-change="handleCurrentChange">
 
-      <el-table-column label="ID">
+      <el-table-column label="ID" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.id}}
         </template>
       </el-table-column>
-      <el-table-column label="标题">
+      <el-table-column label="标题" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.title}}
         </template>
       </el-table-column>
-      <el-table-column label="发布日期">
+      <el-table-column label="发布日期" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.createTime}}
         </template>
       </el-table-column>
-      <el-table-column label="作者">
+      <el-table-column label="作者" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.author}}
         </template>
@@ -78,7 +73,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/cms/articleEdit']">{{ $t('button.edit') }}</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/article/remove']">{{ $t('button.delete') }}</el-button>

@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="102px" :inline="true">
-        <el-row class="marginZero">
+      <el-form>
+        <el-row>
           <el-col :span="6">
             <el-form-item label="风险名称：">
               <el-input
@@ -27,16 +27,15 @@
               </el-select>
             </el-form-item>
           </el-col>
-         
-        </el-row>
-        <el-row class="marginZero textAlignRight">
-          <el-col>
-             <el-form-item>
+          <el-col :span="4">
+           <el-form-item>
                 <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                 <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
             </el-form-item>
           </el-col>
+         
         </el-row>
+        
       </el-form>
     </div>
 

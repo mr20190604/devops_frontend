@@ -1,30 +1,31 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row  :gutter="20">
-        <el-col :span="6">
-          <el-input v-model="listQuery.originalFileName" size="mini" placeholder="文件名"></el-input>
-        </el-col>
-
-        <el-col :span="6">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-
+       <el-form>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="文件名：">
+              <el-input v-model="listQuery.originalFileName" size="mini" placeholder="文件名"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+              <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
 
-
+    <div class="table-list paddingTop12">
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
     @current-change="handleCurrentChange">
 
-      <el-table-column label="ID">
+      <el-table-column label="ID" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.id}}
         </template>
       </el-table-column>
-      <el-table-column label="文件名3">
+      <el-table-column label="文件名3" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.originalFileName}}
         </template>
@@ -35,12 +36,12 @@
 
         </template>
       </el-table-column>
-      <el-table-column label="上传日期">
+      <el-table-column label="上传日期" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.createTime}}
         </template>
       </el-table-column>
-      <el-table-column label="下载">
+      <el-table-column label="下载" align="center">
         <template slot-scope="scope">
           <el-button type="text" icon="el-icon-download" size="mini" @click.native="download(scope.row.id,scope.row.originalFileName)">下载</el-button>
         </template>
@@ -62,11 +63,8 @@
     </el-pagination>
 
   </div>
+  </div>
 </template>
 
 <script src="./file.js"></script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
 

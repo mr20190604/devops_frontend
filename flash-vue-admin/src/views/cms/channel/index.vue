@@ -3,30 +3,30 @@
    
     <div class="table-list">
       <div class="btnLists">
-         <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add" v-permission="['/channel/edit']">{{ $t('button.add') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click.native="edit" v-permission="['/channel/edit']">{{ $t('button.edit') }}</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="remove" v-permission="['/channel/remove']">{{ $t('button.delete') }}</el-button>
+         <el-button type="success" class="set-common-btn blue-button" size="mini"  @click.native="add" v-permission="['/channel/edit']">{{ $t('button.add') }}</el-button>
+          <el-button type="primary" class="set-common-btn blank-blue-button" size="mini" @click.native="edit" v-permission="['/channel/edit']">{{ $t('button.edit') }}</el-button>
+          <el-button type="danger"  class="set-common-btn blue-button" size="mini" @click.native="remove" v-permission="['/channel/remove']">{{ $t('button.delete') }}</el-button>
       </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               @current-change="handleCurrentChange">
 
-      <el-table-column label="ID">
+      <el-table-column label="ID" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.id}}
         </template>
       </el-table-column>
-      <el-table-column label="名称">
+      <el-table-column label="名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.name}}
         </template>
       </el-table-column>
-      <el-table-column label="编码">
+      <el-table-column label="编码" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.code}}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/channel/edit']">{{ $t('button.edit') }}</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/channel/remove']">{{ $t('button.delete') }}</el-button>

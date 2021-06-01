@@ -36,9 +36,11 @@
       tr{
         td{
           &:last-child{
-            .cell{
-              display: flex;
-              justify-content: center;
+            &.is-center{
+              .cell{
+                display: flex;
+                justify-content: center;
+              }
             }
           }
         }
@@ -105,21 +107,24 @@
 }
 
 .block{
-  padding: 20px 30px 20px;
+  padding: 0;
   background: #fff;
-  margin-bottom: 10px;
   .el-form{
+    padding: 20px 30px 20px;   
+    margin-bottom: 10px;
     .el-form-item{
+      margin-bottom: 0;
       .el-form-item__label{
         font-size: 14px;
         font-weight: normal;
-        text-align: right;
-        padding-right: 0;
+        text-align: left;
+        padding-right: 6px;
         line-height: 28px;
       }
       .el-form-item__content{
         line-height: 28px;
         .el-select{
+          width: 200px !important;
           .el-input{
             width: 200px;
             height: 28px;
@@ -131,6 +136,7 @@
         .el-input{
           height: 28px;
             line-height: 28px;
+            width: 200px !important;
           input{
             width: 200px;
             height: 28px;
@@ -162,6 +168,25 @@
           margin-bottom: 0;
         }
       }
+      &.hasmarginBottom{
+        .el-form-item{
+          margin-bottom: 20px;
+        }
+      }
+    }
+    &.align-right{
+      .el-form-item{
+        .el-form-item__label{
+          text-align: right;
+        }
+      }
+    }
+    &.has-Label-Width{
+      .el-form-item{
+        .el-form-item__label{
+          padding-right: 0px;
+        }
+      }
     }
   }
 }
@@ -171,6 +196,9 @@
 
 .marginT20{
   margin-top: 20px;
+}
+.paddingTop12{
+  padding-top: 12px;
 }
 .white{
   background: #fff;

@@ -1,30 +1,45 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row  :gutter="24">
-        <el-col :span="4">
-          <el-date-picker type="date" size="mini" placeholder="起始日期" v-model="listQuery.beginTime" value-format="yyyy-MM-dd"
+      <el-form>
+        <el-row class="hasmarginBottom">
+          <el-col :span="6">
+             <el-form-item label="起始日期：">
+                 <el-date-picker type="date" size="mini" placeholder="起始日期" v-model="listQuery.beginTime" value-format="yyyy-MM-dd"
                           style="width: 100%;"></el-date-picker>
-        </el-col>
-        <el-col :span="4">
-          <el-date-picker type="date" size="mini" placeholder="结束日期" v-model="listQuery.endTime"  value-format="yyyy-MM-dd"
-                          style="width: 100%;"></el-date-picker>
-        </el-col>
-        <el-col :span="4">
-          <el-input v-model="listQuery.logName" size="mini" placeholder="日志名称"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <dict-select v-model="listQuery.logType" dict-name="日志类型" placeholder="请选择日志类型" />
-        </el-col>
-        <el-col :span="8">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="clear" v-permission="['/log/delLog']">{{ $t('button.clear') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
+            </el-form-item>
+           </el-col>
+            <el-col :span="6">
+              <el-form-item label="结束日期：">
+                  <el-date-picker type="date" size="mini" placeholder="结束日期" v-model="listQuery.endTime"  value-format="yyyy-MM-dd"
+                            style="width: 100%;"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="日志名称：">
+                 <el-input v-model="listQuery.logName" size="mini" placeholder="日志名称"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="6">
+              <el-form-item label="日志类型：">
+                 <dict-select v-model="listQuery.logType" dict-name="日志类型" placeholder="请选择日志类型" />
+              </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+           <el-col class="textAlignRight">
+              <el-form-item>
+                <el-button type="primary" class="set-common-btn blue-button"  @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              <el-button type="danger" class="set-common-btn blank-blue-button" @click.native="clear" v-permission="['/log/delLog']">{{ $t('button.clear') }}</el-button>
+              </el-form-item>
+            </el-col>
+        </el-row>
+        
+      </el-form>
+    
     </div>
-
+ <div class="table-list paddingTop12">
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
      <el-table-column type="expand">
        <template slot-scope="props">
@@ -56,24 +71,25 @@
 
      <el-table-column
        label="用户"
-       prop="userName">
+       prop="userName" show-overflow-tooltip>
      </el-table-column>
      <el-table-column
        label="日志类型"
-       prop="logtype">
+       prop="logtype" show-overflow-tooltip>
      </el-table-column>
      <el-table-column
        label="日志名称"
-       prop="logname">
+       prop="logname" show-overflow-tooltip>
      </el-table-column>
      <el-table-column
        label="时间"
-       prop="createtime">
+       prop="createtime" show-overflow-tooltip>
      </el-table-column>
    </el-table>
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -86,9 +102,8 @@
     </el-pagination>
 
   </div>
+  </div>
 </template>
 
 <script src="./log.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+

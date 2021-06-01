@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="140px" :inline="true">
+      <el-form>
         <el-row>
           <el-col :span="6">
             <el-form-item label="关键字：">
@@ -28,16 +28,15 @@
               />
             </el-form-item>
           </el-col>
-         
-        </el-row>
-        <el-row class="marginZero textAlignRight">
-          <el-col>
-             <el-form-item>
+          <el-col :span="4">
+           <el-form-item>
                 <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                 <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
             </el-form-item>
           </el-col>
+         
         </el-row>
+       
       </el-form>
     </div>
     <div class="table-list">

@@ -1,20 +1,20 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form label-width="76px">
-            <el-row>
+          <el-form label-width="76px" class="align-right has-Label-Width">
+            <el-row class="hasmarginBottom">
               <el-col :span="6">
-                <el-form-item  label="企业名称：">
+                <el-form-item label="企业名称：">
                   <el-input v-model="listQuery.enterpriseName"  placeholder="请输入企业名称"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item  label="所在地区：">
+                <el-form-item label="所在地区：">
                   <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                 <el-form-item  label="经营状态：">
+                 <el-form-item label="经营状态：">
                   <el-select   v-model="listQuery.managementSituation" placeholder="请选择经营状态">
                     <el-option
                       v-for="item in management_status"
@@ -31,7 +31,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row class="marginZero">
+            <el-row>
               <el-col :span="6">
                 <el-form-item  label="风险等级：">
                   <el-select v-model="listQuery.riskLevel"  placeholder="请选择风险等级">
@@ -56,14 +56,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- <el-row class="marginZero textAlignRight">
-               <el-col>
-                <el-form-item>
-                  <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
-                  <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
-                </el-form-item>
-              </el-col>
-            </el-row> -->
+           
           </el-form>
        </div>
     <div class="table-list">
