@@ -20,7 +20,8 @@
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               :row-key="row=>row.id"
               @selection-change="handleSelectionChange"
-              @current-change="handleCurrentChange">
+              @current-change="handleCurrentChange"
+              ref="unitTable" @row-click="toggleSelection">
       <el-table-column
         type="selection"
         width="55"
@@ -78,8 +79,8 @@
       @next-click="fetchNext">
     </el-pagination>
     <div style="text-align: center">
-      <el-button type="primary" >{{ $t('button.submit') }}</el-button>
-      <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+      <el-button type="primary" @click="closeFatherDialog">{{ $t('button.submit') }}</el-button>
+      <el-button @click="closeFatherDialog">关闭</el-button>
     </div>
 </div>
     <el-dialog
@@ -136,7 +137,7 @@
           :label="'风险物质' + (index+1)"
           :key="index"
           :prop="'details.' + index + '.value'"
-          :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
+          :rules="{                required: true, message: '不能为空', trigger: 'blur'                }"
         >
           <el-col :span="5">
             <el-form-item label="风险物质">

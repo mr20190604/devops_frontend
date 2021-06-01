@@ -78,11 +78,11 @@
           </el-button>
           <el-button
            class="set-common-btn blank-blue-button"
-            v-permission="['/product/info/add']"
-            type="primary"
+            v-permission="['/product/info/delete']"
+            type="danger"
             size="mini"
-            @click="selectMaterial"
-          >选择原料
+            @click="removeBatch"
+          >批量删除
           </el-button>
    </div>
     <el-table
@@ -111,12 +111,12 @@
           {{ scope.row.productCode }}
         </template>
       </el-table-column>-->
-      <el-table-column label="产品名称" show-overflow-tooltip>
+      <el-table-column label="产品名称" show-overflow-tooltip width="200px">
         <template slot-scope="scope">
           {{ scope.row.productName }}
         </template>
       </el-table-column>
-      <el-table-column label="产品型号" show-overflow-tooltip>
+      <el-table-column label="产品型号" show-overflow-tooltip width="180px">
         <template slot-scope="scope">
           {{ scope.row.productModel }}
         </template>
@@ -151,8 +151,17 @@
           {{ scope.row.enterpriseName }}
         </template>
       </el-table-column>-->
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" width="350px">
         <template slot-scope="scope">
+          <el-button
+            class="font14"
+            v-permission="['/product/info/add']"
+            type="text"
+            size="mini"
+            icon="el-icon-plus"
+            @click="selectMaterial(scope.row)"
+          >添加原料
+          </el-button>
           <el-button
            class="font14"
             v-permission="['/product/info/add']"
@@ -197,8 +206,8 @@
     @next-click="fetchNext"
   />
   <div style="text-align: center">
-    <el-button type="primary" @click="saveProduct">保存</el-button>
-    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+    <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
+    <el-button @click="closeFatherDialog">关闭</el-button>
   </div>
 </div>
 
@@ -207,6 +216,7 @@
       :visible.sync="formVisible"
       :modal="false"
       width="75%"
+      @close="closeDialog"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="height: 600px">
         <el-row style="margin-left: 200px;margin-top: 50px">
@@ -287,15 +297,7 @@
 
       </el-form>
     </el-dialog>
-   <!-- <el-dialog
-      :title="formTitle"
-      :visible.sync="materialVisible"
-      :modal="false"
-      width="70%"
-    >
-      &lt;!&ndash;<materialInfo></materialInfo>&ndash;&gt;
 
-    </el-dialog>-->
     <el-dialog
       :title="'选择原料'"
       :visible.sync="materialVisible"
@@ -516,6 +518,7 @@
           </el-col>
         </el-row>
       </el-form>-->
+      <el-form label-width="120px" :inline="true" style="height: 600px">
       <el-table
         v-loading="listLoading"
         :data="selectedList"
@@ -524,7 +527,7 @@
         fit
         highlight-current-row
         @current-change="handleCurrentChange"
-        style="height: 600px;margin-top: 50px"
+        style="margin-top: 50px"
       >
 
         <el-table-column label="原料编码">
@@ -582,6 +585,7 @@
       <div style="text-align: center" >
         <el-button type="danger" @click.native="productVisible = false">返回</el-button>
       </div>
+      </el-form>
     </el-dialog>
   </div>
 </template>

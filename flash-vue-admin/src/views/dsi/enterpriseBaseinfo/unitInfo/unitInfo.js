@@ -158,6 +158,7 @@ export default {
       this.resetForm();
       this.formTitle = '添加风险单元',
         this.formVisible = true
+      this.addDetail();
       //this.form=[];
       this.isAdd = true
       //this.materialAdd = true
@@ -248,10 +249,13 @@ export default {
         this.formTitle = '编辑风险单元'
         var detail = this.selRow.detail.split(';')
         var details = []
-        detail.forEach(function (val, index) {
-          var arr = val.split(',')
-          details.push({'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2]})
-        })
+        if(this.selRow.detail){
+          detail.forEach(function (val, index) {
+            var arr = val.split(',')
+            details.push({'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2]})
+          })
+        }
+
         this.form=this.selRow;
         this.form.details = details;
         this.formVisible = true
@@ -365,6 +369,7 @@ export default {
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
+          this.$refs.unitTable.clearSelection();
           this.fetchData()
         }).catch(err => {
           this.$notify.error({
@@ -377,6 +382,13 @@ export default {
     },
     onInput(){
       this.$forceUpdate();
+    },
+    closeFatherDialog(){
+      this.$emit("closeDialog");
+      //this.$parent.closeDialog();
+
+    }, toggleSelection(row) {
+      this.$refs.unitTable.toggleRowSelection(row)
     },
   }
 }

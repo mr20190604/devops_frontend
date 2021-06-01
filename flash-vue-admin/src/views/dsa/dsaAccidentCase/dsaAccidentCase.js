@@ -85,7 +85,11 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.accidentName = '';
+      this.listQuery.accidentAddress = '';
+      this.listQuery.accidentType = '';
+      this.listQuery.industryId = '';
+      this.listQuery.accidentTime = '';
       this.fetchData()
     },
     handleFilter() {
@@ -162,6 +166,7 @@ export default {
                         type: 'success'
                     })
                     this.fetchData()
+                    this.reset()
                     this.formVisible = false
                 })
             }else{
@@ -171,6 +176,7 @@ export default {
                         type: 'success'
                     })
                     this.fetchData()
+                    this.reset()
                     this.formVisible = false
                 })
             }
@@ -271,6 +277,13 @@ export default {
       })
     },toggleSelection(row) {
       this.$refs.accidentTable.toggleRowSelection(row)
-    }
+    },
+    closeDialog(){
+      this.formVisible=false;
+      this.selection=[];
+      this.fetchData();
+      this.$refs.accidentTable.clearSelection();
+    },
+
   }
 }

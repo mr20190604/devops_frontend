@@ -192,11 +192,10 @@ export default {
     },
     add() {
       this.resetForm()
-      this.formTitle = '添加企业信息',
-        this.activeName="first"
-
-        this.formVisible = true
-      this.isAdd = true
+      this.formTitle = '添加企业信息';
+      this.formVisible = true;
+      this.activeName = "first";
+      this.isAdd = true;
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
@@ -236,22 +235,20 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
-              this.activeName="second";
-              /*this.fetchData()
-              this. = false*/
-
+              this.activeName = "second";
+              // this.fetchData()
             })
           } else {
             dsiEnterpriseBaseinfoApi.add(formData).then(response => {
               this.enterpriseId = response.data.id;
-              this.enterpriseName=response.data.enterpriseName;
-              if(this.enterpriseId) {
-                 this.activeName="second";
+              this.enterpriseName = response.data.enterpriseName;
+              if (this.enterpriseId) {
+                this.activeName = "second";
               } else {
                 this.activeName = 'first';
               }
-             /* this.fetchData()
-              this.formVisible = false*/
+              /* this.fetchData()
+               this.formVisible = false*/
             })
           }
 
@@ -280,9 +277,9 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.enterpriseId=this.form.id;
+        this.enterpriseId = this.form.id;
         this.formTitle = '编辑企业信息'
-        // this.activeName="first"
+        this.activeName = "first"
         this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {
@@ -354,28 +351,45 @@ export default {
       }).catch(() => {
       })
     },
-    viewMaterial(row){
+    viewMaterial(row) {
       // if (this.checkSel()) {
-        this.isAdd = false
-        this.form = row
-        this.formTitle = '查看企业信息'
-        this.enterpriseVisible = true
-        if (this.$refs['form'] !== undefined) {
-          this.$refs['form'].resetFields()
-        }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
+      this.isAdd = false
+      this.form = row
+      this.formTitle = '查看企业信息'
+      this.enterpriseVisible = true
+      if (this.$refs['form'] !== undefined) {
+        this.$refs['form'].resetFields()
+      }
+      //如果表单初始化有特殊处理需求,可以在resetForm中处理
       // }
     },
     handleClick(activeName, oldActiveName) {
       let self = this;
-      if(!this.enterpriseId){
-        alert("请先添加企业信息！");
+      if (!this.enterpriseId) {
+        this.$alert('请先提交企业信息', '提示', {
+          confirmButtonText: '确定',
+          /*callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            });
+          }*/
+        });
+
+
         return false;
       }
       return true
-    },toggleSelection(row) {
+    }, toggleSelection(row) {
       this.$refs.enterpriseTable.toggleRowSelection(row)
-    }
-    }
-
+    },
+    closeDialog() {
+      this.formVisible = false;
+      this.selection = [];
+      this.reset();
+      this.fetchData();
+      this.enterpriseId=''
+      this.$refs.enterpriseTable.clearSelection();
+    },
+  }
   }

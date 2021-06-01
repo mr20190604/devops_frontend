@@ -104,7 +104,7 @@ export default {
     },
     fetchData() {
       // this.listLoading = true
-      this.listQuery.enterpriseId=this.enterpriseId;
+      //this.listQuery.enterpriseId=this.enterpriseId;
       dsiProductInfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         console.log(this.list);
@@ -246,19 +246,17 @@ export default {
       this.selRow = record
       this.remove()
     },
-    selectMaterial(){
-      if (this.checkSel()) {
-        this.isAdd = false
-        this.form = this.selRow
-        console.log(this.form.id);
-        this.formTitle = '选择原料'
-        this.materialVisible = true
-        dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
-          this.materialList = response.data.records
-          this.listLoading = false
-          this.total = response.data.total
-        })
-      }
+    selectMaterial(record){
+      this.isAdd = false
+      this.form = record
+      console.log(this.form.id);
+      this.formTitle = '选择原料'
+      this.materialVisible = true
+      dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
+        this.materialList = response.data.records
+        this.listLoading = false
+        this.total = response.data.total
+      })
     },
     remove() {
       if (this.checkSel()) {
@@ -302,7 +300,7 @@ export default {
         cancelButtonText: this.$t('button.cancel'),
         type: 'warning'
       }).then(() => {
-        dsiProductInfoApi.removeBatch(ids).then(() => {
+        dsiProductInfoApi.removeBatch1(ids).then(() => {
           this.$message({
             message: this.$t('common.optionSuccess'),
             type: 'success'
@@ -371,6 +369,7 @@ export default {
       this.listLoading = true
       dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
         this.materialList = response.data.records
+        this.$refs.materialTable.clearSelection();
         this.listLoading = false
         this.total = response.data.total
       })
@@ -406,36 +405,41 @@ export default {
       },
 
     viewProduct(record){
-
-
-        dsiProductFromMaterialApi.getList(record.id).then(response => {
-          console.log(response);
-         if(response.data.length){
-           let ids='';
-           this.formTitle = '查看产品信息';
-           this.productVisible = true;
-           for(let i=0;i<response.data.length;i++){
-             if(i==0){
-               ids=ids+response.data[i].materialId;
-             }else {
-               ids=ids+','+response.data[i].materialId;
-             }
-           }
-           console.log(ids);
-           dsiMaterialBaseinfoApi.getSelected(ids).then(response=>{
-             this.selectedList=response.data;
-             this.listLoading = false
-           })
-         }else {
-           alert("请先添加原料！")
-         }
-
-        })
-
-
+      dsiProductFromMaterialApi.getList(record.id).then(response => {
+        console.log(response);
+        if (response.data.length) {
+          let ids = '';
+          this.formTitle = '查看产品信息';
+          this.productVisible = true;
+          for (let i = 0; i < response.data.length; i++) {
+            if (i == 0) {
+              ids = ids + response.data[i].materialId;
+            } else {
+              ids = ids + ',' + response.data[i].materialId;
+            }
+          }
+          console.log(ids);
+          dsiMaterialBaseinfoApi.getSelected(ids).then(response => {
+            this.selectedList = response.data;
+            this.listLoading = false
+          })
+        } else {
+          this.$alert('请先为产品添加原料！', '提示', {
+            confirmButtonText: '确定',
+          });
+        }
+      })
     },toggleSelection(row) {
       this.$refs.productTable.toggleRowSelection(row)
-    }
-
+    },
+    closeDialog() {
+      this.formVisible = false;
+      this.selection = [];
+      this.fetchData();
+      this.$refs.productTable.clearSelection();
+    },
+    closeFatherDialog(){
+      this.$emit("closeDialog");
+    },
   }
 }
