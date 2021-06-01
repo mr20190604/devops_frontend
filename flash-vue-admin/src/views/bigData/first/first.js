@@ -78,8 +78,9 @@ export default {
       this.selectEquipment("all");
     },
     selectEquipment(value) {
-      this.pieData.legend.data = this.currentData.title[value];
-      this.pieData.series[0].data = this.currentData.val[value];
+      let self = this;
+      self.pieData.legend.data = self.currentData.title[value];
+      self.pieData.series[0].data = self.currentData.val[value];
       self.$refs.firstChart.clear();
       self.$refs.firstChart.mergeOptions(self.pieData) ;
     }
