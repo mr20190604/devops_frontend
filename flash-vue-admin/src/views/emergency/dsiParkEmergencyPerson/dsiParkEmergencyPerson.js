@@ -196,6 +196,8 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                    this.$refs.personTable.clearSelection();
+                    this.reset()
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -205,6 +207,8 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                    this.$refs.personTable.clearSelection();
+                    this.reset()
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -213,6 +217,12 @@ export default {
           return false
         }
       })
+    },cancle() {
+
+      this.$refs.personTable.clearSelection();
+      this.reset()
+      this.fetchData()
+      this.formVisible = false
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {

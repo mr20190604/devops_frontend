@@ -46,6 +46,7 @@
 
 
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
+                  :row-key="row=>row.id"
                   @selection-change="handleSelectionChange"
                   @current-change="handleCurrentChange"
                   @row-click="toggleSelection"
@@ -64,47 +65,48 @@
             label="序号"
           >
           </el-table-column>
-            <el-table-column label="姓名">
+            <el-table-column label="姓名" width="80px">
                 <template slot-scope="scope">
                     {{scope.row.name}}
                 </template>
             </el-table-column>
-            <el-table-column label="性别">
+            <el-table-column label="性别" width="60px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.genderName}}
                 </template>
             </el-table-column>
-            <el-table-column label="学历">
+            <el-table-column label="学历" width="80px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.educationName}}
                 </template>
             </el-table-column>
-            <el-table-column label="职称">
+            <el-table-column label="职称" align="center">
                 <template slot-scope="scope">
                     {{scope.row.professionalName}}
                 </template>
             </el-table-column>
-            <el-table-column label="职务">
+            <el-table-column label="职务" width="100px">
                 <template slot-scope="scope">
                     {{scope.row.postName}}
                 </template>
             </el-table-column>
+          <el-table-column label="行政区划" width="100px" align="center">
+            <template slot-scope="scope">
+              {{scope.row.districtName}}
+            </template>
+          </el-table-column>
+          <el-table-column label="是否专家"  width="80px" align="center">
+            <template slot-scope="scope">
+              {{scope.row.isExpertName}}
+            </template>
+          </el-table-column>
             <el-table-column label="专业特长">
                 <template slot-scope="scope">
                     {{scope.row.majorSpecialty}}
                 </template>
             </el-table-column>
-            <el-table-column label="行政区划">
-                <template slot-scope="scope">
-                    {{scope.row.districtName}}
-                </template>
-            </el-table-column>
-            <el-table-column label="是否专家">
-                <template slot-scope="scope">
-                    {{scope.row.isExpertName}}
-                </template>
-            </el-table-column>
-            <el-table-column label="联系电话">
+
+            <el-table-column label="联系电话"width="150px">
                 <template slot-scope="scope">
                     {{scope.row.tel}}
                 </template>
@@ -134,6 +136,7 @@
                 :page-sizes="[10, 20, 50, 100,500]"
                 :page-size="listQuery.limit"
                 :total="total"
+                onclose="cancle"
                 @size-change="changeSize"
                 @current-change="fetchPage"
                 @prev-click="fetchPrev"
@@ -250,7 +253,7 @@
 
                 <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button @click.native="cancle">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>

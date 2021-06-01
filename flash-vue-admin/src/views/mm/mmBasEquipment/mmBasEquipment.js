@@ -1,6 +1,7 @@
 import mmBasEquipmentApi from '@/api/mm/mmBasEquipment'
 import permission from '@/directive/permission/index.js'
 import ECharts from 'vue-echarts/components/ECharts'
+import threshold from '@/views/mm/mmBasEquipment/threshold/index.vue'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/pie'
@@ -20,7 +21,8 @@ import 'echarts/map/js/world'
 export default {
   directives: { permission },
   components: {
-    chart: ECharts
+    chart: ECharts,
+    threshold
   },
   data() {
     return {
@@ -178,7 +180,13 @@ export default {
 
         }]
       },
-      timer:null
+      timer:null,
+      //阈值查询
+      thresholdTitle:'阈值查询',
+      thresholdVisible:false,
+      thresholdForm:{},
+      //设备编码集合
+      equipCodeList:[],
     }
   },
   filters: {
@@ -495,6 +503,10 @@ export default {
       this.lineData.series[0].data = []
     },toggleSelection(row) {
       this.$refs.equipmentTable.toggleRowSelection(row)
+    },thresholdView(record) {
+      this.thresholdVisible = true
+    },cancleThreshold() {
+      this.thresholdVisible = false
     }
 
   }

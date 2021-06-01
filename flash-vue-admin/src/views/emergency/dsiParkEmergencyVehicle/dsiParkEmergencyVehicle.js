@@ -76,7 +76,8 @@ export default {
       viewTitle:'附件预览',
       viewVisible:false,
       fileLoading:true,
-      files:null
+      files:null,
+      fileAccept:'.jpg,.png,.jpeg,.gif,.bmp'
 
     }
   },
@@ -242,7 +243,8 @@ export default {
                       dsiParkEmergencyVehicleApi.addRelation(tempData).then()
                     }
                   }
-
+                    this.$refs.vehicleTable.clearSelection();
+                    this.reset()
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -260,6 +262,8 @@ export default {
                     }
                     dsiParkEmergencyVehicleApi.addRelation(tempData).then()
                   }
+                    this.$refs.vehicleTable.clearSelection();
+                    this.reset()
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -268,6 +272,11 @@ export default {
           return false
         }
       })
+    },cancle() {
+      this.$refs.vehicleTable.clearSelection();
+      this.reset()
+      this.fetchData()
+      this.formVisible = false
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {
@@ -460,7 +469,6 @@ export default {
         this.removeFileItem(param)
       }
     },cancleDelete() {
-      this.formVisible = false
       this.fileList.forEach(item =>{
         if (item.response) {
           const param = {
@@ -469,6 +477,7 @@ export default {
           this.removeFileItem(param)
         }
       })
+      this.cancle()
     }
     ,removeFileItem(param) {
       fileDelete.deleteFile(param).then()

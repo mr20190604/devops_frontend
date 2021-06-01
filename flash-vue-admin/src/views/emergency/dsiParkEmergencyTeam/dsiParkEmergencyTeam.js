@@ -237,6 +237,8 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                    this.$refs.teamTable.clearSelection();
+                    this.reset()
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -255,6 +257,8 @@ export default {
                     }
                     person.addRelation(formData).then()
                   })
+                    this.$refs.teamTable.clearSelection();
+                    this.reset()
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -263,6 +267,16 @@ export default {
           return false
         }
       })
+    },cancle() {
+      if (this.personVisible) {
+        this.personVisible = false
+        this.initPersonList(this.form.id)
+      } else {
+        this.$refs.teamTable.clearSelection();
+        this.reset()
+        this.fetchData()
+        this.formVisible = false
+      }
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {

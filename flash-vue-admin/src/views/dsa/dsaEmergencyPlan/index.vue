@@ -77,12 +77,12 @@
                     {{scope.row.planName}}
                 </template>
             </el-table-column>
-            <el-table-column label="预案类型">
+            <el-table-column label="预案类型" width="150px">
                 <template slot-scope="scope">
                     {{scope.row.planTypeName}}
                 </template>
             </el-table-column>
-            <el-table-column label="所属行业">
+            <el-table-column label="所属行业" align="center" width="100px">
                 <template slot-scope="scope">
                     {{scope.row.industryName}}
                 </template>
@@ -92,12 +92,12 @@
                     {{scope.row.planUnit}}
                 </template>
             </el-table-column>
-            <el-table-column label="预案版本">
+            <el-table-column label="预案版本" width="100px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.planVersion}}
                 </template>
             </el-table-column>
-            <el-table-column label="编制时间">
+            <el-table-column label="编制时间" width="120px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.editorDate}}
                 </template>
@@ -115,7 +115,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/emergency/plan/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/emergency/plan/delete']">{{ $t('button.delete') }}</el-button>
@@ -139,12 +139,13 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
+                onclose="cancleDelete"
                 width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="预案名称："  >
-                            <el-input v-model="form.planName" minlength=1></el-input>
+                            <el-input v-model="form.planName" minlength=1 placeholder="请输入预案名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -161,7 +162,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="所属行业："  >
-                            <el-select v-model="form.industryId" minlength=1>
+                            <el-select v-model="form.industryId" minlength=1 >
                               <el-option
                                 v-for="item in industry_type"
                                 :key="item.id"
@@ -173,44 +174,44 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="来源单位："  >
-                            <el-input v-model="form.planUnit" minlength=1></el-input>
+                            <el-input v-model="form.planUnit" minlength=1  placeholder="请输入来源单位"></el-input >
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="预案版本："  >
-                            <el-input v-model="form.planVersion" minlength=1></el-input>
+                            <el-input v-model="form.planVersion" minlength=1 placeholder="请输入预案版本"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="编制时间："  >
                             <el-date-picker v-model="form.editorDate"  class="date_picker"
-                                            value-format="yyyy-MM-dd"  minlength=1></el-date-picker>
+                                            value-format="yyyy-MM-dd"  minlength=1 placeholder="请选择编制时间"></el-date-picker>
                         </el-form-item>
                     </el-col>
 
                   <el-col :span="12">
                     <el-form-item label="登记人："  >
-                      <el-input v-model="form.register" minlength=1></el-input>
+                      <el-input v-model="form.register" minlength=1 placeholder="请输入登记人"></el-input>
                     </el-form-item>
                   </el-col>
 
 
                 </el-row>
               <el-row>
-                <el-col :span="12">
+                <el-col :span="16">
                   <el-form-item label="选择文件："  >
                     <el-upload
                       :action="uploadUrl"
                       :headers="uploadHeaders"
                       :on-change="handleChangeUpload"
                       :on-success="uploadSuccess"
-                      accept=".doc,.docx,.pdf,.zip,.rar"
+                      :accept="fileAccept"
                       :on-remove="removeFile"
                       :file-list="fileList"
                       :multiple="multiple"
                     >
                       <el-button size="small" type="primary">点击上传</el-button>
-                      <div slot="tip" >最大上传大小10Mb</div>
+                      <div slot="tip" >总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{fileAccept}}</span></div>
                     </el-upload>
                   </el-form-item>
                 </el-col>
@@ -248,7 +249,7 @@
           </el-col>
           <el-col style="width: 75%;height: 620px">
             <div class="grid-content bg-purple" style="padding-top: 20px">
-              <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
+              <template v-if="fileShow == true"><preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview></template>
             </div>
 
           </el-col>

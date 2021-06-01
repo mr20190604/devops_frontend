@@ -238,6 +238,8 @@ export default {
       },
       //流程
       processVisiable:false,
+      fileAccept:'.doc,.docx,.pdf,.zip,.rar',
+      fileShow:true
 
     };
 
@@ -370,7 +372,6 @@ export default {
           this.formVisible = true
           this.isAdd = true
           this.form = this.selRow
-          this.form.isAudit=1
 
           if(this.$refs['form'] !== undefined) {
             this.$refs['form'].resetFields()
@@ -394,7 +395,7 @@ export default {
                 alarmFirstValue:this.form.alarmFirstValue,
                 alarmMaxValue:this.form.alarmMaxValue,
                 alarmMaxLevel:this.form.alarmMaxLevel,
-                isAudit:this.form.isAudit,
+                isAudit:1,
                 auditOpinion:this.form.auditOpinion,
                 auditPerson:this.form.auditPerson,
                 isFeedback:this.form.isFeedback,
@@ -426,6 +427,10 @@ export default {
           return false
         }
       })
+    },cancle() {
+      this.reset()
+      this.fetchData()
+      this.formVisible = false
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {
@@ -573,7 +578,11 @@ export default {
       mmAlarmInfoApi.queryDataByHandleId(record.id).then(response =>{
         this.files = response.data
         if (this.files) {
-          this.viewFile(this.files[0])
+          if(this.files.length < 1) {
+            this.fileShow = false
+          } else {
+            this.viewFile(this.files[0])
+          }
         }
       })
       this.fileLoading = false
@@ -583,13 +592,16 @@ export default {
           message: this.$t('不存在预览文件'),
           type: 'success'
         })
+        this.fileShow = false
       }
       if(!isCanPreview(record.fileInfo.originalFileName)) {
         this.$message({
           message: this.$t('该文件类型不支持预览'),
           type: 'success'
         })
+        this.fileShow = false
       } else {
+        this.fileShow = true
         let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
         let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
         this.previewTitle = record.lawName;

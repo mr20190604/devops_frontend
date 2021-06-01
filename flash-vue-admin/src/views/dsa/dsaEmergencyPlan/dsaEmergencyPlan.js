@@ -75,6 +75,8 @@ export default {
       multiple:true,
       files:null,
       fileLoading:true,
+      fileAccept:'.doc,.docx,.pdf,.zip,.rar',
+      fileShow:true
 
 
     }
@@ -248,6 +250,11 @@ export default {
           return false
         }
       })
+    },cancle() {
+      this.$refs.planTable.clearSelection();
+      this.reset()
+      this.fetchData()
+      this.formVisible = false
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {
@@ -363,7 +370,12 @@ export default {
       dsaEmergencyPlanApi.queryDataByPlanId(record.id).then(response=>{
         this.files = response.data
         if (this.files) {
-          this.viewFile(this.files[0])
+          if(this.files.length < 1) {
+            this.fileShow = false
+          } else {
+            this.viewFile(this.files[0])
+          }
+
         }
       })
       this.fileLoading = false
@@ -375,13 +387,16 @@ export default {
           message: this.$t('不存在预览文件'),
           type: 'success'
         })
+        this.fileShow = false
       }
       if(!isCanPreview(record.fileInfo.originalFileName)) {
         this.$message({
           message: this.$t('该文件类型不支持预览'),
           type: 'success'
         })
+        this.fileShow = false
       } else {
+        this.fileShow = true
         let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
         let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
         this.previewTitle = record.lawName;
@@ -446,7 +461,6 @@ export default {
         this.removeFileItem(param)
       }
     },cancleDelete() {
-      this.formVisible = false
       this.fileList.forEach(item =>{
         if (item.response) {
           const param = {
@@ -455,6 +469,7 @@ export default {
           this.removeFileItem(param)
         }
       })
+      this.cancle()
     }
     ,removeFileItem(param) {
       fileDelete.deleteFile(param).then()

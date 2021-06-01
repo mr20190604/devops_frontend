@@ -40,7 +40,7 @@
         >
           <!--accept=".doc,.docx,.pdf,.zip,.rar"-->
           <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" >最多上传个数{{fileLimit}};单个文件上限10MB;</div>
+          <div slot="tip" >最多上传个数{{fileLimit}};单个文件上限10MB;允许上传的文件类型为<span style="color: red">.doc,.docx,.pdf,.zip,.rar</span></div>
         </el-upload>
       </el-col>
     </el-row>

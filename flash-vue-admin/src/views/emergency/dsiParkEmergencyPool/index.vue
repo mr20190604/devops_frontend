@@ -74,18 +74,18 @@
             label="序号"
           >
           </el-table-column>
-            <el-table-column label="资源库名称">
+            <el-table-column label="资源库名称" width="200px">
                 <template slot-scope="scope">
                     {{scope.row.repositoriesName}}
                 </template>
             </el-table-column>
-          <el-table-column label="所属企业">
+          <el-table-column label="所属企业" width="250px">
             <template slot-scope="scope">
                 <template v-if="scope.row.dsiEnterpriseBaseinfo !== null" id="enterprise1">{{scope.row.dsiEnterpriseBaseinfo.enterpriseName}}</template>
                 <template v-else="scope.row.enterpriseId == null" id="enterprise2"></template>
             </template>
           </el-table-column>
-          <el-table-column label="行政区划">
+          <el-table-column label="行政区划" width="100px" align="center ">
             <template slot-scope="scope">
               <template v-if="scope.row.dsiEnterpriseBaseinfo != null" id="district1">{{scope.row.dsiEnterpriseBaseinfo.districtName}}</template>
               <template v-else="scope.row.dsiEnterpriseBaseinfo == null" id="district2"></template>
@@ -93,39 +93,23 @@
               <!--{{scope.row.dsiEnterpriseBaseinfo.districtName}}-->
             </template>
           </el-table-column>
+          <el-table-column label="负责人" width="70px" align="center">
+            <template slot-scope="scope">
+              {{scope.row.personName}}
+            </template>
+          </el-table-column>
+          <el-table-column label="联系电话" width="150px" >
+            <template slot-scope="scope">
+              {{scope.row.personTel}}
+            </template>
+          </el-table-column>
           <el-table-column label="地址">
             <template slot-scope="scope">
               {{scope.row.address}}
             </template>
           </el-table-column>
-            <el-table-column label="负责人">
-                <template slot-scope="scope">
-                    {{scope.row.personName}}
-                </template>
-            </el-table-column>
-            <el-table-column label="联系电话">
-                <template slot-scope="scope">
-                    {{scope.row.personTel}}
-                </template>
-            </el-table-column>
 
-
-           <!-- <el-table-column label="经度">
-                <template slot-scope="scope">
-                    {{scope.row.longitude}}
-                </template>
-            </el-table-column>
-            <el-table-column label="纬度">
-                <template slot-scope="scope">
-                    {{scope.row.latitude}}
-                </template>
-            </el-table-column>
-            <el-table-column label="逻辑删除">
-                <template slot-scope="scope">
-                    {{scope.row.isDel}}
-                </template>
-            </el-table-column>-->
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/pool/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/park/emergency/pool/delete']">{{ $t('button.delete') }}</el-button>
@@ -148,7 +132,9 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="60%">
+                width="60%"
+                @close="cancle"
+        >
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                    <!-- <el-col :span="12">
@@ -158,7 +144,7 @@
                     </el-col>-->
                     <el-col :span="12">
                         <el-form-item label="资源库名称："  >
-                            <el-input v-model="form.repositoriesName" minlength=1></el-input>
+                            <el-input v-model="form.repositoriesName" placeholder="请输入资源库名称" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
@@ -175,29 +161,29 @@
                   </el-col>
                     <el-col :span="12">
                         <el-form-item label="负责人："  >
-                            <el-input v-model="form.personName" minlength=1></el-input>
+                            <el-input v-model="form.personName" placeholder="请输入负责人姓名" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="联系电话："  >
-                            <el-input v-model="form.personTel" minlength=1></el-input>
+                            <el-input v-model="form.personTel" placeholder="请输入联系电话" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
 
 
                     <el-col :span="12">
                         <el-form-item label="经度："  >
-                            <el-input v-model="form.longitude" minlength=1></el-input>
+                            <el-input v-model="form.longitude" placeholder="请输入经度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="纬度："  >
-                            <el-input v-model="form.latitude" minlength=1></el-input>
+                            <el-input v-model="form.latitude" placeholder="请输入纬度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                   <el-col :span="12">
                     <el-form-item label="地址："  >
-                      <el-input v-model="form.address" minlength=1></el-input>
+                      <el-input v-model="form.address" placeholder="请输入地址" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
 
@@ -213,17 +199,17 @@
                     {{scope.row.materialName}}
                   </template>
                 </el-table-column>
-                <el-table-column label="类型">
+                <el-table-column label="类型" align="center">
                   <template slot-scope="scope">
                     {{scope.row.materialTypeName}}
                   </template>
                 </el-table-column>
-                <el-table-column label="单位">
+                <el-table-column label="单位" align="center">
                   <template slot-scope="scope">
                     {{scope.row.chUnitIdName}}
                   </template>
                 </el-table-column>
-                <el-table-column label="数量">
+                <el-table-column label="数量" align="center">
                   <template slot-scope="scope">
                     {{scope.row.materialNum}}
                   </template>
@@ -250,7 +236,7 @@
               </el-table>
               <el-form-item id="myself">
                 <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                <el-button size="mini" @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                <el-button  @click.native="cancle">{{ $t('button.cancel') }}</el-button>
               </el-form-item>
             </el-form>
 
@@ -261,17 +247,18 @@
       <el-dialog
         :title="materialTitle"
         :visible.sync="materialVisible"
+        onclose="cancle"
         width="60%">
         <el-form ref="materialForm" :model="materialForm" :rules="rules" label-width="120px">
           <el-row>
             <el-col :span="12">
               <el-form-item label="物资名称："  >
-                <el-input v-model="materialForm.materialName" minlength=1></el-input>
+                <el-input v-model="materialForm.materialName" placeholder="请输入物资名称" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="类型："  >
-                <el-select v-model="materialForm.materialType" minlength=1>
+                <el-select v-model="materialForm.materialType"  minlength=1>
                   <el-option
                     v-for="item in material_type"
                     :key="item.id"
@@ -283,7 +270,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="单位："  >
-                <el-select v-model="materialForm.chUnitId" id="chUnitId" minlength=1>
+                <el-select v-model="materialForm.chUnitId"  id="chUnitId" minlength=1>
                   <el-option
                     v-for="item in material_num_unit"
                     :key="item.id"
@@ -295,7 +282,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="数量："  >
-                <el-input v-model="materialForm.materialNum" minlength=1></el-input>
+                <el-input oninput="value=value.replace(/[^0-9.]/g,'')" placeholder="请输入物资数量" v-model="materialForm.materialNum"></el-input>
               </el-form-item>
             </el-col>
 
@@ -308,7 +295,7 @@
           </el-row>
           <el-form-item align="center">
             <el-button type="primary" @click.native="saveMaterial()">{{ $t('button.submit') }}</el-button>
-            <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
+            <el-button @click.native="cancle">{{ $t('button.cancel') }}</el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
