@@ -61,8 +61,7 @@ a{
       width:20px;
       height: 20px;
       vertical-align: middle;
-      margin-right: 3px;
-      margin-left: 3px;
+      margin-right: 7px;
     }
 
     .sidebar-title {
@@ -71,7 +70,7 @@ a{
         -webkit-background-clip: text;
         color: transparent;
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
       vertical-align: middle;
     }
   }

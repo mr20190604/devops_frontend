@@ -9,8 +9,8 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <template>
-        <!--<div class="right-menu-item" style="border:  2px solid #3db8da; width: 30px;height: 30px;border-radius: 30px; margin-top: 16px; ">
+      <!--<template>
+        <div class="right-menu-item" style="border:  2px solid #3db8da; width: 30px;height: 30px;border-radius: 30px; margin-top: 16px; ">
           <i
             style="position: absolute;
             width: 15px;
@@ -27,8 +27,8 @@
         <!-- <a class="right-menu-item" target="_blank" title="GIS" href="http://192.168.1.172:8088/start.html#p=%E7%9B%91%E6%B5%8B%E6%8A%A5%E8%AD%A6_1&id=wzt85l" style="vertical-align: top;">
           <i style="display: inline-block;width: 18px;height: 18px;background-image:url('/jczx.png');background-position: center;background-size: 18px;margin-top: 16px;" />
         </a> -->
-        <!-- <search id="header-search" class="right-menu-item" title="快速入口" /> -->
-      </template>
+        <!-- <search id="header-search" class="right-menu-item" title="快速入口" /> 
+      </template>-->
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
           <img class="user-avatar" src="/head.png" alt="" />
@@ -129,7 +129,7 @@ export default {
     line-height: 50px;
     height: 50px;
     float: left;
-    padding: 0 10px 0 45px !important;
+    padding: 0 10px 0 22px !important;
   }
   .breadcrumb-container {
     float: left;
@@ -167,7 +167,7 @@ export default {
         display: flex;
         align-items: center;
         span {
-          font-size: 16px;
+          font-size: 14px;
           color: #333;
         }
         .user-avatar {

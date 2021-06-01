@@ -75,14 +75,14 @@
               line-height: 46px;
             background: #1c273a  !important;
           }
-          li{
-            .svg-icon{
-              display: none;
-            }
-            span{
-              margin-left: 10px;
-            }
-          }
+          // li{
+          //   .svg-icon{
+          //     display: none;
+          //   }
+          //   span{
+          //     margin-left: 10px;
+          //   }
+          // }
 
           }
           .nest-menu{
@@ -94,8 +94,8 @@
               &::before{
                 position: absolute;
                 content: '';
-                width: 4px;
-                height: 56px;
+                width: 6px;
+                height: 46px;
                 background: #4571e7;
                 left: 0;
                 top: 0;

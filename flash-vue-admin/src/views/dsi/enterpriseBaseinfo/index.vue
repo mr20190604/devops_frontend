@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form label-width="102px" :inline="true" >
+          <el-form label-width="76px">
             <el-row>
               <el-col :span="6">
                 <el-form-item  label="企业名称：">
@@ -49,16 +49,21 @@
                   <el-input v-model="listQuery.legalPerson"  placeholder="请输入法人名称"></el-input>
                 </el-form-item>
               </el-col>
-             
-            </el-row>
-            <el-row class="marginZero textAlignRight">
-               <el-col>
+              <el-col :span="12" class="textAlignRight">
                 <el-form-item>
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                   <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
                 </el-form-item>
               </el-col>
             </el-row>
+            <!-- <el-row class="marginZero textAlignRight">
+               <el-col>
+                <el-form-item>
+                  <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                  <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row> -->
           </el-form>
        </div>
     <div class="table-list">
@@ -156,12 +161,12 @@
 
             <el-table-column label="操作" align="center" width="170">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-edit" class="font14" @click.native="editItem(scope.row)" v-permission="['/enterpriseBaseinfo/update']">{{ $t('button.edit') }}</el-button>
-                    <el-button type="text" size="mini" icon="el-icon-delete" class="font14 marginleft23" @click.native="removeItem(scope.row)" v-permission="['/enterpriseBaseinfo/delete']">{{ $t('button.delete') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/enterpriseBaseinfo/update']">{{ $t('button.edit') }}</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/enterpriseBaseinfo/delete']">{{ $t('button.delete') }}</el-button>
                 </template>
             </el-table-column>
       </el-table>
-    </div>
+   
         <el-pagination
             background
             class="position-pagination"
@@ -174,7 +179,7 @@
             @prev-click="fetchPrev"
             @next-click="fetchNext">
         </el-pagination>
-    
+     </div>
     <!-- 添加 -->
       <el-dialog class="el-dialog-style"
                 :title="formTitle"

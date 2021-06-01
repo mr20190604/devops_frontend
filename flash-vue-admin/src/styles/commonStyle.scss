@@ -5,27 +5,32 @@
 }
 .main-container{
 .table-list {
-    padding: 0 30px;
+    padding: 0 12px;
     background-color: #fff;
+    height: calc(100% - 126px);
     .el-table {
-      height: 442x;
+      height: 442px;
+     
       thead {
         th {
-          background: #e3e7ee;
+          background: #eeeff2;
           color: #333333;
-          font-size: 16px;
+          font-size: 12px;
           border-right: none;
-          font-weight: normal;
-          padding:8px 0;
+          font-weight: bold;
+          padding:6px 0;
+          .cell{
+            line-height: initial;
+          }
         }
   
       }
   
       td {
         color: #333;
-        font-size: 14px;
+        font-size: 12px;
         border-right: none;
-        height: 40px;
+        height: 30px;
         padding: 0;
       }
       tr{
@@ -41,10 +46,27 @@
       tr:nth-child(even) {
         background: #fafafa
       }
+      .el-table__body-wrapper {
+        tr{
+          &.el-table__row{
+            td{
+              &:last-child{
+                .cell{
+                  .el-button{
+                    font-size: 12px;
+                    color: #1a80ff;
+                     margin: 0 15px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
     .btnLists{
       margin-bottom:12px;
-      padding-top: 10px;
+      padding-top: 20px;
     }
   }
   .el-pagination{
@@ -83,39 +105,50 @@
 }
 
 .block{
-  padding: 24px 30px 0px;
+  padding: 20px 30px 20px;
   background: #fff;
+  margin-bottom: 10px;
   .el-form{
     .el-form-item{
       .el-form-item__label{
-        font-size: 18px;
+        font-size: 14px;
         font-weight: normal;
-        text-align: left;
+        text-align: right;
         padding-right: 0;
-        line-height: 40px;
+        line-height: 28px;
       }
       .el-form-item__content{
-        line-height: 40px;
+        line-height: 28px;
         .el-select{
           .el-input{
-            width: 210px;
-            height: 40px;
+            width: 200px;
+            height: 28px;
+            .el-input__icon{
+              line-height: 28px;
+            }
           }
         }
         .el-input{
+          height: 28px;
+            line-height: 28px;
           input{
-            width: 210px;
-            height: 40px;
-            line-height: 40px;
-            font-size: 14px;
+            width: 200px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 12px;
           }
         }
         .vue-treeselect{
-          width: 210px;
-          height: 40px;
+          width: 200px;
+          height: 28px;
           .vue-treeselect__control{
-            height: 40px;
-            line-height: 40px;
+            height: 28px;
+            line-height: 28px;
+            .vue-treeselect__placeholder{
+              line-height: 26px;
+              height: 26px;
+              font-size: 12px;
+            }
           }
         }
        
@@ -143,9 +176,9 @@
   background: #fff;
 }
 }
-// .app-container{
-//   padding: 20px 0 20px;
-// }
+.app-container{
+ height: 100%;
+}
 .textAlignRight{
   text-align: right;
 }
@@ -153,11 +186,12 @@
 &.set-common-btn{
    border:1px solid rgb(26, 128, 255);
     border-radius: 4px;
-    font-size: 16px;
-    width: 100px;
-    height: 40px;
+    font-size: 12px;
+    width: 72px;
+    height: 28px;
     color: #fff;
-    letter-spacing:4px;
+    // letter-spacing:4px;
+    padding: 0;
     
   &.blue-button{
     color: #fff;
