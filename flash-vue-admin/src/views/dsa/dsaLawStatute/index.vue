@@ -40,9 +40,6 @@
             <el-form-item label="公布日期：">
               <el-date-picker type="date" v-model="listQuery.publicationDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="请选择日期"></el-date-picker>
             </el-form-item>
-            <!--<el-form-item label="适用类型">-->
-              <!--<el-input v-model="listQuery.adaptType"  placeholder="请选择适用类型"></el-input>-->
-            <!--</el-form-item>-->
             <el-form-item style="float: right;margin-right: 100px">
               <el-button type="primary"   icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
               </el-button>
@@ -89,32 +86,23 @@
                     {{scope.row.formulateOfficeName}}
                 </template>
             </el-table-column>
-            <el-table-column label="法律性质">
+            <el-table-column label="法律性质" width="80px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.lawNatureName}}
                 </template>
             </el-table-column>
-            <el-table-column label="时效性">
+            <el-table-column label="时效性" align="center" width="80px">
                 <template slot-scope="scope">
                     {{scope.row.timeName}}
                 </template>
             </el-table-column>
-            <el-table-column label="公布日期">
+            <el-table-column label="公布日期" width="120px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.publicationDate}}
                 </template>
             </el-table-column>
-           <!-- <el-table-column label="备注">
-                <template slot-scope="scope">
-                    {{scope.row.remark}}
-                </template>
-            </el-table-column>
-            <el-table-column label="逻辑删除">
-                <template slot-scope="scope">
-                    {{scope.row.isDel}}
-                </template>
-            </el-table-column>-->
-            <el-table-column label="操作">
+
+            <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/law/statute/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/law/statute/delete']">{{ $t('button.delete') }}</el-button>
@@ -138,12 +126,13 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
+                onclose="cancleDelete"
                 width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="法律法规名称："  >
-                            <el-input v-model="form.lawName" minlength=1></el-input>
+                            <el-input v-model="form.lawName" minlength=1 placeholder="请输入法律法规名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -160,7 +149,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="法律性质："  >
-                            <el-select v-model="form.lawNature" minlength=1>
+                            <el-select v-model="form.lawNature" minlength=1 >
 
                               <el-option
                                 v-for="item in lawNature_list"
@@ -187,13 +176,13 @@
                     <el-col :span="12">
                         <el-form-item label="公布日期："  >
                             <el-date-picker type="date" v-model="form.publicationDate" minlength=1
-                            format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss"
+                            format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择公布日期"
                             ></el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
               <el-row>
-                <el-col :span="12">
+                <el-col :span="16">
                   <el-form-item label="选择文件：">
                     <el-upload
                       :action="uploadUrl"
@@ -203,11 +192,11 @@
                       :on-remove="removeFile"
                       :file-list="fileList"
                       :multiple="multiple"
-                      accept=".doc,.docx,.pdf,.zip,.rar"
+                      :accept="fileAccept"
                     >
                       <!--accept=".doc,.docx,.pdf,.zip,.rar"-->
                       <el-button size="small" type="primary">点击上传</el-button>
-                      <div slot="tip" >最大上传大小10Mb</div>
+                      <div slot="tip" >总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{fileAccept}}</span></div>
                     </el-upload>
                   </el-form-item>
                 </el-col>
@@ -226,9 +215,9 @@
         <el-dialog
           :title="previewTitle"
           :visible.sync="previewVisible"
-          width="60%"style="margin-top: 0px;">
+          width="60%">
 
-          <el-row style="width: 100%;height: 600px">
+          <el-row style="width: 100%;height: 600px;margin-top: 10px;">
             <el-col style="width: 25%;height: 620px">
               <div class="grid-content bg-purple" >
                 <el-table :data="files" v-loading="fileLoading" element-loading-text="Loading">
@@ -247,9 +236,9 @@
                 </el-table>
             </div>
             </el-col>
-            <el-col style="width: 75%;height: 600px;padding-top: 20px">
-              <div class="grid-content bg-purple">
-              <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
+            <el-col style="width: 75%;height: 600px;">
+              <div class="grid-content bg-purple" >
+                <template ><preview v-if="fileShow" :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview></template>
               </div>
 
             </el-col>

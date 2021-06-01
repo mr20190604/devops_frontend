@@ -185,8 +185,8 @@
                 :title="formTitle"
                 :visible.sync="formVisible"
                 width="75%"
-               >
-          <template>
+                 @close="closeDialog">
+          <template v-if="formVisible">
             <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height: 600px">
               <el-tab-pane label="添加企业信息" name="first" style="visibility: visible">
                 <el-form ref="form" :model="form" :rules="rules" label-width="120px" >
@@ -301,16 +301,16 @@
                   </el-row>
                   <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button @click="closeDialog">{{ $t('button.cancel') }}</el-button>
                   </el-form-item>
 
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane label="产品信息" name="second" id="second"  style="height: 550px">
-                <productInfo :enterpriseId="enterpriseId" ></productInfo>
+              <el-tab-pane label="添加产品信息" name="second" id="second"  style="height: 550px">
+                <productInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></productInfo>
               </el-tab-pane>
-              <el-tab-pane  label="风险单元" name="third" style="height: 550px">
-                <unitInfo :enterpriseId="enterpriseId"></unitInfo>
+              <el-tab-pane  label="添加风险单元" name="third"  style="height: 550px">
+                <unitInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></unitInfo>
               </el-tab-pane>
             </el-tabs>
           </template>
@@ -433,7 +433,7 @@
           </el-row>
           <div style="text-align: center">
             <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-            <el-button @click.native="enterpriseVisible = false">{{ $t('button.cancel') }}</el-button>
+            <el-button @click="closeDialog">关闭</el-button>
           </div>
 
         </el-form>

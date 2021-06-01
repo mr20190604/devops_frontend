@@ -220,7 +220,10 @@ export default {
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
                     })
+                    this.$refs.poolTable.clearSelection()
+                    this.resetForm()
                     this.fetchData()
+
                     this.formVisible = false
                 })
             }else{
@@ -234,7 +237,9 @@ export default {
                     item.poolId = poolId
                     dsiParkEmergency.add(item).then()
                   })
-                  this.material_list = [];
+                    this.material_list = [];
+                    this.$refs.poolTable.clearSelection()
+                    this.resetForm()
                     this.fetchData()
                     this.formVisible = false
                 })
@@ -253,6 +258,19 @@ export default {
         type: 'warning'
       })
       return false
+    },cancle() {
+      if (this.materialVisible) {
+        this.materialVisible = false
+        this.initMaterialList(this.form.id)
+      } else {
+        this.fetchData()
+        this.formVisible = false
+        this.reset()
+        this.$refs.poolTable.clearSelection()
+      }
+
+
+
     },
     editItem(record){
       this.selRow = record

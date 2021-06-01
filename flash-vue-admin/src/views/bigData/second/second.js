@@ -4,7 +4,7 @@ import data from '@/views/bigData/second/second.json'
 export default {
   name:'second',
   components:{
-    chart: charts.ECharts
+    chart: charts
   },
   data(){
     return {

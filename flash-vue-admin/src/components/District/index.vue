@@ -7,6 +7,8 @@
     :load-options="loadOptions"
     no-children-text="没有子级别"
     @input="handleInput"
+    :disabled="disabled"
+
   >
     <div slot="value-label" slot-scope="{ node }">{{ node.raw.valueLabel }}</div>
   </treeselect>
@@ -29,6 +31,10 @@ export default {
     value: {
       type: String,
       default: undefined
+    },
+    disabled:{
+      type:Boolean,
+      default:false
     }
   },
   data() {
@@ -187,6 +193,13 @@ export default {
 
   .el-form-item--mini .vue-treeselect__control {
     height: $mini-height;
+  }
+
+  .vue-treeselect--disabled .vue-treeselect__single-value > div {
+    background-color: #F5F7FA;
+    border-color: #E4E7ED;
+    color: #C0C4CC;
+    cursor: not-allowed;
   }
 
 </style>

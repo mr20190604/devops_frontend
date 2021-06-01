@@ -50,7 +50,7 @@
         </div>
 
 
-        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit
                   :row-key="row=>row.id"
                   @selection-change="handleSelectionChange"
                   @current-change="handleCurrentChange"
@@ -69,7 +69,7 @@
             label="序号"
           >
           </el-table-column>
-          <el-table-column label="车辆名称">
+          <el-table-column label="车辆名称" width="120px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.vehicleName}}
                 </template>
@@ -79,27 +79,27 @@
                     {{scope.row.enterpriseName}}
                 </template>
             </el-table-column>
-            <el-table-column label="车牌号">
+            <el-table-column label="车牌号" width="120px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.vehicleLicense}}
                 </template>
             </el-table-column>
-            <el-table-column label="车辆编号" width="100px">
+            <el-table-column label="车辆编号" width="100px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.vehicleCode}}
                 </template>
             </el-table-column>
-            <el-table-column label="车辆类别">
+            <el-table-column label="车辆类别" width="100px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.vehicleTypeName}}
                 </template>
             </el-table-column>
-            <el-table-column label="车辆型号">
+            <el-table-column label="车辆型号" width="100px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.vehicleModel}}
                 </template>
             </el-table-column>
-            <el-table-column label="行政区划" width="100px">
+            <el-table-column label="行政区划" width="100px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.districtName}}
                 </template>
@@ -109,7 +109,7 @@
                     {{scope.row.vehicleResponsible}}
                 </template>
             </el-table-column>
-            <el-table-column label="联系电话">
+            <el-table-column label="联系电话" width="120px">
                 <template slot-scope="scope">
                     {{scope.row.personTel}}
                 </template>
@@ -120,7 +120,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="操作" width="200px">
+            <el-table-column label="操作"  align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/vehicle/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/park/emergency/vehicle/delete']">{{ $t('button.delete') }}</el-button>
@@ -145,12 +145,13 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
+                onclose="cancleDelete"
                 width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="车辆名称："  >
-                            <el-input v-model="form.vehicleName" minlength=1></el-input>
+                            <el-input v-model="form.vehicleName" minlength=1 placeholder="请输入车辆名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -167,12 +168,12 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="车牌号："  >
-                            <el-input v-model="form.vehicleLicense" minlength=1></el-input>
+                            <el-input v-model="form.vehicleLicense" minlength=1 placeholder="请输入车牌号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="车辆编号："  >
-                            <el-input v-model="form.vehicleCode" minlength=1></el-input>
+                            <el-input v-model="form.vehicleCode" minlength=1 placeholder="请输入车牌编号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -189,7 +190,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="车辆型号："  >
-                            <el-input v-model="form.vehicleModel" minlength=1></el-input>
+                            <el-input v-model="form.vehicleModel" minlength=1 placeholder="请输入车辆型号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -199,43 +200,43 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="负责人：" >
-                            <el-input v-model="form.vehicleResponsible" minlength=1></el-input>
+                            <el-input v-model="form.vehicleResponsible" minlength=1 placeholder="请输入负责人"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="联系电话："  >
-                            <el-input v-model="form.personTel" minlength=1></el-input>
+                            <el-input v-model="form.personTel" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1 placeholder="请输入联系电话"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="生产厂家："  >
-                            <el-input v-model="form.manufacturer" minlength=1></el-input>
+                            <el-input v-model="form.manufacturer" minlength=1 placeholder="请输入生产厂家"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="经度："  >
-                            <el-input v-model="form.longitude" minlength=1></el-input>
+                            <el-input v-model="form.longitude" oninput="value=value.replace(/[^0-9.]/g,'')" placeholder="请输入经度" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="纬度："  >
-                            <el-input v-model="form.latitude" minlength=1></el-input>
+                            <el-input v-model="form.latitude" oninput="value=value.replace(/[^0-9.]/g,'')" placeholder="请输入纬度" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
-                  <el-col :span="12">
+                  <el-col :span="16">
                     <el-form-item label="选择文件：">
                       <el-upload
                         :action="uploadUrl"
                         :headers="uploadHeaders"
                         :on-change="handleChangeUpload"
                         :on-success="uploadSuccess"
-                        accept=".jpg,.png,.jpeg,.gif,.bmp"
+                        :accept="fileAccept"
                         :on-remove="removeFile"
                         :file-list="fileList"
                         :multiple="multiple"
                       >
                         <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip" >最大上传大小10Mb</div>
+                        <div slot="tip" >总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{fileAccept}}</span></div>
                       </el-upload>
                     </el-form-item>
                   </el-col>

@@ -4,7 +4,7 @@ import data from '@/views/bigData/third/third.json'
 export default {
   name:'third',
   components:{
-    chart: charts.ECharts
+    chart: charts
   },
   data(){
     return {

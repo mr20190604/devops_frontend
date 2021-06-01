@@ -92,7 +92,7 @@
               {{scope.row.equipment.equipmentCode}}
             </template>
           </el-table-column>
-            <el-table-column label="报警类型">
+            <el-table-column label="报警类型" width="100px" align="center">
                 <template slot-scope="scope">
                     {{scope.row.monitorTypeName}}
                 </template>
@@ -103,29 +103,29 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="报警等级">
+          <el-table-column label="报警等级" width="100px" align="center">
             <template slot-scope="scope" >
               {{scope.row.alarmLevelName}}
             </template>
           </el-table-column>
-          <el-table-column label="报警值">
+          <el-table-column label="报警值" width="80px" align="center">
             <template slot-scope="scope">
               {{scope.row.alarmValue}}
             </template>
           </el-table-column>
 
-            <el-table-column label="报警时间">
+            <el-table-column label="报警时间" align="center" width="240px" >
                 <template slot-scope="scope">
                     {{scope.row.alarmTime}}
                 </template>
             </el-table-column>
-          <el-table-column label="审核状态">
+          <el-table-column label="审核状态" align="center" width="80px">
             <template slot-scope="scope">
               <template  v-if="scope.row.isAudit === 0">未审核</template>
               <template  v-if="scope.row.isAudit === 1">已审核</template>
             </template>
           </el-table-column>
-            <el-table-column label="处置状态">
+            <el-table-column label="处置状态" align="center" width="100px">
               <template slot-scope="scope">
                 <template  v-if="scope.row.isFeedback === 0">未处置</template>
                 <template  v-if="scope.row.isFeedback === 1">处置中</template>
@@ -133,7 +133,7 @@
               </template>
 
             </el-table-column>
-            <el-table-column label="操作" width="200px">
+            <el-table-column label="操作" width="200px" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" @click="openProcess(scope.row)">流程</el-button>
                   <el-button type="text" size="mini" @click="openCurve(scope.row)">监测曲线</el-button>
@@ -157,6 +157,7 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
+                onclose="cancle"
                 width="60%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
@@ -219,15 +220,19 @@
                   <el-col :span="12">
 
                   </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="审核意见"  >
-                            <el-input type="textarea" v-model="form.auditOpinion" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
+
                 </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="审核意见"  >
+                    <el-input type="textarea" v-model="form.auditOpinion" minlength=1></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
                 <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button @click.native="cancle">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>
@@ -267,13 +272,13 @@
                     :action="uploadUrl"
                     :headers="uploadHeaders"
                     :on-change="handleChangeUpload"
-                    accept=".doc,.docx,.pdf,.zip,.rar"
+                    :accept="fileAccept"
                     :on-remove="removeFile"
                     :file-list="fileList"
                     :multiple="multiple"
                   >
                     <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" >最大上传大小10Mb</div>
+                    <div slot="tip" >总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{fileAccept}}</span></div>
                   </el-upload>
                 </el-form-item>
               </el-col>
@@ -339,7 +344,7 @@
           </el-col>
           <el-col style="width: 75%;height: 600px;padding-top: 20px">
             <div class="grid-content bg-purple">
-              <preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview>
+              <template v-if="fileShow == true"><preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview></template>
             </div>
 
           </el-col>

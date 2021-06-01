@@ -148,7 +148,8 @@
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="60%">
+                width="60%"
+                @close="closeDialog">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
@@ -210,7 +211,7 @@
                 </el-row>
                 <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button @click="closeDialog">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>
