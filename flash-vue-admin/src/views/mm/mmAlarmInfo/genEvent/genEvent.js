@@ -56,7 +56,7 @@ export default {
       let self = this;
       self.uploadUrl = getApiUrl() + '/file';
       this.uploadHeaders['Authorization'] = getToken();
-      if(self.alarmRow.mmManagerEvents && self.alarmRow.mmManagerEvents[0].mmManagerEventFiles) {
+      if(self.alarmRow.mmManagerEvents && self.alarmRow.mmManagerEvents.length > 0 && self.alarmRow.mmManagerEvents[0].mmManagerEventFiles) {
         self.alarmRow.mmManagerEvents[0].mmManagerEventFiles.forEach(item =>{
           self.fileList.push({name:item.fileInfo.originalFileName,status:"success",response:{data:{id:item.fileId}}});
         });

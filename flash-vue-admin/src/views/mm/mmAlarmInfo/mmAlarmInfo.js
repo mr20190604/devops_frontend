@@ -598,6 +598,7 @@ export default {
 
     },
     closeGenEvent() {
+      this.search();
       this.genEventVisible = false;
     },
     openGenEvent(){
