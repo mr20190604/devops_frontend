@@ -3,7 +3,7 @@ import data from '@/views/bigData/first/first.json'
 export default {
   name:'first',
   components: {
-    chart: charts.ECharts
+    chart: charts
   },
   data(){
     return{

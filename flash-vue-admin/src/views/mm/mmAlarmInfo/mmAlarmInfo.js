@@ -16,7 +16,7 @@ export default {
   directives: { permission },
   components:{
     genEvent,
-    chart: charts.ECharts,
+    chart: charts,
     process
   },
   data() {
