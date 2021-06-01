@@ -19,7 +19,7 @@
       <el-button  size="mini" icon="el-icon-refresh" @click.native="reset">重置</el-button>
       <br>
       特征因子：
-      <el-select v-model="featuresFactorVal" placeholder="请选择" @change="selectEquipment">
+      <el-select v-model="featuresFactorVal" placeholder="请选择" >
         <el-option
           v-for="item in featuresFactor"
           :key="item.value"
