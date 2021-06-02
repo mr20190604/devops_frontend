@@ -1,3 +1,4 @@
+<script src="unitInfo.js"></script>
 <template>
   <div class="app-container">
     <div class="block">
@@ -133,25 +134,26 @@
         </el-row>
         <el-row style="margin-left: 200px">
         <el-form-item
+
           v-for="(rec, index) in form.details"
           :label="'风险物质' + (index+1)"
           :key="index"
-          :prop="'details.' + index + '.value'"
+          :prop="'details.' + index + '.criticalQuantity'"
           :rules="{                required: true, message: '不能为空', trigger: 'blur'                }"
         >
           <el-col :span="5">
             <el-form-item label="风险物质">
-              <el-input class="el-input-style" v-model="rec.materialId" minlength=1 @input="onInput()"></el-input>
+              <el-input class="el-input-style" v-model="rec.materialId"  minlength=1 @input="onInput()" ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="现存量">
-              <el-input class="el-input-style" v-model="rec.currentStock" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')" @input="onInput()"></el-input>
+            <el-form-item label="现存量" >
+              <el-input class="el-input-style" v-model="rec.currentStock"  @input="onInput()" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="临界量">
-              <el-input class="el-input-style" v-model="rec.criticalQuantity " oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1 @input="onInput()"></el-input>
+            <el-form-item label="临界量" >
+              <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 100px">&nbsp;
