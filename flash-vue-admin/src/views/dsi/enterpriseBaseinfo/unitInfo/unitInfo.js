@@ -203,6 +203,11 @@ export default {
               this.formVisible = false
             })
           }else{
+            if(!self.form.details.length){
+              this.$alert('请先提交企业信息', '提示', {
+                confirmButtonText: '确定',
+              });
+            }
             dsiEnterpriseRiskUnitApi.add(formData).then(response => {
               this.$message({
                 message: this.$t('common.optionSuccess'),

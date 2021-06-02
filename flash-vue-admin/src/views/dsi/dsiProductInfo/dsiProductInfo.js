@@ -252,8 +252,13 @@ export default {
       console.log(this.form.id);
       this.formTitle = '选择原料'
       this.materialVisible = true
+      this.reset();
+      this.fetchData1()
+      this.$refs.materialTable.clearSelection();
       dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
+
         this.materialList = response.data.records
+
         this.listLoading = false
         this.total = response.data.total
       })
@@ -400,6 +405,7 @@ export default {
             type: 'success'
           })
           this.fetchData();
+          ids=[];
           this.materialVisible=false;
 
       },
