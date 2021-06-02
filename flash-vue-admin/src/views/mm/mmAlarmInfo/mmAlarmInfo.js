@@ -236,6 +236,7 @@ export default {
 
         }]
       },
+      selection:[],
       //流程
       processVisiable:false,
       fileAccept:'.doc,.docx,.pdf,.zip,.rar',
@@ -743,6 +744,11 @@ export default {
     },clearData() {
       this.lineData.xAxis.data = []
       this.lineData.series[0].data = []
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
+    },toggleSelection(row) {
+      this.$refs.alarmTable.toggleRowSelection(row)
     }
 
   }

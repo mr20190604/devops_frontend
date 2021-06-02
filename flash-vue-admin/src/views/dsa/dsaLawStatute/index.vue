@@ -227,33 +227,33 @@
           :title="previewTitle"
           :visible.sync="previewVisible"
           width="60%">
+          <file-preview :files="files" :download-file-url="downloadUrl"></file-preview>
+          <!--<el-row style="width: 100%;height: 600px;margin-top: 10px;">-->
+            <!--<el-col style="width: 25%;height: 620px">-->
+              <!--<div class="grid-content bg-purple" >-->
+                <!--<el-table :data="files" v-loading="fileLoading" element-loading-text="Loading">-->
+                  <!--<el-table-column label="附件名称">-->
+                    <!--<template slot-scope="scope">-->
+                      <!--<div @click="viewFile(scope.row)">-->
+                        <!--{{scope.row.fileInfo.originalFileName}}-->
+                      <!--</div>-->
+                    <!--</template>-->
+                  <!--</el-table-column>-->
+                  <!--<el-table-column label="操作">-->
+                    <!--<template slot-scope="scope">-->
+                      <!--<el-button type="text" size="mini" icon="el-icon-download"  @click.native="downloads(scope.row)" >下载</el-button>-->
+                    <!--</template>-->
+                  <!--</el-table-column>-->
+                <!--</el-table>-->
+            <!--</div>-->
+            <!--</el-col>-->
+            <!--<el-col style="width: 75%;height: 600px;">-->
+              <!--<div class="grid-content bg-purple" >-->
+                <!--<template ><preview v-if="fileShow" :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview></template>-->
+              <!--</div>-->
 
-          <el-row style="width: 100%;height: 600px;margin-top: 10px;">
-            <el-col style="width: 25%;height: 620px">
-              <div class="grid-content bg-purple" >
-                <el-table :data="files" v-loading="fileLoading" element-loading-text="Loading">
-                  <el-table-column label="附件名称">
-                    <template slot-scope="scope">
-                      <div @click="viewFile(scope.row)">
-                        {{scope.row.fileInfo.originalFileName}}
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="操作">
-                    <template slot-scope="scope">
-                      <el-button type="text" size="mini" icon="el-icon-download"  @click.native="downloads(scope.row)" >下载</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-            </div>
-            </el-col>
-            <el-col style="width: 75%;height: 600px;">
-              <div class="grid-content bg-purple" >
-                <template ><preview v-if="fileShow" :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview></template>
-              </div>
-
-            </el-col>
-          </el-row>
+            <!--</el-col>-->
+          <!--</el-row>-->
         </el-dialog>
     </div>
 </template>
