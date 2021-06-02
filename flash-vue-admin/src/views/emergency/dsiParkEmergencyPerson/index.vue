@@ -1,50 +1,53 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form label-width="120px" :inline="true">
-            <el-row>
-
-              <el-form-item label="人员名称：">
-                <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
-              </el-form-item>
-              <el-form-item label="所在行政区：">
-                <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
-              </el-form-item>
-              <el-form-item label="现工作单位：">
-                <el-input v-model="listQuery.workPlace"  placeholder="请输入工作单位"></el-input>
-              </el-form-item>
+          <el-form label-width="90px" class="has-Label-Width">
+            <el-row class="hasmarginBottom">
+              <el-col :span="6">
+                  <el-form-item label="人员名称：">
+                    <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
+                  </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                  <el-form-item label="所在行政区：" class="label-width">
+                    <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
+                  </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                  <el-form-item label="现工作单位：">
+                    <el-input v-model="listQuery.workPlace"  placeholder="请输入工作单位"></el-input>
+                  </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="是否专家：">
+                  <el-select v-model="listQuery.isExpert"  placeholder="是否专家">
+                    <el-option
+                      v-for="item in isExpert"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
 
             <el-row>
-              <el-form-item label="是否专家：">
-                <el-select v-model="listQuery.isExpert"  placeholder="是否专家">
-                  <el-option
-                    v-for="item in isExpert"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item style="float: right;margin-right: 100px">
-                <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-              </el-form-item>
-
+              <el-col>
+                <el-form-item>
+                  <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                  <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+                </el-form-item>
+              </el-col>
             </el-row>
 
           </el-form>
-            <br>
-            <el-row>
-                <el-col :span="24">
-                    <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/person/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="batchDelete" v-permission="['/park/emergency/person/delete']">批量删除</el-button>
-                </el-col>
-
-            </el-row>
         </div>
-
-
+<div class="table-list">
+      <div class="btnLists">
+          <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/park/emergency/person/add']">{{ $t('button.add') }}</el-button>
+          <el-button type="danger" size="mini"  class="set-common-btn blank-blue-button" @click.native="batchDelete" v-permission="['/park/emergency/person/delete']">批量删除</el-button>
+      </div>
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
                   :row-key="row=>row.id"
                   @selection-change="handleSelectionChange"
@@ -65,64 +68,64 @@
             label="序号"
           >
           </el-table-column>
-            <el-table-column label="姓名" width="80px">
+            <el-table-column label="姓名" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.name}}
                 </template>
             </el-table-column>
-            <el-table-column label="性别" width="60px" align="center">
+            <el-table-column label="性别" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.genderName}}
                 </template>
             </el-table-column>
-            <el-table-column label="学历" width="80px" align="center">
+            <el-table-column label="学历" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.educationName}}
                 </template>
             </el-table-column>
-            <el-table-column label="职称" align="center">
+            <el-table-column label="职称" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.professionalName}}
                 </template>
             </el-table-column>
-            <el-table-column label="职务" width="100px">
+            <el-table-column label="职务" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.postName}}
                 </template>
             </el-table-column>
-          <el-table-column label="行政区划" width="100px" align="center">
+          <el-table-column label="行政区划" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.districtName}}
             </template>
           </el-table-column>
-          <el-table-column label="是否专家"  width="80px" align="center">
+          <el-table-column label="是否专家" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.isExpertName}}
             </template>
           </el-table-column>
-            <el-table-column label="专业特长">
+            <el-table-column label="专业特长" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.majorSpecialty}}
                 </template>
             </el-table-column>
 
-            <el-table-column label="联系电话"width="150px">
+            <el-table-column label="联系电话" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.tel}}
                 </template>
             </el-table-column>
 
-          <el-table-column label="工作单位">
+          <el-table-column label="工作单位" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.workPlace}}
             </template>
           </el-table-column>
-            <el-table-column label="地址">
+            <el-table-column label="地址" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.address}}
                 </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center" width="170px">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/park/emergency/person/update']">{{ $t('button.edit') }}</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/park/emergency/person/delete']">{{ $t('button.delete') }}</el-button>
@@ -132,6 +135,7 @@
 
         <el-pagination
                 background
+                class="position-pagination"
                 layout="total, sizes, prev, pager, next, jumper"
                 :page-sizes="[10, 20, 50, 100,500]"
                 :page-size="listQuery.limit"
@@ -142,7 +146,7 @@
                 @prev-click="fetchPrev"
                 @next-click="fetchNext">
         </el-pagination>
-
+</div>
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"
@@ -264,7 +268,4 @@
 <script src="./dsiParkEmergencyPerson.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" >
-    @import "src/styles/commonmyself.scss";
-</style>
 

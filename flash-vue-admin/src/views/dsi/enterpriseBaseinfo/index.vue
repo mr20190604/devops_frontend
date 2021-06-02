@@ -49,7 +49,7 @@
                   <el-input v-model="listQuery.legalPerson"  placeholder="请输入法人名称"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12" class="textAlignRight">
+              <el-col :span="12">
                 <el-form-item>
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                   <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
@@ -61,26 +61,8 @@
        </div>
     <div class="table-list">
       <div class="btnLists">
-          <el-button
-            type="primary"   
-            class="set-common-btn blue-button"
-            @click.native="add"
-            v-permission="['/enterpriseBaseinfo/add']"
-            >{{ $t("button.add") }}</el-button
-          >
-          <!-- <el-button
-            type="primary"
-            class="set-common-btn blank-blue-button"
-            size="mini"
-            @click="viewMaterial"
-            >查看企业信息</el-button
-          > -->
-          <el-button
-            size="mini"
-            class="set-common-btn blank-blue-button"
-            @click.native="removeBatch"
-            v-permission="['/enterpriseBaseinfo/delete']"
-            >批量删除</el-button>
+          <el-button type="primary" class="set-common-btn blue-button" @click.native="add" v-permission="['/enterpriseBaseinfo/add']" >{{ $t("button.add") }}</el-button >
+          <el-button size="mini" class="set-common-btn blank-blue-button" @click.native="removeBatch" v-permission="['/enterpriseBaseinfo/delete']" >批量删除</el-button>
       </div>
       <el-table
         ref="enterpriseTable"

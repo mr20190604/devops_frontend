@@ -85,6 +85,7 @@
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
