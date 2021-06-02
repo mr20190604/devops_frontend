@@ -578,15 +578,7 @@ export default {
       this.previewVisible = true;
       mmAlarmInfoApi.queryDataByHandleId(record.id).then(response =>{
         this.files = response.data
-        if (this.files) {
-          if(this.files.length < 1) {
-            this.fileShow = false
-          } else {
-            this.viewFile(this.files[0])
-          }
-        }
       })
-      this.fileLoading = false
     },viewFile(record) {
       if(!record.fileInfo) {
         this.$message({
