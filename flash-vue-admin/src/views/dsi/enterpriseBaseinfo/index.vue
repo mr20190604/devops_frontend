@@ -272,7 +272,7 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="企业电话："  >
-                        <el-input v-model="form.enterpriseOtel" minlength=1></el-input>
+                        <el-input v-model="form.enterpriseOtel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -282,7 +282,7 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="企业应急电话："  >
-                        <el-input v-model="form.enterpriseEmergencyTel" minlength=1></el-input>
+                        <el-input v-model="form.enterpriseEmergencyTel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">

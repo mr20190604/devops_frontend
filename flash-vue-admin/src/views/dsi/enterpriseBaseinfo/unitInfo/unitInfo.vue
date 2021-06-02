@@ -146,12 +146,12 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="现存量">
-              <el-input class="el-input-style" v-model="rec.currentStock" minlength=1 @input="onInput()"></el-input>
+              <el-input class="el-input-style" v-model="rec.currentStock" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')" @input="onInput()"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="临界量">
-              <el-input class="el-input-style" v-model="rec.criticalQuantity " minlength=1 @input="onInput()"></el-input>
+              <el-input class="el-input-style" v-model="rec.criticalQuantity " oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1 @input="onInput()"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="margin-left: 100px">&nbsp;
