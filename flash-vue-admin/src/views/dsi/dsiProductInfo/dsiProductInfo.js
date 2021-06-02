@@ -106,6 +106,7 @@ export default {
       // this.listLoading = true
       //this.listQuery.enterpriseId=this.enterpriseId;
       dsiProductInfoApi.getList(this.listQuery).then(response => {
+        console.log( response.data.records)
         this.list = response.data.records
         console.log(this.list);
         this.total = response.data.total
@@ -446,6 +447,9 @@ export default {
     },
     closeFatherDialog(){
       this.$emit("closeDialog");
+    },
+    toggleSelection1(row) {
+      this.$refs.materialTable.toggleRowSelection(row)
     },
   }
 }

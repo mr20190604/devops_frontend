@@ -345,6 +345,7 @@
       highlight-current-row
       @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange"
+      @row-click="toggleSelection1"
       ref="materialTable"
     >
       <el-table-column

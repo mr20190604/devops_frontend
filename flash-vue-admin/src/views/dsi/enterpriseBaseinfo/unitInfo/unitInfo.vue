@@ -1,4 +1,3 @@
-<script src="unitInfo.js"></script>
 <template>
   <div class="app-container">
     <div class="block">
@@ -71,7 +70,7 @@
     <el-pagination
       background
       layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="[10, 20, 50, 100,500]"
+      :page-sizes="[5,10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
       :total="total"
       @size-change="changeSize"
@@ -139,7 +138,7 @@
           :label="'风险物质' + (index+1)"
           :key="index"
           :prop="'details.' + index + '.criticalQuantity'"
-          :rules="{                required: true, message: '不能为空', trigger: 'blur'                }"
+          :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
         >
           <el-col :span="5">
             <el-form-item label="风险物质">

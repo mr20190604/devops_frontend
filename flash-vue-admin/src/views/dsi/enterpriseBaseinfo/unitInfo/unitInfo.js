@@ -11,6 +11,7 @@ export default {
       formVisible: false,
       formTitle: '添加数据资源一体化系统-企业信息-企业风险单元',
       isAdd: true,
+      flag:true,
       form: {
         riskName:'',
         enterpriseId:this.enterpriseId,
@@ -36,13 +37,15 @@ export default {
         page: 1,
         limit: 10,
         id: undefined,
-        enterpriseId:this.enterpriseId
+        enterpriseId:this.enterpriseId,
       },
       total: 0,
       list: [],
       listLoading: true,
       selRow: {},
-      selection: []
+      selection: [],
+
+
     }
   },
   filters: {
@@ -92,6 +95,7 @@ export default {
       this.listLoading = true
       this.listQuery.enterpriseId=this.enterpriseId;
       dsiEnterpriseRiskUnitApi.addUnit(this.listQuery).then(response => {
+        console.log(response.data.records);
         this.list = response.data.records;
         this.listLoading = false;
         this.total = response.data.total
@@ -169,6 +173,7 @@ export default {
     },
     save() {
       let self=this
+      let flag=true;
       this.$refs['form'].validate((valid) => {
         if (valid) {
           const formData = {
@@ -181,52 +186,63 @@ export default {
             personTel:this.form.personTel,
             isDel:this.form.isDel,
           }
-          if(formData.id){
-            dsiEnterpriseRiskUnitApi.update(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              var riskId = formData.id
-              dsiEnterpriseRiskMaterial.removeByUnitId(formData.id);
-              console.log(this.form.details)
-              for (var item in this.form.details) {
-                const formData1 = {
-                  riskUnitId:riskId,
-                  materialId:this.form.details[item].materialId,
-                  currentStock:this.form.details[item].currentStock,
-                  criticalQuantity:this.form.details[item].criticalQuantity,
-                }
-                dsiEnterpriseRiskMaterial.add(formData1).then();
+          if(this.form.details.length){
+            this.form.details.forEach(function (val) {
+              if(!val.materialId||!val.currentStock||!val.criticalQuantity){
+                flag=false
               }
-              this.fetchData()
-              this.formVisible = false
-            })
-          }else{
-            if(!self.form.details.length){
-              this.$alert('请先提交企业信息', '提示', {
-                confirmButtonText: '确定',
-              });
-            }
-            dsiEnterpriseRiskUnitApi.add(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              var riskId = response.data.id
-              for (var item in self.form.details) {
-                const formData1 = {
-                  riskUnitId:riskId,
-                  materialId:self.form.details[item].materialId,
-                  currentStock:self.form.details[item].currentStock,
-                  criticalQuantity:self.form.details[item].criticalQuantity,
-                }
-                dsiEnterpriseRiskMaterial.add(formData1).then();
-              }
-              this.fetchData()
-              this.formVisible = false
-            })
+            });
           }
+          if(flag){
+            if(formData.id){
+              dsiEnterpriseRiskUnitApi.update(formData).then(response => {
+                this.$message({
+                  message: this.$t('common.optionSuccess'),
+                  type: 'success'
+                })
+                var riskId = formData.id
+                dsiEnterpriseRiskMaterial.removeByUnitId(formData.id);
+                console.log(this.form.details)
+                for (var item in this.form.details) {
+                  const formData1 = {
+                    riskUnitId:riskId,
+                    materialId:this.form.details[item].materialId,
+                    currentStock:this.form.details[item].currentStock,
+                    criticalQuantity:this.form.details[item].criticalQuantity,
+                  }
+                  dsiEnterpriseRiskMaterial.add(formData1).then();
+                }
+                this.fetchData()
+                this.formVisible = false
+              })
+            }else{
+              console.log(formData.riskType);
+              dsiEnterpriseRiskUnitApi.add(formData).then(response => {
+                this.$message({
+                  message: this.$t('common.optionSuccess'),
+                  type: 'success'
+                })
+                var riskId = response.data.id
+                for (var item in self.form.details) {
+                  const formData1 = {
+                    riskUnitId:riskId,
+                    materialId:self.form.details[item].materialId,
+                    currentStock:self.form.details[item].currentStock,
+                    criticalQuantity:self.form.details[item].criticalQuantity,
+                  }
+                  dsiEnterpriseRiskMaterial.add(formData1).then();
+                }
+                this.fetchData()
+                this.formVisible = false
+              })
+            }
+          }else{
+            this.$alert('请完善风险物质信息', '提示', {
+              confirmButtonText: '确定',
+            });
+            return false
+          }
+
         } else {
           return false
         }
@@ -255,8 +271,8 @@ export default {
         var detail = this.selRow.detail.split(';')
         var details = []
         if(this.selRow.detail){
-          detail.forEach(function (val, index) {
-            var arr = val.split(',')
+          detail.forEach(function (val) {
+            let arr = val.split(',')
             details.push({'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2]})
           })
         }
