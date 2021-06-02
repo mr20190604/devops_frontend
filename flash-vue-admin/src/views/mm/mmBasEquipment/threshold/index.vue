@@ -1,21 +1,18 @@
 
 <!--阈值管理组件-->
 <template>
-  <el-form v-model="thresholdForm" label-width="120px">
+  <el-form v-model="thresholdForm" ref="thresholdForm"   label-width="120px">
     <el-row>
       <el-col :span="12">
         <el-form-item label="设备类型">
-
           <dict-select dict-name="设备类型" :disabled="editFlag" v-model="thresholdForm.equipmentType"></dict-select>
-
         </el-form-item>
-
       </el-col>
 
       <el-col :span="12">
         <el-form-item label="设备编号">
           <el-input  minlength=1 v-if="editFlag" v-model="equipmentCode"></el-input>
-          <el-input  minlength=1 v-else-if="editFlag == false" v-model="equipCodeList">新增</el-input>
+          <el-input  minlength=1 v-else-if="editFlag == false" v-model="equipCodeList"></el-input>
         </el-form-item>
 
       </el-col>
@@ -84,7 +81,20 @@
         return {
 
         }
-        }
+        },
+      computed:{
+          create() {
+
+            this.clearForm()
+          }
+      },
+      methods:{
+          clearForm() {
+            this.$refs['thresholdForm'].resetField()
+          },
+
+      }
+
     }
 </script>
 
