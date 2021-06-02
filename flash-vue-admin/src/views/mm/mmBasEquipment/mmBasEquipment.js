@@ -1,4 +1,5 @@
 import mmBasEquipmentApi from '@/api/mm/mmBasEquipment'
+import thresholdManager from '@/api/mm/mmThresholdManager.js'
 import permission from '@/directive/permission/index.js'
 import ECharts from 'vue-echarts/components/ECharts'
 import threshold from '@/views/mm/mmBasEquipment/threshold/index.vue'
@@ -22,7 +23,8 @@ export default {
   directives: { permission },
   components: {
     chart: ECharts,
-    threshold
+    threshold,
+    thresholdManager
   },
   data() {
     return {
@@ -521,11 +523,13 @@ export default {
     },thresholdView(record) {
       this.thresholdVisible = true
       this.equipCode = record.equipmentCode
-      if (record.mmThresholdManagers.length > 0) {
-        this.thresholdForm = record.mmThresholdManagers[0]
-      } else {
-        this.resetThresholdForm()
-      }
+      thresholdManager.queryByEquipmentId(record.id).then(response =>{
+        if (response.data.length > 0) {
+          this.thresholdForm = response.data[0]
+        } else {
+          this.resetThresholdForm()
+        }
+      })
     },cancleThreshold() {
       this.thresholdVisible = false
     },resetThresholdForm() {

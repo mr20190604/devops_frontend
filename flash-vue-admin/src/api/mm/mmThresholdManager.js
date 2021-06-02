@@ -29,5 +29,14 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  queryByEquipmentId:function (equipmentId) {
+    return request({
+      url: '/threshold/manager/queryByEquipmentId',
+      method: 'get',
+      params: {
+        equipmentId: equipmentId
+      }
+    })
+  }
 }
