@@ -1,31 +1,38 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-row  :gutter="20">
-            <el-col :span="4">
-              <el-input v-model="listQuery.tplCode" size="mini" placeholder="请输入模板编号"></el-input>
-            </el-col>
-            <el-col :span="8">
-              <el-date-picker
-                v-model="rangeDate"
-                size="mini"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="发送起始日期"
-                end-placeholder="发送截至日期"
-                value-format="yyyyMMddHHmmss"
-                align="right">
-              </el-date-picker>
-            </el-col>
-            <el-col :span="6">
-              <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click.native="clear" v-permission="['/message/clear']">{{ $t('button.clear') }}</el-button>
-            </el-col>
-          </el-row>
+          <el-form>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="模板编号：">
+                  <el-input v-model="listQuery.tplCode" size="mini" placeholder="请输入模板编号"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                 <el-form-item label="发送日期：">
+                    <el-date-picker
+                      v-model="rangeDate"
+                      size="mini"
+                      type="datetimerange"
+                      range-separator="至"
+                      start-placeholder="发送起始日期"
+                      end-placeholder="发送截至日期"
+                      value-format="yyyyMMddHHmmss"
+                      align="right">
+                    </el-date-picker>
+                </el-form-item>
+              </el-col>
+               <el-col :span="10">
+                  <el-button type="success" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                  <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+                  <el-button type="danger" class="set-common-btn blue-button" @click.native="clear" v-permission="['/message/clear']">{{ $t('button.clear') }}</el-button>
+              </el-col>
+            </el-row>
+            
+          </el-form>
           </div>
 
-
+  <div class="table-list paddingTop12">
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange">
           <el-table-column type="expand">
@@ -81,6 +88,7 @@
 
         <el-pagination
                 background
+                class="position-pagination"
                 layout="total, sizes, prev, pager, next, jumper"
                 :page-sizes="[10, 20, 50, 100,500]"
                 :page-size="listQuery.limit"
@@ -93,12 +101,8 @@
         </el-pagination>
 
     </div>
+    </div>
 </template>
 
 <script src="./t_message.js"></script>
-
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/common.scss";
-</style>
 

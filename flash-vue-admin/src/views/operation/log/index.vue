@@ -27,7 +27,7 @@
             </el-col>
         </el-row>
         <el-row>
-           <el-col class="textAlignRight">
+           <el-col>
               <el-form-item>
                 <el-button type="primary" class="set-common-btn blue-button"  @click.native="search">{{ $t('button.search') }}</el-button>
               <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>

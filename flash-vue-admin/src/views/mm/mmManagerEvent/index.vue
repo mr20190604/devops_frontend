@@ -1,39 +1,38 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true">
-        <el-form-item label="关键字：">
-          <el-input v-model="listQuery.key" placeholder="编号、名称、地点、描述" />
-        </el-form-item>
-        <el-form-item label="事件类型：">
-          <dict-select v-model="listQuery.eventType" dict-name="事件类型" />
-        </el-form-item>
-        <el-form-item class="listSearch">
-          <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-form-item>
+      <el-form>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="关键字：">
+              <el-input v-model="listQuery.key" placeholder="编号、名称、地点、描述" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="事件类型：">
+              <dict-select v-model="listQuery.eventType" dict-name="事件类型" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item>
+              <el-button type="primary" class="set-common-btn blue-button"@click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <!--<el-button
-            v-permission="['/manager/event/add']"
-            type="success"
-            size="mini"
-            icon="el-icon-plus"
-            @click.native="add"
-          >{{ $t('button.add') }}</el-button>-->
-          <el-button
+      
+    </div>
+<div class="table-list">
+      <div class="btnLists">
+           <el-button
+           class="set-common-btn blank-blue-button"
             v-permission="['/manager/event/delete']"
             type="danger"
             size="mini"
-            icon="el-icon-delete"
             @click.native="removeBatch"
           >批量删除</el-button>
-        </el-col>
-      </el-row>
-    </div>
-
+      </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -53,7 +52,7 @@
       />
       <el-table-column
         type="index"
-        width="50"
+        width="55"
         label="序号"
       />
       <!--<el-table-column label="事件编码">
@@ -61,27 +60,27 @@
           {{ scope.row.eventCode }}
         </template>
       </el-table-column>-->
-      <el-table-column label="事件名称">
+      <el-table-column label="事件名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.eventName }}
         </template>
       </el-table-column>
-      <el-table-column label="事件类型">
+      <el-table-column label="事件类型" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.eventTypeName }}
         </template>
       </el-table-column>
-      <el-table-column label="事件地点">
+      <el-table-column label="事件地点" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.eventAddress }}
         </template>
       </el-table-column>
-      <el-table-column label="事件描述">
+      <el-table-column label="事件描述" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.eventDesc }}
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button v-permission="['/manager/event/update']" type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)">{{ $t('button.edit') }}</el-button>
           <el-button v-permission="['/manager/event/delete']" type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)">{{ $t('button.delete') }}</el-button>
@@ -91,6 +90,7 @@
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -100,7 +100,7 @@
       @prev-click="fetchPrev"
       @next-click="fetchNext"
     />
-
+</div>
     <el-dialog
       class="dialogTitleBackground dialogTitle"
       :title="formTitle"

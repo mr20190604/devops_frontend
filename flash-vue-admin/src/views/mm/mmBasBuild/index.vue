@@ -1,59 +1,73 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-form label-width="120px" :inline="true">
-        <el-form-item label="建筑名称:">
-          <el-input v-model="listQuery.buildName" placeholder="请输入建筑名称" />
-        </el-form-item>
-        <el-form-item label="所在地区:">
-          <district v-model="listQuery.districtCode" placeholder="请选择所在地区" />
-        </el-form-item>
-        <el-form-item label="防护等级:">
-          <dict-select v-model="listQuery.levelCode" dict-name="防护等级" />
-        </el-form-item>
-        <el-form-item label="负责人:">
-          <el-input v-model="listQuery.personName" placeholder="请输入负责人" />
-        </el-form-item>
-        <br>
-        <el-form-item label="目标类型:">
-          <dict-select v-model="listQuery.targetType" dict-name="防护目标" placeholder="请选择目标类型" />
-        </el-form-item>
-        <el-form-item style="float: right;margin-right: 100px">
-          <el-button
-            type="primary"
-            icon="el-icon-search"
-            @click.native="search"
-          >{{ $t('button.search') }}
-          </el-button>
-          <el-button
-            icon="el-icon-refresh"
-            @click.native="reset"
-          >{{ $t('button.reset') }}
-          </el-button>
-        </el-form-item>
+      <el-form label-width="76px" :inline="true">
+        <el-row class="hasmarginBottom">
+           <el-col :span="6">
+              <el-form-item label="建筑名称:">
+                <el-input v-model="listQuery.buildName" placeholder="请输入建筑名称" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="所在地区:">
+                <district v-model="listQuery.districtCode" placeholder="请选择所在地区" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="防护等级:">
+                  <dict-select v-model="listQuery.levelCode" dict-name="防护等级" />
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="负责人:">
+                  <el-input v-model="listQuery.personName" placeholder="请输入负责人" />
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+           <el-col :span="6">
+               <el-form-item label="目标类型:">
+                <dict-select v-model="listQuery.targetType" dict-name="防护目标" placeholder="请选择目标类型" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="18">
+              <el-form-item>
+                <el-button
+                    type="primary"
+                    class="set-common-btn blue-button"
+                    @click.native="search"
+                  >{{ $t('button.search') }}
+                  </el-button>
+                  <el-button
+                  class="set-common-btn blank-blue-button"
+                    @click.native="reset"
+                  >{{ $t('button.reset') }}
+                  </el-button>
+                </el-form-item>
+            </el-col>
+           
+        </el-row>
       </el-form>
-      <el-row>
-        <el-col :span="24">
+    </div>
+<div class="table-list">
+      <div class="btnLists">
           <el-button
+            class="set-common-btn blue-button"
             v-permission="['/bas/build/add']"
             type="success"
             size="mini"
-            icon="el-icon-plus"
             @click.native="add"
           >{{ $t('button.add') }}
           </el-button>
-          <el-button
+         <el-button
+           class="set-common-btn blank-blue-button"
             v-permission="['/bas/build/delete']"
             type="danger"
             size="mini"
-            icon="el-icon-delete"
             @click.native="removeBatch"
           >批量删除
           </el-button>
-        </el-col>
-      </el-row>
-    </div>
-
+      </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -63,7 +77,6 @@
       @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange"
       @row-click="toggleSelection"
-
       ref="buildTable"
     >
       <el-table-column
@@ -73,55 +86,55 @@
       />
       <el-table-column
         type="index"
-        width="50"
+        width="55"
         label="序号"
       />
-      <el-table-column label="建筑名称">
+      <el-table-column label="建筑名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.buildName }}
         </template>
       </el-table-column>
-      <el-table-column label="目标类型">
+      <el-table-column label="目标类型" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.targetTypeName }}
         </template>
       </el-table-column>
-      <el-table-column label="防护等级">
+      <el-table-column label="防护等级" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.levelName }}
         </template>
       </el-table-column>
-      <el-table-column label="人数">
+      <el-table-column label="人数" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.personNum }}
         </template>
       </el-table-column>
-      <el-table-column label="行政区划">
+      <el-table-column label="行政区划" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.districtName }}
         </template>
       </el-table-column>
-      <el-table-column label="地址">
+      <el-table-column label="地址" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.address }}
         </template>
       </el-table-column>
-      <el-table-column label="面积(万平方米)">
+      <el-table-column label="面积(万平方米)" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.engrossArea }}
         </template>
       </el-table-column>
-      <el-table-column label="负责人">
+      <el-table-column label="负责人" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.personName }}
         </template>
       </el-table-column>
-      <el-table-column label="联系方式">
+      <el-table-column label="联系方式" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.personOtel }}
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button
             v-permission="['/bas/build/update']"
@@ -145,6 +158,7 @@
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -154,7 +168,7 @@
       @prev-click="fetchPrev"
       @next-click="fetchNext"
     />
-
+ </div>
     <el-dialog
       class="dialogTitleBackground dialogTitle"
       :title="formTitle"
@@ -227,6 +241,6 @@
 <script src="./mmBasBuild.js"></script>
 
 <style rel="stylesheet/scss" lang="scss" >
-  @import "src/styles/commonmyself.scss";
+  // @import "src/styles/commonmyself.scss";
 </style>
 

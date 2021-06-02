@@ -8,7 +8,7 @@
               <el-input v-model="listQuery.originalFileName" size="mini" placeholder="文件名"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="18">
               <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
               <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
           </el-col>
@@ -51,6 +51,7 @@
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"

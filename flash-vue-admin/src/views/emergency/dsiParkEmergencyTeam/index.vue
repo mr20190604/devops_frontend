@@ -1,49 +1,58 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form label-width="120px" :inline="true" >
-            <el-form-item label="队伍名称：">
-              <el-input v-model="listQuery.name"  placeholder="请输入队伍名称"></el-input>
-            </el-form-item>
-              <el-form-item label="所在地区：">
-              <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"></district>
-              </el-form-item>
-                <el-form-item label="负责人：">
-              <el-input v-model="listQuery.personContact"  placeholder="请输入负责人"></el-input>
-                </el-form-item>
-                  <el-form-item label="所属企业：">
-              <el-select v-model="listQuery.belongingUnit"  placeholder="请选择所属企业">
-                  <el-option
-                    v-for="item in enterprise_list"
-                    :key="item.id"
-                    :label="item.enterpriseName"
-                    :value="item.id">
-                  </el-option>
-              </el-select>
+          <el-form label-width="76px" class="align-right has-Label-Width">
+           <el-row class="hasmarginBottom">
+              <el-col :span="6">
+                  <el-form-item label="队伍名称：">
+                    <el-input v-model="listQuery.name"  placeholder="请输入队伍名称"></el-input>
                   </el-form-item>
-
-            <br>
-                    <el-form-item label="地址：">
-              <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
+              </el-col>
+              <el-col :span="6">
+                    <el-form-item label="所在地区：">
+                    <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"></district>
                     </el-form-item>
-            <el-form-item style="float: right;margin-right: 100px">
-              <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
-
-          </el-form>
-
-
-            <br>
+                </el-col>
+              <el-col :span="6">
+                  <el-form-item label="负责人：">
+                    <el-input v-model="listQuery.personContact"  placeholder="请输入负责人"></el-input>
+                  </el-form-item>
+                </el-col>
+              <el-col :span="6">
+                    <el-form-item label="所属企业：">
+                      <el-select v-model="listQuery.belongingUnit"  placeholder="请选择所属企业">
+                          <el-option
+                            v-for="item in enterprise_list"
+                            :key="item.id"
+                            :label="item.enterpriseName"
+                            :value="item.id">
+                          </el-option>
+                      </el-select>
+                    </el-form-item>
+                </el-col>
+             </el-row>
             <el-row>
-                <el-col :span="24">
-                    <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/park/emergency/team/add']">{{ $t('button.add') }}</el-button>
-                    <el-button type="danger" size="mini"  icon="el-icon-delete" @click.native="batchDelete" v-permission="['/park/emergency/team/delete']">批量删除</el-button>
+                <el-col :span="6">
+                  <el-form-item label="地址：">
+                       <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="18">
+                  <el-form-item>
+                    <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                    <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+                  </el-form-item>
                 </el-col>
             </el-row>
+          </el-form>
+           
         </div>
 
-
+<div class="table-list">
+      <div class="btnLists">
+          <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/park/emergency/team/add']">{{ $t('button.add') }}</el-button>
+          <el-button type="danger" size="mini"  class="set-common-btn blank-blue-button" @click.native="batchDelete" v-permission="['/park/emergency/team/delete']">批量删除</el-button>
+      </div>
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
                   :row-key="row=>row.id"
                   @current-change="handleCurrentChange"
@@ -59,47 +68,47 @@
           </el-table-column>
           <el-table-column
             type="index"
-            width="50"
+            width="55"
             label="序号"
           >
           </el-table-column>
-            <el-table-column label="队伍名称" width="150px" >
+            <el-table-column label="队伍名称"  show-overflow-tooltip >
                 <template slot-scope="scope">
                     {{scope.row.name}}
                 </template>
             </el-table-column>
-          <el-table-column label="所属企业" width="250px">
+          <el-table-column label="所属企业"  show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.dsiEnterpriseBaseinfo ? scope.row.dsiEnterpriseBaseinfo.enterpriseName : ""}}
             </template>
           </el-table-column>
-          <el-table-column label="行政区划" width="100px" align="center ">
+          <el-table-column label="行政区划"  show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.dsiEnterpriseBaseinfo ? scope.row.dsiEnterpriseBaseinfo.districtName : ""}}
             </template>
           </el-table-column>
-          <el-table-column label="队伍性质" >
+          <el-table-column label="队伍性质" show-overflow-tooltip >
             <template slot-scope="scope">
               {{scope.row.teamNature}}
             </template>
           </el-table-column>
 
-          <el-table-column label="负责人" width="70px" align="center">
+          <el-table-column label="负责人" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.personContact}}
             </template>
           </el-table-column>
-          <el-table-column label="联系电话" width="150px">
+          <el-table-column label="联系电话" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.personTel}}
             </template>
           </el-table-column>
-            <el-table-column label="队伍人数" align="center" width="100px">
+            <el-table-column label="队伍人数" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.personNumber}}
                 </template>
             </el-table-column>
-          <el-table-column label="地址">
+          <el-table-column label="地址" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.address}}
             </template>
@@ -115,6 +124,7 @@
 
         <el-pagination
                 background
+                class="position-pagination"
                 layout="total, sizes, prev, pager, next, jumper"
                 :page-sizes="[10, 20, 50, 100,500]"
                 :page-size="listQuery.limit"
@@ -124,7 +134,7 @@
                 @prev-click="fetchPrev"
                 @next-click="fetchNext">
         </el-pagination>
-
+</div>
         <el-dialog
                 :title="formTitle"
                 :visible.sync="formVisible"

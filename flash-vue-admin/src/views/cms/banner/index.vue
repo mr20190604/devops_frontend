@@ -8,7 +8,7 @@
                 <el-input v-model="listQuery.title" size="mini" placeholder="标题"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="18">
             <el-form-item>
                <el-button type="primary"  class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                <el-button  class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
