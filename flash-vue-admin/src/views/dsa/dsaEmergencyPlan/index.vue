@@ -228,7 +228,7 @@
         :visible.sync="previewVisible"
         width="60%"style="margin-top: 0px;">
 
-        <el-row style="width: 100%;height: 600px">
+        <el-row style="width: 100%;height: 600px;margin-top: 10px;">
           <el-col style="width: 25%;height: 620px">
             <div class="grid-content bg-purple" >
               <el-table :data="files" v-loading="fileLoading" element-loading-text="Loading">
@@ -248,7 +248,7 @@
             </div>
           </el-col>
           <el-col style="width: 75%;height: 620px">
-            <div class="grid-content bg-purple" style="padding-top: 20px">
+            <div class="grid-content bg-purple" >
               <template v-if="fileShow == true"><preview :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"></preview></template>
             </div>
 

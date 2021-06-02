@@ -185,7 +185,7 @@ export default {
       thresholdTitle:'阈值查询',
       thresholdVisible:false,
       thresholdForm:{
-        mmThresholdManager:'',
+        mmThresholdManagers:null,
         equipmentId:'',
         firstUpperLimit:'',
         firstLowerLimit:'',
@@ -521,10 +521,25 @@ export default {
     },thresholdView(record) {
       this.thresholdVisible = true
       this.equipCode = record.equipmentCode
-      this.thresholdForm = record.mmThresholdManager
-
+      if (record.mmThresholdManagers.length > 0) {
+        this.thresholdForm = record.mmThresholdManagers[0]
+      } else {
+        this.resetThresholdForm()
+      }
     },cancleThreshold() {
       this.thresholdVisible = false
+    },resetThresholdForm() {
+      this.thresholdForm.equipmentId = ''
+      this.thresholdForm.firstUpperLimit = ''
+      this.thresholdForm.firstLowerLimit = ''
+      this.thresholdForm.secondUpperLimit = ''
+      this.thresholdForm.secondLowerLimit = ''
+      this.thresholdForm.thirdUpperLimit = ''
+      this.thresholdForm.thirdLowerLimit = ''
+      this.thresholdForm.equipmentType = ''
+      this.thresholdForm.dictId = ''
+      this.thresholdForm.auditOpinion = ''
+      this.thresholdForm.auditPerson = ''
     }
 
   }
