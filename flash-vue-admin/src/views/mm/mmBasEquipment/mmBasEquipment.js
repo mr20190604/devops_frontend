@@ -184,9 +184,24 @@ export default {
       //阈值查询
       thresholdTitle:'阈值查询',
       thresholdVisible:false,
-      thresholdForm:{},
+      thresholdForm:{
+        mmThresholdManager:'',
+        equipmentId:'',
+        firstUpperLimit:'',
+        firstLowerLimit:'',
+        secondUpperLimit:'',
+        secondLowerLimit:'',
+        thirdUpperLimit:'',
+        thirdLowerLimit:'',
+        equipmentType:'',
+        dictId:'',
+        auditOpinion:'',
+        auditPerson:'',
+        isDel:''
+      },
       //设备编码集合
       equipCodeList:[],
+      equipCode:''
     }
   },
   filters: {
@@ -505,6 +520,9 @@ export default {
       this.$refs.equipmentTable.toggleRowSelection(row)
     },thresholdView(record) {
       this.thresholdVisible = true
+      this.equipCode = record.equipmentCode
+      this.thresholdForm = record.mmThresholdManager
+
     },cancleThreshold() {
       this.thresholdVisible = false
     }

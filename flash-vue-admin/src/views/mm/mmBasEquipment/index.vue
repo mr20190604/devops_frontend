@@ -130,7 +130,7 @@
         width="50"
         @close="cancleThreshold"
       >
-        <threshold :thresholdForm="thresholdForm"></threshold>
+        <threshold :thresholdForm="thresholdForm" :editFlag="true" :equipmentCode="equipCode"></threshold>
       </el-dialog>
 
 

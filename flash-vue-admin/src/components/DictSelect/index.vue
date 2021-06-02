@@ -5,6 +5,7 @@
     :size="size"
     :placeholder="inner_placeholder"
     clearable
+    :disabled="disabled"
     @change="change"
   >
     <el-option
@@ -38,6 +39,9 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },disabled:{
+      type:Boolean,
+      default:false
     }
   },
   data() {

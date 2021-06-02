@@ -4,9 +4,9 @@
   <el-form v-model="thresholdForm" label-width="120px">
     <el-row>
       <el-col :span="12">
-        <el-form-item label="设备类别">
+        <el-form-item label="设备类型">
 
-          <dict-select dict-name="设备类型"></dict-select>
+          <dict-select dict-name="设备类型" :disabled="editFlag" v-model="thresholdForm.equipmentType"></dict-select>
 
         </el-form-item>
 
@@ -14,8 +14,8 @@
 
       <el-col :span="12">
         <el-form-item label="设备编号">
-          <el-input  minlength=1></el-input>
-
+          <el-input  minlength=1 v-if="editFlag" v-model="equipmentCode"></el-input>
+          <el-input  minlength=1 v-else-if="editFlag == false" v-model="equipCodeList">新增</el-input>
         </el-form-item>
 
       </el-col>
@@ -25,7 +25,7 @@
 
       <el-col :span="12">
         <el-form-item label="三级阈值上限">
-          <el-input  minlength=1></el-input>
+          <el-input  minlength=1 v-model="thresholdForm.thirdUpperLimit" oninput="value=value.replace(/[^0-9.]/g,'')" disabled="editFlag"></el-input>
 
         </el-form-item>
 
@@ -33,7 +33,7 @@
 
       <el-col :span="12">
         <el-form-item label="三级阈值下限">
-          <el-input  minlength=1></el-input>
+          <el-input  minlength=1 v-model="thresholdForm.thirdLowerLimit" oninput="value=value.replace(/[^0-9.]/g,'')" disabled="editFlag"></el-input>
 
         </el-form-item>
       </el-col>
@@ -42,7 +42,7 @@
 
       <el-col :span="12">
         <el-form-item label="二级阈值上限">
-          <el-input  minlength=1></el-input>
+          <el-input  minlength=1 v-model="thresholdForm.secondUpperLimit" oninput="value=value.replace(/[^0-9.]/g,'')" disabled="editFlag"></el-input>
 
         </el-form-item>
 
@@ -50,7 +50,7 @@
 
       <el-col :span="12">
         <el-form-item label="二级阈值下限">
-          <el-input  minlength=1></el-input>
+          <el-input  minlength=1 v-model="thresholdForm.firstLowerLimit" oninput="value=value.replace(/[^0-9.]/g,'')" disabled="editFlag"></el-input>
 
         </el-form-item>
       </el-col>
@@ -60,15 +60,12 @@
 
       <el-col :span="12">
         <el-form-item label="一级阈值上限">
-          <el-input  minlength=1></el-input>
-
+          <el-input  minlength=1 v-model="thresholdForm.firstUpperLimit" oninput="value=value.replace(/[^0-9.]/g,'')" disabled="editFlag"></el-input>
         </el-form-item>
-
       </el-col>
-
       <el-col :span="12">
         <el-form-item label="一级阈值下限">
-          <el-input  minlength=1></el-input>
+          <el-input  minlength=1 v-model="thresholdForm.firstLowerLimit" oninput="value=value.replace(/[^0-9.]/g,'')" disabled="editFlag"></el-input>
 
         </el-form-item>
       </el-col>
@@ -82,7 +79,7 @@
 <script>
     export default {
         name: "threshold",
-        props:['thresholdForm','equipCodeList'],
+        props:['thresholdForm','equipCodeList','equipmentCode','editFlag'],
         data(){
         return {
 
