@@ -2,41 +2,32 @@ import request from '@/utils/request'
 export default {
     getList:function(params) {
         return request({
-            url: '/bas/equipment/list',
+            url: '/equipment/install/info/list',
             method: 'get',
             params
         })
     },
     add:function(params) {
         return request({
-            url: '/bas/equipment',
+            url: '/equipment/install/info',
             method: 'post',
             params
         })
     },
     update:function(params) {
         return request({
-            url: '/bas/equipment',
+            url: '/equipment/install/info',
             method: 'PUT',
             params
         })
     },
     remove:function(id) {
         return request({
-            url: '/bas/equipment',
+            url: '/equipment/install/info',
             method: 'delete',
             params: {
                 id: id
             }
         })
-    },
-  removeBatch: function(ids) {
-    return request({
-      url: '/bas/equipment/removeBatch',
-      method: 'delete',
-      params: {
-        ids: ids
-      }
-    })
-  }
+    }
 }
