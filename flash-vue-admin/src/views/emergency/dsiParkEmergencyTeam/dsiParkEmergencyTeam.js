@@ -324,7 +324,8 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.fetchData()
+              this.$refs.teamTable.clearSelection()
+              this.fetchData()
           }).catch( err=> {
             this.$notify.error({
               title: '错误',

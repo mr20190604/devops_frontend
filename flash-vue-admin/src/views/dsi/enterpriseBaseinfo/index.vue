@@ -216,7 +216,7 @@
 
                     <el-col :span="12">
                       <el-form-item label="从业人数："  >
-                        <el-input v-model="form.employmentNo" minlength=1></el-input>
+                        <el-input v-model="form.employmentNo" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
                       </el-form-item>
                     </el-col>
 

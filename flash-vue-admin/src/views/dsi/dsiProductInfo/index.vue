@@ -413,7 +413,7 @@
       <el-pagination
         background
         layout="total, sizes, prev, pager, next, jumper"
-        :page-sizes="[10, 20, 50, 100,500]"
+        :page-sizes="[5,10, 20, 50, 100,500]"
         :page-size="listQuery.limit"
         :total="total"
         @size-change="changeSize"

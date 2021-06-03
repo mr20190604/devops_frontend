@@ -329,6 +329,7 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
+              this.$refs.statuteTable.clearSelection();
               this.fetchData()
           }).catch( err=> {
             this.$notify.error({

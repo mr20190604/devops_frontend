@@ -19,8 +19,13 @@
               <el-row>
 
                 <el-form-item label="上报时间：">
-                  <el-date-picker type="datetime" v-model="listQuery.startTime" placeholder="开始时间"></el-date-picker>
-                  <el-date-picker type="datetime" v-model="listQuery.endTime" placeholder="结束时间"></el-date-picker>
+                  <el-date-picker
+                    v-model="listQuery.startTime"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                  </el-date-picker>
                 </el-form-item>
 
                 <el-form-item style="float: right;margin-right: 100px">

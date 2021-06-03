@@ -127,7 +127,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系电话：">
-              <el-input v-model="form.personTel" minlength=1></el-input>
+              <el-input v-model="form.personTel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

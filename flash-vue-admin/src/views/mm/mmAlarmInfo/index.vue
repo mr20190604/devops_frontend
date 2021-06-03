@@ -43,8 +43,13 @@
               </el-select>
             </el-form-item>
             <el-form-item label="报警时间：">
-              <el-date-picker type="datetime" v-model="listQuery.startTime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
-              <el-date-picker type="datetime" v-model="listQuery.endTime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
+              <el-date-picker
+                v-model="listQuery.startTime"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
             </el-form-item>
 
             <el-form-item style="float: right;margin-right: 100px">
@@ -102,7 +107,7 @@
             </el-table-column>
           <el-table-column label="报警位置">
             <template slot-scope="scope">
-              {{scope.row.equipment.equipmentInstallInfo.installLocation}}
+              <template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].installLocation}}</template>
             </template>
           </el-table-column>
 

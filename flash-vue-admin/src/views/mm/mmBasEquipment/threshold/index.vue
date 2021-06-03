@@ -11,7 +11,7 @@
 
       <el-col :span="12">
         <el-form-item label="设备编号">
-          <el-input  minlength=1 v-if="editFlag" v-model="equipmentCode"></el-input>
+          <el-input  minlength=1 v-if="editFlag" :disabled="editFlag" v-model="equipmentCode"></el-input>
           <el-input  minlength=1 v-else-if="editFlag == false" v-model="equipCodeList"></el-input>
         </el-form-item>
 

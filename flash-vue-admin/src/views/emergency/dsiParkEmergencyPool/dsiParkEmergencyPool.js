@@ -71,7 +71,7 @@ export default {
       selRow: {},
       materialRow:{},
       selectMonth:null,
-      selection:[]
+      selection:[],
     }
   },
   filters: {
@@ -260,8 +260,9 @@ export default {
       return false
     },cancle() {
       if (this.materialVisible) {
-        this.materialVisible = false
+
         this.initMaterialList(this.form.id)
+        this.materialVisible = false
       } else {
         this.fetchData()
         this.formVisible = false
@@ -308,7 +309,8 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.fetchData()
+              this.$refs.poolTable.clearSelection()
+              this.fetchData()
           }).catch( err=> {
             this.$notify.error({
               title: '错误',
