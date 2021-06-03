@@ -42,7 +42,7 @@
     </div>
     <!--列表-->
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-              @current-change="handleCurrentChange" @selection-change="handleSelectionChange">
+              @current-change="handleCurrentChange" @selection-change="handleSelectionChange" ref="equipTable">
       <el-table-column
         type="selection"
         width="55"
@@ -127,7 +127,7 @@
       width="60%">
 
       <template v-if="formVisible">
-        <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height:auto">
+        <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height:600px">
           <el-tab-pane label="设备基本信息" name="first" style="visibility: visible">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
               <el-row>
@@ -216,7 +216,7 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="设备安装信息" name="second" id="second"  style="height: 550px">
-            <install :equipmentId="equipmentId" :installInfo="installInfo" @closeDialog="closeDialog"></install>
+            <install :equipmentId="equipmentId" :installInfo="installInfo" :isAdd="isAdd" @closeDialog="closeDialog"></install>
           </el-tab-pane>
         </el-tabs>
       </template>

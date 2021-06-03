@@ -3,13 +3,9 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: {permission},
-  props:['equipmentId','installInfo'],
+  props:['equipmentId','installInfo','isAdd'],
   data() {
     return {
-      formVisible: false,
-      formTitle: '添加设备安装信息',
-      isAdd: true,
-      listLoading: true,
       form: {
         equipmentId:'',
         constructionEnterprise:'',
@@ -66,23 +62,13 @@ export default {
     }
   },
   created() {
-    if(null != this.installInfo){
+    //是编辑操作时给当前表单赋值
+    if(!this.isAdd && undefined !== this.installInfo){
       this.form = this.installInfo;
     }
 
   },
   methods: {
-    handleFilter() {
-      this.listQuery.page = 1;
-      this.getList()
-    },
-    handleClose() {
-
-    },
-
-    handleCurrentChange(currentRow, oldCurrentRow) {
-      this.selRow = currentRow
-    },
     resetForm() {
       this.form = {
         equipmentId: '',
@@ -100,15 +86,6 @@ export default {
         upFrequency: '',
         upFrequencyType: '',
         id: ''
-      }
-    },
-    add() {
-      this.formTitle = '添加设备安装信息';
-      this.formVisible = true;
-      this.isAdd = true;
-
-      if (this.$refs['form'] !== undefined) {
-        this.$refs['form'].resetFields()
       }
     },
     save() {
@@ -137,7 +114,7 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               });
-              this.formVisible = false
+
             })
           } else {
             mmEquipmentInstallInfoApi.add(formData).then(response => {
@@ -145,19 +122,17 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               });
-
-              this.formVisible = false
             })
           }
         } else {
           return false
         }
-      })
+      });
+      this.closeFatherDialog();
     },
     closeFatherDialog(){
       this.$emit("closeDialog");
     }
-
 
 
   }

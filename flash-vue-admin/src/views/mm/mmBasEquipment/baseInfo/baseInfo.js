@@ -271,7 +271,6 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               });
-              this.formVisible = false;
               this.activeName = "second";
             })
           } else {
@@ -373,9 +372,9 @@ export default {
           this.$message({
             message: this.$t('common.optionSuccess'),
             type: 'success'
-          })
-          this.$refs.buildTable.clearSelection();
-          this.fetchData()
+          });
+         this.reset();
+         this.$refs.equipTable.clearSelection();
         }).catch(err => {
           this.$notify.error({
             title: '错误',
