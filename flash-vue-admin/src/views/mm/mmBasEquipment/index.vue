@@ -96,11 +96,11 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="操作" align="center" width="228">
+            <el-table-column label="操作" align="center" width="268">
                 <template slot-scope="scope">
-                  <el-button type="text" size="mini" @click.native="viewCurve(scope.row)"  v-permission="['/mmBasEquipment/curve']">监测曲线</el-button>
-                  <el-button type="text" size="mini" @click.native="thresholdView(scope.row)"  v-permission="['/mmBasEquipment/thresholdSearch']">阈值查询</el-button>
-                  <el-button type="text" size="mini"   v-permission="['/mmBasEquipment/location']">定位</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-s-marketing" @click.native="viewCurve(scope.row)"  v-permission="['/mmBasEquipment/curve']">监测曲线</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-search" @click.native="thresholdView(scope.row)"  v-permission="['/mmBasEquipment/thresholdSearch']">阈值查询</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-location-outline" v-permission="['/mmBasEquipment/location']">定位</el-button>
                 </template>
             </el-table-column>
         </el-table>

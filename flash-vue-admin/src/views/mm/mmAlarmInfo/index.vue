@@ -138,11 +138,11 @@
               </template>
 
             </el-table-column>
-            <el-table-column label="操作" align="center" width="228px">
+            <el-table-column label="操作" align="center" width="268px">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" @click="openProcess(scope.row)">流程</el-button>
-                  <el-button type="text" size="mini" @click="openCurve(scope.row)">监测曲线</el-button>
-                  <el-button type="text" size="mini">定位</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-connection" @click="openProcess(scope.row)">流程</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-s-marketing" @click="openCurve(scope.row)">监测曲线</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-location-outline">定位</el-button>
                 </template>
             </el-table-column>
         </el-table>
