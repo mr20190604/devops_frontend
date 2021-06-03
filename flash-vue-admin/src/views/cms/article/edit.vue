@@ -2,38 +2,35 @@
 
   <div class="app-container">
     <div class="block">
-      <el-form ref="form" :model="form">
+      <el-form ref="form" :model="form" label-width="76px" class="align-right has-Label-Width">
         <el-input type="hidden" ref="content" v-model="form.content"></el-input>
-        <el-row :gutter="20">
-            <el-col :span="24">
-              <el-button icon="el-icon-plus" size="mini" type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-              <el-button icon="el-icon-back" size="mini" @click.native="back">{{ $t('button.back') }}</el-button>
-            </el-col>
+        <el-row class="hasmarginBottom">
+              <el-col :span="6">
+                <el-form-item label="文章标题：">
+                  <el-input v-model="form.title" minlength=1 placeholder="文章标题"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="选择栏目：">
+                  <el-select v-model="form.idChannel" placeholder="选择栏目">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="作者：">
+                  <el-input v-model="form.author" minlength=1 placeholder="作者"></el-input>
+                </el-form-item>
+              </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
-            <el-row :gutter="20">
-              <el-col :span="24">
-                <el-input v-model="form.title" minlength=1 placeholder="文章标题" style="font-size: 1.2rem;margin:.2rem 0rem;"></el-input>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="8">
-                <el-select v-model="form.idChannel" placeholder="选择栏目">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="16">
-                <el-input v-model="form.author" minlength=1 placeholder="作者" style="margin-bottom:.2rem;"></el-input>
-              </el-col>
-
-            </el-row>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="题图"  v-if="ifUpload">
+            <el-form-item label="题图：" v-if="ifUpload">
               <el-upload
                 class="upload-demo"
                 drag
@@ -49,9 +46,16 @@
             <img :src="articleImg" style="height:8rem;"  v-if="ifUpload!==true" >
             <el-button icon="el-icon-edit" v-if="ifUpload!==true" @click.native="uploadImg">修改题图</el-button>
           </el-col>
+            <el-col :span="12">
+              <el-form-item>
+                  <el-button  class="set-common-btn blue-button" type="primary" @click="save">{{ $t('button.submit') }}</el-button>
+                  <el-button  class="set-common-btn blank-blue-button" @click.native="back">{{ $t('button.back') }}</el-button>
+              </el-form-item>
+            </el-col>
         </el-row>
-        <br>
       </el-form>
+    </div>
+    <div class="table-list">
       <div :class="{fullscreen:fullscreen}" class="tinymce-container editor-container">
         <textarea :id="tinymceId" class="tinymce-textarea"/>
         <div class="editor-custom-btn-container">
@@ -68,6 +72,7 @@
   .tinymce-container {
     position: relative;
     line-height: normal;
+    padding-top: 12px;
   }
 
   .tinymce-container >>> .mce-fullscreen {
@@ -82,7 +87,7 @@
   .editor-custom-btn-container {
     position: absolute;
     right: 4px;
-    top: 4px;
+    top: 15px;
     /*z-index: 2005;*/
   }
 
