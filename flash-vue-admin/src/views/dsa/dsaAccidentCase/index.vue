@@ -38,11 +38,11 @@
             <br>
             <el-form-item label="事故时间">
               <el-date-picker v-model="listQuery.accidentTime"
-                              type="datetimerange"
+                              type="daterange"
                               range-separator="至"
                               start-placeholder="开始日期"
                               end-placeholder="结束日期"
-                              value-format="yyyy-MM-dd HH:mm">
+                              value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
             <!--<el-form-item label="死亡人数">

@@ -47,7 +47,9 @@ export default {
         isPoisonHarm: undefined,
         isInflammableExplosive: undefined,
         formId: undefined,
-        enterpriseId: this.enterpriseId
+        enterpriseId: this.enterpriseId,
+        materialType:undefined,
+        isDanger:undefined,
       },
       materialList:[],
       selectedList:[],
@@ -122,9 +124,9 @@ export default {
       this.fetchData1()
     },
     reset() {
-      this.listQuery.key = undefined
-      this.listQuery.materialType = undefined
-      this.listQuery.isDanger = undefined
+      this.listQuery.key = ''
+      this.listQuery.materialType = ''
+      this.listQuery.isDanger = ''
       this.fetchData1()
     },
     handleFilter() {
@@ -256,6 +258,7 @@ export default {
       this.reset();
       this.fetchData1()
       this.$refs.materialTable.clearSelection();
+      console.log(this.listQuery)
       dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
 
         this.materialList = response.data.records
@@ -277,6 +280,7 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
+            this.$refs.productTable.clearSelection();
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
