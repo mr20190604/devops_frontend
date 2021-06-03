@@ -369,14 +369,6 @@ export default {
       this.previewVisible = true;
       dsaEmergencyPlanApi.queryDataByPlanId(record.id).then(response=>{
         this.files = response.data
-        if (this.files) {
-          if(this.files.length < 1) {
-            this.fileShow = false
-          } else {
-            this.viewFile(this.files[0])
-          }
-
-        }
       })
       this.fileLoading = false
     },downloadFileINfo(record) {

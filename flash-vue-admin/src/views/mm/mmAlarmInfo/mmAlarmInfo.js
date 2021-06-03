@@ -236,6 +236,7 @@ export default {
 
         }]
       },
+      selection:[],
       //流程
       processVisiable:false,
       fileAccept:'.doc,.docx,.pdf,.zip,.rar',
@@ -577,15 +578,7 @@ export default {
       this.previewVisible = true;
       mmAlarmInfoApi.queryDataByHandleId(record.id).then(response =>{
         this.files = response.data
-        if (this.files) {
-          if(this.files.length < 1) {
-            this.fileShow = false
-          } else {
-            this.viewFile(this.files[0])
-          }
-        }
       })
-      this.fileLoading = false
     },viewFile(record) {
       if(!record.fileInfo) {
         this.$message({
@@ -743,6 +736,11 @@ export default {
     },clearData() {
       this.lineData.xAxis.data = []
       this.lineData.series[0].data = []
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
+    },toggleSelection(row) {
+      this.$refs.alarmTable.toggleRowSelection(row)
     }
 
   }

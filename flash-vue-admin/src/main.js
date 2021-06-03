@@ -31,6 +31,8 @@ import Enterprise from './components/Enterprise'
 Vue.component('enterprise', Enterprise)
 import Preview from './components/Preview/preview.vue'
 Vue.component('preview', Preview)
+import FilePreview from './components/FilePreview/FilePreview.vue'
+Vue.component("file-preview",FilePreview)
 
 /**
  * 全局引用第三方组件
