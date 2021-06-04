@@ -190,6 +190,7 @@ export default {
               this.formVisible = false
             })
           } else {
+            console.log(this.form.equipmentId)
            mmThresholdManagerApi.getByEquipmentId(this.form.equipmentId).then(response=>{
              console.log(response.data.length)
              if(response.data.length>0){
