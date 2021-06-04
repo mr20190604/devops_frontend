@@ -13,25 +13,20 @@
                     <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号"></el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                  <el-form-item label="上报时间：">
-                    <el-date-picker type="datetime" v-model="listQuery.startTime" placeholder="开始时间"></el-date-picker>
-                    <el-date-picker type="datetime" v-model="listQuery.endTime" placeholder="结束时间"></el-date-picker>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
                 <el-col :span="6">
                   <el-form-item label="设备状态：">
                     <dict-select v-model="listQuery.equipmentStatus1" dict-name="设备状态" placeholder="请选择"/>
                   </el-form-item>
                 </el-col>
-                 <el-col :span="18">
+                <el-col :span="6">
                   <el-form-item>
                     <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                     <el-button  class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
                   </el-form-item>
-                 </el-col>
+                </el-col>
+              </el-row>
+              <el-row>
+
               </el-row>
             </el-form>
         </div>
@@ -90,7 +85,7 @@
                     {{scope.row.realValue}}<template v-if="scope.row.equipmentInstallInfo != null">{{scope.row.equipmentInstallInfo.equipmentUnit}}</template>
                 </template>
             </el-table-column>
-            <el-table-column label="报送时间" show-overflow-tooltip>
+            <el-table-column label="上报时间" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.reportTime}}
                 </template>

@@ -100,7 +100,7 @@
           />
           <el-table-column label="事故名称" show-overflow-tooltip>
                 <template slot-scope="scope">
-                    {{scope.row.accidentName}}
+                  <span class="updateText" @click="viewAccident(scope.row)">{{ scope.row.accidentName }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="事故时间" show-overflow-tooltip>
@@ -230,6 +230,68 @@
 
             </el-form>
         </el-dialog>
+      <!--详情-->
+      <el-dialog
+        :title="formTitle"
+        :visible.sync="accidentVisible"
+        width="60%"
+        @close="closeDialog">
+
+        <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="事故名称："  >
+                <el-input v-model="form.accidentName" minlength=1 readonly="true"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="事故时间："  >
+                <el-date-picker v-model="form.accidentTime" class="date_picker"
+                                value-format="yyyy-MM-dd" minlength=1 readonly="true"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="事故地点："  >
+                <el-input v-model="form.accidentAddress" minlength=1 readonly="true"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="死亡人数："  >
+                <el-input v-model="form.deathToll" minlength=1 readonly="true"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="事件类型："  >
+                <el-select v-model="form.accidentType" minlength=1 disabled="true">
+                  <el-option
+                    v-for="item in accident_type"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="所属行业："  >
+                <el-select v-model="form.industryId" minlength=1 disabled="true">
+                  <el-option
+                    v-for="item in industry_type"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="事故描述："  >
+                <el-input type="textarea" v-model="form.accidentDesc" minlength=1 readonly="true"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </el-dialog>
     </div>
 </template>
 

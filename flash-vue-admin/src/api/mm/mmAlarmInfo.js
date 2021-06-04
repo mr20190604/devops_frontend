@@ -95,6 +95,16 @@ export default {
       }
     })
 
+  },
+  queryScreenByAlarmId(alarmId) {
+    return request({
+      url:'/alarm/info/queryScreenByAlarmId',
+      method:'get',
+      params:{
+        alarmId:alarmId
+      }
+    })
+
   }
 
 }

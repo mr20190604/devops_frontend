@@ -6,11 +6,11 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '后台管理系统' // page title
+const name = defaultSettings.title || 'web-flash后台管理系统' // page title
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
-const port = 9528 // dev port
+const port = 8083 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: process.env.ENV === 'development' ? `http://127.0.0.1:8082` : 'http://192.168.1.172:8080/api',
+        target: `http://192.168.1.61:8080`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
