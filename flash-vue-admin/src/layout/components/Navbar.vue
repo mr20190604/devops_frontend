@@ -29,6 +29,26 @@
         </a> -->
         <!-- <search id="header-search" class="right-menu-item" title="快速入口" /> 
       </template>-->
+      <ul class="header-link">
+        <li>
+          <a>
+            <img src="@/assets/img/head-link-sys.png" alt="">
+            <i>系统选择</i>
+          </a>
+        </li>
+        <li>
+          <a target="_blank" title="GIS" href="http://192.168.1.172:8088/start.html#p=%E7%9B%91%E6%B5%8B%E6%8A%A5%E8%AD%A6_1&id=wzt85l">
+            <img src="@/assets/img/head-link-gis.png" alt="">
+            <i>三维Gis</i>
+          </a>
+        </li>
+        <li>
+          <a>
+            <img src="@/assets/img/head-link-back.png" alt="">
+            <i>返回大屏</i>
+          </a>
+        </li>
+      </ul>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
           <img class="user-avatar" src="/head.png" alt="" />
@@ -83,6 +103,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.right-menu{
+  display: flex;
+    align-items: center;
+}
+.header-link{
+  display: flex;
+  align-items: center;
+  margin-right: 35px;
+    li{
+      list-style: none;
+      display: flex;
+      margin-left: 24px;
+      a{
+      cursor: pointer;
+       display: flex;
+       align-items: center;
+       flex-direction: column;
+       img{
+         display: block;
+         width: 30px;
+         height: 30px;
+       }
+       i{
+         margin-top: 2px;
+         font-style: normal;
+         font-size: 10px;
+         color: #333;
+         line-height: initial;
+       }
+      }
+    }
+}
 .el-popper[x-placement^="bottom"] {
   margin-top: 6px;
   .popper__arrow {

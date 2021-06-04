@@ -18,62 +18,67 @@
 </template>
 
 <script>
-import { getDicts } from '@/api/system/dict'
+  import { getDicts } from '@/api/system/dict'
 
-export default {
-  name: 'DictSelect',
-  props: {
-    value: {
-      type: [String, Number],
-      default: ''
+  export default {
+    name: 'DictSelect',
+    props: {
+      value: {
+        type: [String, Number],
+        default: ''
+      },
+      size: {
+        type: String,
+        default: ''
+      },
+      dictName: {
+        type: String,
+        default: '',
+        require: true
+      },
+      placeholder: {
+        type: String,
+        default: ''
+      }, disabled: {
+        type: Boolean,
+        default: false
+      }
     },
-    size: {
-      type: String,
-      default: ''
+    data() {
+      return {
+        dictList: [],
+        dictValue: '',
+        inner_placeholder: undefined
+      }
     },
-    dictName: {
-      type: String,
-      default: '',
-      require: true
+    watch: {
+      value() {
+        this.dictValue = this.value
+      }
     },
-    placeholder: {
-      type: String,
-      default: ''
-    },disabled:{
-      type:Boolean,
-      default:false
-    }
-  },
-  data() {
-    return {
-      dictList: [],
-      dictValue: '',
-      inner_placeholder: undefined
-    }
-  },
-  watch: {
-    value() {
+    created() {
       this.dictValue = this.value
-    }
-  },
-  created() {
-    this.dictValue = this.value
-    if (this.placeholder) {
-      this.inner_placeholder = this.placeholder
-    } else {
-      this.inner_placeholder = '请选择' + this.dictName
-    }
-    this.getDictList()
-  },
-  methods: {
-    getDictList() {
-      getDicts(this.dictName).then(response => {
-        this.dictList = response.data
-      })
+      if (this.placeholder) {
+        this.inner_placeholder = this.placeholder
+      } else {
+        this.inner_placeholder = '请选择' + this.dictName
+      }
+      this.getDictList()
     },
-    change(value) {
-      this.$emit('input', value)
+    methods: {
+      getDictList() {
+        getDicts(this.dictName).then(response => {
+          this.dictList = response.data
+        })
+      },
+      change(value) {
+        this.$emit('input', value)
+      }
     }
   }
-}
 </script>
+<style rel="stylesheet/scss" lang="scss">
+  .el-form-item__content {
+    width: 200px;
+  }
+</style>

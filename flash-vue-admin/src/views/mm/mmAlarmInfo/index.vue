@@ -4,7 +4,7 @@
           <el-form label-width="120px" :inline="true">
             <el-row>
               <el-col :span="5">
-                <el-form-item label="设施名称：">
+                <el-form-item label="设备编码：">
                   <el-input v-model="listQuery.equipCode"  placeholder="请输入编号"></el-input>
                 </el-form-item>
               </el-col>
@@ -126,20 +126,20 @@
             label="序号"
           >
           </el-table-column>
-          <el-table-column label="设施名称" >
-            <template slot-scope="scope">
-            </template>
-          </el-table-column>
-          <el-table-column label="设施类型" width="80px" align="center">
-            <template slot-scope="scope">
-            </template>
-          </el-table-column>
+          <!--<el-table-column label="设施名称" >-->
+            <!--<template slot-scope="scope">-->
+            <!--</template>-->
+          <!--</el-table-column>-->
+          <!--<el-table-column label="设施类型" width="80px" align="center">-->
+            <!--<template slot-scope="scope">-->
+            <!--</template>-->
+          <!--</el-table-column>-->
 
-            <!--<el-table-column label="设备名称">-->
-                <!--<template slot-scope="scope">-->
-                    <!--{{scope.row.equipment.equipmentName}}-->
-                <!--</template>-->
-            <!--</el-table-column>-->
+            <el-table-column label="设备名称">
+                <template slot-scope="scope">
+                    {{scope.row.equipment.equipmentName}}
+                </template>
+            </el-table-column>
           <el-table-column label="设备编号">
             <template slot-scope="scope">
               {{scope.row.equipment.equipmentCode}}
@@ -198,11 +198,11 @@
             <!--</template>-->
 
             <!--</el-table-column>-->
-            <el-table-column label="操作" width="200px" align="center">
+            <el-table-column label="操作" width="220px" align="center">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" @click="openProcess(scope.row)">流程</el-button>
-                  <el-button type="text" size="mini" @click="openCurve(scope.row)">监测曲线</el-button>
-                  <el-button type="text" size="mini">定位</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-paperclip" @click="openProcess(scope.row)">流程</el-button>
+                  <el-button type="text" icon="el-icon-s-marketing"  size="mini" @click="openCurve(scope.row)">监测曲线</el-button>
+                  <el-button type="text" icon="el-icon-location-outline"  size="mini">定位</el-button>
                 </template>
             </el-table-column>
         </el-table>

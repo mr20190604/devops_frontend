@@ -2,113 +2,112 @@
   <div style="width: 100%;height: 600px">
     <el-row style="width: 100%;height: 600px;margin-top: 10px;">
       <el-col style="width: 25%;height: 620px">
-        <div class="grid-content bg-purple" >
-          <el-table :data="init_list" v-loading="loading" element-loading-text="Loading">
+        <div class="grid-content bg-purple">
+          <el-table v-loading="loading" :data="init_list" element-loading-text="Loading">
             <el-table-column label="附件名称">
               <template slot-scope="scope">
                 <div @click="viewFile(scope.row)">
-                  {{scope.row.fileInfo.originalFileName}}
+                  {{ scope.row.fileInfo.originalFileName }}
                 </div>
               </template>
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="text" size="mini" icon="el-icon-download"  @click.native="downloads(scope.row)"  >下载</el-button>
+                <el-button type="text" size="mini" icon="el-icon-download" @click.native="downloads(scope.row)">下载</el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
       </el-col>
-      <el-col style="width: 75%;height: 620px" >
-        <div class="grid-content bg-purple"  >
-          <preview v-if="fileShow" :previewStyle="previewStyle" :previewFileUrl="previewFileUrl"  ></preview>
+      <el-col style="width: 75%;height: 620px">
+        <div class="grid-content bg-purple">
+          <preview v-if="fileShow" :preview-style="previewStyle" :preview-file-url="previewFileUrl" />
         </div>
       </el-col>
     </el-row>
 
   </div>
-    
+
 </template>
 
 <script>
 
-  import {isCanPreview,downloadFile} from '@/utils/preview.js'
-  import { getApiUrl,getPreviewUrl } from '@/utils/utils'
-    export default {
-        name: "FilePreview",
-        props: {
-          files:{
-          default: undefined
-          },
-          downloadFileUrl:{
-            type:String,
-            default:undefined
-          }
-        }
-      ,
-      data() {
-          return({
-            list:null,
-            loading:true,
-            previewStyle:null,
-            previewFileUrl:null,
-            previewTitle:'',
-            fileShow:true,
-            previewStyle:{
-              height:'600px',
-              width: '100%'
-            },
+import { isCanPreview, downloadFile } from '@/utils/preview.js'
+import { getApiUrl, getPreviewUrl } from '@/utils/utils'
+export default {
+  name: 'FilePreview',
+  props: {
+    files: {
+      default: undefined
+    },
+    downloadFileUrl: {
+      type: String,
+      default: undefined
+    }
+  },
+  data() {
+    return ({
+      list: null,
+      loading: true,
+      previewStyle: null,
+      previewFileUrl: null,
+      previewTitle: '',
+      fileShow: true,
+      previewStyle: {
+        height: '600px',
+        width: '100%'
+      }
 
-          })
-      },
-      computed:{
-        init_list:function () {
-            this.list = this.files
-            this.loading = false
-            if (this.files) {
-              if(this.files.length < 1) {
-                this.fileShow = false
-              } else {
-                this.viewFile(this.files[0])
-              }
-            }
-            return this.list
-        },
-
-      },methods:{
-          init() {
-            this.loading = false
-          },
-        viewFile(record) {
-          if(!record.fileInfo) {
-            this.$message({
-              message: this.$t('不存在预览文件'),
-              type: 'success'
-            })
-            this.fileShow = false
-          }
-          if(!isCanPreview(record.fileInfo.originalFileName)) {
-            this.$message({
-              message: this.$t('该文件类型不支持预览'),
-              type: 'success'
-            })
-            this.fileShow = false
-          } else {
-            this.fileShow = true
-            let originUrl = this.downloadFileUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
-            let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
-            this.previewTitle = record.lawName;
-            this.previewFileUrl = preview;
-          }
-        },downloads(record) {
-          const param = {
-            idFile:record.fileInfo.id,
-            fileName:record.fileInfo.originalFileName
-          }
-          downloadFile('/file/download',param,record.fileInfo.originalFileName)
+    })
+  },
+  computed: {
+    init_list: function() {
+      this.list = this.files
+      this.loading = false
+      if (this.files) {
+        if (this.files.length < 1) {
+          this.fileShow = false
+        } else {
+          this.viewFile(this.files[0])
         }
       }
+      return this.list
     }
+
+  }, methods: {
+    init() {
+      this.loading = false
+    },
+    viewFile(record) {
+      if (!record.fileInfo) {
+        this.$message({
+          message: this.$t('不存在预览文件'),
+          type: 'success'
+        })
+        this.fileShow = false
+      }
+      if (!isCanPreview(record.fileInfo.originalFileName)) {
+        this.$message({
+          message: this.$t('该文件类型不支持预览'),
+          type: 'success'
+        })
+        this.fileShow = false
+      } else {
+        this.fileShow = true
+        const originUrl = this.downloadFileUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName
+        const preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName])
+        this.previewTitle = record.lawName
+        this.previewFileUrl = preview
+      }
+    }, downloads(record) {
+      const param = {
+        idFile: record.fileInfo.id,
+        fileName: record.fileInfo.originalFileName
+      }
+      downloadFile('/file/download', param, record.fileInfo.originalFileName)
+    }
+  }
+}
 </script>
 
 <style scoped>

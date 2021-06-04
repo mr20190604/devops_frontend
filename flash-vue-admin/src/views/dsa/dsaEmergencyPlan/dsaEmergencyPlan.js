@@ -1,66 +1,64 @@
 import dsaEmergencyPlanApi from '@/api/dsa/dsaEmergencyPlan'
 import permission from '@/directive/permission/index.js'
-import {getDicts} from "../../../api/system/dict";
-import { getApiUrl,getPreviewUrl } from '@/utils/utils'
+import { getDicts } from '../../../api/system/dict'
+import { getApiUrl, getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 // import preview from '@/preview/preview.vue'
-import {isCanPreview,downloadFile} from '@/utils/preview.js'
+import { isCanPreview, downloadFile } from '@/utils/preview.js'
 import fileDelete from '@/api/mm/genEvent/genEvent'
-
-
 
 const Base64 = require('js-base64').Base64
 
 export default {
-  name:'fileDelete',
+  name: 'fileDelete',
   directives: { permission },
-  components:{
+  components: {
     // preview
   },
   data() {
     return {
       formVisible: false,
-      //预览弹窗
+      // 预览弹窗
       previewVisible: false,
       formTitle: '添加',
       previewTitle: '预览',
-      previewStyle:{
-        height:'600px',
+      previewStyle: {
+        height: '600px',
         width: '100%'
       },
-      previewFileUrl:'',
+      previewFileUrl: '',
       fileType: 1,
-      //上传路径
-      uploadUrl:'',
-      //下载路径
-      downloadUrl:'',
-      //后台token
+      // 上传路径
+      uploadUrl: '',
+      // 下载路径
+      downloadUrl: '',
+      // 后台token
       uploadHeaders: {
         'Authorization': ''
       },
       isAdd: true,
       form: {
-        planName:'',
-        planTypeId:'',
-        industryId:'',
-        planUnit:'',
-        planVersion:'',
-        editorDate:'',
-        fileId:'',
-        register:'',
-        isDel:'',
-        industryName:'',
-        planTypeName:'',
+        planName: '',
+        planTypeId: '',
+        industryId: '',
+        planUnit: '',
+        planVersion: '',
+        editorDate: '',
+        fileId: '',
+        register: '',
+        isDel: '',
+        industryName: '',
+        planTypeName: '',
         id: '',
-        fileInfo:'',
-        dsaPlanFiles:''
+        fileInfo: '',
+        dsaPlanFiles: ''
       },
-      //附件集合
-      fileList:[],
-      //预案类型
-      plan_type:[],
-      //所属行业
-      industry_type:[],
+      // 附件集合
+      fileList: [],
+      // 预案类型
+      plan_type: [],
+      // 所属行业
+      industry_type: [],
       listQuery: {
         page: 1,
         limit: 10,
@@ -69,15 +67,14 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      selection:[],
+      selection: [],
       selRow: {},
-      //附件操作
-      multiple:true,
-      files:null,
-      fileLoading:true,
-      fileAccept:'.doc,.docx,.pdf,.zip,.rar',
-      fileShow:true
-
+      // 附件操作
+      multiple: true,
+      files: null,
+      fileLoading: true,
+      fileAccept: '.doc,.docx,.pdf,.zip,.rar',
+      fileShow: true
 
     }
   },
@@ -93,7 +90,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -114,19 +111,18 @@ export default {
       this.uploadHeaders['Authorization'] = getToken()
     },
     fetchData() {
-
       this.listLoading = true
-        dsaEmergencyPlanApi.getList(this.listQuery).then(response => {
+      dsaEmergencyPlanApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      });
-      getDicts("预案种类").then(response=>{
-        this.plan_type=response.data
-      });
-      getDicts("所属行业").then(response=>{
-        this.industry_type=response.data
-      });
+      })
+      getDicts('预案种类').then(response => {
+        this.plan_type = response.data
+      })
+      getDicts('所属行业').then(response => {
+        this.industry_type = response.data
+      })
     },
     search() {
       this.fetchData()
@@ -170,17 +166,17 @@ export default {
     },
     resetForm() {
       this.form = {
-        //附件集合
-        fileList:[],
-        planName:'',
-        planTypeId:'',
-        industryId:'',
-        planUnit:'',
-        planVersion:'',
-        editorDate:'',
-        register:'',
-        isDel:'',
-        id: '',
+        // 附件集合
+        fileList: [],
+        planName: '',
+        planTypeId: '',
+        industryId: '',
+        planUnit: '',
+        planVersion: '',
+        editorDate: '',
+        register: '',
+        isDel: '',
+        id: ''
       }
     },
     add() {
@@ -190,68 +186,68 @@ export default {
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                planName:this.form.planName,
-                planTypeId:this.form.planTypeId,
-                industryId:this.form.industryId,
-                planUnit:this.form.planUnit,
-                planVersion:this.form.planVersion,
-                editorDate:this.form.editorDate,
-                register:this.form.register,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                dsaEmergencyPlanApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
+          const formData = {
+            id: this.form.id,
+            planName: this.form.planName,
+            planTypeId: this.form.planTypeId,
+            industryId: this.form.industryId,
+            planUnit: this.form.planUnit,
+            planVersion: this.form.planVersion,
+            editorDate: this.form.editorDate,
+            register: this.form.register,
+            isDel: this.form.isDel
+          }
+          if (formData.id) {
+            dsaEmergencyPlanApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
 
-                  for (let i = 0; i < this.fileList.length ; i++) {
-                    if (this.fileList[i].response){
-                      let fileId = this.fileList[i].response.data.id
-                      const tempData = {
-                        planId:formData.id,
-                        fileId:fileId,
-                      }
-                      dsaEmergencyPlanApi.addRelation(tempData).then()
-                    }
+              for (let i = 0; i < this.fileList.length; i++) {
+                if (this.fileList[i].response) {
+                  const fileId = this.fileList[i].response.data.id
+                  const tempData = {
+                    planId: formData.id,
+                    fileId: fileId
                   }
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                dsaEmergencyPlanApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                  for (let i = 0; i < this.fileList.length ; i++) {
-                    const tempData = {
-                      planId:response.data.id,
-                      fileId:this.fileList[i].response.data.id,
-                    }
-                    dsaEmergencyPlanApi.addRelation(tempData).then()
-                  }
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+                  dsaEmergencyPlanApi.addRelation(tempData).then()
+                }
+              }
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            dsaEmergencyPlanApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              for (let i = 0; i < this.fileList.length; i++) {
+                const tempData = {
+                  planId: response.data.id,
+                  fileId: this.fileList[i].response.data.id
+                }
+                dsaEmergencyPlanApi.addRelation(tempData).then()
+              }
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
       })
-    },cancle() {
-      this.$refs.planTable.clearSelection();
+    }, cancle() {
+      this.$refs.planTable.clearSelection()
       this.reset()
       this.fetchData()
       this.formVisible = false
@@ -266,27 +262,26 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
-
         this.isAdd = false
         this.form = this.selRow
         this.fileList = []
 
-        let temp = null;
-        dsaEmergencyPlanApi.queryDataByPlanId(this.form.id).then(response=>{
+        let temp = null
+        dsaEmergencyPlanApi.queryDataByPlanId(this.form.id).then(response => {
           temp = response.data
-          if(temp) {
-            temp.forEach(item =>{
+          if (temp) {
+            temp.forEach(item => {
               this.fileList.push({
-                "url":"",
-                "name":item.fileInfo.originalFileName,
-                "id":item.fileId,
-                "status":"success",
+                'url': '',
+                'name': item.fileInfo.originalFileName,
+                'id': item.fileId,
+                'status': 'success'
               })
             })
           }
@@ -297,10 +292,10 @@ export default {
         if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
       }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -312,15 +307,15 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsaEmergencyPlanApi.remove(id).then(response => {
-              this.removeRow(this.selRow)
+          dsaEmergencyPlanApi.remove(id).then(response => {
+            this.removeRow(this.selRow)
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-              this.$refs.planTable.clearSelection();
-              this.fetchData()
-          }).catch( err=> {
+            this.$refs.planTable.clearSelection()
+            this.fetchData()
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -330,7 +325,7 @@ export default {
         })
       }
     },
-    handleChangeUpload(file,fileList){
+    handleChangeUpload(file, fileList) {
       this.fileList = fileList.slice(-10)
     },
     uploadSuccess(response) {
@@ -343,46 +338,45 @@ export default {
       //   })
       // }
 
-    },removeFile(file){
+    }, removeFile(file) {
       var arr = []
       const param = {
-        idFile:null
+        idFile: null
       }
       if (file.response) {
         param.idFile = file.response.data.id
       } else {
         param.idFile = file.id
       }
-      this.fileList.forEach(item =>{
-        if(item.response && file.response) {
-          if(item.response.data.id != file.response.data.id) {
+      this.fileList.forEach(item => {
+        if (item.response && file.response) {
+          if (item.response.data.id != file.response.data.id) {
             arr.push((item))
           }
-        } else if(item.id != file.id) {
+        } else if (item.id != file.id) {
           arr.push(item)
         }
       })
       this.fileList = arr
       this.removeFileItem(param)
-
     },
-    previewFile(record){
-      this.previewVisible = true;
-      dsaEmergencyPlanApi.queryDataByPlanId(record.id).then(response=>{
+    previewFile(record) {
+      this.previewVisible = true
+      dsaEmergencyPlanApi.queryDataByPlanId(record.id).then(response => {
         this.files = response.data
       })
       this.fileLoading = false
-    },downloadFileINfo(record) {
+    }, downloadFileINfo(record) {
 
-    },viewFile(record) {
-      if(!record.fileInfo) {
+    }, viewFile(record) {
+      if (!record.fileInfo) {
         this.$message({
           message: this.$t('不存在预览文件'),
           type: 'success'
         })
         this.fileShow = false
       }
-      if(!isCanPreview(record.fileInfo.originalFileName)) {
+      if (!isCanPreview(record.fileInfo.originalFileName)) {
         this.$message({
           message: this.$t('该文件类型不支持预览'),
           type: 'success'
@@ -390,12 +384,12 @@ export default {
         this.fileShow = false
       } else {
         this.fileShow = true
-        let originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName;
-        let preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName]);
-        this.previewTitle = record.lawName;
-        this.previewFileUrl = preview;
+        const originUrl = this.downloadUrl + record.fileInfo.id + '&fileName=' + record.fileInfo.originalFileName
+        const preview = getPreviewUrl(1, originUrl, [record.fileInfo.originalFileName])
+        this.previewTitle = record.lawName
+        this.previewFileUrl = preview
       }
-    },removeBatch() {
+    }, removeBatch() {
       let ids = this.selection.map(item => {
         return item.id
       })
@@ -414,14 +408,14 @@ export default {
         type: 'warning'
       }).then(() => {
         dsaEmergencyPlanApi.removeBatch1(ids).then(() => {
-          this.selection.forEach(item =>{
+          this.selection.forEach(item => {
             this.removeRow(item)
           })
           this.$message({
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
-          this.$refs.planTable.clearSelection();
+          this.$refs.planTable.clearSelection()
           this.fetchData()
         }).catch(err => {
           this.$notify.error({
@@ -431,43 +425,42 @@ export default {
         })
       }).catch(() => {
       })
-    },downloads(record) {
+    }, downloads(record) {
       const param = {
-        idFile:record.fileInfo.id,
-        fileName:record.fileInfo.originalFileName
+        idFile: record.fileInfo.id,
+        fileName: record.fileInfo.originalFileName
       }
-      downloadFile('/file/download',param,record.fileInfo.originalFileName)
-    },toggleSelection(row) {
+      downloadFile('/file/download', param, record.fileInfo.originalFileName)
+    }, toggleSelection(row) {
       this.$refs.planTable.toggleRowSelection(row)
-    },removeRow(row) {
-      if(row.dsaPlanFiles) {
-        row.dsaPlanFiles.forEach(item =>{
+    }, removeRow(row) {
+      if (row.dsaPlanFiles) {
+        row.dsaPlanFiles.forEach(item => {
           this.removeDataFile(item)
         })
       }
-    }
-    ,removeDataFile(record) {
+    },
+    removeDataFile(record) {
       if (record.fileInfo) {
         const param = {
-          idFile:record.fileInfo.id
+          idFile: record.fileInfo.id
         }
         this.removeFileItem(param)
       }
-    },cancleDelete() {
-      this.fileList.forEach(item =>{
+    }, cancleDelete() {
+      this.fileList.forEach(item => {
         if (item.response) {
           const param = {
-            idFile:item.response.data.id
+            idFile: item.response.data.id
           }
           this.removeFileItem(param)
         }
       })
       this.cancle()
-    }
-    ,removeFileItem(param) {
+    },
+    removeFileItem(param) {
       fileDelete.deleteFile(param).then()
     }
-
 
   }
 }

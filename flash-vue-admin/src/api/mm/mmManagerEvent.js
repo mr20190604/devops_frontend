@@ -18,7 +18,7 @@ export default {
     return request({
       url: '/manager/event',
       method: 'PUT',
-      data:params
+      data: params
     })
   },
   remove: function(id) {
@@ -42,15 +42,22 @@ export default {
   deleteFile: function(params) {
     return request({
       url: '/file/deleteFile',
-      method:'delete',
+      method: 'delete',
       params
-    });
+    })
   },
-  deleteFileMid:function(params) {
+  deleteFileMid: function(params) {
     return request({
-      url :'/manager/event/deleteFileMid',
-      method:'delete',
+      url: '/manager/event/deleteFileMid',
+      method: 'delete',
       params
-    });
+    })
+  },
+  queryFilesByEventId: function(params) {
+    return request({
+      url: '/manager/event/queryFilesByEventId',
+      method: 'get',
+      params
+    })
   }
 }
