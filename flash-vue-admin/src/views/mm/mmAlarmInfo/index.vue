@@ -1,20 +1,20 @@
 <template>
     <div class="app-container">
         <div class="block">
-          <el-form label-width="120px" :inline="true">
-            <el-row>
-              <el-col :span="5">
+          <el-form label-width="76px" :inline="true">
+            <el-row class="hasmarginBottom">
+              <el-col :span="6">
                 <el-form-item label="设备编码：">
                   <el-input v-model="listQuery.equipCode"  placeholder="请输入编号"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="6">
 
                 <el-form-item label="报警等级：">
                   <dict-select v-model="listQuery.alarmLevel" dict-name="报警等级" placeholder="--请选择--"></dict-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="6">
                 <el-form-item label="设备类型：">
                   <el-select v-model="listQuery.monitorType"  placeholder="--请选择--">
 
@@ -23,7 +23,7 @@
               </el-col>
 
 
-              <el-col :span="5">
+              <el-col :span="6">
                 <el-form-item label="审核状态：">
                   <el-select v-model="listQuery.isAudit"  placeholder="--请选择--">
                     <el-option
@@ -37,15 +37,10 @@
                 </el-form-item>
 
               </el-col>
-
-
-
-
-
             </el-row>
 
-            <el-row style="padding-top: 20px">
-              <el-col :span="5">
+            <el-row class="hasmarginBottom">
+              <el-col :span="6">
                 <el-form-item label="审核结果：">
                   <el-select v-model="listQuery.auditStatus"  placeholder="--请选择--">
                     <el-option
@@ -58,7 +53,7 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :span="5">
+              <el-col :span="6">
                 <el-form-item label="处置状态：">
                   <el-select v-model="listQuery.isFeedBack"  placeholder="--请选择--">
                     <el-option
@@ -72,7 +67,7 @@
 
               </el-col>
 
-              <el-col :span="8">
+              <el-col :span="10">
                 <el-form-item label="报警时间：">
                   <el-date-picker
                     v-model="listQuery.startTime"
@@ -85,30 +80,28 @@
                 </el-form-item>
 
               </el-col>
-
-              <el-col :span="5">
-                <el-form-item style="float: right;margin-right: 100px">
-                  <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-                  <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-                </el-form-item>
-              </el-col>
+        </el-row>
+        <el-row>
+                <el-col>
+                  <el-form-item>
+                    <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                    <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+                  </el-form-item>
+                </el-col>
 
             </el-row>
 
           </el-form>
 
-            <br>
-            <el-row>
-                <el-col :span="24">
-                    <el-button type="success" size="mini"  icon="el-icon-plus" @click.native="add" v-permission="['/mmAlarmInfo/check']">审核</el-button>
-                    <!--<el-button type="primary" size="mini"  icon="el-icon-plus" @click.native="dispose()" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>-->
-                    <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="openAccept()" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
-                  <el-button type="danger" size="mini"  icon="el-icon-plus" @click.native="openGenEvent()" v-permission="['/mmAlarmInfo/saveEventAndFiles']">生成事件</el-button>
-                </el-col>
-            </el-row>
         </div>
 
-
+<div class="table-list">
+      <div class="btnLists">
+          <el-button type="success" class="set-common-btn blue-button" @click.native="add" v-permission="['/mmAlarmInfo/check']">审核</el-button>
+          <!-- <el-button type="primary" class="set-common-btn blank-blue-button" @click.native="dispose()" v-permission="['/mmAlarmInfo/dispose']">处置</el-button> -->
+          <el-button type="danger" class="set-common-btn blue-button" @click.native="openAccept()" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
+          <el-button type="danger" class="set-common-btn blank-blue-button" @click.native="openGenEvent()" v-permission="['/mmAlarmInfo/saveEventAndFiles']">生成事件</el-button>
+      </div>
         <el-table :data="list" ref="alarmTable" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange" :row-key="getRowKey"
                   @selection-change="handleSelectionChange"
@@ -122,7 +115,7 @@
           </el-table-column>
           <el-table-column
             type="index"
-            width="50"
+            width="55"
             label="序号"
           >
           </el-table-column>
@@ -135,56 +128,56 @@
             <!--</template>-->
           <!--</el-table-column>-->
 
-            <el-table-column label="设备名称">
+            <el-table-column label="设备名称" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.equipment.equipmentName}}
                 </template>
             </el-table-column>
-          <el-table-column label="设备编号">
+          <el-table-column label="设备编号" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.equipment.equipmentCode}}
             </template>
           </el-table-column>
-            <el-table-column label="报警类型" width="100px" align="center">
+            <el-table-column label="报警类型" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.monitorTypeName}}
                 </template>
             </el-table-column>
-          <el-table-column label="报警位置">
+          <el-table-column label="报警位置" show-overflow-tooltip>
             <template slot-scope="scope">
               <template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].installLocation}}</template>
             </template>
           </el-table-column>
 
-          <el-table-column label="报警等级" width="100px" align="center">
+          <el-table-column label="报警等级" show-overflow-tooltip>
             <template slot-scope="scope" >
               {{scope.row.alarmLevelName}}
             </template>
           </el-table-column>
-          <el-table-column label="报警值" width="80px" align="center">
+          <el-table-column label="报警值"  show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.alarmValue}}<template v-if="scope.row.equipment != null">{{scope.row.equipment.equipmentInstallInfos[0].equipmentUnit}}</template>
             </template>
           </el-table-column>
 
-            <el-table-column label="报警时间" align="center" width="240px" >
+            <el-table-column label="报警时间" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.alarmTime}}
                 </template>
             </el-table-column>
-          <el-table-column label="审核状态" align="center" width="80px">
+          <el-table-column label="审核状态"  show-overflow-tooltip>
             <template slot-scope="scope">
               <template  v-if="scope.row.isAudit === 0">未审核</template>
               <template  v-if="scope.row.isAudit === 1">已审核</template>
             </template>
           </el-table-column>
-          <el-table-column label="审核结果" align="center" width="80px">
+          <el-table-column label="审核结果"  show-overflow-tooltip>
             <template slot-scope="scope">
               <template  v-if="scope.row.auditStatus === 0">误报</template>
               <template  v-if="scope.row.auditStatus === 1">确认报警</template>
             </template>
           </el-table-column>
-          <el-table-column label="解除状态" align="center" width="80px">
+          <el-table-column label="解除状态"  show-overflow-tooltip>
             <template slot-scope="scope">
               <template  v-if="scope.row.relieveStatus === 0">未解除</template>
               <template  v-if="scope.row.relieveStatus === 1">已解除</template>
@@ -209,6 +202,7 @@
 
         <el-pagination
                 background
+                class="position-pagination"
                 layout="total, sizes, prev, pager, next, jumper"
                 :page-sizes="[10, 20, 50, 100,500]"
                 :page-size="listQuery.limit"
@@ -218,7 +212,7 @@
                 @prev-click="fetchPrev"
                 @next-click="fetchNext">
         </el-pagination>
-
+</div>
       <!--报警审核弹窗-->
         <el-dialog
                 :title="formTitle"
@@ -390,7 +384,7 @@
       <el-dialog
         :title="previewTitle"
         :visible.sync="previewVisible"
-        width="60%"style="margin-top: 0px;">
+        width="60%" style="margin-top: 0px;">
         <file-preview :files="files" :download-file-url="downloadUrl"></file-preview>
       </el-dialog>
 
@@ -398,7 +392,7 @@
       <el-dialog
         :title="acceptTitle"
         :visible.sync="acceptVisible"
-        width="40%"style="margin-top: 0px;">
+        width="40%" style="margin-top: 0px;">
 
         <div style="padding-left: 10%">
           <template>
@@ -484,8 +478,4 @@
 
 <script src="./mmAlarmInfo.js"></script>
 
-
-<style rel="stylesheet/scss" lang="scss" >
-    @import "src/styles/commonmyself.scss";
-</style>
 

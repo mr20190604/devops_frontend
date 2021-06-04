@@ -160,7 +160,6 @@ export default {
       this.formTitle = '添加地上建筑物'
       this.formVisible = true
       this.isAdd = true
-
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }

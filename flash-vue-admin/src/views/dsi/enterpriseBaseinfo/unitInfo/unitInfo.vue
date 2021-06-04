@@ -1,20 +1,18 @@
 <template>
   <div class="app-container">
-    <div class="block">
+    <div class="table-list">
+      <div class="btnLists">
+        <el-button type="success" size="mini"  class="set-common-btn blue-button" @click.native="add"
+                   v-permission="['/riskUnit/add']">{{ $t('button.add') }}
+        </el-button>
 
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add"
-                     v-permission="['/riskUnit/add']">{{ $t('button.add') }}
-          </el-button>
+        <el-button type="danger"  class="set-common-btn blank-blue-button" @click.native="removeBatch"
+                   v-permission="['/riskUnit/delete']">批量删除
+        </el-button>
+      </div>
 
-          <el-button type="danger"  size="mini" icon="el-icon-delete" @click.native="removeBatch"
-                     v-permission="['/riskUnit/delete']">批量删除
-          </el-button>
-        </el-col>
-      </el-row>
-    </div>
+
+
 
 
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
@@ -66,6 +64,7 @@
         </template>
       </el-table-column>
     </el-table>
+    </div>
     <div style="position:absolute;bottom: 30px;width: 100%">
     <el-pagination
       background
@@ -177,6 +176,6 @@
 
 <script  src="./unitInfo.js"></script>
 
-<style rel="stylesheet/scss" lang="scss" >
+<style rel="stylesheet/scss" lang="scss" scoped>
   @import "src/styles/commonmyself.scss";
 </style>

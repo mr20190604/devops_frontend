@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-
+    <div class="table-list">
 
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               :row-key="row=>row.id"
@@ -38,6 +38,7 @@
       </el-table-column>
 
     </el-table>
+    </div>
     <div style="position:absolute;bottom: 30px;width: 100%">
     <el-pagination
       background
@@ -146,6 +147,6 @@
 
 <script  src="./unitInfo.js"></script>
 
-<style rel="stylesheet/scss" lang="scss" >
+<style rel="stylesheet/scss" lang="scss" scoped>
   @import "src/styles/commonmyself.scss";
 </style>

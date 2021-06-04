@@ -1,7 +1,4 @@
-.block {
-  padding: 12px 30px;
-  background: #fff;
-}
+
 
 .el-form-item {
   margin-bottom: 20px;
@@ -113,11 +110,15 @@
   height: 100px;
 }
 .el-table.el-table--fit.el-table--border.el-table--enable-row-hover.el-table--enable-row-transition{
-  margin-bottom: 20px;
+  height: 335px;
 }
 .el-input-style{
   width: 100px;
 }
 .el-input.el-pagination__editor.is-in-pagination{
   width: 80px;
+}
+
+.el-select-dropdown{
+  min-width: 200px !important;
 }

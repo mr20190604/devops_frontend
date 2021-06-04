@@ -65,7 +65,7 @@ export default {
   },
   watch: {
     value: function(newValue) {
-      this.content = newValue
+      this.content = newValue || undefined
       this.options = null
       this.isMatched = false
       this.loadOptions({
@@ -74,7 +74,7 @@ export default {
     }
   },
   created() {
-    this.content = this.value
+    this.content = this.value || undefined
     this.loadOptions({
       action: LOAD_ROOT_OPTIONS
     })
@@ -166,7 +166,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
   $default-height: 33px;
   $mini-height: 26px;

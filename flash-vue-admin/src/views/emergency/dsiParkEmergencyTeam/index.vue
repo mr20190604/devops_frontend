@@ -454,7 +454,7 @@
 <script src="./dsiParkEmergencyTeam.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" >
+<style rel="stylesheet/scss" lang="scss" scoped>
     @import "src/styles/commonmyself.scss";
 </style>
 

@@ -163,7 +163,7 @@
                  @close="closeDialog">
           <template v-if="formVisible">
             <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height: 600px">
-              <el-tab-pane label="添加企业信息" name="first" style="visibility: visible">
+              <el-tab-pane label="企业信息" name="first" style="visibility: visible">
                 <el-form ref="form" :model="form" :rules="rules" label-width="120px" >
                   <el-row style="margin-left: 200px">
 
@@ -281,10 +281,10 @@
 
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane label="添加产品信息" name="second" id="second"  style="height: 550px">
+              <el-tab-pane label="产品信息" name="second" id="second"  style="height: 550px">
                 <productInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></productInfo>
               </el-tab-pane>
-              <el-tab-pane  label="添加风险单元" name="third"  style="height: 550px">
+              <el-tab-pane  label="风险单元" name="third"  style="height: 550px">
                 <unitInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></unitInfo>
               </el-tab-pane>
             </el-tabs>
@@ -299,7 +299,7 @@
                  @close="closeDialog">
         <template v-if="enterpriseVisible">
           <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height: 600px">
-            <el-tab-pane label="添加企业信息" name="first" style="visibility: visible">
+            <el-tab-pane label="企业信息" name="first" style="visibility: visible">
               <el-form ref="form" :model="form" :rules="rules" label-width="120px" >
                 <el-row style="margin-left: 200px">
 
@@ -413,10 +413,10 @@
 
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="添加产品信息" name="second"   style="height: 550px">
+            <el-tab-pane label="产品信息" name="second"   style="height: 550px">
               <productInfo1 :enterpriseId="enterpriseId" @closeDialog="closeDialog"></productInfo1>
             </el-tab-pane>
-            <el-tab-pane  label="添加风险单元" name="third"  style="height: 550px">
+            <el-tab-pane  label="风险单元" name="third"  style="height: 550px">
               <unitInfo1 :enterpriseId="enterpriseId" @closeDialog="closeDialog"></unitInfo1>
             </el-tab-pane>
           </el-tabs>
@@ -429,7 +429,7 @@
 <script src="./dsiEnterpriseBaseinfo.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" >
+<style rel="stylesheet/scss" lang="scss" scoped>
     @import "src/styles/commonmyself.scss";
 </style>
 
