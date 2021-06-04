@@ -116,7 +116,8 @@ export default {
         this.list = response.data.records;
         this.listLoading = false;
         this.total = response.data.total
-      })
+      });
+      this.$refs.equipTable.clearSelection();
     },
     search() {
       this.fetchData()
