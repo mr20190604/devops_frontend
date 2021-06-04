@@ -1,6 +1,6 @@
 import dsiProductInfoApi from '@/api/dsi/dsiProductInfo'
 import permission from '@/directive/permission/index.js'
-import {getDicts} from "../../../api/system/dict";
+import {getDicts} from "../../../../api/system/dict";
 import materialInfo from '@/views/dsi/dsiMaterialBaseinfo/index.vue';
 import dsiMaterialBaseinfoApi from '@/api/dsi/dsiMaterialBaseinfo';
 import dsiProductFromMaterialApi from '@/api/dsi/dsiProductFromMaterial';

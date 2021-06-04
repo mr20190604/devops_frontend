@@ -3,14 +3,18 @@ import permission from '@/directive/permission/index.js'
 import {remove, getList, save, update, getDicts} from '@/api/system/dict'
 import district from '@/components/District/index'
 import productInfo from '@/views/dsi/dsiProductInfo/index.vue'
+import productInfo1 from '@/views/dsi/enterpriseBaseinfo/productInfo/index.vue'
 import unitInfo from '@/views/dsi/enterpriseBaseinfo/unitInfo/unitInfo.vue'
+import unitInfo1 from '@/views/dsi/enterpriseBaseinfo/unitInfo1/unitInfo.vue'
 
 export default {
   directives: {permission},
   components:{
     productInfo,
+    productInfo1,
     district,
-    unitInfo
+    unitInfo,
+    unitInfo1,
   },
   data() {
     return {
@@ -357,12 +361,11 @@ export default {
       this.isAdd = false
       this.form = row
       this.formTitle = '查看企业信息'
+      this.enterpriseId = this.form.id;
       this.enterpriseVisible = true
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-      // }
     },
     handleClick(activeName, oldActiveName) {
       let self = this;
