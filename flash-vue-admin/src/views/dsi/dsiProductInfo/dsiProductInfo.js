@@ -435,7 +435,7 @@ export default {
             this.listLoading = false
           })
         } else {
-          this.$alert('请先为产品添加原料！', '提示', {
+          this.$alert('暂未添加添加原料信息！', '提示', {
             confirmButtonText: '确定',
           });
         }

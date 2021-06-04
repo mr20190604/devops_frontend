@@ -29,5 +29,14 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  queryAll: function(equipmentType) {
+    return request({
+      url: '/bas/equipment/queryAll',
+      method: 'get',
+      params:{
+        equipmentType:equipmentType,
+      }
+    })
+  },
 }

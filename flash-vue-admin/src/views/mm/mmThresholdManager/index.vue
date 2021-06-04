@@ -84,7 +84,7 @@
             </el-table-column>
           <el-table-column label="设备位置" show-overflow-tooltip>
             <template slot-scope="scope">
-              {{scope.row.mmBasEquipment.equipmentInstallInfo.installLocation}}
+              {{scope.row.mmBasEquipment.equipmentInstallInfos[0].installLocation}}
             </template>
           </el-table-column>
             <el-table-column label="操作" align="center">
@@ -114,46 +114,61 @@
                 width="70%">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="一级阈值上限"  >
-                            <el-input v-model="form.firstUpperLimit" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="一级阈值下限"  >
-                            <el-input v-model="form.firstLowerLimit" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="二级阈值上限"  >
-                            <el-input v-model="form.secondUpperLimit" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="二级阈值下限"  >
-                            <el-input v-model="form.secondLowerLimit" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="三级阈值上限"  >
-                            <el-input v-model="form.thirdUpperLimit" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="三级阈值下限"  >
-                            <el-input v-model="form.thirdLowerLimit" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="设备类别"  >
-                            <el-input v-model="form.equipmentType" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
                   <el-col :span="12">
-                    <el-form-item label="设备编号"  >
-                      <el-input v-model="form.equipmentType" minlength=1></el-input>
+                    <el-form-item label="设备类别："  >
+                      <el-select v-model="form.equipmentType" filterable placeholder="请选择" @change="selectEquipment">
+                        <el-option
+                          v-for="item in equipment_type"
+                          :key="item.id"
+                          :label="item.name"
+                          :value="item.id">
+                        </el-option>
+                      </el-select>
                     </el-form-item>
                   </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="设备编号："  >
+                      <el-select v-model="form.equipmentId" filterable placeholder="请选择" >
+                        <el-option
+                          v-for="item in equipment_code"
+                          :key="item.id"
+                          :label="item.equipmentCode"
+                          :value="item.id">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="一级阈值上限："  >
+                            <el-input v-model="form.firstUpperLimit" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="一级阈值下限："  >
+                            <el-input v-model="form.firstLowerLimit" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="二级阈值上限："  >
+                            <el-input v-model="form.secondUpperLimit" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="二级阈值下限："  >
+                            <el-input v-model="form.secondLowerLimit" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="三级阈值上限："  >
+                            <el-input v-model="form.thirdUpperLimit" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="三级阈值下限："  >
+                            <el-input v-model="form.thirdLowerLimit" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+                        </el-form-item>
+                    </el-col>
+
                 </el-row>
                 <el-form-item align="center" >
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
@@ -166,4 +181,8 @@
 
 <script src="./mmThresholdManager.js"></script>
 
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+    @import "src/styles/commonmyself.scss";
+</style>
 
