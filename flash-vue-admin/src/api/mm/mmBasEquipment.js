@@ -30,6 +30,16 @@ export default {
             }
         })
     },
+  queryAll: function(equipmentType) {
+    return request({
+      url: '/bas/equipment/queryAll',
+      method: 'get',
+      params:{
+        equipmentType:equipmentType,
+      }
+    })
+  },
+    },
   removeBatch: function(ids) {
     return request({
       url: '/bas/equipment/removeBatch',

@@ -1,21 +1,21 @@
 <template>
   <div class="app-container">
-    <div class="block">
-      <el-button type="success" size="mini" icon="el-icon-plus"  @click.native="add" v-permission="['/menu/add']">{{ $t('button.add') }}</el-button>
-    </div>
+    <div class="table-list">
+      <div class="btnLists">
+         <el-button type="primary" class="set-common-btn blue-button" @click.native="add" v-permission="['/menu/add']">{{ $t('button.add') }}</el-button>
+      </div>
     <el-table
       :data="data"
-      style="width: 100%;margin-bottom: 20px;"
       row-key="id"
       border
       :default-expand-all="false"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-      <el-table-column label="名称" >
+      <el-table-column label="名称" show-overflow-tooltip>
         <template slot-scope="scope">
           <el-button type="text" @click="edit(scope.row)">{{scope.row.name}}</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="编码" >
+      <el-table-column label="编码" show-overflow-tooltip >
         <template slot-scope="scope">
           <span >{{scope.row.code}}</span>
         </template>
@@ -25,39 +25,39 @@
           <svg-icon :icon-class="scope.row.icon" />
         </template>
       </el-table-column>
-      <el-table-column label="组件" >
+      <el-table-column label="组件" show-overflow-tooltip >
         <template slot-scope="scope">
           <span >{{scope.row.component}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="类型" >
+      <el-table-column label="类型" show-overflow-tooltip >
         <template slot-scope="scope">
           <span >{{scope.row.ismenu==1?'菜单':'按钮'}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="URL">
+      <el-table-column label="URL" show-overflow-tooltip>
         <template slot-scope="scope">
           <span >{{scope.row.url}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否隐藏">
+      <el-table-column label="是否隐藏" show-overflow-tooltip>
         <template slot-scope="scope">
           <span >{{scope.row.hidden}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="顺序">
+      <el-table-column label="顺序" show-overflow-tooltip>
         <template slot-scope="scope">
           <span >{{scope.row.num}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" >
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click="edit(scope.row)" v-permission="['/menu/edit']">{{ $t('button.edit') }}</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click="remove(scope.row)" v-permission="['/menu/remove']">{{ $t('button.delete') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+  </div>
       <el-dialog
         :title="formTitle"
         :visible.sync="formVisible"
@@ -147,6 +147,4 @@
 </template>
 
 <script src="./menu.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+

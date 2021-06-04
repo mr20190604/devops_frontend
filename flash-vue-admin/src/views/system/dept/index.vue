@@ -1,39 +1,40 @@
 <template>
   <div class="app-container">
-    <div class="block">
-      <el-button type="success" size="mini" icon="el-icon-plus"  @click.native="add" v-permission="['/dept/add']">{{ $t('button.add') }}</el-button>
-      <el-button type="danger" size="mini" icon="el-icon-delete"  @click.native="remove" v-permission="['/dept/delete']">{{ $t('button.edit') }}</el-button>
-    </div>
 
+ <div class="table-list">
+      <div class="btnLists">
+      <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/dept/add']">{{ $t('button.add') }}</el-button>
+      <el-button type="danger" size="mini" class="set-common-btn blank-blue-button" @click.native="remove" v-permission="['/dept/delete']">{{ $t('button.edit') }}</el-button>
+      </div>
     <tree-table
     :data="data"
     :expandAll="expandAll"
     highlight-current-row
     border>
-      <el-table-column label="简称" >
+      <el-table-column label="简称" show-overflow-tooltip >
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(scope.row)">{{scope.row.simplename}}</el-button>
 
         </template>
       </el-table-column>
-      <el-table-column label="全称" >
+      <el-table-column label="全称" show-overflow-tooltip >
         <template slot-scope="scope">
           <span >{{scope.row.fullname}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="顺序" >
+      <el-table-column label="顺序" show-overflow-tooltip>
         <template slot-scope="scope">
           <span >{{scope.row.num}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" >
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit"  @click.native="editItem(scope.row)" v-permission="['/dept/update']">{{ $t('button.edit') }}</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click="removeItem(scope.row)" v-permission="['/dept/delete']">删除</el-button>
         </template>
       </el-table-column>
     </tree-table>
-
+ </div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -75,6 +76,4 @@
 </template>
 
 <script src="./dept.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+

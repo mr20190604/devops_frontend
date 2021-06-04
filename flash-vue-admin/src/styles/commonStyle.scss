@@ -125,9 +125,16 @@
       }
       .el-form-item__content{
         line-height: 28px;
+        .el-radio-group{
+            .el-radio-button__inner{
+              padding: 7px 20px;
+              font-size: 12px;
+          }
+        }
         .el-input__icon{
           line-height: 28px;
         }
+        .el-range__close-icon,
         .el-range__icon{
           line-height: 20px;
         }
@@ -261,4 +268,5 @@
 .updateText {
   text-decoration: underline;
   cursor: pointer;
+  color: #1a80ff;
 }

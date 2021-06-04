@@ -385,34 +385,34 @@ export default {
       })
     },
     saveProduct(){
-      let ids = this.selection.map(item => {
-        return item.id
-      })
-
-
-      if (ids === null || ids.length === 0) {
-        this.$message({
-          message: this.$t('common.mustSelectOne'),
-          type: 'warning'
+      if(this.list.length>0){
+        let ids = this.selection.map(item => {
+          return item.id
         })
-        return false
-      }
-      for(let i=0;i<ids.length;i++) {
-        const formMaterial = {
-          id: '',
-          productId: this.form.id,
-          materialId: ids[i]
+        if (ids === null || ids.length === 0) {
+          this.$alert('请先勾选产品信息！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false
         }
-        dsiProductFromMaterialApi.add(formMaterial);
+        for(let i=0;i<ids.length;i++) {
+          const formMaterial = {
+            id: '',
+            productId: this.form.id,
+            materialId: ids[i]
+          }
+          dsiProductFromMaterialApi.add(formMaterial);
+        }
+        this.$message({
+          message: this.$t('common.optionSuccess'),
+          type: 'success'
+        })
+        this.fetchData();
+        ids=[];
+        this.materialVisible=false;
+      }else {
+        this.closeFatherDialog();
       }
-          this.$message({
-            message: this.$t('common.optionSuccess'),
-            type: 'success'
-          })
-          this.fetchData();
-          ids=[];
-          this.materialVisible=false;
-
       },
 
     viewProduct(record){
@@ -435,7 +435,7 @@ export default {
             this.listLoading = false
           })
         } else {
-          this.$alert('请先为产品添加原料！', '提示', {
+          this.$alert('暂未添加添加原料信息！', '提示', {
             confirmButtonText: '确定',
           });
         }

@@ -1,25 +1,27 @@
 <template>
   <div class="app-container">
     <div class="block">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-input v-model="listQuery.name" size="mini" placeholder="请输入字典名称" />
-        </el-col>
-        <el-col :span="6">
-          <el-button type="success" size="mini" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" size="mini" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button v-permission="['/dict/add']" type="success" size="mini" icon="el-icon-plus" @click.native="add">{{ $t('button.add') }}</el-button>
-          <el-button v-permission="['/dict/update']" type="primary" size="mini" icon="el-icon-edit" @click.native="edit">{{ $t('button.edit') }}</el-button>
-          <el-button v-permission="['/dict/delete']" type="danger" size="mini" icon="el-icon-delete" @click.native="remove">{{ $t('button.delete') }}</el-button>
-        </el-col>
-      </el-row>
+        <el-form>
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="字典名称：">
+                   <el-input v-model="listQuery.name" size="mini" placeholder="请输入字典名称" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="18">
+                <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+                <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              </el-col>
+            </el-row>
+        </el-form>
     </div>
-
+ <div class="table-list">
+      <div class="btnLists">
+          <el-button v-permission="['/dict/add']"  class="set-common-btn blue-button" @click.native="add">{{ $t('button.add') }}</el-button>
+          <el-button v-permission="['/dict/update']"  class="set-common-btn blank-blue-button" @click.native="edit" size="mini">{{ $t('button.edit') }}</el-button>
+          <el-button v-permission="['/dict/delete']" class="set-common-btn blue-button" @click.native="remove">{{ $t('button.delete') }}</el-button>
+         
+      </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -29,22 +31,22 @@
       highlight-current-row
       @current-change="handleCurrentChange"
     >
-      <el-table-column label="ID">
+      <el-table-column label="ID" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="名称">
+      <el-table-column label="名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="详情">
+      <el-table-column label="详情" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.detail }}
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button v-permission="['/dict/update']" type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)">{{ $t('button.edit') }}</el-button>
           <el-button v-permission="['/dict/delete']" type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)">{{ $t('button.delete') }}</el-button>
@@ -53,7 +55,7 @@
       </el-table-column>
 
     </el-table>
-
+ </div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -98,6 +100,3 @@
 </template>
 
 <script src="./dict.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>

@@ -1,49 +1,53 @@
 import mmThresholdManagerApi from '@/api/mm/mmThresholdManager'
 import permission from '@/directive/permission/index.js'
+import mmBasEquipment from '@/api/mm/mmBasEquipment'
+import {getDicts} from "../../../api/system/dict";
 
 
 export default {
-  directives: { permission },
+  directives: {permission},
   data() {
     return {
       formVisible: false,
       formTitle: '添加',
       isAdd: true,
       form: {
-        equipmentId:'',
-        firstUpperLimit:'',
-        firstLowerLimit:'',
-        secondUpperLimit:'',
-        secondLowerLimit:'',
-        thirdUpperLimit:'',
-        thirdLowerLimit:'',
-        equipmentType:'',
-        dictId:'',
-        auditOpinion:'',
-        auditPerson:'',
-        isDel:'',
+        equipmentId: '',
+        firstUpperLimit: '',
+        firstLowerLimit: '',
+        secondUpperLimit: '',
+        secondLowerLimit: '',
+        thirdUpperLimit: '',
+        thirdLowerLimit: '',
+        equipmentType: '',
+        dictId: '',
+        auditOpinion: '',
+        auditPerson: '',
+        isDel: '',
         id: '',
-        mmBasEquipment:'',
-        equipmentTypeName:'',
-        dictIdName:'',
-        auditTime:'',
-        auditUser:''
+        mmBasEquipment: '',
+        equipmentTypeName: '',
+        dictIdName: '',
+        auditTime: '',
+        auditUser: ''
       },
       listQuery: {
         page: 1,
         limit: 20,
         id: undefined,
-        dictId:'',
-        equipmentType:'',
-        equipmentName:'',
-        equipmentCode:''
+        dictId: '',
+        equipmentType: '',
+        equipmentName: '',
+        equipmentCode: ''
 
       },
+      equipment_type: [],
+      equipment_code: [],
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selRow: {},
-      equipmentCodeList:[],
+      equipmentCodeList: [],
     }
   },
   filters: {
@@ -76,11 +80,16 @@ export default {
       this.fetchData()
     },
     fetchData() {
+
       this.listLoading = true
-        mmThresholdManagerApi.getList(this.listQuery).then(response => {
+      mmThresholdManagerApi.getList(this.listQuery).then(response => {
+        console.log(response.data.records)
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
+      });
+      getDicts("设备类型").then(response => {
+        this.equipment_type = response.data
       })
     },
     search() {
@@ -89,7 +98,7 @@ export default {
     reset() {
       // this.listQuery.id = ''
 
-      for(let key in this.listQuery) {
+      for (let key in this.listQuery) {
         if (key != 'limit' && key != 'page') {
           this.listQuery[key] = ''
 
@@ -126,68 +135,81 @@ export default {
     },
     resetForm() {
       this.form = {
-        equipmentId:'',
-        firstUpperLimit:'',
-        firstLowerLimit:'',
-        secondUpperLimit:'',
-        secondLowerLimit:'',
-        thirdUpperLimit:'',
-        thirdLowerLimit:'',
-        equipmentType:'',
-        dictId:'',
-        auditOpinion:'',
-        auditPerson:'',
-        isDel:'',
+        equipmentId: '',
+        firstUpperLimit: '',
+        firstLowerLimit: '',
+        secondUpperLimit: '',
+        secondLowerLimit: '',
+        thirdUpperLimit: '',
+        thirdLowerLimit: '',
+        equipmentType: '',
+        dictId: '',
+        auditOpinion: '',
+        auditPerson: '',
+        isDel: '',
         id: ''
       }
     },
     add() {
       this.formTitle = '添加',
-      this.formVisible = true
+        this.formVisible = true
+      this.resetForm();
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                equipmentId:this.form.equipmentId,
-                firstUpperLimit:this.form.firstUpperLimit,
-                firstLowerLimit:this.form.firstLowerLimit,
-                secondUpperLimit:this.form.secondUpperLimit,
-                secondLowerLimit:this.form.secondLowerLimit,
-                thirdUpperLimit:this.form.thirdUpperLimit,
-                thirdLowerLimit:this.form.thirdLowerLimit,
-                equipmentType:this.form.equipmentType,
-                dictId:this.form.dictId,
-                auditOpinion:this.form.auditOpinion,
-                auditPerson:this.form.auditPerson,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                mmThresholdManagerApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                mmThresholdManagerApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          console.log(this.form.equipmentId)
+          const formData = {
+            id: this.form.id,
+            equipmentId: this.form.equipmentId,
+            firstUpperLimit: this.form.firstUpperLimit,
+            firstLowerLimit: this.form.firstLowerLimit,
+            secondUpperLimit: this.form.secondUpperLimit,
+            secondLowerLimit: this.form.secondLowerLimit,
+            thirdUpperLimit: this.form.thirdUpperLimit,
+            thirdLowerLimit: this.form.thirdLowerLimit,
+            equipmentType: this.form.equipmentType,
+            dictId: this.form.dictId,
+            auditOpinion: this.form.auditOpinion,
+            auditPerson: this.form.auditPerson,
+            isDel: this.form.isDel,
+          }
+          if (formData.id) {
+            mmThresholdManagerApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+           mmThresholdManagerApi.getByEquipmentId(this.form.equipmentId).then(response=>{
+             console.log(response.data.length)
+             if(response.data.length>0){
+               this.$alert('不能为一个设备重复添加阈值', '提示', {
+                 confirmButtonText: '确定',
+               });
+               return false
+             }else {
+               mmThresholdManagerApi.add(formData).then(response => {
+                 this.$message({
+                   message: this.$t('common.optionSuccess'),
+                   type: 'success'
+                 })
+                 this.fetchData()
+                 this.formVisible = false
+               })
+             }
+           })
+
+          }
         } else {
           return false
         }
@@ -203,7 +225,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -214,13 +236,13 @@ export default {
         this.formTitle = '编辑'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -232,13 +254,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            mmThresholdManagerApi.remove(id).then(response => {
+          mmThresholdManagerApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -247,6 +269,15 @@ export default {
         }).catch(() => {
         })
       }
+    },
+    selectEquipment(val) {
+      this.form.equipmentId = '';
+      this.equipment_code = [];
+      mmBasEquipment.queryAll(val).then(response => {
+        console.log(response)
+        this.equipment_code = response.data
+
+      })
     }
 
   }
