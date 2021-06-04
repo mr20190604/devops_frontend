@@ -39,21 +39,21 @@
               </el-col>
             </el-row>
             <el-row>
-                <el-col :span="8">
+               <!-- <el-col :span="8">
                   <el-form-item label="事故时间：">
                     <el-date-picker 
                         v-model="listQuery.accidentTime"
                         size="mini"
-                        type="datetimerange"
+                        type="daterange"
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
-                        value-format="yyyy-MM-dd HH:mm"
+                        value-format="yyyy-MM-dd"
                        >
                     </el-date-picker>
                   </el-form-item>
-                </el-col>
-                <el-col :span="16">
+                </el-col>-->
+                <el-col :span="16" style="float: right">
                     <el-form-item>
                         <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
                         </el-button>
