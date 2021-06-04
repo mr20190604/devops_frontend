@@ -3,22 +3,22 @@
         <div class="block">
           <el-form label-width="90px" class="has-Label-Width">
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                   <el-form-item label="人员名称：">
                     <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
                   </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                   <el-form-item label="所在行政区：" class="label-width">
                     <district v-model="listQuery.districtCode"  placeholder="请选择所在行政区"></district>
                   </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                   <el-form-item label="现工作单位：">
                     <el-input v-model="listQuery.workPlace"  placeholder="请输入工作单位"></el-input>
                   </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="是否专家：">
                   <el-select v-model="listQuery.isExpert"  placeholder="是否专家">
                     <el-option
@@ -30,16 +30,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-            </el-row>
-
-            <el-row>
-              <el-col>
+              <el-col :span="4">
                 <el-form-item>
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                   <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
                 </el-form-item>
               </el-col>
             </el-row>
+
 
           </el-form>
         </div>

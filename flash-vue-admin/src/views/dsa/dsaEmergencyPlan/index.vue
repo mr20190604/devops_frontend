@@ -3,12 +3,12 @@
         <div class="block">
           <el-form>
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="预案名称：">
                   <el-input v-model="listQuery.planName" placeholder="请输预案名称"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="所属行业：">
                   <el-select v-model="listQuery.industryId" placeholder="请选择所属行业">
                     <el-option
@@ -20,12 +20,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="来源单位：">
                   <el-input v-model="listQuery.planUnit" placeholder="请输来源单位"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="预案类型：">
                   <el-select v-model="listQuery.planTypeId" placeholder="请选择预案类型">
                     <el-option
@@ -37,9 +37,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
+              <el-col :span="4">
                 <el-form-item>
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
                   </el-button>

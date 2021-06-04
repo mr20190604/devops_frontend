@@ -53,7 +53,8 @@ export default {
         id: '',
         auditStatus:'',
         monitorTypeName:'',
-        auditUser:''
+        auditUser:'',
+        relieveStatus:''
       },
       disposeForm:{
         alarmId:'',
@@ -72,6 +73,15 @@ export default {
            label:'已审核'
           }
         ],
+      audit_list:[
+        {
+          value:0,
+          label:'误报'
+        },{
+          value:1,
+          label:'确认报警'
+        }
+      ],
       feedback_list:
         [
           {
@@ -101,7 +111,8 @@ export default {
         endTime:undefined,
         monitorType:undefined,
         isAudit:undefined,
-        isFeedBack:undefined
+        isFeedBack:undefined,
+        auditStatus:undefined
       },
       total: 0,
       list: null,
@@ -239,6 +250,8 @@ export default {
       selection:[],
       //流程
       processVisiable:false,
+      //报警排查集合
+      screenList:null,
       fileAccept:'.doc,.docx,.pdf,.zip,.rar',
       fileShow:true
 
@@ -296,14 +309,11 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = ''
-      this.listQuery.equipCode=''
-      this.listQuery.alarmLevel=''
-      this.listQuery.startTime=''
-      this.listQuery.endTime=''
-      this.listQuery.monitorType=''
-      this.listQuery.isAudit=''
-      this.listQuery.isFeedBack=''
+      for(let key in this.listQuery) {
+        if (key != 'limit' && key != 'page') {
+          this.listQuery[key] = ''
+        }
+      }
       this.fetchData()
     },
     handleFilter() {
@@ -396,6 +406,7 @@ export default {
                 alarmFirstValue:this.form.alarmFirstValue,
                 alarmMaxValue:this.form.alarmMaxValue,
                 alarmMaxLevel:this.form.alarmMaxLevel,
+                auditStatus:this.form.auditStatus,
                 isAudit:1,
                 auditOpinion:this.form.auditOpinion,
                 auditPerson:this.form.auditPerson,
@@ -404,6 +415,7 @@ export default {
                 prejudgment:this.form.prejudgment,
                 isGenEvent:this.form.isGenEvent,
                 isDel:this.form.isDel,
+                auditValue:this.form.alarmValue
             }
             if(formData.id){
                 mmAlarmInfoApi.update(formData).then(response => {
@@ -724,6 +736,10 @@ export default {
       mmAlarmInfoApi.queryNoticeByAlarmId(record.id).then(response=>{
         this.acceptList = response.data
       })
+      mmAlarmInfoApi.queryScreenByAlarmId(record.id).then(response =>{
+        this.screenList = response.data
+      })
+
     },downloads(record) {
     const param = {
       idFile:record.fileInfo.id,
