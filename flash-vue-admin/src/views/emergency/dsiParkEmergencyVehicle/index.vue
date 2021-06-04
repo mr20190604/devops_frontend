@@ -58,7 +58,7 @@
 <div class="table-list">
       <div class="btnLists">
           <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/park/emergency/vehicle/add']">{{ $t('button.add') }}</el-button>
-          <el-button type="danger" size="mini"  class="set-common-btn blank-blue-button" @click.native="batchDelete" v-permission="['/park/emergency/vehicle/delete']">批量删除</el-button>
+          <el-button type="danger" size="mini"  class="set-common-btn blank-blue-button" @click="removeBatch" v-permission="['/park/emergency/vehicle/delete']">批量删除</el-button>
       </div>
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit
                   :row-key="row=>row.id"

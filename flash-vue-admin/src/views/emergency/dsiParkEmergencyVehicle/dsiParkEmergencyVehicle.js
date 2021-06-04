@@ -481,7 +481,8 @@ export default {
     }
     ,removeFileItem(param) {
       fileDelete.deleteFile(param).then()
-    }
+    },
+
 
   }
 }

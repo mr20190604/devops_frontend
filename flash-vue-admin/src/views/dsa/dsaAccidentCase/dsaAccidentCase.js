@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       formVisible: false,
+      accidentVisible:false,
       formTitle: '添加事故案例库',
       isAdd: true,
       form: {
@@ -300,6 +301,15 @@ export default {
       this.fetchData();
       this.$refs.accidentTable.clearSelection();
     },
-
+    viewAccident(row) {
+      // if (this.checkSel()) {
+      this.isAdd = false
+      this.form = row
+      this.formTitle = '查看事故信息'
+      this.accidentVisible = true
+      if (this.$refs['form'] !== undefined) {
+        this.$refs['form'].resetFields()
+      }
+    },
   }
 }
