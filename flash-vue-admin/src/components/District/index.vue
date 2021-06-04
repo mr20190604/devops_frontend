@@ -6,9 +6,9 @@
     :searchable="false"
     :load-options="loadOptions"
     no-children-text="没有子级别"
-    @input="handleInput"
     :disabled="disabled"
-
+    :auto-load-root-options="false"
+    @input="handleInput"
   >
     <div slot="value-label" slot-scope="{ node }">{{ node.raw.valueLabel }}</div>
   </treeselect>
@@ -32,9 +32,9 @@ export default {
       type: String,
       default: undefined
     },
-    disabled:{
-      type:Boolean,
-      default:false
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -66,10 +66,18 @@ export default {
   watch: {
     value: function(newValue) {
       this.content = newValue
+      this.options = null
+      this.isMatched = false
+      this.loadOptions({
+        action: LOAD_ROOT_OPTIONS
+      })
     }
   },
   created() {
     this.content = this.value
+    this.loadOptions({
+      action: LOAD_ROOT_OPTIONS
+    })
   },
   methods: {
     setDefaultExpanded(list) {
@@ -93,6 +101,11 @@ export default {
         currentParentCode = this.content.substring(0, 4) + '00'
         currentOptions = list.find(item => item.id === currentParentCode)
         if (currentOptions) {
+          currentOptions.isDefaultExpanded = true
+        } else {
+          // 处理直接划区的问题 例如:巢湖市(341400)属于合肥(340100)
+          currentParentCode = this.content.substring(0, 2) + '0100'
+          currentOptions = list.find(item => item.id === currentParentCode)
           currentOptions.isDefaultExpanded = true
         }
       }

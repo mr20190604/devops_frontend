@@ -57,10 +57,33 @@ export default {
     // 表单验证
     rules() {
       return {
-        // cfgName: [
-        //   { required: true, message: this.$t('config.name') + this.$t('common.isRequired'), trigger: 'blur' },
-        //   { min: 3, max: 2000, message: this.$t('config.name') + this.$t('config.lengthValidation'), trigger: 'blur' }
-        // ]
+        buildName: [
+          { required: true, message: '建筑名称' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        levelCode: [
+          { required: true, message: '防护等级' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        targetType: [
+          { required: true, message: '目标类型' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        districtCode: [
+          { required: true, message: '所在地区' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        address: [
+          { required: true, message: '地址' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        personName: [
+          { required: true, message: '负责人' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        personOtel: [
+          { required: true, message: '办公电话' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        personNum: [
+          { required: true, message: '人数' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        engrossArea: [
+          { required: true, message: '面积' + this.$t('common.isRequired'), trigger: 'blur' }
+        ]
       }
     }
   },
@@ -252,7 +275,7 @@ export default {
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
-          this.$refs.buildTable.clearSelection();
+          this.$refs.buildTable.clearSelection()
           this.fetchData()
         }).catch(err => {
           this.$notify.error({
@@ -262,8 +285,8 @@ export default {
         })
       }).catch(() => {
       })
-    },toggleSelection(row) {
-    this.$refs.buildTable.toggleRowSelection(row)
+    }, toggleSelection(row) {
+      this.$refs.buildTable.toggleRowSelection(row)
     }
 
   }

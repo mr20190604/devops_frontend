@@ -1,22 +1,22 @@
 <template>
-  <div>
+  <div style="margin-right: 20px;">
     <!--fileType-->
-    <iframe :style="previewStyle" :src="previewFileUrl"></iframe>
+    <iframe :style="previewStyle" :src="previewFileUrl" />
     <!--<img v-if="fileType === 2" style="previewStyle" :src="previewFileUrl"/>
     <video v-if="fileType === 3"  style="previewStyle" src="previewFileUrl"></video>-->
   </div>
 </template>
 
 <script>
-    export default {
-        name: "preview",
-        props:['previewFileUrl','previewStyle'],
-        data() {
-          return {
+export default {
+  name: 'Preview',
+  props: ['previewFileUrl', 'previewStyle'],
+  data() {
+    return {
 
-          }
-        }
     }
+  }
+}
 </script>
 
 <style scoped>

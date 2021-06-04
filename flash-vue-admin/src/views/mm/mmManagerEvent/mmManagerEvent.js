@@ -2,20 +2,19 @@ import mmManagerEventApi from '@/api/mm/mmManagerEvent'
 import permission from '@/directive/permission/index'
 import { getApiUrl, getPreviewUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
-import th from 'element-ui/src/locale/lang/th'
 
 export default {
   directives: { permission },
   data() {
     return {
-      uploadUrl:'',
+      uploadUrl: '',
       uploadHeaders: {
         'Authorization': ''
       },
-      fileList:[],
-      multiple:true,
-      fileLimit:10,
-      mmManagerEventFiles:[],
+      fileList: [],
+      multiple: true,
+      fileLimit: 10,
+      mmManagerEventFiles: [],
       formVisible: false,
       formTitle: '添加应急事件',
       isAdd: true,
@@ -37,7 +36,11 @@ export default {
       list: [],
       listLoading: true,
       selRow: {},
-      selection: []
+      selection: [],
+      previewVisible: false,
+      downloadUrl: '',
+      files: null,
+      fileLoading: true
     }
   },
   watch: {
@@ -74,9 +77,10 @@ export default {
   },
   methods: {
     init() {
-      this.fetchData();
-      this.uploadUrl = getApiUrl() + '/file';
-      this.uploadHeaders['Authorization'] = getToken();
+      this.fetchData()
+      this.downloadUrl = getApiUrl() + '/file/download?idFile='
+      this.uploadUrl = getApiUrl() + '/file'
+      this.uploadHeaders['Authorization'] = getToken()
     },
     fetchData() {
       this.listLoading = true
@@ -153,7 +157,7 @@ export default {
             eventType: this.mmManagerEvent.eventType,
             eventAddress: this.mmManagerEvent.eventAddress,
             eventDesc: this.mmManagerEvent.eventDesc,
-            eventModel:this.mmManagerEvent.eventModel,
+            eventModel: this.mmManagerEvent.eventModel,
             mmManagerEventFiles: this.mmManagerEventFiles
           }
           if (formData.id) {
@@ -191,29 +195,36 @@ export default {
       return false
     },
     editItem(record) {
-      let self =this;
-      self.fileList = [];
-      self.selRow = record;
-      self.mmManagerEventFiles = record.mmManagerEventFiles;
-      self.mmManagerEventFiles.forEach(item =>{
-        self.fileList.push({name:item.fileInfo.originalFileName,status:"success",response:{data:{id:item.fileId}}});
+      const self = this
+      self.fileList = []
+      self.selRow = record
+      self.mmManagerEventFiles = record.mmManagerEventFiles
+      self.mmManagerEventFiles.forEach(item => {
+        self.fileList.push({ name: item.fileInfo.originalFileName, status: 'success', response: { data: { id: item.fileId }}})
       })
-      self.edit();
+      self.edit()
+    },
+    handlePreview(row) {
+      this.previewVisible = true
+      mmManagerEventApi.queryFilesByEventId(row.id).then(response => {
+        this.files = response.data
+      })
+      this.fileLoading = false
     },
     closeDialog() {
-      this.$refs.form.resetFields();
-      this.fileList = [];
-      this.formVisible = false;
+      this.$refs.form.resetFields()
+      this.fileList = []
+      this.formVisible = false
     },
-    clearForm(done){
+    clearForm(done) {
       Object.assign(this.$data, this.$options.data())
     },
     edit() {
       if (this.checkSel()) {
-        this.isAdd = false;
-        this.mmManagerEvent = this.selRow;
-        this.formTitle = '编辑应急事件';
-        this.formVisible = true;
+        this.isAdd = false
+        this.mmManagerEvent = this.selRow
+        this.formTitle = '编辑应急事件'
+        this.formVisible = true
 
         // 如果表单初始化有特殊处理需求,可以在resetForm中处理
       }
@@ -270,7 +281,7 @@ export default {
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
-          this.$refs.eventTable.clearSelection();
+          this.$refs.eventTable.clearSelection()
           this.fetchData()
         }).catch(err => {
           this.$notify.error({
@@ -283,11 +294,11 @@ export default {
     },
     handleChangeUpload(file, fileList) {},
     uploadSuccess(response, file, fileList) {
-      this.fileList = fileList;
+      this.fileList = fileList
       this.mmManagerEventFiles.push(
-        {eventId:-1,fileId:response.data.id}
-      );
-      /*if (response.code === 20000) {
+        { eventId: -1, fileId: response.data.id }
+      )
+      /* if (response.code === 20000) {
         this.form.fileId = response.data.id
       } else {
         this.$message({
@@ -296,22 +307,22 @@ export default {
         })
       }*/
     },
-    removeFile(file,fileList) {
-      let self = this;
-      let params = {idFile: file.response.data.id};
-      /**这里需要先调用删除后台文件及数据库中的文件数据，成功后页面上的数据变更*/
-      mmManagerEventApi.deleteFile(params).then(response=>{
-        if(response.success) {
-          /**删除中间表*/
-          mmManagerEventApi.deleteFileMid({fileId:file.response.data.id}).then(response=>{
-            if(response.success) {
-              self.fileList = fileList;
-              this.mmManagerEventFiles.splice(this.mmManagerEventFiles.findIndex(item => item.fileId === file.response.data.id), 1);
+    removeFile(file, fileList) {
+      const self = this
+      const params = { idFile: file.response.data.id }
+      /** 这里需要先调用删除后台文件及数据库中的文件数据，成功后页面上的数据变更*/
+      mmManagerEventApi.deleteFile(params).then(response => {
+        if (response.success) {
+          /** 删除中间表*/
+          mmManagerEventApi.deleteFileMid({ fileId: file.response.data.id }).then(response => {
+            if (response.success) {
+              self.fileList = fileList
+              this.mmManagerEventFiles.splice(this.mmManagerEventFiles.findIndex(item => item.fileId === file.response.data.id), 1)
             }
-          });
+          })
         }
-      });
-    },toggleSelection(row) {
+      })
+    }, toggleSelection(row) {
       this.$refs.eventTable.toggleRowSelection(row)
     }
 
