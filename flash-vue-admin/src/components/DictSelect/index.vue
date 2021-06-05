@@ -76,3 +76,8 @@ export default {
   }
 }
 </script>
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .el-form-item__content {
+    width: 200px;
+  }
+</style>

@@ -702,7 +702,7 @@ export default {
   }
 
 </style>
-<style lang="scss">
+<style lang="scss" scoped>
   #top > .el-progress .el-progress__text {
     display: none;
   }
