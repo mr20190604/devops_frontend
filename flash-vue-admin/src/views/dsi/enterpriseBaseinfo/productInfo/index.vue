@@ -430,7 +430,8 @@
           </el-col>
         </el-row>
       </el-form>-->
-      <el-form label-width="120px" :inline="true" style="height: 600px">
+
+        <div class="table-list">
       <el-table
         v-loading="listLoading"
         :data="selectedList"
@@ -439,7 +440,7 @@
         fit
         highlight-current-row
         @current-change="handleCurrentChange"
-        style="margin-top: 50px"
+
       >
         <el-table-column
           type="index"
@@ -498,10 +499,14 @@
         </el-table-column>
 
       </el-table>
-      <div style="text-align: center" >
+
+        </div>
+        <div style="height: 250px;text-align: center">
+
         <el-button type="danger" @click.native="productVisible = false">返回</el-button>
-      </div>
-      </el-form>
+
+        </div>
+
     </el-dialog>
   </div>
 </template>

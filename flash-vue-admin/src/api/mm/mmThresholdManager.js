@@ -39,12 +39,21 @@ export default {
       }
     })
   },
-  getByEquipmentId:function (equipmentId) {
+  getByEquipmentCode:function (equipmentId) {
     return request({
       url: '/threshold/manager/getByEquipmentId',
       method: 'get',
       params: {
         equipmentId: equipmentId
+      }
+    })
+  },
+  queryExamine:function (ids) {
+    return request({
+      url: '/dsi/enterprise/info/queryExamine',
+      method: 'get',
+      params: {
+        ids: ids
       }
     })
   }

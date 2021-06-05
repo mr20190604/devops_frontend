@@ -9,8 +9,23 @@ export default {
   data() {
     return {
       formVisible: false,
+      thresholdVisible:false,
       formTitle: '添加',
       isAdd: true,
+      thresholdRules:{
+        equipmentType:[{required:true,message:"请选择设备类型",trigger:'blur'}],
+        equipmentCode:[{required:true,message:"请选择设备编号",trigger:'blur'}],
+        firstUpperLimit:[{required:true,message:"请输入一级阈值",trigger:'blur'}],
+        firstLowerLimit:[{required:true,message:"请输入一级阈值",trigger:'blur'}],
+      },
+      examineRules:{
+        isAudit:[{required:true,message:"请选择评审结果",trigger:'blur'}],
+        auditOpinion:[{required:true,message:"请输入评审意见",trigger:'blur'}],
+      },
+      thresholdForm:{
+        isAudit:'',
+        auditOpinion: '',
+      },
       form: {
         equipmentId: '',
         firstUpperLimit: '',
@@ -29,7 +44,9 @@ export default {
         equipmentTypeName: '',
         dictIdName: '',
         auditTime: '',
-        auditUser: ''
+        auditUser: '',
+        equipmentCode:'',
+        isAudit:'',
       },
       listQuery: {
         page: 1,
@@ -45,9 +62,11 @@ export default {
       equipment_code: [],
       total: 0,
       list: [],
+      thresholdList:[],
       listLoading: true,
       selRow: {},
       equipmentCodeList: [],
+      selection: [],
     }
   },
   filters: {
@@ -147,7 +166,8 @@ export default {
         auditOpinion: '',
         auditPerson: '',
         isDel: '',
-        id: ''
+        id: '',
+        equipmentCode:'',
       }
     },
     add() {
@@ -164,10 +184,9 @@ export default {
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          console.log(this.form.equipmentId)
           const formData = {
             id: this.form.id,
-            equipmentId: this.form.equipmentId,
+            equipmentId: this.form.equipmentCode,
             firstUpperLimit: this.form.firstUpperLimit,
             firstLowerLimit: this.form.firstLowerLimit,
             secondUpperLimit: this.form.secondUpperLimit,
@@ -180,7 +199,12 @@ export default {
             auditPerson: this.form.auditPerson,
             isDel: this.form.isDel,
           }
+          console.log(this.form.dictId)
+          if(!formData.dictId){
+            formData.dictId=252
+          }
           if (formData.id) {
+            formData.equipmentId=this.selRow.equipmentId
             mmThresholdManagerApi.update(formData).then(response => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
@@ -190,9 +214,7 @@ export default {
               this.formVisible = false
             })
           } else {
-            console.log(this.form.equipmentId)
-           mmThresholdManagerApi.getByEquipmentId(this.form.equipmentId).then(response=>{
-             console.log(response.data.length)
+           mmThresholdManagerApi.getByEquipmentCode(this.form.equipmentCode).then(response=>{
              if(response.data.length>0){
                this.$alert('不能为一个设备重复添加阈值', '提示', {
                  confirmButtonText: '确定',
@@ -234,6 +256,8 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
+        console.log(this.form.mmBasEquipment.equipmentCode)
+        this.form.equipmentCode=this.form.mmBasEquipment.equipmentCode
         this.formTitle = '编辑'
         this.formVisible = true
 
@@ -260,6 +284,7 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
+            this.$refs.thresholdTable.clearSelection();
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
@@ -272,14 +297,88 @@ export default {
       }
     },
     selectEquipment(val) {
-      this.form.equipmentId = '';
+      this.form.equipmentCode = '';
       this.equipment_code = [];
       mmBasEquipment.queryAll(val).then(response => {
-        console.log(response)
         this.equipment_code = response.data
-
       })
-    }
+    },
+    toggleSelection(row) {
+      this.$refs.thresholdTable.toggleRowSelection(row)
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
+    },
+    examine(){
+      let flag=true
+      console.log(this.selection);
+      this.selection.map(item => {
+        if(item.dictIdName=='已审核'||item.dictIdName=='审核未通过'){
+          flag=false;
+        }
+      })
+      if(!flag){
+        this.$message({
+          message: this.$t('不允许重复审核'),
+          type: 'warning'
+        })
+        this.selection=[];
+        this.$refs.thresholdTable.clearSelection();
+        return false
+      }
+      if (this.selection.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+      this.formTitle='阈值批量审核';
+      this.thresholdList=this.selection;
+      this.thresholdVisible=true;
+    },
+    saveThreshold(){
+      this.$refs['thresholdForm'].validate((valid) =>{
+        if(valid){
+          this.selection.map(item => {
+            item.auditOpinion=this.thresholdForm.auditOpinion;
+            item.isAudit=this.thresholdForm.isAudit;
+            console.log(item);
+            const formData = {
+              id: item.id,
+              equipmentId: item.equipmentId,
+              firstUpperLimit: item.firstUpperLimit,
+              firstLowerLimit: item.firstLowerLimit,
+              secondUpperLimit: item.secondUpperLimit,
+              secondLowerLimit: item.secondLowerLimit,
+              thirdUpperLimit: item.thirdUpperLimit,
+              thirdLowerLimit: item.thirdLowerLimit,
+              equipmentType: item.equipmentType,
+              dictId: 253,
+              auditOpinion: item.auditOpinion,
+              auditPerson: item.auditPerson,
+              isDel: item.isDel,
+              isAudit:item.isAudit,
+            }
+            mmThresholdManagerApi.update(formData);
+          })
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
 
+          this.thresholdVisible = false
+          this.selection=[];
+          this.$refs.thresholdTable.clearSelection();
+          this.fetchData()
+          this.fetchData()
+        }else {
+          return false
+        }
+      })
+
+
+    }
   }
+
 }

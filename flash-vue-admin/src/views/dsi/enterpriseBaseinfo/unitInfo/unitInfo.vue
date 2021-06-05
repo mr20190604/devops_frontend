@@ -12,9 +12,6 @@
       </div>
 
 
-
-
-
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               :row-key="row=>row.id"
               @selection-change="handleSelectionChange"

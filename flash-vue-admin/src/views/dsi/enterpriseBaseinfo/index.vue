@@ -248,11 +248,6 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                      <el-form-item label="应急队伍："  >
-                        <el-input v-model="form.emergencyTeam" minlength=1></el-input>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
                       <el-form-item label="企业电话："  >
                         <el-input v-model="form.enterpriseOtel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
                       </el-form-item>
@@ -381,11 +376,6 @@
                   <el-col :span="12">
                     <el-form-item label="安全负责人："  >
                       <el-input v-model="form.envSafeLeader" minlength=1 readonly="true"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="应急队伍："  >
-                      <el-input v-model="form.emergencyTeam" minlength=1 readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">

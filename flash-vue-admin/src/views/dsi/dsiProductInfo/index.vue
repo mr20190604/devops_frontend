@@ -304,129 +304,145 @@
       :modal="false"
       width="75%"
     >
-
-      <el-form label-width="120px" :inline="true" style="height: 600px">
+<template>
+    <div class="block">
+  <el-form label-width="76px" class="align-right has-Label-Width" style="margin: 0px;padding: 0px">
+    <el-row class="hasmarginBottom">
+      <el-col :span="6">
         <el-form-item label="关键字:">
           <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
         </el-form-item>
+      </el-col>
+      <el-col :span="6">
         <el-form-item label="原料类别:">
           <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
         </el-form-item>
+      </el-col>
+      <el-col :span="6">
         <el-form-item label="是否危化品:">
           <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="请选择是否" />
         </el-form-item>
-        <el-form-item style="float: right;margin-right: 100px">
-          <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-          </el-button>
-          <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-          </el-button>
-        </el-form-item>
-
-      <el-row style="margin-left: 30px">
-        <el-col :span="24">
-          <el-button
-            v-permission="['/material/baseinfo/add']"
-            type="success"
-            size="mini"
-            icon="el-icon-plus"
-            @click.native="addMaterial"
-          >添加新原料
-          </el-button>
+      </el-col>
+        <el-col :span="6">
+          <el-form-item style="float: right;margin-right: 100px">
+            <el-button type="primary"  class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
+            </el-button>
+            <el-button  class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}
+            </el-button>
+          </el-form-item>
         </el-col>
-      </el-row>
-<br>
-    <el-table
-      v-loading="listLoading"
-      :data="materialList"
-      element-loading-text="Loading"
-      border
-      fit
-      :row-key="row=>row.id"
-      highlight-current-row
-      @current-change="handleCurrentChange"
-      @selection-change="handleSelectionChange"
-      @row-click="toggleSelection1"
-      ref="materialTable"
-    >
-      <el-table-column
-        type="selection"
-        width="55"
-        :reserve-selection="true"
-      />
-     <!-- <el-table-column
-        type="index"
-        width="50"
-        label="序号"
-      />-->
-      <el-table-column label="原料编码">
-        <template slot-scope="scope">
-          {{ scope.row.materialCode }}
-        </template>
-      </el-table-column>
-      <el-table-column label="化学名称">
-        <template slot-scope="scope">
-          {{ scope.row.chemistryName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="英文名称">
-        <template slot-scope="scope">
-          {{ scope.row.englishName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="中文别名">
-        <template slot-scope="scope">
-          {{ scope.row.shortName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="原料类别">
-        <template slot-scope="scope">
-          {{ scope.row.materialTypeName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="理化性质">
-        <template slot-scope="scope">
-          {{ scope.row.physicochemicalProperties }}
-        </template>
-      </el-table-column>
-      <el-table-column label="健康危害">
-        <template slot-scope="scope">
-          {{ scope.row.healthHazards }}
-        </template>
-      </el-table-column>
-      <el-table-column label="危险特性">
-        <template slot-scope="scope">
-          {{ scope.row.dangerousCharacteristic }}
-        </template>
-      </el-table-column>
-      <el-table-column label="CAS编号">
-        <template slot-scope="scope">
-          {{ scope.row.casCode }}
-        </template>
-      </el-table-column>
-      <el-table-column label="是否危化品">
-        <template slot-scope="scope">
-          {{ scope.row.isDangerName }}
-        </template>
-      </el-table-column>
-    </el-table>
-        <div style="position:absolute;bottom: 30px;width: 100%">
-      <el-pagination
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :page-sizes="[5,10, 20, 50, 100,500]"
-        :page-size="listQuery.limit"
-        :total="total"
-        @size-change="changeSize"
-        @current-change="fetchPage"
-        @prev-click="fetchPrev"
-        @next-click="fetchNext"
-      />
-      <div style="text-align: center">
-        <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
-        <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
-      </div>
-        </div>
-      </el-form>
+    </el-row>
+  </el-form>
+    </div>
+  <div class="table-list" style="margin-bottom: 10px">
+    <div class="btnLists">
+      <el-button
+        v-permission="['/material/baseinfo/add']"
+        type="success"
+        size="mini"
+        class="set-common-btn blue-button"
+        @click.native="addMaterial"
+      >添加新原料
+      </el-button>
+    </div>
+  <el-table
+    style="height: 350px"
+    v-loading="listLoading"
+    :data="materialList"
+    element-loading-text="Loading"
+    border
+    fit
+    :row-key="row=>row.id"
+    highlight-current-row
+    @current-change="handleCurrentChange"
+    @selection-change="handleSelectionChange"
+    @row-click="toggleSelection1"
+    ref="materialTable"
+  >
+    <el-table-column
+      type="selection"
+      width="55"
+      :reserve-selection="true"
+    />
+    <!-- <el-table-column
+       type="index"
+       width="50"
+       label="序号"
+     />-->
+    <el-table-column label="原料编码">
+      <template slot-scope="scope">
+        {{ scope.row.materialCode }}
+      </template>
+    </el-table-column>
+    <el-table-column label="化学名称">
+      <template slot-scope="scope">
+        {{ scope.row.chemistryName }}
+      </template>
+    </el-table-column>
+    <el-table-column label="英文名称">
+      <template slot-scope="scope">
+        {{ scope.row.englishName }}
+      </template>
+    </el-table-column>
+    <el-table-column label="中文别名">
+      <template slot-scope="scope">
+        {{ scope.row.shortName }}
+      </template>
+    </el-table-column>
+    <el-table-column label="原料类别">
+      <template slot-scope="scope">
+        {{ scope.row.materialTypeName }}
+      </template>
+    </el-table-column>
+    <el-table-column label="理化性质">
+      <template slot-scope="scope">
+        {{ scope.row.physicochemicalProperties }}
+      </template>
+    </el-table-column>
+    <el-table-column label="健康危害">
+      <template slot-scope="scope">
+        {{ scope.row.healthHazards }}
+      </template>
+    </el-table-column>
+    <el-table-column label="危险特性">
+      <template slot-scope="scope">
+        {{ scope.row.dangerousCharacteristic }}
+      </template>
+    </el-table-column>
+    <el-table-column label="CAS编号">
+      <template slot-scope="scope">
+        {{ scope.row.casCode }}
+      </template>
+    </el-table-column>
+    <el-table-column label="是否危化品">
+      <template slot-scope="scope">
+        {{ scope.row.isDangerName }}
+      </template>
+    </el-table-column>
+  </el-table>
+  </div>
+  <div style="width: 100%;height: 130px">
+    <el-pagination
+      background
+      style="width: 1350px"
+      layout="total, sizes, prev, pager, next, jumper"
+      :page-sizes="[5,10, 20, 50, 100,500]"
+      :page-size="listQuery.limit"
+      :total="total"
+      @size-change="changeSize"
+      @current-change="fetchPage"
+      @prev-click="fetchPrev"
+      @next-click="fetchNext"
+    />
+    <div style="text-align: center;margin-top: 30px">
+      <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
+      <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
+    </div>
+  </div>
+</template>
+
+
+
     </el-dialog>
     <el-dialog
       :title="'添加原料'"
@@ -434,56 +450,56 @@
       :modal="false"
       width="75%"
     >
-      <el-form ref="form1" :model="form" :rules="rules" label-width="120px" style="height: 600px">
+      <el-form ref="form1" :model="form1" :rules="rules" label-width="120px" style="height: 600px">
         <el-row style="margin-top: 50px;margin-left: 200px">
           <el-col :span="12">
             <el-form-item label="原料编码：">
-              <el-input v-model="form.materialCode" minlength="1" placeholder="请输入原料编码" />
+              <el-input v-model="form1.materialCode" minlength="1" placeholder="请输入原料编码" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="化学名称：">
-              <el-input v-model="form.chemistryName" minlength="1" placeholder="请输入化学名称" />
+              <el-input v-model="form1.chemistryName" minlength="1" placeholder="请输入化学名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="英文名称：">
-              <el-input v-model="form.englishName" minlength="1" placeholder="请输入英文名称" />
+              <el-input v-model="form1.englishName" minlength="1" placeholder="请输入英文名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="中文别名：">
-              <el-input v-model="form.shortName" minlength="1" placeholder="请输入中文别名" />
+              <el-input v-model="form1.shortName" minlength="1" placeholder="请输入中文别名" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="原料类别：">
-              <dict-select v-model="form.materialType" dict-name="原料类别" />
+              <dict-select v-model="form1.materialType" dict-name="原料类别" style="width: 200px"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="理化性质：">
-              <el-input v-model="form.physicochemicalProperties" minlength="1" placeholder="请输入理化性质" />
+              <el-input v-model="form1.physicochemicalProperties" minlength="1" placeholder="请输入理化性质" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="健康危害：">
-              <el-input v-model="form.healthHazards" minlength="1" placeholder="请输入健康危害" />
+              <el-input v-model="form1.healthHazards" minlength="1" placeholder="请输入健康危害" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="危险特性：">
-              <el-input v-model="form.dangerousCharacteristic" minlength="1" placeholder="请输入危险特性" />
+              <el-input v-model="form1.dangerousCharacteristic" minlength="1" placeholder="请输入危险特性" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="CAS编号：">
-              <el-input v-model="form.casCode" minlength="1" placeholder="请输入CAS编号" />
+              <el-input v-model="form1.casCode" minlength="1" placeholder="请输入CAS编号" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否危化品：">
-              <dict-select v-model="form.isDanger" dict-name="是否" placeholder="请选择是否" />
+              <dict-select v-model="form1.isDanger" dict-name="是否" placeholder="请选择是否" style="width: 200px"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -500,25 +516,7 @@
       :modal="false"
       width="75%"
     >
-      <!--<el-form label-width="120px" :inline="true">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="企业名称">
-              <el-input v-model="this.enterpriseName"  />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="产品名称">
-              <el-input v-model="listQuery.productName"  />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="产品编码">
-              <el-input v-model="listQuery.productName"  />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>-->
+
       <el-form label-width="120px" :inline="true" style="height: 600px">
       <el-table
         v-loading="listLoading"
