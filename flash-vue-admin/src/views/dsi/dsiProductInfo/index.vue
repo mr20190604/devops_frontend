@@ -456,52 +456,52 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="原料编码：">
-              <el-input v-model="form.materialCode" minlength="1" placeholder="请输入原料编码" />
+              <el-input v-model="form1.materialCode" minlength="1" placeholder="请输入原料编码" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="化学名称：">
-              <el-input v-model="form.chemistryName" minlength="1" placeholder="请输入化学名称" />
+              <el-input v-model="form1.chemistryName" minlength="1" placeholder="请输入化学名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="英文名称：">
-              <el-input v-model="form.englishName" minlength="1" placeholder="请输入英文名称" />
+              <el-input v-model="form1.englishName" minlength="1" placeholder="请输入英文名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="中文别名：">
-              <el-input v-model="form.shortName" minlength="1" placeholder="请输入中文别名" />
+              <el-input v-model="form1.shortName" minlength="1" placeholder="请输入中文别名" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="原料类别：">
-              <dict-select v-model="form.materialType" dict-name="原料类别" />
+              <dict-select v-model="form1.materialType" dict-name="原料类别" style="width: 200px"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="理化性质：">
-              <el-input v-model="form.physicochemicalProperties" minlength="1" placeholder="请输入理化性质" />
+              <el-input v-model="form1.physicochemicalProperties" minlength="1" placeholder="请输入理化性质" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="健康危害：">
-              <el-input v-model="form.healthHazards" minlength="1" placeholder="请输入健康危害" />
+              <el-input v-model="form1.healthHazards" minlength="1" placeholder="请输入健康危害" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="危险特性：">
-              <el-input v-model="form.dangerousCharacteristic" minlength="1" placeholder="请输入危险特性" />
+              <el-input v-model="form1.dangerousCharacteristic" minlength="1" placeholder="请输入危险特性" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="CAS编号：">
-              <el-input v-model="form.casCode" minlength="1" placeholder="请输入CAS编号" />
+              <el-input v-model="form1.casCode" minlength="1" placeholder="请输入CAS编号" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否危化品：">
-              <dict-select v-model="form.isDanger" dict-name="是否" placeholder="请选择是否" />
+              <dict-select v-model="form1.isDanger" dict-name="是否" placeholder="请选择是否" style="width: 200px"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -520,25 +520,7 @@
       :modal="false"
       width="75%"
     >
-      <!--<el-form label-width="120px" :inline="true">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="企业名称">
-              <el-input v-model="this.enterpriseName"  />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="产品名称">
-              <el-input v-model="listQuery.productName"  />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="产品编码">
-              <el-input v-model="listQuery.productName"  />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>-->
+
       <el-form label-width="120px" :inline="true" style="height: 600px">
       <el-table
         v-loading="listLoading"

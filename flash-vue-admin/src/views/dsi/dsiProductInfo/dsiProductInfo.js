@@ -33,6 +33,19 @@ export default {
         isRadioactivityName:'',
         id: ''
       },
+      form1:{
+        id: '',
+        materialCode:'' ,
+        chemistryName:'',
+        englishName: '',
+        shortName: '',
+        materialType: '',
+        physicochemicalProperties:'',
+        healthHazards: '',
+        dangerousCharacteristic:'',
+        casCode:'',
+        isDanger: '',
+      },
       productAdd:true,
       judge_list:[],
       productList:null,
@@ -167,6 +180,21 @@ export default {
         formId: undefined,
         enterpriseId: undefined,
         id: undefined
+      }
+    },
+    resetForm1() {
+      this.form1 = {
+        id: undefined,
+        materialCode:undefined ,
+        chemistryName:undefined,
+        englishName: undefined,
+        shortName: undefined,
+        materialType: undefined,
+        physicochemicalProperties:undefined,
+        healthHazards: undefined,
+        dangerousCharacteristic:undefined,
+        casCode:undefined,
+        isDanger: undefined,
       }
     },
     add() {
@@ -327,29 +355,25 @@ export default {
     },
     addMaterial(){
       this.formTitle = '添加原料'
+      this.resetForm1();
       this.addVisible = true
       this.isAdd = true
-
-     /* if (this.$refs['form'] !== undefined) {
-        this.$refs['form'].resetFields()
-      }*/
     },
     saveMaterial(){
-
         this.$refs['form1'].validate((valid) => {
           if (valid) {
             const formData = {
-              id: this.form.id,
-              materialCode: this.form.materialCode,
-              chemistryName: this.form.chemistryName,
-              englishName: this.form.englishName,
-              shortName: this.form.shortName,
-              materialType: this.form.materialType,
-              physicochemicalProperties: this.form.physicochemicalProperties,
-              healthHazards: this.form.healthHazards,
-              dangerousCharacteristic: this.form.dangerousCharacteristic,
-              casCode: this.form.casCode,
-              isDanger: this.form.isDanger
+              id: this.form1.id,
+              materialCode: this.form1.materialCode,
+              chemistryName: this.form1.chemistryName,
+              englishName: this.form1.englishName,
+              shortName: this.form1.shortName,
+              materialType: this.form1.materialType,
+              physicochemicalProperties: this.form1.physicochemicalProperties,
+              healthHazards: this.form1.healthHazards,
+              dangerousCharacteristic: this.form1.dangerousCharacteristic,
+              casCode: this.form1.casCode,
+              isDanger: this.form1.isDanger
             }
             if (formData.id) {
               dsiMaterialBaseinfoApi.update(formData).then(response => {
