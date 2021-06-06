@@ -168,7 +168,7 @@ export default {
 
 <style lang="scss" scoped>
 
-  $default-height: 33px;
+  $default-height: 26px;
   $mini-height: 26px;
 
   .vue-treeselect {

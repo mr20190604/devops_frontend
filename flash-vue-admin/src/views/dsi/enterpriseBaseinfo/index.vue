@@ -64,6 +64,8 @@
           <el-button type="primary" class="set-common-btn blue-button" @click.native="add" v-permission="['/enterpriseBaseinfo/add']" >{{ $t("button.add") }}</el-button >
           <el-button size="mini" class="set-common-btn blank-blue-button" @click.native="removeBatch" v-permission="['/enterpriseBaseinfo/delete']" >批量删除</el-button>
       </div>
+      <el-scrollbar style="height:442px">
+      
       <el-table
         ref="enterpriseTable"
         :data="list"
@@ -74,7 +76,9 @@
         @row-click="toggleSelection"
         @selection-change="handleSelectionChange"
         @current-change="handleCurrentChange"
+        
       >
+
         <el-table-column type="selection" width="55" :reserve-selection="true">
         </el-table-column>
         <el-table-column type="index" width="55" label="序号" align="center">
@@ -140,8 +144,9 @@
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/enterpriseBaseinfo/delete']">{{ $t('button.delete') }}</el-button>
                 </template>
             </el-table-column>
+           
       </el-table>
-   
+    </el-scrollbar>
         <el-pagination
             background
             class="position-pagination"
@@ -156,16 +161,18 @@
         </el-pagination>
      </div>
     <!-- 添加 -->
-      <el-dialog class="el-dialog-style"
+      <el-dialog class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="75%"
+                width="960px"
                  @close="closeDialog">
           <template v-if="formVisible">
-            <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height: 600px">
+            <el-tabs  v-model="activeName" type="card" :before-leave="handleClick">
               <el-tab-pane label="企业信息" name="first" style="visibility: visible">
-                <el-form ref="form" :model="form" :rules="rules" label-width="120px" >
-                  <el-row style="margin-left: 200px">
+                <unitInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></unitInfo>
+                <!-- <div class="block">
+                <el-form ref="form" :model="form" :rules="rules" label-width="98px" class="align-right has-Label-Width">
+                  <el-row>
 
                     <el-col :span="12">
                       <el-form-item label="企业名称："  >
@@ -274,12 +281,13 @@
                     </el-col>
 
                   </el-row>
-                  <el-form-item id="myself">
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click="closeDialog">{{ $t('button.cancel') }}</el-button>
+                  <el-form-item class="dialog-button-list">
+                    <el-button type="primary"  class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+                    <el-button @click="closeDialog" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                   </el-form-item>
 
                 </el-form>
+                </div> -->
               </el-tab-pane>
               <el-tab-pane label="产品信息" name="second" id="second"  style="height: 550px">
                 <productInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></productInfo>
@@ -292,7 +300,7 @@
 
         </el-dialog>
        <!--详情-->
-      <el-dialog class="el-dialog-style"
+      <el-dialog class="el-dialog-style common-dialog-style"
                  :title="formTitle"
                  :visible.sync="enterpriseVisible"
                  width="75%"
@@ -300,8 +308,9 @@
         <template v-if="enterpriseVisible">
           <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height: 600px">
             <el-tab-pane label="企业信息" name="first" style="visibility: visible">
-              <el-form ref="form" :model="form" :rules="rules" label-width="120px" >
-                <el-row style="margin-left: 200px">
+              <div class="block">
+              <el-form ref="form" :model="form" :rules="rules"  label-width="98px" class="align-right has-Label-Width">
+                <el-row>
 
                   <el-col :span="12">
                     <el-form-item label="企业名称："  >
@@ -404,14 +413,16 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
-                    <el-form-item label="企业邮箱："  >
+                     <el-form-item label="企业邮箱："  >
                       <el-input v-model="form.enterpriseEmail" minlength=1 readonly="true"></el-input>
                     </el-form-item>
+                  
                   </el-col>
 
                 </el-row>
 
               </el-form>
+              </div>
             </el-tab-pane>
             <el-tab-pane label="产品信息" name="second"   style="height: 550px">
               <productInfo1 :enterpriseId="enterpriseId" @closeDialog="closeDialog"></productInfo1>
@@ -428,8 +439,4 @@
 
 <script src="./dsiEnterpriseBaseinfo.js"></script>
 
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/commonmyself.scss";
-</style>
 

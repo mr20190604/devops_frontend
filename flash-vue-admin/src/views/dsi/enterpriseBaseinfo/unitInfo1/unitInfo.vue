@@ -13,25 +13,26 @@
         type="index"
         width="50"
         label="序号"
+         align="center"
       >
       </el-table-column>
-      <el-table-column label="风险单元名称">
+      <el-table-column label="风险单元名称23213131" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{scope.row.riskName}}
         </template>
       </el-table-column>
-      <el-table-column label="风险类型">
+      <el-table-column label="风险类型" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{scope.row.riskTypeName}}
         </template>
       </el-table-column>
-      <el-table-column label="负责人">
+      <el-table-column label="负责人" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{scope.row.headPerson}}
         </template>
       </el-table-column>
 
-      <el-table-column label="风险物质" width="500px">
+      <el-table-column label="风险物质" width="500px" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{scope.row.detail}}
         </template>

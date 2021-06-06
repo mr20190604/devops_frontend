@@ -10,11 +10,6 @@
                    v-permission="['/riskUnit/delete']">批量删除
         </el-button>
       </div>
-
-
-
-
-
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               :row-key="row=>row.id"
               @selection-change="handleSelectionChange"
@@ -29,31 +24,30 @@
       <el-table-column
         type="index"
         width="50"
-        label="序号"
       >
       </el-table-column>
-      <el-table-column label="风险单元名称">
+      <el-table-column label="风险单元名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.riskName}}
         </template>
       </el-table-column>
-      <el-table-column label="风险类型">
+      <el-table-column label="风险类型" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.riskTypeName}}
         </template>
       </el-table-column>
-      <el-table-column label="负责人">
+      <el-table-column label="负责人" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.headPerson}}
         </template>
       </el-table-column>
 
-      <el-table-column label="风险物质">
+      <el-table-column label="风险物质" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.detail}}
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)"
                      v-permission="['/riskUnit/edit']">{{ $t('button.edit') }}
@@ -65,9 +59,10 @@
       </el-table-column>
     </el-table>
     </div>
-    <div style="position:absolute;bottom: 30px;width: 100%">
+    <div>
     <el-pagination
       background
+      class="outer-pagenation"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[5,10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -77,97 +72,105 @@
       @prev-click="fetchPrev"
       @next-click="fetchNext">
     </el-pagination>
-    <div style="text-align: center">
-      <el-button type="primary" @click="closeFatherDialog">{{ $t('button.submit') }}</el-button>
-      <el-button @click="closeFatherDialog">关闭</el-button>
+    <div class="align-center">
+      <el-button type="primary" @click="closeFatherDialog" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+      <el-button @click="closeFatherDialog" class="set-common-btn blank-blue-button">关闭</el-button>
     </div>
 </div>
+<!-- 添加风险单元弹框 -->
     <el-dialog
+      class="common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
-      width="75%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="height: 600px">
-        <el-row style="margin-left: 200px;margin-top: 50px">
+      width="960px" height="642px">
+      <div class="block">
+        <el-form ref="form" :model="form" :rules="rules" label-width="104px"  class="align-right has-Label-Width">
+          <el-row>
 
-          <el-col :span="12">
-            <el-form-item label="风险单元名称：">
-              <el-input v-model="form.riskName" minlength=1></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="重大危险源：">
-              <el-select v-model="form.isDangerSource" minlength=1 placeholder="请选择是否">
-                <el-option
-                  v-for="item in isDangerSource"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="风险类型：">
-              <el-select v-model="form.riskType" minlength=1>
-                <el-option
-                  v-for="item in risk_type"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="负责人：">
-              <el-input v-model="form.headPerson" minlength=1></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系电话：">
-              <el-input v-model="form.personTel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row style="margin-left: 200px">
-        <el-form-item
+            <el-col :span="12">
+              <el-form-item label="风险单元名称：">
+                <el-input v-model="form.riskName" minlength=1></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="重大危险源：">
+                <el-select v-model="form.isDangerSource" minlength=1 placeholder="请选择是否">
+                  <el-option
+                    v-for="item in isDangerSource"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="风险类型：">
+                <el-select v-model="form.riskType" minlength=1>
+                  <el-option
+                    v-for="item in risk_type"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="负责人：">
+                <el-input v-model="form.headPerson" minlength=1></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="联系电话：">
+                <el-input v-model="form.personTel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+             <el-scrollbar style="height:310px">
+          <el-form-item
+            class="risk-material-item"
 
-          v-for="(rec, index) in form.details"
-          :label="'风险物质' + (index+1)"
-          :key="index"
-          :prop="'details.' + index + '.criticalQuantity'"
-          :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
-        >
-          <el-col :span="5">
-            <el-form-item label="风险物质">
-              <el-input class="el-input-style" v-model="rec.materialId"  minlength=1 @input="onInput()" ></el-input>
+            v-for="(rec, index) in form.details"
+            :label="'风险物质' + (index+1)+'：'"
+            :key="index"
+            :prop="'details.' + index + '.criticalQuantity'"
+            :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
+          >
+         
+            <el-col :span="6">
+              <el-form-item label="风险物质">
+                <el-input class="el-input-style" v-model="rec.materialId"  minlength=1 @input="onInput()" ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="现存量" >
+                <el-input class="el-input-style" v-model="rec.currentStock"  @input="onInput()" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="临界量" >
+                <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">&nbsp;
+              <el-button @click.prevent="removeDetail(rec)" type="danger" class="set-common-btn blank-blue-button">{{ $t('button.delete') }}
+              </el-button>
+            </el-col>
+          </el-form-item>
+</el-scrollbar>
+          </el-row>
+          <el-row>
+            <el-form-item  class="align-center">
+              <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+              <el-button @click="addDetail" class="set-common-btn blank-blue-button width92">新增风险物质</el-button>
+              <el-button @click.native="formVisible = false" class="set-common-btn blue-button">{{ $t('button.cancel') }}</el-button>
             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="现存量" >
-              <el-input class="el-input-style" v-model="rec.currentStock"  @input="onInput()" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="临界量" >
-              <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 100px">&nbsp;
-            <el-button @click.prevent="removeDetail(rec)" type="danger" icon="el-icon-delete"  >{{ $t('button.delete') }}
-            </el-button>
-          </el-col>
-
-        </el-form-item>
-        </el-row>
-        <el-form-item id="myself">
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click="addDetail">新增风险物质</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-        </el-form-item>
-
-      </el-form>
+           </el-row>
+        </el-form>
+      </div>
     </el-dialog>
 
 
@@ -177,5 +180,40 @@
 <script  src="./unitInfo.js"></script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/commonmyself.scss";
+  .common-dialog-style{
+   >>> .el-dialog{
+       min-height: 642px;
+    }
+   
+    .el-form{
+      .el-form-item{
+        &.risk-material-item{
+         margin-bottom: 0;
+         >>> .el-form-item__content{
+            .el-form-item{
+               
+             .el-form-item__label{
+                width: 76px !important;
+              }
+             .el-form-item__content{
+                margin-left: 88px !important;
+                .el-input{
+                  width: 82px !important;
+                  input{
+                    width: 100% !important;
+                  }
+                }
+             }
+
+            }
+          }
+        }
+      }
+    }
+    >>> .el-scrollbar{
+  .el-scrollbar__wrap{
+    overflow-x: hidden;
+  } 
+}
+  }
 </style>

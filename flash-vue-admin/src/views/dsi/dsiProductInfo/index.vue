@@ -193,9 +193,10 @@
       </el-table-column>
     </el-table>
   </div>
-<div style="position:absolute;bottom: 30px;width: 100%">
+<div>
   <el-pagination
     background
+    class="outer-pagenation"
     layout="total, sizes, prev, pager, next, jumper"
     :page-sizes="[10, 20, 50, 100,500]"
     :page-size="listQuery.limit"
@@ -205,21 +206,23 @@
     @prev-click="fetchPrev"
     @next-click="fetchNext"
   />
-  <div style="text-align: center">
-    <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
-    <el-button @click="closeFatherDialog">关闭</el-button>
+  <div class="align-center">
+    <el-button type="primary" class="set-common-btn blue-button" @click="saveProduct">{{ $t('button.submit') }}</el-button>
+    <el-button  class="set-common-btn blank-blue-button" @click="closeFatherDialog">关闭</el-button>
   </div>
 </div>
-
+<!-- 添加产品信息弹框 -->
     <el-dialog
+      class="common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
-      width="75%"
+      width="960px"
       @close="closeDialog"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="height: 600px">
-        <el-row style="margin-left: 200px;margin-top: 50px">
+    <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="76px" class="align-right has-Label-Width">
+        <el-row>
           <el-col :span="12">
             <el-form-item label="产品名称：">
               <el-input v-model="form.productName" minlength="1" placeholder="请输入产品名称" />
@@ -290,51 +293,63 @@
           </el-col>
         </el-row>
 
-        <el-form-item id="myself">
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+        <el-form-item  class="dialog-button-list">
+          <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
 
       </el-form>
+    </div>
     </el-dialog>
-
+   <!-- 选择原料弹框 -->
     <el-dialog
       :title="'选择原料'"
       :visible.sync="materialVisible"
       :modal="false"
-      width="75%"
+      width="960px"
     >
-
-      <el-form label-width="120px" :inline="true" style="height: 600px">
-        <el-form-item label="关键字:">
-          <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
-        </el-form-item>
-        <el-form-item label="原料类别:">
-          <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
-        </el-form-item>
-        <el-form-item label="是否危化品:">
-          <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="请选择是否" />
-        </el-form-item>
-        <el-form-item style="float: right;margin-right: 100px">
-          <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
-          </el-button>
-          <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
-          </el-button>
-        </el-form-item>
-
-      <el-row style="margin-left: 30px">
-        <el-col :span="24">
+    <div class="block">
+      <el-form label-width="84px" class="align-right has-Label-Width">
+        <el-row class="hasmarginBottom">
+          <el-col :span="10">
+            <el-form-item label="关键字：">
+              <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="原料类别：">
+              <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label="是否危化品：">
+              <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="请选择是否" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="14">
+            <el-form-item class="align-right">
+              <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
+              </el-button>
+              <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+      <div class="table-list">
+        <div class="btnLists">
           <el-button
+           class="set-common-btn blue-button"
             v-permission="['/material/baseinfo/add']"
             type="success"
             size="mini"
-            icon="el-icon-plus"
             @click.native="addMaterial"
           >添加新原料
           </el-button>
-        </el-col>
-      </el-row>
-<br>
+      </div>
     <el-table
       v-loading="listLoading"
       :data="materialList"
@@ -358,60 +373,61 @@
         width="50"
         label="序号"
       />-->
-      <el-table-column label="原料编码">
+      <el-table-column label="原料编码" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.materialCode }}
         </template>
       </el-table-column>
-      <el-table-column label="化学名称">
+      <el-table-column label="化学名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.chemistryName }}
         </template>
       </el-table-column>
-      <el-table-column label="英文名称">
+      <el-table-column label="英文名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.englishName }}
         </template>
       </el-table-column>
-      <el-table-column label="中文别名">
+      <el-table-column label="中文别名" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.shortName }}
         </template>
       </el-table-column>
-      <el-table-column label="原料类别">
+      <el-table-column label="原料类别" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.materialTypeName }}
         </template>
       </el-table-column>
-      <el-table-column label="理化性质">
+      <el-table-column label="理化性质" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.physicochemicalProperties }}
         </template>
       </el-table-column>
-      <el-table-column label="健康危害">
+      <el-table-column label="健康危害" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.healthHazards }}
         </template>
       </el-table-column>
-      <el-table-column label="危险特性">
+      <el-table-column label="危险特性" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.dangerousCharacteristic }}
         </template>
       </el-table-column>
-      <el-table-column label="CAS编号">
+      <el-table-column label="CAS编号" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.casCode }}
         </template>
       </el-table-column>
-      <el-table-column label="是否危化品">
+      <el-table-column label="是否危化品" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.isDangerName }}
         </template>
       </el-table-column>
     </el-table>
-        <div style="position:absolute;bottom: 30px;width: 100%">
+       
       <el-pagination
         background
+        class="outer-pagenation"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[5,10, 20, 50, 100,500]"
         :page-size="listQuery.limit"
@@ -421,21 +437,23 @@
         @prev-click="fetchPrev"
         @next-click="fetchNext"
       />
-      <div style="text-align: center">
-        <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
-        <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
+    </div>
+      <div class="align-center">
+        <el-button type="primary" @click="saveProduct" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+        <el-button @click.native="materialVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
       </div>
-        </div>
-      </el-form>
+      
     </el-dialog>
+    <!-- 添加原料弹框 -->
     <el-dialog
       :title="'添加原料'"
       :visible.sync="addVisible"
       :modal="false"
-      width="75%"
+      width="960px"
     >
-      <el-form ref="form1" :model="form" :rules="rules" label-width="120px" style="height: 600px">
-        <el-row style="margin-top: 50px;margin-left: 200px">
+    <div class="block">
+      <el-form ref="form1" :model="form" :rules="rules" label-width="84px" class="align-right has-Label-Width">
+        <el-row>
           <el-col :span="12">
             <el-form-item label="原料编码：">
               <el-input v-model="form.materialCode" minlength="1" placeholder="请输入原料编码" />
@@ -487,13 +505,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div style="text-align: center" >
-          <el-button type="primary" @click="saveMaterial">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="addVisible = false">{{ $t('button.cancel') }}</el-button>
+        <div class="align-center">
+          <el-button type="primary" @click="saveMaterial" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="addVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </div>
 
       </el-form>
+    </div>
     </el-dialog>
+    <!-- 已添加原料弹框 -->
     <el-dialog
       :title="'已添加原料'"
       :visible.sync="productVisible"
@@ -593,7 +613,4 @@
 
 <script src="./dsiProductInfo.js"></script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/commonmyself.scss";
-</style>
 

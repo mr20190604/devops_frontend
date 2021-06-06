@@ -8,9 +8,12 @@
     padding: 0 12px;
     background-color: #fff;
     height: calc(100% - 123px);
+   
     .el-table {
-      height: 442px;
-     
+      // height: 442px;
+      // height: 50px;
+      // overflow-y: auto;
+    
       thead {
         th {
           background: #eeeff2;
@@ -105,6 +108,10 @@
     right: 0;
     bottom: 0;
     width: 100%;
+  }
+  &.outer-pagenation{
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 }
 
@@ -269,4 +276,62 @@
   text-decoration: underline;
   cursor: pointer;
   color: #1a80ff;
+}
+// 公共弹框样式
+.common-dialog-style{
+  .el-dialog__header{
+    background-color: #1a90ff;
+    padding: 8px 15px;
+    .el-dialog__title{
+      font-size: 14px;
+      color:#fff;
+    }
+    .el-dialog__headerbtn{
+       top: 13px;
+       .el-dialog__close{
+         color: #fff;
+       }
+    }
+  }
+  .el-dialog__body{
+    height: calc(100% - 40px);
+  }
+  .block{
+    .el-form{
+      padding-bottom: 0;
+      margin-left: 30px;
+      .el-form-item{
+        margin-bottom: 20px;
+        &.dialog-button-list{
+          .el-form-item__content{
+            margin-left: 0;
+            text-align: center;
+          }
+        }
+        &.align-right{
+          .el-form-item__content{
+            text-align: right;
+          }
+        }
+      }
+      .el-row{
+        &:last-child{
+          .el-col{
+            &:last-child{
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.align-center{
+  text-align: center;
+  .el-form-item__content{
+    margin-left: 0 !important;
+  }
+}
+.width92{
+  width: 92px !important;
 }

@@ -19,38 +19,39 @@
         type="index"
         width="50"
         label="序号"
+        align="center"
       />
       <!-- <el-table-column label="产品编码">
         <template slot-scope="scope">
           {{ scope.row.productCode }}
         </template>
       </el-table-column>-->
-      <el-table-column label="产品名称" show-overflow-tooltip width="200px">
+      <el-table-column label="产品名称" show-overflow-tooltip width="200px" align="center">
         <template slot-scope="scope">
           <span class="updateText" @click="viewProduct(scope.row)">{{ scope.row.productName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="产品型号" show-overflow-tooltip width="180px">
+      <el-table-column label="产品型号" show-overflow-tooltip width="180px" align="center">
         <template slot-scope="scope">
           {{ scope.row.productModel }}
         </template>
       </el-table-column>
-      <el-table-column label="易燃易爆" show-overflow-tooltip>
+      <el-table-column label="易燃易爆" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{ scope.row.isInflammableExplosiveName }}
         </template>
       </el-table-column>
-      <el-table-column label="腐蚀性" show-overflow-tooltip>
+      <el-table-column label="腐蚀性" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{ scope.row.isCorrosiveName }}
         </template>
       </el-table-column>
-      <el-table-column label="毒性" show-overflow-tooltip>
+      <el-table-column label="毒性" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{ scope.row.isPoisonHarmName }}
         </template>
       </el-table-column>
-      <el-table-column label="放射性" show-overflow-tooltip>
+      <el-table-column label="放射性" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{ scope.row.isRadioactivityName }}
         </template>
@@ -107,7 +108,7 @@
       </el-table-column>-->
     </el-table>
   </div>
-<div style="position:absolute;bottom: 30px;width: 100%">
+<div>
   <el-pagination
     background
     layout="total, sizes, prev, pager, next, jumper"
