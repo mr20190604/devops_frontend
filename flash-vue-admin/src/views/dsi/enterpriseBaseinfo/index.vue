@@ -64,7 +64,6 @@
           <el-button type="primary" class="set-common-btn blue-button" @click.native="add" v-permission="['/enterpriseBaseinfo/add']" >{{ $t("button.add") }}</el-button >
           <el-button size="mini" class="set-common-btn blank-blue-button" @click.native="removeBatch" v-permission="['/enterpriseBaseinfo/delete']" >批量删除</el-button>
       </div>
-      <el-scrollbar style="height:442px">
       
       <el-table
         ref="enterpriseTable"
@@ -146,7 +145,6 @@
             </el-table-column>
            
       </el-table>
-    </el-scrollbar>
         <el-pagination
             background
             class="position-pagination"
@@ -169,8 +167,7 @@
           <template v-if="formVisible">
             <el-tabs  v-model="activeName" type="card" :before-leave="handleClick">
               <el-tab-pane label="企业信息" name="first" style="visibility: visible">
-                <unitInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></unitInfo>
-                <!-- <div class="block">
+                <div class="block">
                 <el-form ref="form" :model="form" :rules="rules" label-width="98px" class="align-right has-Label-Width">
                   <el-row>
 
@@ -282,7 +279,7 @@
                   </el-form-item>
 
                 </el-form>
-                </div> -->
+                </div>
               </el-tab-pane>
               <el-tab-pane label="产品信息" name="second" id="second"  style="height: 550px">
                 <productInfo :enterpriseId="enterpriseId" @closeDialog="closeDialog"></productInfo>
