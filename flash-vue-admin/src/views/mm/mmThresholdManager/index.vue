@@ -131,7 +131,7 @@
                 <el-row>
                   <el-col :span="12">
                     <el-form-item label="设备类别："  prop="equipmentType">
-                      <el-select v-model="form.equipmentType" filterable placeholder="请选择" @change="selectEquipment" >
+                      <el-select v-model="form.equipmentType" filterable placeholder="请选择" @change="selectEquipment" :disabled="!isAdd">
                         <el-option
                           v-for="item in equipment_type"
                           :key="item.id"
@@ -143,7 +143,7 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="设备编号：" prop="equipmentCode" >
-                      <el-select v-model="form.equipmentCode" filterable placeholder="请选择" >
+                      <el-select v-model="form.equipmentCode" filterable placeholder="请选择" :disabled="!isAdd">
                         <el-option
                           v-for="item in equipment_code"
                           :key="item.id"
@@ -191,6 +191,7 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
+      <!--编辑-->
       <el-dialog
         :title="formTitle"
         :visible.sync="thresholdVisible"

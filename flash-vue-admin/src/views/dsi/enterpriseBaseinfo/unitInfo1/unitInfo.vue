@@ -16,7 +16,7 @@
          align="center"
       >
       </el-table-column>
-      <el-table-column label="风险单元名称23213131" show-overflow-tooltip align="center">
+      <el-table-column label="风险单元名称" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           {{scope.row.riskName}}
         </template>

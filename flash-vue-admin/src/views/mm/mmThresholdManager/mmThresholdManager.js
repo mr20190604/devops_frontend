@@ -102,7 +102,6 @@ export default {
 
       this.listLoading = true
       mmThresholdManagerApi.getList(this.listQuery).then(response => {
-        console.log(response.data.records)
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -256,7 +255,12 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        console.log(this.form.mmBasEquipment.equipmentCode)
+        if(this.selRow.dictIdName=='已审核'){
+          this.$alert('不允许修改已审核设备！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false;
+        }
         this.form.equipmentCode=this.form.mmBasEquipment.equipmentCode
         this.formTitle = '编辑'
         this.formVisible = true
@@ -273,6 +277,12 @@ export default {
     },
     remove() {
       if (this.checkSel()) {
+        if(this.selRow.dictIdName=='已审核'){
+          this.$alert('不允许删除已审核设备！', '提示', {
+            confirmButtonText: '确定',
+          });
+          return false;
+        }
         var id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
