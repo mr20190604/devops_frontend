@@ -213,7 +213,7 @@
 </div>
 <!-- 添加产品信息弹框 -->
     <el-dialog
-      class="common-dialog-style"
+      class="common-dialog-style height700"
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
@@ -303,6 +303,7 @@
     </el-dialog>
    <!-- 选择原料弹框 -->
     <el-dialog
+       class="common-dialog-style height700"
       :title="'选择原料'"
       :visible.sync="materialVisible"
       :modal="false"
@@ -310,7 +311,7 @@
     >
     <div class="block">
       <el-form label-width="84px" class="align-right has-Label-Width">
-        <el-row class="hasmarginBottom">
+        <el-row>
           <el-col :span="10">
             <el-form-item label="关键字：">
               <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
@@ -322,7 +323,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="hasNoMarginBottom">
           <el-col :span="10">
             <el-form-item label="是否危化品：">
               <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="请选择是否" />
@@ -446,6 +447,7 @@
     </el-dialog>
     <!-- 添加原料弹框 -->
     <el-dialog
+      class="common-dialog-style height700"
       :title="'添加原料'"
       :visible.sync="addVisible"
       :modal="false"
@@ -515,13 +517,16 @@
     </el-dialog>
     <!-- 已添加原料弹框 -->
     <el-dialog
+    custom-class="added-material"
+       class="common-dialog-style height700"
       :title="'已添加原料'"
       :visible.sync="productVisible"
       :modal="false"
-      width="75%"
+      width="960px"
     >
 
-      <el-form label-width="120px" :inline="true" style="height: 600px">
+      <el-form>
+        <div class="table-list">
       <el-table
         v-loading="listLoading"
         :data="selectedList"
@@ -530,7 +535,6 @@
         fit
         highlight-current-row
         @current-change="handleCurrentChange"
-        style="margin-top: 50px"
       >
 
         <el-table-column label="原料编码">
@@ -585,8 +589,9 @@
         </el-table-column>
 
       </el-table>
-      <div style="text-align: center" >
-        <el-button type="danger" @click.native="productVisible = false">返回</el-button>
+      </div>
+      <div class="align-center">
+        <el-button type="danger" class="set-common-btn blue-button" @click.native="productVisible = false">返回</el-button>
       </div>
       </el-form>
     </el-dialog>
@@ -594,5 +599,14 @@
 </template>
 
 <script src="./dsiProductInfo.js"></script>
+<style lang="scss" scoped>
+>>> .added-material{
+  .el-dialog__body{
+    .table-list{
+      margin:20px auto;
+    }
+  }
+}
+</style>
 
 

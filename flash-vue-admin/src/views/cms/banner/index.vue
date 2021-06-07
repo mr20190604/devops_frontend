@@ -60,24 +60,27 @@
       </el-table-column>
     </el-table>
 </div>
+<!-- 添加banner弹框 -->
     <el-dialog
+    class="common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="70%">
+      width="1100px">
+      <div class="block">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="标题" prop="title">
+            <el-form-item label="标题：" prop="title">
               <el-input v-model="form.title" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="url" prop="url">
+            <el-form-item label="url：" prop="url">
               <el-input v-model="form.url"  minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="类型">
+            <el-form-item label="类型：">
               <el-select v-model="form.type" placeholder="请选择">
                 <el-option
                   v-for="item in options"
@@ -91,7 +94,7 @@
 
 
           <el-col :span="12">
-            <el-form-item label="banner图片">
+            <el-form-item label="banner图片：">
               <el-upload
                 class="upload-demo"
                 drag
@@ -107,12 +110,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+        <el-form-item class="align-center">
+          <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
 
       </el-form>
+      </div>
     </el-dialog>
   </div>
 </template>

@@ -36,29 +36,37 @@
 
     </el-table>
   </div>
+  <!-- 添加栏目弹框 -->
     <el-dialog
+       class="common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="名称" prop="name">
-              <el-input v-model="form.name" minlength=1></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="编码" prop="code">
-              <el-input v-model="form.code"  minlength=1></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-        </el-form-item>
-
-      </el-form>
+      width="662px">
+      <div class="block">
+        <el-form ref="form" :model="form" :rules="rules">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="名称：" prop="name">
+                <el-input v-model="form.name" minlength=1></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="编码：" prop="code">
+                <el-input v-model="form.code"  minlength=1></el-input>
+              </el-form-item>
+            </el-col>
+            
+          </el-row>
+          <el-row>
+            <el-col>
+              <el-form-item class="align-center">
+                <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+                <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        </div>
     </el-dialog>
 
   </div>

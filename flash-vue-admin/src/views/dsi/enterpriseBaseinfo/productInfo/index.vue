@@ -344,7 +344,7 @@
       :title="'添加原料'"
       :visible.sync="addVisible"
       :modal="false"
-      width="75%"
+      width="960px"
     >
       <el-form ref="form1" :model="form" :rules="rules" label-width="120px" style="height: 600px">
         <el-row style="margin-top: 50px;margin-left: 200px">
@@ -407,10 +407,11 @@
       </el-form>
     </el-dialog>
     <el-dialog
+    class="common-dialog-style height700"
       :title="'已添加原料'"
       :visible.sync="productVisible"
       :modal="false"
-      width="75%"
+      width="960px"
     >
       <!--<el-form label-width="120px" :inline="true">
         <el-row>
@@ -502,9 +503,9 @@
       </el-table>
 
         </div>
-        <div style="height: 250px;text-align: center">
+        <div class="align-center">
 
-        <el-button type="danger" @click.native="productVisible = false">返回</el-button>
+        <el-button type="danger" class="set-common-btn blue-button" @click.native="productVisible = false">返回</el-button>
 
         </div>
 

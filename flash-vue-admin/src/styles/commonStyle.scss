@@ -279,9 +279,15 @@
 }
 // 公共弹框样式
 .common-dialog-style{
+  &.height700{
+    .el-dialog{
+      height: 700px;
+    }
+  }
   .el-dialog__header{
     background-color: #1a90ff;
     padding: 8px 15px;
+   
     .el-dialog__title{
       font-size: 14px;
       color:#fff;
@@ -295,6 +301,10 @@
   }
   .el-dialog__body{
     height: calc(100% - 40px);
+    padding-top: 0;
+    .el-tabs__header{
+      margin-top: 20px;
+    }
   }
   .block{
     .el-form{
@@ -304,7 +314,7 @@
         margin-bottom: 20px;
         &.dialog-button-list{
           .el-form-item__content{
-            margin-left: 0;
+            margin-left: 0 !important;
             text-align: center;
           }
         }
@@ -320,6 +330,11 @@
             &:last-child{
               text-align: left;
             }
+          }
+        }
+        &.hasNoMarginBottom{
+          .el-form-item{
+            margin-bottom: 0;
           }
         }
       }

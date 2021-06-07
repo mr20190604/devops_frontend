@@ -159,7 +159,7 @@
         </el-pagination>
      </div>
     <!-- 添加 -->
-      <el-dialog class="el-dialog-style common-dialog-style"
+      <el-dialog class="el-dialog-style common-dialog-style height700"
                 :title="formTitle"
                 :visible.sync="formVisible"
                 width="960px"
@@ -292,13 +292,13 @@
 
         </el-dialog>
        <!--详情-->
-      <el-dialog class="el-dialog-style common-dialog-style"
+      <el-dialog class="el-dialog-style common-dialog-style height700"
                  :title="formTitle"
                  :visible.sync="enterpriseVisible"
-                 width="75%"
+                 width="960px"
                  @close="closeDialog">
         <template v-if="enterpriseVisible">
-          <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height: 600px">
+          <el-tabs  v-model="activeName" type="card" :before-leave="handleClick">
             <el-tab-pane label="企业信息" name="first" style="visibility: visible">
               <div class="block">
               <el-form ref="form" :model="form" :rules="rules"  label-width="98px" class="align-right has-Label-Width">

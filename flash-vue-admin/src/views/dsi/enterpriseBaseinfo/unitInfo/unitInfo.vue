@@ -79,7 +79,7 @@
 </div>
 <!-- 添加风险单元弹框 -->
     <el-dialog
-      class="common-dialog-style"
+      class="common-dialog-style height700"
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
