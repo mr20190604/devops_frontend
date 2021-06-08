@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column label="风险单元名称" show-overflow-tooltip align="center">
         <template slot-scope="scope">
-          {{scope.row.riskName}}
+          <span class="updateText" @click="editItem(scope.row)">{{ scope.row.riskName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="风险类型" show-overflow-tooltip align="center">
