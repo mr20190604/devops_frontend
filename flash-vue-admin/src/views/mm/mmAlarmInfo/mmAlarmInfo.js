@@ -268,6 +268,7 @@ export default {
       fileAccept:'.doc,.docx,.pdf,.zip,.rar',
       fileShow:true,
       alarmList:[],
+      modelTime:[],
 
     };
 
@@ -699,53 +700,12 @@ export default {
     },
     //监测曲线
     openCurve(record) {
-      this.clearEchart()
       this.formTitle = '监测曲线'
       this.echartVisiable = true
-      let time = new Date(record.alarmTime)
+      this.initModelData(record)
 
-      let year = time.getFullYear()
-      let month = time.getMonth()+1
-      let day = time.getDate()
-      let second = time.getSeconds();
-
-
-      for (let i = 1; i < 20; i++) {
-        let hours = time.getHours()
-        let minitu = time.getMinutes()
-
-        let tmp = minitu-(20-i)
-        if (tmp < 0){
-          hours = hours -1
-          tmp = 60+tmp
-        }
-        let value = Math.random()*4+4
-        // this.lineData.xAxis.data.push(year+'-'+month+'-'+day+' '+hours+':'+tmp+':00')
-        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
-
-        this.lineData.series[0].data.push(value)
-
-      }
-
-      this.lineData.xAxis.data.push(time.getHours()+':'+time.getMinutes()+':'+second)
-      this.lineData.series[0].data.push(record.alarmValue)
-
-      for (let i = 1; i < 20; i++) {
-        let hours = time.getHours()
-        let minitu = time.getMinutes()
-        let tmp = minitu+i
-        if (tmp > 60){
-          hours = hours +1
-          tmp = tmp-60
-        }
-        let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
-        // this.lineData.xAxis.data.push(year+'-'+month+'-'+day+' '+hours+':'+tmp+':00')
-
-        this.lineData.series[0].data.push(value)
-      }
-      // this.$refs.myEchart.resize()
-    },clearEchart() {
+    }
+    ,clearEchart() {
       this.lineData.xAxis.data=[]
       this.lineData.series[0].data = []
     },
@@ -782,7 +742,172 @@ export default {
       this.selection = selection
     },toggleSelection(row) {
       this.$refs.alarmTable.toggleRowSelection(row)
+    },initModelData(record) {
+      this.clearEchart()
+      let time = new Date(record.alarmTime)
+
+      let year = time.getFullYear()
+      let month = time.getMonth()+1
+      let day = time.getDate()
+      let second = time.getSeconds();
+
+
+      for (let i = 1; i < 20; i++) {
+        let hours = time.getHours()
+        let minitu = time.getMinutes()
+
+        let tmp = minitu-(20-i)
+        if (tmp < 0){
+          hours = hours -1
+          tmp = 60+tmp
+        }
+        let value = Math.random()*4+4
+        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
+        this.lineData.series[0].data.push(value)
+      }
+      this.lineData.xAxis.data.push(time.getHours()+':'+time.getMinutes()+':'+second)
+      this.lineData.series[0].data.push(record.alarmValue)
+      for (let i = 1; i < 20; i++) {
+        let hours = time.getHours()
+        let minitu = time.getMinutes()
+        let tmp = minitu+i
+        if (tmp > 60){
+          hours = hours +1
+          tmp = tmp-60
+        }
+        let value = Math.random()*4+4
+        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
+        this.lineData.series[0].data.push(value)
+      }
+    }, day() {
+      this.clearEchart()
+      let date = new Date();
+      let hour = date.getHours();
+      let minitus = date.getMinutes()
+      let timeHour = 0;
+      let timeMinitus = 0;
+
+      for (let i = 0;i < 240;i++) {
+        timeMinitus = timeMinitus + 6;
+        if (timeMinitus > minitus && timeHour == hour) {
+            break
+        }
+        timeMinitus = timeMinitus + 6;
+        if (timeMinitus >= 60) {
+          timeHour = timeHour+1
+          timeMinitus = timeMinitus - 60
+        }
+        let value = Math.random()*4+4
+        this.lineData.xAxis.data.push(timeHour+':'+timeMinitus)
+        this.lineData.series[0].data.push(value)
+      }
+    },OneWeeks() {
+      this.clearEchart()
+      let date = new Date();
+      //获取上月天数
+      let lastMonthDay = new Date(date.getFullYear(),date.getMonth(),0).getDate();
+      let day = date.getDate();
+      let weekDay = date.getDay()
+      let hour = date.getHours();
+      let minitus = date.getMinutes();
+      let timeDay = 0;
+      let count = day - weekDay+1;
+      if (count > 0) {
+        timeDay = count;
+      } else {
+        timeDay = lastMonthDay+count;
+      }
+      let timeHour = 0;
+      let timeMinitus = 0;
+
+      for (let i = 0;i < 240*7;i++) {
+        timeMinitus = timeMinitus + 6;
+        if (timeMinitus > minitus && timeHour == hour && timeDay == day) {
+          break
+        }
+        timeMinitus = timeMinitus + 6;
+        if (timeMinitus >= 60) {
+          timeHour = timeHour+1
+          timeMinitus = timeMinitus - 60
+          if (timeHour >= 24) {
+            timeDay = timeDay +1
+            timeHour = timeHour - 24
+            if (timeDay > lastMonthDay) {
+              timeDay = timeDay - lastMonthDay
+            }
+          }
+        }
+        let value = Math.random()*4+4
+        this.lineData.xAxis.data.push(timeDay+':'+timeHour+':'+timeMinitus)
+        this.lineData.series[0].data.push(value)
+      }
+    },month() {
+      this.clearEchart()
+      let date = new Date();
+      let day = date.getDate();
+      let hour = date.getHours();
+      let minitus = date.getMinutes();
+      let timeDay = 0;
+      let timeHour = 0;
+      let timeMinitus = 0;
+
+      for (let i = 0;i < 30*24*3;i++) {
+        timeMinitus = timeMinitus + 20;
+        if (timeMinitus > minitus && timeHour == hour && timeDay == day) {
+          break
+        }
+        if (timeMinitus >= 60) {
+          timeHour = timeHour+1
+          timeMinitus = timeMinitus - 60
+          if (timeHour >= 24) {
+            timeDay = timeDay +1
+            timeHour = timeHour - 24
+          }
+        }
+        let value = Math.random()*4+4
+        this.lineData.xAxis.data.push(timeDay+':'+timeHour+':'+timeMinitus)
+        this.lineData.series[0].data.push(value)
+      }
+
+    },searchData(){
+      if (this.modelTime.length > 0) {
+        this.clearEchart()
+        let startDate = new Date(this.modelTime[0]);
+        let endDate = new Date(this.modelTime[1]);
+        let startDay = startDate.getDate();
+        let startHour = startDate.getHours();
+        let startMinitus = startDate.getMinutes();
+
+        let endDay = endDate.getDate();
+        let endHour = endDate.getHours();
+        let endMinitus = endDate.getMinutes();
+        while (true) {
+          startMinitus = startMinitus + 30;
+          if (startDay > endDay && startHour > endHour && startMinitus > endMinitus) {
+            break;
+          }
+          if (startMinitus >= 60) {
+            startMinitus = startMinitus - 60;
+            startHour = startHour + 1;
+            if (startHour >= 24) {
+              startHour = startHour - 24;
+              startDay = startDay + 1;
+            }
+          }
+          let value = Math.random()*4+4
+          this.lineData.xAxis.data.push(startDay+':'+startHour+':'+startMinitus)
+          this.lineData.series[0].data.push(value)
+
+        }
+
+
+      }
+
+    },resetModel () {
+      this.modelTime = [];
+      this.initModelData(this.selRow)
     }
+
 
   }
 }
