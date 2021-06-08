@@ -31,10 +31,10 @@
       </template>-->
       <ul class="header-link">
         <li>
-          <a>
+          <router-link tag="a" to="/platform">
             <img src="@/assets/img/head-link-sys.png" alt="">
             <i>系统选择</i>
-          </a>
+           </router-link>
         </li>
         <li>
           <a target="_blank" title="GIS" href="http://ali201.9-heng.com:8088/GIS/#id=wzt85l&p=%E7%9B%91%E6%B5%8B%E6%8A%A5%E8%AD%A6_1">
@@ -43,10 +43,10 @@
           </a>
         </li>
         <li>
-          <a>
+          <router-link tag="a" to="/screen">
             <img src="@/assets/img/head-link-back.png" alt="">
             <i>返回大屏</i>
-          </a>
+          </router-link>
         </li>
       </ul>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
