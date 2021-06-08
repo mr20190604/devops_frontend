@@ -22,16 +22,8 @@
 
 
               <el-col :span="6">
-                <el-form-item label="审核状态：">
-                  <el-select v-model="listQuery.isAudit"  placeholder="--请选择--">
-                    <el-option
-                      v-for="item in check_list"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-
-                  </el-select>
+                <el-form-item label="排查状态：">
+                <dict-select  dict-name="排查状态" v-model="listQuery.screenStatus"></dict-select>
                 </el-form-item>
 
               </el-col>
@@ -39,10 +31,10 @@
 
             <el-row class="hasmarginBottom">
               <el-col :span="6">
-                <el-form-item label="审核结果：">
-                  <el-select v-model="listQuery.auditStatus"  placeholder="--请选择--">
+                <el-form-item label="处置状态：">
+                  <el-select v-model="listQuery.isFeedBack"  placeholder="--请选择--">
                     <el-option
-                      v-for="item in audit_list"
+                      v-for="item in feedback_list"
                       :key="item.value"
                       :label="item.label"
                       :value="item.value">
@@ -95,10 +87,8 @@
         </div>
       <div class="table-list">
       <div class="btnLists">
-          <el-button type="success" class="set-common-btn blue-button" @click.native="add" v-permission="['/mmAlarmInfo/check']">审核</el-button>
-           <!--<el-button type="primary" class="set-common-btn blank-blue-button" @click.native="dispose()" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>-->
-          <el-button type="danger" class="set-common-btn blue-button" @click.native="openAccept()" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
-          <!--<el-button type="danger" class="set-common-btn blank-blue-button" @click.native="openGenEvent()" v-permission="['/mmAlarmInfo/saveEventAndFiles']">生成事件</el-button>-->
+          <el-button  class="set-common-btn blue-button" @click.native="openAccept" v-permission="['/mmAlarmHandle/screen']">现场排查</el-button>
+           <el-button  class="set-common-btn blank-blue-button" @click.native="dispose()" v-permission="['/mmAlarmHandle/handle']">现场处置</el-button>
       </div>
         <el-table :data="list" ref="alarmTable" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
                   @current-change="handleCurrentChange" :row-key="getRowKey"
@@ -163,32 +153,35 @@
                     {{scope.row.alarmTime}}
                 </template>
             </el-table-column>
-          <el-table-column label="审核状态"  show-overflow-tooltip>
+          <el-table-column label="排查状态"  show-overflow-tooltip>
             <template slot-scope="scope">
-              <template  v-if="scope.row.isAudit === 0">未审核</template>
-              <template  v-if="scope.row.isAudit === 1">已审核</template>
+            {{scope.row.screenStatusName}}
             </template>
           </el-table-column>
-          <el-table-column label="审核结果"  show-overflow-tooltip>
+          <el-table-column label="排查结果"  show-overflow-tooltip>
             <template slot-scope="scope">
-              <template  v-if="scope.row.auditStatus === 0">误报</template>
-              <template  v-if="scope.row.auditStatus === 1">确认报警</template>
+              <template v-if="scope.row.mmAlarmScreenInfos != null">
+                <template v-if="scope.row.mmAlarmScreenInfos[0] != null">
+                  <template  v-if="scope.row.mmAlarmScreenInfos[0].screenResult === 0 ">误报</template>
+                  <template  v-if="scope.row.mmAlarmScreenInfos[0].screenResult === 1 ">确认报警</template>
+
+                </template>
+              </template>
+            </template>
+          </el-table-column>
+          <el-table-column label="处置状态" align="center" width="100px">
+            <template slot-scope="scope">
+              <template  v-if="scope.row.isFeedback === 0">未处置</template>
+              <template  v-if="scope.row.isFeedback === 1">处置中</template>
+              <template  v-if="scope.row.isFeedback === 2">已处置</template>
             </template>
           </el-table-column>
           <el-table-column label="解除状态"  show-overflow-tooltip>
-            <template slot-scope="scope">
+            <template slot-scope="scope" >
               <template  v-if="scope.row.isRelieve === 0 ">未解除</template>
               <template  v-if="scope.row.isRelieve === 1 ">已解除</template>
             </template>
           </el-table-column>
-            <!--<el-table-column label="处置状态" align="center" width="100px">-->
-              <!--<template slot-scope="scope">-->
-              <!--<template  v-if="scope.row.isFeedback === 0">未处置</template>-->
-              <!--<template  v-if="scope.row.isFeedback === 1">处置中</template>-->
-              <!--<template  v-if="scope.row.isFeedback === 2">已处置</template>-->
-            <!--</template>-->
-
-            <!--</el-table-column>-->
             <el-table-column label="操作" width="220px" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-paperclip" @click="openProcess(scope.row)">流程</el-button>
@@ -211,90 +204,6 @@
                 @next-click="fetchNext">
         </el-pagination>
 </div>
-      <!--报警审核弹窗-->
-        <el-dialog
-                :title="formTitle"
-                :visible.sync="formVisible"
-                onclose="cancle"
-                width="60%">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="报警类型"  >
-                            <el-select v-model="form.monitorType" minlength=1>
-                              <el-option
-                                v-for="item in alarm_type"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                              </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="初次报警值"  >
-                      <el-input v-model="form.alarmFirstValue" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="最新报警时间"  >
-                            <el-date-picker v-model="form.alarmTime"
-                                            class="date_picker"
-                                            value-format="yyyy/MM/dd" minlength=1></el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="报警级别"  >
-                            <el-select v-model="form.alarmLevel" minlength=1>
-                              <el-option
-                                v-for="item in alarm_level"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                              </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="报警实时值"  >
-                      <el-input v-model="form.alarmValue" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="12">
-                    <el-form-item label="报警设备"  >
-                      <el-input v-model="form.equipmentId" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="12">
-                    <el-form-item label="审核结果"  >
-                      <el-select v-model="form.auditStatus" minlength=1>
-                        <el-option key="1" label="确认报警" value="1" ></el-option>
-                        <el-option key="0" label="误报" value="0" ></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-
-                  </el-col>
-
-                </el-row>
-
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item label="审核意见"  >
-                    <el-input type="textarea" v-model="form.auditOpinion" minlength=1></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-                <el-form-item id="myself">
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="cancle">{{ $t('button.cancel') }}</el-button>
-                </el-form-item>
-
-            </el-form>
-        </el-dialog>
 
       <!--报警处置弹窗-->
       <el-dialog
@@ -386,43 +295,45 @@
         <file-preview :files="files" :download-file-url="downloadUrl"></file-preview>
       </el-dialog>
 
-      <!--信息发送弹窗-->
+      <!--现场排查-->
       <el-dialog
         :title="acceptTitle"
         :visible.sync="acceptVisible"
         width="40%" style="margin-top: 0px;">
-
-        <div style="padding-left: 10%">
-          <template>
-            <el-transfer
-              v-model="value"
-              :titles="['接收人列表','接收人']"
-              :data="acceptPerson"
-            ></el-transfer>
-          </template>
-        </div>
-
-        <div>
-
-          <el-form ref="acceptForm" :model="acceptForm" :rules="rules" label-width="120px">
+        <div align="center">
+          <el-form :model="screenForm">
             <el-row>
-              <el-col style="padding-top: 20px" :span="20">
-                <el-form-item label="通知内容"  >
-                  <el-input type="textarea" v-model="acceptForm.noticeContent" minlength=1></el-input>
+              <el-col :span="12">
+                <el-form-item  label="排查人">
+                  <el-select v-model="screenForm.screenPerson" @change="changeScreenPerson">
+                    <el-option
+                      v-for="item in acceptPerson"
+                      :key="item.key"
+                      :label="item.label"
+                      :value="item.key"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
+                <el-form-item  label="联系电话">
+                  <el-input  v-model="screenForm.screenPhone" disabled  minlength=1></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-
             <el-row>
-              <el-col :span="20">
-                <el-form-item align="center">
-                  <el-button type="primary" @click="msgSend()">发送</el-button>
-                  <el-button  @click="acceptVisible = false">取消</el-button>
+              <el-col :span="24">
+                <el-form-item>
+                  <el-button  class="set-common-btn blue-button" @click.native="updateScreen" >确定</el-button>
+                  <el-button  class="set-common-btn blank-blue-button" @click.native="acceptVisible = false" >取消</el-button>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
+
       </el-dialog>
 
       <!--报警流程弹窗-->
@@ -437,38 +348,31 @@
 
     </el-dialog>
 
+      <!--监测曲线弹窗-->
       <el-dialog
         :title="formTitle"
         :visible.sync="echartVisiable"
-        width="55%"
+        width="50%"
         @close="clearData"
       >
         <div style="padding-left: 10px">
           <el-form  :inline="true">
             <el-form-item>
-              <el-button  icon="el-icon-search" @click.native="day()">本日</el-button>
-              <el-button  icon="el-icon-search" @click.native="OneWeeks()">本周</el-button>
-              <el-button  icon="el-icon-search" @click.native="month()">本月</el-button>
+              <el-button  icon="el-icon-search" >本日</el-button>
+              <el-button  icon="el-icon-search" >本周</el-button>
+              <el-button  icon="el-icon-search" >本月</el-button>
             </el-form-item>
             <el-form-item label="">
-              <el-date-picker el-date-picker
-                              v-model="modelTime"
-                              type="datetimerange"
-                              range-separator="至"
-                              start-placeholder="开始日期"
-                              value-format="yyyy-MM-dd HH:mm:ss"
-                              end-placeholder="结束日期">
-              </el-date-picker>
+              <el-date-picker type="datetime"  value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
+              <el-date-picker type="datetime"  value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
             </el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click.native="searchData">{{ $t('button.search') }}</el-button>
-            <el-button  icon="el-icon-search" @click.native="resetModel">{{ $t('button.reset') }}</el-button>
-
+            <el-button type="primary" icon="el-icon-search" >{{ $t('button.search') }}</el-button>
           </el-form>
 
         </div>
 
         <div align="center" style="width: 100%">
-          <v-chart :options="lineData" ref="myEchart" style="width: 90%;"/>
+          <v-chart :options="lineData" ref="myEchart" style="width: 80%;"/>
         </div>
       </el-dialog>
 
@@ -482,6 +386,11 @@
     </div>
 </template>
 
-<script src="./mmAlarmInfo.js"></script>
+<script src="./mmAlarmHandle.js"></script>
+
+<style rel="stylesheet/scss" lang="scss" scoped >
+  @import "src/styles/commonmyself.scss";
+</style>
+
 
 

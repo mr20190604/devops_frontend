@@ -56,7 +56,9 @@ export default {
         auditUser:'',
         relieveStatus:'',
         screenStatus:'',
-        relieveTime:''
+        relieveTime:'',
+        screenStatusName:'',
+        mmAlarmScreenInfos:''
       },
       disposeForm:{
         alarmId:'',
@@ -64,26 +66,6 @@ export default {
         handleStatus:'',
         fileId:''
       },
-      check_list:
-        [
-          {
-          value:0,
-          label:'未审核'
-          },
-          {
-           value:1,
-           label:'已审核'
-          }
-        ],
-      audit_list:[
-        {
-          value:0,
-          label:'误报'
-        },{
-          value:1,
-          label:'确认报警'
-        }
-      ],
       feedback_list:
         [
           {
@@ -122,10 +104,11 @@ export default {
         startTime:undefined,
         endTime:undefined,
         monitorType:undefined,
-        isAudit:undefined,
+        isAudit:1,
         isFeedBack:undefined,
         auditStatus:undefined,
-        isRelieve:undefined
+        isRelieve:undefined,
+        screenStatus:undefined
       },
       total: 0,
       list: null,
@@ -161,7 +144,7 @@ export default {
       },
       //信息发送模块
       vShow:true,
-      acceptTitle:'信息发送',
+      acceptTitle:'现场排查',
       acceptVisible:false,
       acceptPerson:[],
       acceptList:null,
@@ -268,7 +251,10 @@ export default {
       fileAccept:'.doc,.docx,.pdf,.zip,.rar',
       fileShow:true,
       alarmList:[],
-      modelTime:[],
+      screenForm:{
+        screenPerson:'',
+        screenPhone:'',
+      }
 
     };
 
@@ -331,7 +317,7 @@ export default {
     },
     reset() {
       for(let key in this.listQuery) {
-        if (key != 'limit' && key != 'page') {
+        if (key != 'limit' && key != 'page' && key != 'isAudit') {
           this.listQuery[key] = ''
         }
       }
@@ -527,16 +513,24 @@ export default {
       this.disposeForm.fileId = ''
     }, dispose() {
       if (this.checkSel()) {
+        if (this.selRow.screenStatus != 258) {
+          this.$message({
+            message: '请等待排查完成后进行处置',
+            type: 'warning'
+          });
+        } else {
           if(this.selRow.isFeedback == 2) {
             this.vShow = false
           } else {
             this.vShow = true
           }
-        this.fileList = []
-        this.resetDisposeForm()
-        this.disposeTitle = '报警处置'
-        this.disposeVisible = true
-        this.initDisposeList(this.selRow.id)
+          this.fileList = []
+          this.resetDisposeForm()
+          this.disposeTitle = '报警处置'
+          this.disposeVisible = true
+          this.initDisposeList(this.selRow.id)
+        }
+
         }
 
     },addDispose() {
@@ -646,18 +640,10 @@ export default {
       }
     },openAccept() {
       if(this.checkSel()) {
-        if (this.selRow.isAudit < 1) {
-          this.$message({
-            message: '请先进行审核',
-            type: 'warning'
-          });
-        } else {
-          this.acceptTitle = '信息通知'
-          this.acceptVisible = true
-          this.value = []
-          this.acceptForm.noticeContent = ''
-          this.initAcceptPerson()
-        }
+        this.form = this.selRow
+        this.acceptTitle = '现场排查'
+        this.acceptVisible = true
+        this.initAcceptPerson()
       }
     },msgSend() {
       this.$refs['acceptForm'].validate((valid) => {
@@ -682,7 +668,7 @@ export default {
 
 
     },
-    //初始化发送人列表信息
+    //初始化排查人列表信息
     initAcceptPerson() {
       const data = []
       mmAlarmInfoApi.getAcceptPerson().then(response =>{
@@ -691,6 +677,7 @@ export default {
             data.push({
               key: item.id,
               label: item.name,
+              phone:item.phone
             })
           })
         }
@@ -700,12 +687,53 @@ export default {
     },
     //监测曲线
     openCurve(record) {
+      this.clearEchart()
       this.formTitle = '监测曲线'
       this.echartVisiable = true
-      this.initModelData(record)
+      let time = new Date(record.alarmTime)
 
-    }
-    ,clearEchart() {
+      let year = time.getFullYear()
+      let month = time.getMonth()+1
+      let day = time.getDate()
+      let second = time.getSeconds();
+
+
+      for (let i = 1; i < 20; i++) {
+        let hours = time.getHours()
+        let minitu = time.getMinutes()
+
+        let tmp = minitu-(20-i)
+        if (tmp < 0){
+          hours = hours -1
+          tmp = 60+tmp
+        }
+        let value = Math.random()*4+4
+        // this.lineData.xAxis.data.push(year+'-'+month+'-'+day+' '+hours+':'+tmp+':00')
+        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
+
+        this.lineData.series[0].data.push(value)
+
+      }
+
+      this.lineData.xAxis.data.push(time.getHours()+':'+time.getMinutes()+':'+second)
+      this.lineData.series[0].data.push(record.alarmValue)
+
+      for (let i = 1; i < 20; i++) {
+        let hours = time.getHours()
+        let minitu = time.getMinutes()
+        let tmp = minitu+i
+        if (tmp > 60){
+          hours = hours +1
+          tmp = tmp-60
+        }
+        let value = Math.random()*4+4
+        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
+        // this.lineData.xAxis.data.push(year+'-'+month+'-'+day+' '+hours+':'+tmp+':00')
+
+        this.lineData.series[0].data.push(value)
+      }
+      // this.$refs.myEchart.resize()
+    },clearEchart() {
       this.lineData.xAxis.data=[]
       this.lineData.series[0].data = []
     },
@@ -739,175 +767,37 @@ export default {
       this.lineData.series[0].data = []
     },
     handleSelectionChange(selection) {
+      //列表复选框事件
       this.selection = selection
     },toggleSelection(row) {
+      //列表复选框事件
       this.$refs.alarmTable.toggleRowSelection(row)
-    },initModelData(record) {
-      this.clearEchart()
-      let time = new Date(record.alarmTime)
+    },changeScreenPerson(value) {
+      //动态渲染联系电话框
+      this.acceptPerson.forEach(item =>{
+        if (value == item.key) {
+          this.screenForm.screenPhone = item.phone
+        }
+      })
 
-      let year = time.getFullYear()
-      let month = time.getMonth()+1
-      let day = time.getDate()
-      let second = time.getSeconds();
+    },updateScreen() {
 
-
-      for (let i = 1; i < 20; i++) {
-        let hours = time.getHours()
-        let minitu = time.getMinutes()
-
-        let tmp = minitu-(20-i)
-        if (tmp < 0){
-          hours = hours -1
-          tmp = 60+tmp
-        }
-        let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
-        this.lineData.series[0].data.push(value)
-      }
-      this.lineData.xAxis.data.push(time.getHours()+':'+time.getMinutes()+':'+second)
-      this.lineData.series[0].data.push(record.alarmValue)
-      for (let i = 1; i < 20; i++) {
-        let hours = time.getHours()
-        let minitu = time.getMinutes()
-        let tmp = minitu+i
-        if (tmp > 60){
-          hours = hours +1
-          tmp = tmp-60
-        }
-        let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(hours+':'+tmp+':'+second)
-        this.lineData.series[0].data.push(value)
-      }
-    }, day() {
-      this.clearEchart()
-      let date = new Date();
-      let hour = date.getHours();
-      let minitus = date.getMinutes()
-      let timeHour = 0;
-      let timeMinitus = 0;
-
-      for (let i = 0;i < 240;i++) {
-        timeMinitus = timeMinitus + 6;
-        if (timeMinitus > minitus && timeHour == hour) {
-            break
-        }
-        timeMinitus = timeMinitus + 6;
-        if (timeMinitus >= 60) {
-          timeHour = timeHour+1
-          timeMinitus = timeMinitus - 60
-        }
-        let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(timeHour+':'+timeMinitus)
-        this.lineData.series[0].data.push(value)
-      }
-    },OneWeeks() {
-      this.clearEchart()
-      let date = new Date();
-      //获取上月天数
-      let lastMonthDay = new Date(date.getFullYear(),date.getMonth(),0).getDate();
-      let day = date.getDate();
-      let weekDay = date.getDay()
-      let hour = date.getHours();
-      let minitus = date.getMinutes();
-      let timeDay = 0;
-      let count = day - weekDay+1;
-      if (count > 0) {
-        timeDay = count;
-      } else {
-        timeDay = lastMonthDay+count;
-      }
-      let timeHour = 0;
-      let timeMinitus = 0;
-
-      for (let i = 0;i < 240*7;i++) {
-        timeMinitus = timeMinitus + 6;
-        if (timeMinitus > minitus && timeHour == hour && timeDay == day) {
-          break
-        }
-        timeMinitus = timeMinitus + 6;
-        if (timeMinitus >= 60) {
-          timeHour = timeHour+1
-          timeMinitus = timeMinitus - 60
-          if (timeHour >= 24) {
-            timeDay = timeDay +1
-            timeHour = timeHour - 24
-            if (timeDay > lastMonthDay) {
-              timeDay = timeDay - lastMonthDay
-            }
-          }
-        }
-        let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(timeDay+':'+timeHour+':'+timeMinitus)
-        this.lineData.series[0].data.push(value)
-      }
-    },month() {
-      this.clearEchart()
-      let date = new Date();
-      let day = date.getDate();
-      let hour = date.getHours();
-      let minitus = date.getMinutes();
-      let timeDay = 0;
-      let timeHour = 0;
-      let timeMinitus = 0;
-
-      for (let i = 0;i < 30*24*3;i++) {
-        timeMinitus = timeMinitus + 20;
-        if (timeMinitus > minitus && timeHour == hour && timeDay == day) {
-          break
-        }
-        if (timeMinitus >= 60) {
-          timeHour = timeHour+1
-          timeMinitus = timeMinitus - 60
-          if (timeHour >= 24) {
-            timeDay = timeDay +1
-            timeHour = timeHour - 24
-          }
-        }
-        let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(timeDay+':'+timeHour+':'+timeMinitus)
-        this.lineData.series[0].data.push(value)
+      const formData = {
+        alarmId:this.form.id,
+        personId:this.screenForm.screenPerson,
+        screenStatus:this.form.screenStatus
       }
 
-    },searchData(){
-      if (this.modelTime.length > 0) {
-        this.clearEchart()
-        let startDate = new Date(this.modelTime[0]);
-        let endDate = new Date(this.modelTime[1]);
-        let startDay = startDate.getDate();
-        let startHour = startDate.getHours();
-        let startMinitus = startDate.getMinutes();
+      mmAlarmInfoApi.updateAlarmScreenStatus(formData).then(response =>{
+        this.$message({
+          message: this.$t('操作成功'),
+          type: 'success'
+        })
+        this.acceptVisible = false
+        this.fetchData();
+      })
 
-        let endDay = endDate.getDate();
-        let endHour = endDate.getHours();
-        let endMinitus = endDate.getMinutes();
-        while (true) {
-          startMinitus = startMinitus + 30;
-          if (startDay > endDay && startHour > endHour && startMinitus > endMinitus) {
-            break;
-          }
-          if (startMinitus >= 60) {
-            startMinitus = startMinitus - 60;
-            startHour = startHour + 1;
-            if (startHour >= 24) {
-              startHour = startHour - 24;
-              startDay = startDay + 1;
-            }
-          }
-          let value = Math.random()*4+4
-          this.lineData.xAxis.data.push(startDay+':'+startHour+':'+startMinitus)
-          this.lineData.series[0].data.push(value)
-
-        }
-
-
-      }
-
-    },resetModel () {
-      this.modelTime = [];
-      this.initModelData(this.selRow)
     }
-
 
   }
 }

@@ -105,6 +105,13 @@ export default {
       }
     })
 
+  },updateAlarmScreenStatus(param) {
+      return request({
+        url:'alarm/info/updateAlarmScreenStatus',
+        method:'post',
+        data:param
+      })
   }
+
 
 }
