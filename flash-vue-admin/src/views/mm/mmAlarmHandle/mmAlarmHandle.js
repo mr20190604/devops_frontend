@@ -56,7 +56,9 @@ export default {
         auditUser:'',
         relieveStatus:'',
         screenStatus:'',
-        relieveTime:''
+        relieveTime:'',
+        screenStatusName:'',
+        mmAlarmScreenInfos:''
       },
       disposeForm:{
         alarmId:'',
@@ -64,26 +66,6 @@ export default {
         handleStatus:'',
         fileId:''
       },
-      check_list:
-        [
-          {
-          value:0,
-          label:'未审核'
-          },
-          {
-           value:1,
-           label:'已审核'
-          }
-        ],
-      audit_list:[
-        {
-          value:0,
-          label:'误报'
-        },{
-          value:1,
-          label:'确认报警'
-        }
-      ],
       feedback_list:
         [
           {
@@ -122,10 +104,11 @@ export default {
         startTime:undefined,
         endTime:undefined,
         monitorType:undefined,
-        isAudit:undefined,
+        isAudit:1,
         isFeedBack:undefined,
         auditStatus:undefined,
-        isRelieve:undefined
+        isRelieve:undefined,
+        screenStatus:undefined
       },
       total: 0,
       list: null,
@@ -161,7 +144,7 @@ export default {
       },
       //信息发送模块
       vShow:true,
-      acceptTitle:'信息发送',
+      acceptTitle:'现场排查',
       acceptVisible:false,
       acceptPerson:[],
       acceptList:null,
@@ -268,6 +251,10 @@ export default {
       fileAccept:'.doc,.docx,.pdf,.zip,.rar',
       fileShow:true,
       alarmList:[],
+      screenForm:{
+        screenPerson:'',
+        screenPhone:'',
+      }
 
     };
 
@@ -330,7 +317,7 @@ export default {
     },
     reset() {
       for(let key in this.listQuery) {
-        if (key != 'limit' && key != 'page') {
+        if (key != 'limit' && key != 'page' && key != 'isAudit') {
           this.listQuery[key] = ''
         }
       }
@@ -526,16 +513,24 @@ export default {
       this.disposeForm.fileId = ''
     }, dispose() {
       if (this.checkSel()) {
+        if (this.selRow.screenStatus != 258) {
+          this.$message({
+            message: '请等待排查完成后进行处置',
+            type: 'warning'
+          });
+        } else {
           if(this.selRow.isFeedback == 2) {
             this.vShow = false
           } else {
             this.vShow = true
           }
-        this.fileList = []
-        this.resetDisposeForm()
-        this.disposeTitle = '报警处置'
-        this.disposeVisible = true
-        this.initDisposeList(this.selRow.id)
+          this.fileList = []
+          this.resetDisposeForm()
+          this.disposeTitle = '报警处置'
+          this.disposeVisible = true
+          this.initDisposeList(this.selRow.id)
+        }
+
         }
 
     },addDispose() {
@@ -645,18 +640,10 @@ export default {
       }
     },openAccept() {
       if(this.checkSel()) {
-        if (this.selRow.isAudit < 1) {
-          this.$message({
-            message: '请先进行审核',
-            type: 'warning'
-          });
-        } else {
-          this.acceptTitle = '信息通知'
-          this.acceptVisible = true
-          this.value = []
-          this.acceptForm.noticeContent = ''
-          this.initAcceptPerson()
-        }
+        this.form = this.selRow
+        this.acceptTitle = '现场排查'
+        this.acceptVisible = true
+        this.initAcceptPerson()
       }
     },msgSend() {
       this.$refs['acceptForm'].validate((valid) => {
@@ -681,7 +668,7 @@ export default {
 
 
     },
-    //初始化发送人列表信息
+    //初始化排查人列表信息
     initAcceptPerson() {
       const data = []
       mmAlarmInfoApi.getAcceptPerson().then(response =>{
@@ -690,6 +677,7 @@ export default {
             data.push({
               key: item.id,
               label: item.name,
+              phone:item.phone
             })
           })
         }
@@ -779,9 +767,36 @@ export default {
       this.lineData.series[0].data = []
     },
     handleSelectionChange(selection) {
+      //列表复选框事件
       this.selection = selection
     },toggleSelection(row) {
+      //列表复选框事件
       this.$refs.alarmTable.toggleRowSelection(row)
+    },changeScreenPerson(value) {
+      //动态渲染联系电话框
+      this.acceptPerson.forEach(item =>{
+        if (value == item.key) {
+          this.screenForm.screenPhone = item.phone
+        }
+      })
+
+    },updateScreen() {
+
+      const formData = {
+        alarmId:this.form.id,
+        personId:this.screenForm.screenPerson,
+        screenStatus:this.form.screenStatus
+      }
+
+      mmAlarmInfoApi.updateAlarmScreenStatus(formData).then(response =>{
+        this.$message({
+          message: this.$t('操作成功'),
+          type: 'success'
+        })
+        this.acceptVisible = false
+        this.fetchData();
+      })
+
     }
 
   }

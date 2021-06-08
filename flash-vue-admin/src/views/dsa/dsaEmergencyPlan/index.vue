@@ -223,7 +223,7 @@
       <el-dialog
         :title="previewTitle"
         :visible.sync="previewVisible"
-        width="60%" style="margin-top: 0px;">
+        width="60%" style="margin-top: 0px;" >
         <file-preview :files="files" :download-file-url="downloadUrl"></file-preview>
       </el-dialog>
     </div>
