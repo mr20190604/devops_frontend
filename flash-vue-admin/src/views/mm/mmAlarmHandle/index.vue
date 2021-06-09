@@ -255,7 +255,7 @@
           </el-form>
         </div>
 
-        <el-table :data="disposeList" v-loading="disposeLoading" element-loading-text="Loading" border fit>
+        <el-table :data="disposeList" v-loading="disposeLoading" element-loading-text="Loading" max-height="200px" border fit>
           <el-table-column label="处置时间">
             <template slot-scope="scope">
               {{scope.row.createTime}}

@@ -899,14 +899,12 @@ export default {
           this.lineData.series[0].data.push(value)
 
         }
-
-
       }
 
     },resetModel () {
       this.modelTime = [];
       this.initModelData(this.selRow)
-    }
+    },
 
 
   }

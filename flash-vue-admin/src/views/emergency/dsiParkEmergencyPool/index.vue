@@ -191,7 +191,7 @@
               <el-form-item align="right" style="margin-right: 50px">
                 <el-button type="primary"  align="center" @click="addMaterial">添加新物资</el-button>
               </el-form-item>
-              <el-table :data="materialList" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+              <el-table :data="materialList" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row max-height="200px"
                         @current-change="handleCurrentChange">
                 <el-table-column label="物资名称">
                   <template slot-scope="scope">
