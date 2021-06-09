@@ -1,11 +1,20 @@
 <template>
   <div>
-
-    <el-timeline>
-      <el-timeline-item timestamp="监测报警" placement="top">
+    <div>
+      <el-steps :active="stepCount" align-center>
+        <el-step title="监测报警" :description="assignmentAlarmTime()"><i class="step01" slot="icon"></i></el-step>
+        <el-step title="报警审核" :description="assignmentAuditTime()"><i class="step02" slot="icon"></i></el-step>
+        <el-step title="报警排查" :description="assignmentScreenTime()"><i class="step03" slot="icon"></i></el-step>
+        <el-step title="报警处置" :description="assignmentHandleTime()"><i class="step04" slot="icon"></i></el-step>
+        <el-step title="报警解除" :description="assignmentRelieveTime()"><i class="step05" slot="icon"></i></el-step>
+      </el-steps>
+    </div>
         <el-card >
+          <div slot="header" class="clearfix">
+            <span>监测报警</span>
+          </div>
           <div>
-            <el-table :data="checkList" v-loading="false" element-loading-text="Loading" border>
+            <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
               <el-table-column label="设备名称">
                 <template slot-scope="scope">
                   {{scope.row.equipment.equipmentName}}
@@ -50,11 +59,12 @@
             </el-table>
           </div>
         </el-card>
-      </el-timeline-item>
-      <el-timeline-item timestamp="报警审核" placement="top" >
         <el-card v-if="checkList[0].auditTime != null">
+          <div slot="header" class="clearfix">
+            <span>报警审核</span>
+          </div>
          <div>
-           <el-table :data="checkList" v-loading="false" element-loading-text="Loading" border>
+           <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
              <el-table-column label="审核人">
                <template slot-scope="scope">
                  {{scope.row.auditUser.name}}
@@ -86,11 +96,12 @@
            </el-table>
          </div>
         </el-card>
-      </el-timeline-item>
-      <el-timeline-item timestamp="报警排查" placement="top">
-        <el-card  v-if="checkList[0].screenStatus == 258">
-          <div>
-            <el-table :data="screenList" v-loading="false" element-loading-text="Loading" border>
+        <el-card >
+          <div slot="header" class="clearfix">
+            <span>报警排查</span>
+          </div>
+          <div v-if="checkList[0].screenStatus == 258">
+            <el-table :data="screenList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
               <el-table-column label="排查人">
                 <template slot-scope="scope">
                   {{scope.row.screenUser.name}}
@@ -120,11 +131,12 @@
             </el-table>
           </div>
         </el-card>
-      </el-timeline-item>
-      <el-timeline-item timestamp="报警处置" placement="top">
           <el-card v-if="checkList[0].isFeedback > 0">
+            <div slot="header" class="clearfix">
+              <span>报警处置</span>
+            </div>
             <div>
-              <el-table :data="disposeList" v-loading="false" element-loading-text="Loading" border>
+              <el-table :data="disposeList" v-loading="false" max-height="200px" element-loading-text="Loading" border>
                 <el-table-column label="处置时间">
                   <template slot-scope="scope">
                     {{scope.row.createTime}}
@@ -158,11 +170,12 @@
             </div>
           </el-card>
 
-      </el-timeline-item>
-      <el-timeline-item timestamp="报警解除" placement="top">
         <el-card v-if="checkList[0].relieveTime != null">
+          <div slot="header" class="clearfix">
+            <span>报警解除</span>
+          </div>
           <div>
-            <el-table :data="checkList" v-loading="false" element-loading-text="Loading" border>
+            <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
               <el-table-column label="解除人">
                 <template slot-scope="scope">
                   <template v-if="scope.row.relieveUser != null">{{scope.row.relieveUser.name}}</template>
@@ -189,9 +202,7 @@
             </el-table>
           </div>
         </el-card>
-      </el-timeline-item>
 
-    </el-timeline>
 
     <div>
       <el-dialog :title="fileTitle" :visible.sync="fileVisible" :modal-append-to-body="false" width="50%">
@@ -212,16 +223,35 @@
 
     export default {
         name: "process",
-        props:['checkList','disposeList','screenList'],
+        props:
+          {
+            checkList:{
+              type:Array,
+              default:""
+            },disposeList:{
+              type:Array,
+              default:""
+            },screenList:{
+              type:Array,
+              default:""
+            }
+
+            },
         data(){
           return {
             files:null,
             fileVisible:false,
             fileTitle:'附件预览',
-            downloadUrl:''
-
+            downloadUrl:'',
+            alarmTime:'',
+            auditTime:'',
+            screenTime:'',
+            handleTime:'',
+            relieveTime:'',
+            stepCount:1,
           }
         },
+
       created() {
           this.downloadUrl = getApiUrl() + '/file/download?idFile='
       },
@@ -231,12 +261,94 @@
             this.files = record.files
             this.fileVisible = true
           },
+        assignmentAlarmTime() {
+          this.calculateStepCount();
+          return this.checkList[0].alarmTime ? this.checkList[0].alarmTime:'';
+        },
+        assignmentAuditTime() {
+          return this.checkList[0].auditTime ? this.checkList[0].auditTime:''
+        },
+        assignmentScreenTime() {
+          if (this.screenList) {
+            if (this.screenList.length == 0) {
+              return ''
+            }
+          }
+          return this.screenList[0].screenTime ? this.screenList[0].screenTime:''
+        },
+        assignmentHandleTime() {
+          if (this.disposeList) {
+            if (this.disposeList.length == 0) {
+              return ''
+            }
+          }
+          if (this.checkList[0].isFeedback == 2) {
+            return this.disposeList[this.disposeList.length-1].createTime
+          } else {
+            return ''
+          }
+        },
+        assignmentRelieveTime() {
+          return this.checkList[0].relieveTime ? this.checkList[0].relieveTime:''
+        },calculateStepCount() {
+          let index = 1
+          if (this.checkList[0].auditTime) {
+            index = 2
+          }
+          if (this.checkList[0].screenStatus == 258) {
+            index = 3
+          }
+          if (this.checkList[0].isFeedback > 0) {
+            index = 4
+          }
+          if (this.checkList[0].relieveTime) {
+            index = 5
+          }
+          this.stepCount = index
+        }
       }
     }
 </script>
 
-<!--<style rel="stylesheet/scss" lang="scss" scoped >-->
-  <!--@import "src/styles/commonmyself.scss";-->
-<!--</style>-->
+<style lang="scss" scoped >
+
+
+
+  >>> .step01{
+    background-image:url("~@/assets/img/buzhouyi.png");
+  }
+  .step02{
+    background-image:url("~@/assets/img/buzhouer.png");
+  }
+  .step03{
+    background-image:url("~@/assets/img/buzhousan.png");
+  }
+  .step04{
+    background-image:url("~@/assets/img/buzhousi.png");
+  }
+  .step05{
+    background-image:url("~@/assets/img/buzhouwu.png");
+  }
+
+
+    .el-step.is-horizontal .el-step__line{
+      top: 50%;
+      left: 94px;
+      right: 48px;
+    }
+    .el-step__head.is-process{
+      border-color: #dedede;
+    }
+    .el-step__head.is-finish{
+      border-color: #285edf;
+    }
+    .el-step__title.is-process{
+      color: #dedede;
+    }
+    .el-step__title.is-finish{
+      color: #285edf;
+    }
+
+</style>
 
 

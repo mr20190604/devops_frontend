@@ -216,6 +216,7 @@
                         element-loading-text="Loading"
                         border fit highlight-current-row
                         @current-change="handleCurrentChange"
+                        max-height="200px"
               >
 
                 <el-table-column label="名称" width="80px">

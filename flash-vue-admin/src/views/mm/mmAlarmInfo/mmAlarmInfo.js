@@ -192,13 +192,35 @@ export default {
         },
         xAxis: {
           type: 'category',
-          // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-          data:[]
+          data:[].map(function (str) {
+            return str.replace(' ','\n')
+          }),
+
         },
         yAxis: {
           type: 'value',
           min:1,
           max:10
+        },axisLabel: {
+          interval: 0,
+          formatter: function (value) {
+            let ret = '';
+            let maxLength = 10;
+            let rowNum = Math.ceil(value.length / maxLength);
+            if (rowNum > 1) {
+              for (let i = 0; i < rowNum; i++) {
+                let temp = "";
+                let start = i * maxLength;
+                let end = start + maxLength;
+                temp = value.substring(start, end) + "\n";
+                ret += temp;
+              }
+              return ret;
+            } else {
+              return value;
+            }
+          }
+
         },
         visualMap: {
           // top: 100,
@@ -269,6 +291,11 @@ export default {
       fileShow:true,
       alarmList:[],
       modelTime:[],
+      pickerOptions:{
+        disabledDate (time) {
+          return time.getTime() > Date.now()//选当前时间之前的时间
+        }
+      },
 
     };
 
@@ -702,6 +729,7 @@ export default {
     openCurve(record) {
       this.formTitle = '监测曲线'
       this.echartVisiable = true
+      this.modelTime = ''
       this.initModelData(record)
 
     }
@@ -806,6 +834,8 @@ export default {
       let date = new Date();
       //获取上月天数
       let lastMonthDay = new Date(date.getFullYear(),date.getMonth(),0).getDate();
+      let year = date.getFullYear();
+      let month = date.getMonth()+1;
       let day = date.getDate();
       let weekDay = date.getDay()
       let hour = date.getHours();
@@ -838,16 +868,18 @@ export default {
           }
         }
         let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(timeDay+':'+timeHour+':'+timeMinitus)
+        this.lineData.xAxis.data.push(year+'-'+month+'-'+timeDay+'    '+timeHour+':'+timeMinitus)
         this.lineData.series[0].data.push(value)
       }
     },month() {
       this.clearEchart()
       let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth()+1;
       let day = date.getDate();
       let hour = date.getHours();
       let minitus = date.getMinutes();
-      let timeDay = 0;
+      let timeDay = 1;
       let timeHour = 0;
       let timeMinitus = 0;
 
@@ -865,25 +897,30 @@ export default {
           }
         }
         let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(timeDay+':'+timeHour+':'+timeMinitus)
+        this.lineData.xAxis.data.push(year+'-'+month+'-'+timeDay+'    '+timeHour+':'+timeMinitus)
         this.lineData.series[0].data.push(value)
       }
 
     },searchData(){
       if (this.modelTime.length > 0) {
         this.clearEchart()
+
         let startDate = new Date(this.modelTime[0]);
         let endDate = new Date(this.modelTime[1]);
+        let year = startDate.getFullYear();
+        let startMonth = startDate.getMonth()+1;
         let startDay = startDate.getDate();
         let startHour = startDate.getHours();
         let startMinitus = startDate.getMinutes();
 
+
+        let endMonth = endDate.getMonth()+1;
         let endDay = endDate.getDate();
         let endHour = endDate.getHours();
         let endMinitus = endDate.getMinutes();
         while (true) {
           startMinitus = startMinitus + 30;
-          if (startDay > endDay && startHour > endHour && startMinitus > endMinitus) {
+          if (startDay >= endDay && startHour >= endHour && startMinitus >= endMinitus && startMonth >= endMonth) {
             break;
           }
           if (startMinitus >= 60) {
@@ -892,21 +929,26 @@ export default {
             if (startHour >= 24) {
               startHour = startHour - 24;
               startDay = startDay + 1;
+              if (startMonth < endMonth) {
+                let startMonthDate = new Date(year,startMonth,0).getDate();
+                if (startDay > startMonthDate) {
+                  startMonth = startMonth +1;
+                  startDay = startDay - startMonthDate;
+                }
+              }
             }
           }
           let value = Math.random()*4+4
-          this.lineData.xAxis.data.push(startDay+':'+startHour+':'+startMinitus)
+          this.lineData.xAxis.data.push(year+'-'+startMonth+'-'+startDay+'    '+startHour+':'+startMinitus)
           this.lineData.series[0].data.push(value)
 
         }
-
-
       }
 
     },resetModel () {
       this.modelTime = [];
       this.initModelData(this.selRow)
-    }
+    },
 
 
   }
