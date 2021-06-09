@@ -14,7 +14,7 @@
             <span>监测报警</span>
           </div>
           <div>
-            <el-table :data="checkList" v-loading="false" element-loading-text="Loading" border>
+            <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
               <el-table-column label="设备名称">
                 <template slot-scope="scope">
                   {{scope.row.equipment.equipmentName}}
@@ -64,7 +64,7 @@
             <span>报警审核</span>
           </div>
          <div>
-           <el-table :data="checkList" v-loading="false" element-loading-text="Loading" border>
+           <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
              <el-table-column label="审核人">
                <template slot-scope="scope">
                  {{scope.row.auditUser.name}}
@@ -101,7 +101,7 @@
             <span>报警排查</span>
           </div>
           <div v-if="checkList[0].screenStatus == 258">
-            <el-table :data="screenList" v-loading="false" element-loading-text="Loading" border>
+            <el-table :data="screenList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
               <el-table-column label="排查人">
                 <template slot-scope="scope">
                   {{scope.row.screenUser.name}}
@@ -175,7 +175,7 @@
             <span>报警解除</span>
           </div>
           <div>
-            <el-table :data="checkList" v-loading="false" element-loading-text="Loading" border>
+            <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
               <el-table-column label="解除人">
                 <template slot-scope="scope">
                   <template v-if="scope.row.relieveUser != null">{{scope.row.relieveUser.name}}</template>

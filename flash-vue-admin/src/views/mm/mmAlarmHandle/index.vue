@@ -352,27 +352,35 @@
       <el-dialog
         :title="formTitle"
         :visible.sync="echartVisiable"
-        width="50%"
+        width="55%"
         @close="clearData"
       >
         <div style="padding-left: 10px">
           <el-form  :inline="true">
             <el-form-item>
-              <el-button  icon="el-icon-search" >本日</el-button>
-              <el-button  icon="el-icon-search" >本周</el-button>
-              <el-button  icon="el-icon-search" >本月</el-button>
+              <el-button  icon="el-icon-search" @click.native="day()">本日</el-button>
+              <el-button  icon="el-icon-search" @click.native="OneWeeks()">本周</el-button>
+              <el-button  icon="el-icon-search" @click.native="month()">本月</el-button>
             </el-form-item>
             <el-form-item label="">
-              <el-date-picker type="datetime"  value-format="yyyy-MM-dd HH:mm:ss"  placeholder="--请选择--"></el-date-picker>
-              <el-date-picker type="datetime"  value-format="yyyy-MM-dd HH:mm:ss" placeholder="--请选择--"></el-date-picker>
+              <el-date-picker el-date-picker
+                              v-model="modelTime"
+                              type="datetimerange"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              value-format="yyyy-MM-dd HH:mm:ss"
+                              end-placeholder="结束日期">
+              </el-date-picker>
             </el-form-item>
-            <el-button type="primary" icon="el-icon-search" >{{ $t('button.search') }}</el-button>
+            <el-button type="primary" icon="el-icon-search" @click.native="searchData">{{ $t('button.search') }}</el-button>
+            <el-button  icon="el-icon-search" @click.native="resetModel">{{ $t('button.reset') }}</el-button>
+
           </el-form>
 
         </div>
 
         <div align="center" style="width: 100%">
-          <v-chart :options="lineData" ref="myEchart" style="width: 80%;"/>
+          <v-chart :options="lineData" ref="myEchart" style="width: 90%;"/>
         </div>
       </el-dialog>
 
