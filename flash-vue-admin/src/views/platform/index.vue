@@ -1,5 +1,6 @@
 <template>
   <div class="bg">
+    <!-- 星星动效 -->
     <vue-particles
         color="#dedede"
         :particleOpacity="0.4"
@@ -19,27 +20,24 @@
         class="particles"
       >
       </vue-particles>
-    <!-- <p class="title">{{ systemName }}</p> -->
-    <div class="recommendPage">
+      <!-- 轮播 -->
+    <div class="recommendPage" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
       <swiper :options="swiperOption" ref="mySwiper">
-        <swiper-slide v-for="(item, index) in swiperData" :key="index">
+        <swiper-slide v-for="(item, index) in swiperData" :key="index" :data-item="index">
           <div :style="{ 'background-image': 'url(' + item.img + ')' }"></div>
         </swiper-slide>
-
-        <!-- <div class="swiper-pagination" slot="pagination"></div> -->
-       
       </swiper>
     </div>
-     <div class="swiper-button-prev common-swiper-button" slot="button-prev" ></div>
-     <div class="swiper-button-next common-swiper-button" slot="button-next" ></div>
+     <div class="swiper-button-prev common-swiper-button el-icon-arrow-left" slot="button-prev" ></div>
+     <div class="swiper-button-next common-swiper-button el-icon-arrow-right" slot="button-next" ></div>
   </div>
 </template>
 
 <script>
 // 引入插件
+let vm = null;
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
-
 export default {
   components: {
     swiper,
@@ -50,19 +48,29 @@ export default {
       // systemName: "苍穹环境智能监测平台",
       swiperData: [
         {
-          img: "/img/swiper-img1.png"
+          img: "/img/swiper-img1.png",
+          url:'#',
+          title:'大数据分析系统'
         },
         {
-          img: "/img/swiper-img2.png"
+          img: "/img/swiper-img2.png",
+          url:'/enterpriseBaseinfo',
+          title:'数据资源一体系统'
         },
         {
-          img: "/img/swiper-img3.png"
+          img: "/img/swiper-img3.png",
+          url:'#',
+          title:'三维地理信息系统'
         },
         {
-          img: "/img/swiper-img4.png"
+          img: "/img/swiper-img4.png",
+          url:'#',
+          title:'预测预警子系统'
         },
         {
-          img: "/img/swiper-img5.png"
+          img: "/img/swiper-img5.png",
+          url:'#',
+          title:'数据资源辅助系统'
         }
       ],
       swiperOption: {
@@ -70,16 +78,16 @@ export default {
         grabCursor: true,
         centeredSlides: true,
         slidesPerView: "auto",
-        coverflow: {
-          rotate: 40,
+        coverflowEffect: {
+          rotate: 50,
           stretch: 0,
-          depth: 100,
+          depth: 115,
           modifier: 1,
-          slideShadows: true
+          slideShadows: false
         },
         loop: true,
         autoplay: {
-          delay: 300000,
+          delay: 3000,
           stopOnLastSlide: false,
           disableOnInteraction: false
         },
@@ -92,7 +100,15 @@ export default {
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
+        },
+        on: {
+          click: function() {
+            const index = this.clickedSlide.attributes["data-item"].nodeValue
+          
+            vm.handleClickSlide(index);
+          }
         }
+
       }
     };
   },
@@ -101,11 +117,21 @@ export default {
       return this.$refs.mySwiper.swiper;
     }
   },
-  mounted() {
-    // current swiper instance
-    // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-    console.log("this is current swiper instance object", this.swiper);
-    // this.swiper.slideTo(3, 1000, false);
+  created(){
+    vm = this;
+  },
+
+  methods:{
+    handleClickSlide(index){
+       this.$router.push(this.swiperData[index].url)
+    },
+    onMouseEnter() {
+        this.swiper.autoplay.stop()
+    },
+    onMouseLeave() {
+        this.swiper.autoplay.start()
+    }
+
   }
 };
 </script>
@@ -125,31 +151,38 @@ export default {
     left: 0;
     right: 0;
   }
-  .title {
-    padding: 0;
-    margin: 45px 0 0 0;
-    color: #34fff8;
-    text-align: center;
-    font-size: 36px;
-  }
+
   .common-swiper-button {
-      width: 62px;
-      height: 63px;
+     width: 62px;
+    height: 62px;
+    background: none;
+    border-radius: 50%;
+    border: 5px solid rgba(168,213,232,.27);
+    text-align: center;
+    line-height: 53px;
+    font-size: 30px;
+    color: rgba(168,213,232,.47);
+    font-weight: bold;
+    transition: all 0.3s linear;
       &.swiper-button-next {
         right: 60px;
-        background: url("/img/swiper-right-btn.png");
+        // background: url("/img/swiper-right-btn.png");
       }
       &.swiper-button-prev {
         left: 60px;
-        background: url("/img/swiper-left-btn.png");
+        // background: url("/img/swiper-left-btn.png");
+      }
+      &:hover{
+        color:rgba(255,255,255,.6);
+        border: 5px solid rgba(255,255,255,.4);
       }
     }
 
 .recommendPage {
-  margin-top: 32.6vh;
+  margin-top: 34.3vh;
   >>> .swiper-container {
     position: relative;
-    width: 1200px;
+    width: 1280px;
     height: 375px;
     .swiper-slide {
       width: 325px;
@@ -157,13 +190,13 @@ export default {
       div {
         width: 100%;
         height: 100%;
+        a{
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
       }
-      .swiper-slide-shadow-left{
-        background-image:linear-gradient(to left, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0))
-      }
-      .swiper-slide-shadow-right{
-        background-image:linear-gradient(to right, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0))
-      }
+      
     }
     
   }
