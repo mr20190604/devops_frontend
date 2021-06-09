@@ -365,6 +365,7 @@
             <el-form-item label="">
               <el-date-picker el-date-picker
                               v-model="modelTime"
+                              :picker-options="pickerOptions"
                               type="datetimerange"
                               range-separator="至"
                               start-placeholder="开始日期"

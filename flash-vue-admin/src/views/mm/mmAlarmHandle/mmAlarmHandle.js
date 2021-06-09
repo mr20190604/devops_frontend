@@ -256,9 +256,12 @@ export default {
         screenPhone:'',
       },
       modelTime:[],
-
+      pickerOptions:{
+        disabledDate (time) {
+          return time.getTime() > Date.now()//选当前时间之前的时间
+        }
+      },
     };
-
 
   },
   filters: {

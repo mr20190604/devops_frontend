@@ -271,6 +271,11 @@ export default {
       fileShow:true,
       alarmList:[],
       modelTime:[],
+      pickerOptions:{
+        disabledDate (time) {
+          return time.getTime() > Date.now()//选当前时间之前的时间
+        }
+      },
 
     };
 
@@ -879,6 +884,7 @@ export default {
     },searchData(){
       if (this.modelTime.length > 0) {
         this.clearEchart()
+
         let startDate = new Date(this.modelTime[0]);
         let endDate = new Date(this.modelTime[1]);
         let year = startDate.getFullYear();
