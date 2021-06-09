@@ -129,6 +129,14 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="22">
+              <el-form-item >
+                <el-button @click="addDetail" class="set-common-btn blank-blue-button width92" style="float: right;margin-right: 24px">新增风险物质</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+
              <el-scrollbar style="height:310px">
           <el-form-item
             class="risk-material-item"
@@ -165,7 +173,7 @@
           <el-row>
             <el-form-item  class="align-center">
               <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
-              <el-button @click="addDetail" class="set-common-btn blank-blue-button width92">新增风险物质</el-button>
+
               <el-button @click.native="formVisible = false" class="set-common-btn blue-button">{{ $t('button.cancel') }}</el-button>
             </el-form-item>
            </el-row>
