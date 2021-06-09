@@ -40,6 +40,9 @@ Vue.component("file-preview",FilePreview)
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 Vue.component('treeselect', Treeselect)
+
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles)
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
