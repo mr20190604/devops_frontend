@@ -314,7 +314,7 @@
 
 
 
-  .step01{
+  >>> .step01{
     background-image:url("~@/assets/img/buzhouyi.png");
   }
   .step02{

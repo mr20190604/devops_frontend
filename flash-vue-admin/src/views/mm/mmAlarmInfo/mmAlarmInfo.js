@@ -201,6 +201,26 @@ export default {
           type: 'value',
           min:1,
           max:10
+        },axisLabel: {
+          interval: 0,
+          formatter: function (value) {
+            let ret = '';
+            let maxLength = 10;
+            let rowNum = Math.ceil(value.length / maxLength);
+            if (rowNum > 1) {
+              for (let i = 0; i < rowNum; i++) {
+                let temp = "";
+                let start = i * maxLength;
+                let end = start + maxLength;
+                temp = value.substring(start, end) + "\n";
+                ret += temp;
+              }
+              return ret;
+            } else {
+              return value;
+            }
+          }
+
         },
         visualMap: {
           // top: 100,
@@ -848,7 +868,7 @@ export default {
           }
         }
         let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(year+'-'+month+'-'+timeDay+' '+timeHour+':'+timeMinitus)
+        this.lineData.xAxis.data.push(year+'-'+month+'-'+timeDay+'    '+timeHour+':'+timeMinitus)
         this.lineData.series[0].data.push(value)
       }
     },month() {
@@ -877,7 +897,7 @@ export default {
           }
         }
         let value = Math.random()*4+4
-        this.lineData.xAxis.data.push(year+'-'+month+'-'+timeDay+' '+timeHour+':'+timeMinitus)
+        this.lineData.xAxis.data.push(year+'-'+month+'-'+timeDay+'    '+timeHour+':'+timeMinitus)
         this.lineData.series[0].data.push(value)
       }
 
@@ -919,7 +939,7 @@ export default {
             }
           }
           let value = Math.random()*4+4
-          this.lineData.xAxis.data.push(year+'-'+startMonth+'-'+startDay+' '+startHour+':'+startMinitus)
+          this.lineData.xAxis.data.push(year+'-'+startMonth+'-'+startDay+'    '+startHour+':'+startMinitus)
           this.lineData.series[0].data.push(value)
 
         }
