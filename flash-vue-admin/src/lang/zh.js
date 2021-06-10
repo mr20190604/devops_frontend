@@ -59,7 +59,7 @@ export default {
     add: '添加',
     edit: '修改',
     delete: '删除',
-    search: '搜索',
+    search: '查询',
     reset: '重置',
     submit: '提交',
     cancel: '取消',
