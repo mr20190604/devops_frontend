@@ -87,7 +87,7 @@ export default {
         },
         loop: true,
         autoplay: {
-          delay: 3000,
+          delay: 1800,
           stopOnLastSlide: false,
           disableOnInteraction: false
         },
