@@ -11,12 +11,14 @@
     :expandAll="expandAll"
     highlight-current-row
     border>
+
       <el-table-column label="简称" show-overflow-tooltip >
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(scope.row)">{{scope.row.simplename}}</el-button>
 
         </template>
       </el-table-column>
+
       <el-table-column label="全称" show-overflow-tooltip >
         <template slot-scope="scope">
           <span >{{scope.row.fullname}}</span>
@@ -26,6 +28,11 @@
         <template slot-scope="scope">
           <span >{{scope.row.num}}</span>
         </template>
+      </el-table-column>
+      <el-table-column label="主键" show-overflow-tooltip >
+      <template slot-scope="scope">
+      <span >{{scope.row.id}}</span>
+      </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
