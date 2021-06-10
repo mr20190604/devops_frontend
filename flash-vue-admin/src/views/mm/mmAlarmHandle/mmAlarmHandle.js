@@ -105,7 +105,7 @@ export default {
         monitorType:undefined,
         isAudit:1,
         isFeedBack:undefined,
-        auditStatus:undefined,
+        auditStatus:1,
         isRelieve:undefined,
         screenStatus:undefined
       },
@@ -341,7 +341,7 @@ export default {
     },
     reset() {
       for(let key in this.listQuery) {
-        if (key != 'limit' && key != 'page' && key != 'isAudit') {
+        if (key != 'limit' && key != 'page' && key != 'isAudit' && key != 'auditStatus') {
           this.listQuery[key] = ''
         }
       }
@@ -592,7 +592,6 @@ export default {
         } else {
           return false
         }
-
         this.disposeVisible = false
       })
     },initDisposeList(alamId) {
@@ -664,6 +663,20 @@ export default {
       }
     },openAccept() {
       if(this.checkSel()) {
+        if (this.selRow.screenStatus == 257) {
+          this.$message({
+            message: '正在排查中，请勿重复排查',
+            type: 'warning'
+          })
+          return
+        }
+        if (this.selRow.screenStatus == 258) {
+          this.$message({
+            message: '排查已完成，请勿重复排查',
+            type: 'warning'
+          })
+          return
+        }
         this.form = this.selRow
         this.acceptTitle = '现场排查'
         this.acceptVisible = true

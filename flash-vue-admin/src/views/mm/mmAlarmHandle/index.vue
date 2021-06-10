@@ -341,6 +341,7 @@
       :title="formTitle"
       :visible.sync="processVisiable"
       width="60%"
+
     >
       <div>
         <process :checkList="checkList" :disposeList="disposeList" :screenList="screenList"></process>

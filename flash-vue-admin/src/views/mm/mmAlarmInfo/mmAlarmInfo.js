@@ -553,6 +553,14 @@ export default {
       this.disposeForm.fileId = ''
     }, dispose() {
       if (this.checkSel()) {
+        if (this.selRow.screenStatus != 258) {
+          this.$message({
+            message: '请先进行报警排查',
+            type: 'warning'
+          });
+          return
+        }
+
           if(this.selRow.isFeedback == 2) {
             this.vShow = false
           } else {
