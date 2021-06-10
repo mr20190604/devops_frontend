@@ -375,7 +375,7 @@ export default {
       this.resetMaterialForm()
       this.materialVisible = true
       this.materialTitle = '编辑应急物资信息'
-      this.materialForm = record
+      this.materialForm = JSON.parse(JSON.stringify(record))
 
     },saveMaterial(){
       this.$refs['materialForm'].validate((valid) => {
