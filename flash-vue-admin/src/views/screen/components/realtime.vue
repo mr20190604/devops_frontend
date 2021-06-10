@@ -91,7 +91,6 @@ export default {
 
     // 一小时之前的时间
     let date = new Date((new Date()).getTime() - 1000 * 60 * 60)
-
     for (let i = 0; i < 60; i++) {
       this.data.push([this.dateFormat('HH:MM:SS', date), Math.floor(Math.random() * 100)])
       date = new Date(date.getTime() + 1000 * 60)
@@ -105,6 +104,7 @@ export default {
       let date = new Date(2021, 1, 1, array[0], array[1], array[2])
       date = new Date(date.getTime() + 1000 * 3)
       const num = Math.floor(Math.random() * 100)
+      that.data.shift()
       that.data.push([that.dateFormat('HH:MM:SS', date), num])
     }, 1000 * 3)
   },

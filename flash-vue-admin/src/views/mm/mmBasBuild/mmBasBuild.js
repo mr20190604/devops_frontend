@@ -76,7 +76,8 @@ export default {
           { required: true, message: '负责人' + this.$t('common.isRequired'), trigger: 'blur' }
         ],
         personOtel: [
-          { required: true, message: '办公电话' + this.$t('common.isRequired'), trigger: 'blur' }
+          { required: true, message: '办公电话' + this.$t('common.isRequired'), trigger: 'blur' },
+          { pattern: /^\d{3,4}\-\d{7,8}$/, message: '办公电话格式不合法', trigger: 'blur' }
         ],
         personNum: [
           { required: true, message: '人数' + this.$t('common.isRequired'), trigger: 'blur' }
@@ -160,9 +161,7 @@ export default {
       this.formTitle = '添加地上建筑物'
       this.formVisible = true
       this.isAdd = true
-      if (this.$refs['form'] !== undefined) {
-        this.$refs['form'].resetFields()
-      }
+      this.resetForm()
     },
     save() {
       this.$refs['form'].validate((valid) => {
@@ -213,10 +212,9 @@ export default {
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
-        this.form = this.selRow
+        this.form = JSON.parse(JSON.stringify(this.selRow))
         this.formTitle = '编辑地上建筑物'
         this.formVisible = true
-
         if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
@@ -284,9 +282,9 @@ export default {
         })
       }).catch(() => {
       })
-    }, toggleSelection(row) {
+    },
+    toggleSelection(row) {
       this.$refs.buildTable.toggleRowSelection(row)
     }
-
   }
 }

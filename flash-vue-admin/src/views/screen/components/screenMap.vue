@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;height: 100%; position: relative;">
+  <div class="map">
     <baidu-map
       style="width: 100%;height: 100%;"
       :scroll-wheel-zoom="true"
@@ -27,7 +27,7 @@
           <img src="../../../assets/img/close.png" class="close" alt="" @click="infoWindowClose">
           <div class="title">
             <p>
-              <i class="el-icon-map-location" />
+              <i class="el-icon-map-location"/>
               <span> {{ infoWindow.address }}</span>
             </p>
           </div>
@@ -74,13 +74,13 @@
             <div style="float: left;width: 100px;font-size: 12px">
               <p style="color: #34fff8;padding-left: 8px;">水流量</p>
               <p style="color: white;padding-left: 8px;margin-top: 5px;font-size: 14px;">{{ infoWindow.waterSpeed
-              }}升/秒</p>
+                }}升/秒</p>
             </div>
-            <div style="clear: both;" />
+            <div style="clear: both;"/>
             <el-row style="font-size: 10px;color: white;margin-top: 15px">
               <el-col v-for="item in infoWindow.statistics" :key="item.matter" :span="8">
-                <p class="type" v-html="item.matter" />
-                <el-progress :percentage="50" :stroke-width="4" :show-text="false" color="#5fced2" />
+                <p class="type" v-html="item.matter"/>
+                <el-progress :percentage="50" :stroke-width="4" :show-text="false" color="#5fced2"/>
                 <p class="percentage">{{ item.concentration }} ug/m<sup>3</sup></p>
               </el-col>
             </el-row>
@@ -97,39 +97,39 @@
       </div>
       <table border="0" cellspacing="0" cellpadding="0" style="pointer-events: auto;">
         <thead>
-          <tr style="text-align: center;background: #222;">
-            <td>设备</td>
-            <td>时间</td>
-            <td>状况</td>
-            <td>等级</td>
-            <td>事件描述</td>
-            <td>处理进度</td>
-          </tr>
+        <tr style="text-align: center;background: #222;">
+          <td>设备</td>
+          <td>时间</td>
+          <td>状况</td>
+          <td>等级</td>
+          <td>事件描述</td>
+          <td>处理进度</td>
+        </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(item,index) in data"
-            :key="index"
-            style="text-align: center;"
-            :style="{'marginTop':marginTop+'px'}"
-            @click="handleRowClick(item)"
-            @mouseover="handleMouseOver"
-            @mouseout="handleMouseOut"
-          >
-            <td>{{ item.equipment }}</td>
-            <td>{{ item.time }}</td>
-            <td>{{ item.condition===1?'正常':'异常' }}</td>
-            <td :style="{color:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}">
-              <p>
+        <tr
+          v-for="(item,index) in data"
+          :key="index"
+          style="text-align: center;"
+          :style="{'marginTop':marginTop+'px'}"
+          @click="handleRowClick(item)"
+          @mouseover="handleMouseOver"
+          @mouseout="handleMouseOut"
+        >
+          <td>{{ item.equipment }}</td>
+          <td>{{ item.time }}</td>
+          <td>{{ item.condition===1?'正常':'异常' }}</td>
+          <td :style="{color:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}">
+            <p>
                 <span
                   style="border-width: 1px; border-style: solid;"
                   :style="{borderColor:(item.level===1?'#b22d36':item.level===2?' #f19c4b':' #34fff8')}"
                 >{{ item.level===1?'一级':item.level===2?'二级':'三级' }}</span>
-              </p>
-            </td>
-            <td>{{ item.description }}</td>
-            <td>{{ item.rate===1?'待分配':item.rate===2?'待处理':item.rate===3?'待审核':'已结案' }}</td>
-          </tr>
+            </p>
+          </td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.rate===1?'待分配':item.rate===2?'待处理':item.rate===3?'待审核':'已结案' }}</td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -137,436 +137,436 @@
 </template>
 
 <script>
-import 'echarts/lib/chart/gauge'
+  import 'echarts/lib/chart/gauge'
 
-export default {
-  name: 'ScreenMap',
-  data() {
-    return {
-      marginTop: 0,
-      interval: undefined,
-      BMap: undefined,
-      map: undefined,
-      center: {
-        lng: 117.566797,
-        lat: 32.993585
-      },
-      infoWindow: {
-        show: false,
-        address: undefined,
-        riskCount: undefined,
-        todayAlarmCount: undefined,
-        historyAlarmCount: undefined,
-        waterSpeed: undefined,
-        statistics: [
-          {
-            matter: undefined,
-            concentration: undefined
-          }
-        ]
-      },
-      data: [
-        {
-          equipment: 'DQ8274-032',
-          time: '12:32:15',
-          condition: 0,
-          level: 1,
-          description: '经监测C区域氨气浓度超标',
-          rate: 1,
+  export default {
+    name: 'ScreenMap',
+    data() {
+      return {
+        marginTop: 0,
+        interval: undefined,
+        BMap: undefined,
+        map: undefined,
+        center: {
           lng: 117.566797,
-          lat: 32.993585,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
+          lat: 32.993585
+        },
+        infoWindow: {
+          show: false,
+          address: undefined,
+          riskCount: undefined,
+          todayAlarmCount: undefined,
+          historyAlarmCount: undefined,
+          waterSpeed: undefined,
           statistics: [
             {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 55
-            },
-            {
-              matter: 'CO',
-              concentration: 66
-            }
-          ]
-        }, {
-          equipment: 'DQ8274-025',
-          time: '12:32:47',
-          condition: 0,
-          level: 2,
-          description: '经监测,A区域二氧化硫浓度超标',
-          rate: 1,
-          lng: 117.565333,
-          lat: 32.993426,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
-          statistics: [
-            {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 112
-            },
-            {
-              matter: 'CO',
-              concentration: 125
+              matter: undefined,
+              concentration: undefined
             }
           ]
         },
-        {
-          equipment: 'DQ8274-027',
-          time: '12:20:16',
-          condition: 0,
-          level: 2,
-          description: '经监测, D区域二氧化氮浓度超标',
-          rate: 2,
-          lng: 117.566915,
-          lat: 32.991689,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
-          statistics: [
-            {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 85
-            },
-            {
-              matter: 'CO',
-              concentration: 46
-            }
-          ]
-        },
-        {
-          equipment: 'DQ8274-045',
-          time: '11:32:46',
-          condition: 0,
-          level: 3,
-          description: '经监测,F区域一氧化碳浓度超标',
-          rate: 2,
-          lng: 117.565262,
-          lat: 32.989751,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
-          statistics: [
-            {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 12
-            },
-            {
-              matter: 'CO',
-              concentration: 151
-            }
-          ]
-        }, {
-          equipment: 'DQ8274-056',
-          time: '11:12:37',
-          condition: 0,
-          level: 2,
-          description: '经监测,E区域甲烷浓度超标',
-          rate: 4,
-          lng: 117.568065,
-          lat: 32.996352,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
-          statistics: [
-            {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 65
-            },
-            {
-              matter: 'CO',
-              concentration: 121
-            }
-          ]
-        }, {
-          equipment: 'DQ8274-045',
-          time: '11:20:25',
-          condition: 0,
-          level: 3,
-          description: '经监测,B区域乙烯浓度超标',
-          rate: 3,
-          lng: 117.562459,
-          lat: 32.991265,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
-          statistics: [
-            {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 45
-            },
-            {
-              matter: 'CO',
-              concentration: 142
-            }
-          ]
-        }, {
-          equipment: 'DQ8274-030',
-          time: '11:08:11',
-          condition: 0,
-          level: 2,
-          description: '经监测,A区域二氧化硫浓度超标',
-          rate: 4,
-          lng: 117.564459,
-          lat: 32.992365,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
-          statistics: [
-            {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 56
-            },
-            {
-              matter: 'CO',
-              concentration: 12
-            }
-          ]
-        }, {
-          equipment: 'DQ8274-085',
-          time: '10:45:04',
-          condition: 0,
-          level: 3,
-          description: '经监测,A区域二氧化硫浓度超标',
-          rate: 3,
-          lng: 117.565659,
-          lat: 32.994565,
-          address: 'C区域',
-          riskCount: 25,
-          todayAlarmCount: 56,
-          historyAlarmCount: 65,
-          waterSpeed: 12,
-          statistics: [
-            {
-              matter: 'PM2.5',
-              concentration: 26
-            },
-            {
-              matter: 'PM10',
-              concentration: 26
-            },
-            {
-              matter: 'SO<sub>2</sub>',
-              concentration: 15
-            },
-            {
-              matter: 'CH<sub>4</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'O<sub>2</sub>',
-              concentration: 25
-            },
-            {
-              matter: 'CO',
-              concentration: 44
-            }
-          ]
-        }]
-    }
-  },
-  created() {
-    this.initMarkers()
-    this.handleMouseOut()
-  },
-  methods: {
-    mapReady({ BMap, map }) {
-      this.map = map
-      this.BMap = BMap
-      map.setMapStyleV2({
-        styleId: 'fe3bc41ca0e11f7dfa8986537af0dca7'
-      })
-      this.map.addEventListener('zoomend', function(e) {
-        const zoom = map.getZoom()
-        // const size = zoom * 10
-        // // 计算图标大小
-        // this.data.forEach(marker => {
-        //   marker.icon.opts.imageSize.height = size
-        //   marker.icon.opts.imageSize.width = size
-        // })
-      })
-    },
-    showWarningData() {
-      this.marginTop -= 1
-      if (this.marginTop < -18) {
-        this.data.push(this.data[0])
-        this.data.shift()
-        this.marginTop = 0
+        data: [
+          {
+            equipment: 'DQ8274-032',
+            time: '12:32:15',
+            condition: 0,
+            level: 1,
+            description: '经监测C区域氨气浓度超标',
+            rate: 1,
+            lng: 117.566797,
+            lat: 32.993585,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 55
+              },
+              {
+                matter: 'CO',
+                concentration: 66
+              }
+            ]
+          }, {
+            equipment: 'DQ8274-025',
+            time: '12:32:47',
+            condition: 0,
+            level: 2,
+            description: '经监测,A区域二氧化硫浓度超标',
+            rate: 1,
+            lng: 117.565333,
+            lat: 32.993426,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 112
+              },
+              {
+                matter: 'CO',
+                concentration: 125
+              }
+            ]
+          },
+          {
+            equipment: 'DQ8274-027',
+            time: '12:20:16',
+            condition: 0,
+            level: 2,
+            description: '经监测, D区域二氧化氮浓度超标',
+            rate: 2,
+            lng: 117.566915,
+            lat: 32.991689,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 85
+              },
+              {
+                matter: 'CO',
+                concentration: 46
+              }
+            ]
+          },
+          {
+            equipment: 'DQ8274-045',
+            time: '11:32:46',
+            condition: 0,
+            level: 3,
+            description: '经监测,F区域一氧化碳浓度超标',
+            rate: 2,
+            lng: 117.565262,
+            lat: 32.989751,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 12
+              },
+              {
+                matter: 'CO',
+                concentration: 151
+              }
+            ]
+          }, {
+            equipment: 'DQ8274-056',
+            time: '11:12:37',
+            condition: 0,
+            level: 2,
+            description: '经监测,E区域甲烷浓度超标',
+            rate: 4,
+            lng: 117.568065,
+            lat: 32.996352,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 65
+              },
+              {
+                matter: 'CO',
+                concentration: 121
+              }
+            ]
+          }, {
+            equipment: 'DQ8274-045',
+            time: '11:20:25',
+            condition: 0,
+            level: 3,
+            description: '经监测,B区域乙烯浓度超标',
+            rate: 3,
+            lng: 117.562459,
+            lat: 32.991265,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 45
+              },
+              {
+                matter: 'CO',
+                concentration: 142
+              }
+            ]
+          }, {
+            equipment: 'DQ8274-030',
+            time: '11:08:11',
+            condition: 0,
+            level: 2,
+            description: '经监测,A区域二氧化硫浓度超标',
+            rate: 4,
+            lng: 117.564459,
+            lat: 32.992365,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 56
+              },
+              {
+                matter: 'CO',
+                concentration: 12
+              }
+            ]
+          }, {
+            equipment: 'DQ8274-085',
+            time: '10:45:04',
+            condition: 0,
+            level: 3,
+            description: '经监测,A区域二氧化硫浓度超标',
+            rate: 3,
+            lng: 117.565659,
+            lat: 32.994565,
+            address: 'C区域',
+            riskCount: 25,
+            todayAlarmCount: 56,
+            historyAlarmCount: 65,
+            waterSpeed: 12,
+            statistics: [
+              {
+                matter: 'PM2.5',
+                concentration: 26
+              },
+              {
+                matter: 'PM10',
+                concentration: 26
+              },
+              {
+                matter: 'SO<sub>2</sub>',
+                concentration: 15
+              },
+              {
+                matter: 'CH<sub>4</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'O<sub>2</sub>',
+                concentration: 25
+              },
+              {
+                matter: 'CO',
+                concentration: 44
+              }
+            ]
+          }]
       }
     },
-    handleMouseOver() {
-      clearInterval(this.interval)
+    created() {
+      this.initMarkers()
+      this.handleMouseOut()
     },
-    handleMouseOut() {
-      this.interval = setInterval(this.showWarningData, 100)
-    },
-    handleRowClick(row) {
-      this.handleMarkerClick(row)
-    },
-    handleMarkerClick(marker) {
-      const point = new this.BMap.Point(marker.lng, marker.lat)
-      this.map.panTo(point)
-      this.resetMarkers()
-      marker.selected = true
-      this.infoWindow = marker
-      this.infoWindow.show = true
-    },
-    infoWindowClose() {
-      this.infoWindow.show = false
-    },
-    infoWindowOpen() {
-      this.infoWindow.show = true
-    },
-    initMarkers() {
-      this.data.forEach(marker => {
-        marker.icon = {
-          url: marker.level === 1 ? '/img/first.png' : marker.level === 2 ? '/img/second.png' : '/img/three.png',
-          size: {
-            width: 72,
-            height: 69
-          },
-          opts: {
-            imageSize: {
-              width: 40,
-              height: 40
+    methods: {
+      mapReady({ BMap, map }) {
+        this.map = map
+        this.BMap = BMap
+        map.setMapStyleV2({
+          styleId: 'fe3bc41ca0e11f7dfa8986537af0dca7'
+        })
+        this.map.addEventListener('zoomend', function(e) {
+          const zoom = map.getZoom()
+          // const size = zoom * 10
+          // // 计算图标大小
+          // this.data.forEach(marker => {
+          //   marker.icon.opts.imageSize.height = size
+          //   marker.icon.opts.imageSize.width = size
+          // })
+        })
+      },
+      showWarningData() {
+        this.marginTop -= 1
+        if (this.marginTop < -18) {
+          this.data.push(this.data[0])
+          this.data.shift()
+          this.marginTop = 0
+        }
+      },
+      handleMouseOver() {
+        clearInterval(this.interval)
+      },
+      handleMouseOut() {
+        this.interval = setInterval(this.showWarningData, 100)
+      },
+      handleRowClick(row) {
+        this.handleMarkerClick(row)
+      },
+      handleMarkerClick(marker) {
+        const point = new this.BMap.Point(marker.lng, marker.lat)
+        this.map.panTo(point)
+        this.resetMarkers()
+        marker.selected = true
+        this.infoWindow = marker
+        this.infoWindow.show = true
+      },
+      infoWindowClose() {
+        this.infoWindow.show = false
+      },
+      infoWindowOpen() {
+        this.infoWindow.show = true
+      },
+      initMarkers() {
+        this.data.forEach(marker => {
+          marker.icon = {
+            url: marker.level === 1 ? '/img/first.png' : marker.level === 2 ? '/img/second.png' : '/img/three.png',
+            size: {
+              width: 72,
+              height: 69
+            },
+            opts: {
+              imageSize: {
+                width: 40,
+                height: 40
+              }
             }
           }
-        }
-      })
-    },
-    resetMarkers() {
-      this.data.forEach(marker => {
-        marker.selected = false
-      })
+        })
+      },
+      resetMarkers() {
+        this.data.forEach(marker => {
+          marker.selected = false
+        })
+      }
     }
   }
-}
 </script>
 
 <style scoped lang="scss">
@@ -576,6 +576,12 @@ export default {
   p {
     margin: 0;
     padding: 0;
+  }
+
+  .map {
+    width: 100%;
+    height: 100%;
+    position: relative;
   }
 
   .subTitle {
@@ -653,10 +659,10 @@ export default {
   }
 
   .circle {
-    height: 54px;
-    width: 54px;
+    height: 52px;
+    width: 52px;
     position: absolute;
-    border-radius: 27px;
+    border-radius: 26px;
     margin-top: -73px;
     font-size: 5px;
     color: white;
@@ -680,17 +686,17 @@ export default {
 
   #circle1 {
     border: 2px dotted #34fff8;
-    margin-left: 11px;
+    margin-left: 12px;
   }
 
   #circle2 {
     border: 2px dotted #b22d36;
-    margin-left: 95px;
+    margin-left: 96px;
   }
 
   #circle3 {
     border: 2px dotted #f19c4b;
-    margin-left: 180px;
+    margin-left: 181px;
   }
 
   .el-row p {
@@ -702,12 +708,12 @@ export default {
   }
 
 </style>
-<style lang="scss" scoped>
+<style lang="scss">
   #top > .el-progress .el-progress__text {
     display: none;
   }
 
-  .el-progress-bar__outer {
+  .map .el-progress-bar__outer {
     background: transparent;
   }
 
