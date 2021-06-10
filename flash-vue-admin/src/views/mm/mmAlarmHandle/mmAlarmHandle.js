@@ -54,7 +54,6 @@ export default {
         auditStatus:'',
         monitorTypeName:'',
         auditUser:'',
-        relieveStatus:'',
         screenStatus:'',
         relieveTime:'',
         screenStatusName:'',

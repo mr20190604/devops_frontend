@@ -2,11 +2,11 @@
   <div>
     <div>
       <el-steps :active="stepCount" align-center>
-        <el-step title="监测报警" :description="assignmentAlarmTime()"><i class="step01" slot="icon"></i></el-step>
-        <el-step title="报警审核" :description="assignmentAuditTime()"><i class="step02" slot="icon"></i></el-step>
-        <el-step title="报警排查" :description="assignmentScreenTime()"><i class="step03" slot="icon"></i></el-step>
-        <el-step title="报警处置" :description="assignmentHandleTime()"><i class="step04" slot="icon"></i></el-step>
-        <el-step title="报警解除" :description="assignmentRelieveTime()"><i class="step05" slot="icon"></i></el-step>
+        <el-step title="监测报警" :description="assignmentAlarmTime()"><i  class="step01" slot="icon"></i></el-step>
+        <el-step title="报警审核" :description="assignmentAuditTime()"><i v-if="auditStatus == 1" class="step02" slot="icon"></i><i v-else-if="auditStatus == 0" class="step07" slot="icon"></i></el-step>
+        <el-step title="报警排查" :description="assignmentScreenTime()"><i v-if="screenStatus == 1" class="step03" slot="icon"></i><i v-else-if="screenStatus == 0" class="step08" slot="icon"></i></el-step>
+        <el-step title="报警处置" :description="assignmentHandleTime()"><i v-if="handleStatus == 1" class="step04" slot="icon"></i><i v-else-if="handleStatus == 0" class="step09" slot="icon"></i></el-step>
+        <el-step title="报警解除" :description="assignmentRelieveTime()"><i v-if="relieveStatus == 1" class="step05" slot="icon"></i><i v-else-if="relieveStatus == 0" class="step10" slot="icon"></i></el-step>
       </el-steps>
     </div>
         <el-card >
@@ -59,12 +59,12 @@
             </el-table>
           </div>
         </el-card>
-        <el-card v-if="checkList[0].auditTime != null">
+        <el-card >
           <div slot="header" class="clearfix">
             <span>报警审核</span>
           </div>
-         <div>
-           <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
+         <div v-if="checkList[0].isAudit == 1">
+           <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border >
              <el-table-column label="审核人">
                <template slot-scope="scope">
                  {{scope.row.auditUser.name}}
@@ -101,7 +101,7 @@
             <span>报警排查</span>
           </div>
           <div v-if="checkList[0].screenStatus == 258">
-            <el-table :data="screenList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
+            <el-table :data="screenList" v-loading="false" max-height="120px" element-loading-text="Loading" border>
               <el-table-column label="排查人">
                 <template slot-scope="scope">
                   {{scope.row.screenUser.name}}
@@ -131,11 +131,11 @@
             </el-table>
           </div>
         </el-card>
-          <el-card v-if="checkList[0].isFeedback > 0">
+          <el-card >
             <div slot="header" class="clearfix">
               <span>报警处置</span>
             </div>
-            <div>
+            <div v-if="checkList[0].isFeedback > 0">
               <el-table :data="disposeList" v-loading="false" max-height="200px" element-loading-text="Loading" border>
                 <el-table-column label="处置时间">
                   <template slot-scope="scope">
@@ -170,12 +170,12 @@
             </div>
           </el-card>
 
-        <el-card v-if="checkList[0].relieveTime != null">
+        <el-card >
           <div slot="header" class="clearfix">
             <span>报警解除</span>
           </div>
-          <div>
-            <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
+          <div v-if="checkList[0].isRelieve == 1">
+            <el-table :data="checkList" v-loading="false" max-height="120px" element-loading-text="Loading" border>
               <el-table-column label="解除人">
                 <template slot-scope="scope">
                   <template v-if="scope.row.relieveUser != null">{{scope.row.relieveUser.name}}</template>
@@ -194,11 +194,11 @@
                   {{scope.row.relieveOpinion}}
                 </template>
               </el-table-column>
-              <el-table-column label="操作" width="220px" align="center">
-                <template slot-scope="scope">
-                  <el-button type="text" icon="el-icon-view" @click.native="previewFile(scope.row)"  size="mini">预览</el-button>
-                </template>
-              </el-table-column>
+              <!--<el-table-column label="操作" width="220px" align="center">-->
+                <!--<template slot-scope="scope">-->
+                  <!--<el-button type="text" icon="el-icon-view" @click.native="previewFile(scope.row)"  size="mini">预览</el-button>-->
+                <!--</template>-->
+              <!--</el-table-column>-->
             </el-table>
           </div>
         </el-card>
@@ -249,6 +249,10 @@
             handleTime:'',
             relieveTime:'',
             stepCount:1,
+            auditStatus:0,
+            screenStatus:0,
+            handleStatus:0,
+            relieveStatus:0
           }
         },
 
@@ -272,8 +276,11 @@
           if (this.screenList) {
             if (this.screenList.length == 0) {
               return ''
+            } else if (this.checkList[0].screenStatus != 258 ) {
+              return ''
             }
           }
+
           return this.screenList[0].screenTime ? this.screenList[0].screenTime:''
         },
         assignmentHandleTime() {
@@ -282,6 +289,7 @@
               return ''
             }
           }
+
           if (this.checkList[0].isFeedback == 2) {
             return this.disposeList[this.disposeList.length-1].createTime
           } else {
@@ -292,16 +300,20 @@
           return this.checkList[0].relieveTime ? this.checkList[0].relieveTime:''
         },calculateStepCount() {
           let index = 1
-          if (this.checkList[0].auditTime) {
+          if (this.checkList[0].isAudit == 1) {
+            this.auditStatus = 1;
             index = 2
           }
           if (this.checkList[0].screenStatus == 258) {
+            this.screenStatus = 1;
             index = 3
           }
           if (this.checkList[0].isFeedback > 0) {
+            this.handleStatus = 1;
             index = 4
           }
-          if (this.checkList[0].relieveTime) {
+          if (this.checkList[0].isRelieve == 1) {
+            this.relieveStatus = 1;
             index = 5
           }
           this.stepCount = index
@@ -343,6 +355,27 @@
         background:url("~@/assets/img/buzhouwu.png") no-repeat center;
         background-size: cover;
       }
+      &.step06{
+        background:url("~@/assets/img/监测报警暗.png") no-repeat center;
+        background-size: cover;
+      }
+      &.step07{
+        background:url("~@/assets/img/报警审核暗.png") no-repeat center;
+        background-size: cover;
+      }
+      &.step08{
+        background:url("~@/assets/img/报警排查暗.png") no-repeat center;
+        background-size: cover;
+      }
+      &.step09{
+        background:url("~@/assets/img/报警处置暗.png") no-repeat center;
+        background-size: cover;
+      }
+      &.step10{
+        background:url("~@/assets/img/报警解除暗.png") no-repeat center;
+        background-size: cover;
+      }
+
     }
   }
 }
