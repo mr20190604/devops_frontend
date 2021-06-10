@@ -3,6 +3,7 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
+  props:['pipeline'],
   data() {
     return {
       formVisible: false,
@@ -32,7 +33,9 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        pipelineCode: undefined
+        pipelineCode: undefined,
+        startPoint:undefined,
+        endPoint:undefined,
       },
       total: 0,
       list: [],
@@ -73,6 +76,9 @@ export default {
     },
     fetchData() {
       this.listLoading = true
+      this.listQuery.endPoint=this.pipeline.endPoint;
+      this.listQuery.startPoint=this.pipeline.startPoint;
+      console.log(this.pipeline)
       mmBasPipelineApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.$refs.pipelineTable.clearSelection();
@@ -258,6 +264,11 @@ export default {
     },
     saveLine(){
         let ids =this.selection.map(item=>{
+          /*this.selectLine.map(index=>{
+            if(index.pipelineCode==item.pipelineCode){
+
+            }
+          });*/
           this.selectLine.push(item);
         })
       this.$emit('setLineMessage',this.selectLine);

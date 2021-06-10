@@ -218,7 +218,7 @@ export default {
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
-        this.form = this.selRow
+        this.form = JSON.parse(JSON.stringify(this.selRow))
         this.formTitle = '编辑事故案例库'
         this.formVisible = true
 

@@ -260,9 +260,7 @@ export default {
     },
     editItem(record){
       this.selRow = record
-      //this.materialAdd = false
       this.edit()
-      // this.initEmerMaterialList(this.selRow.id)
     },
     edit() {
       if (this.checkSel()) {
@@ -277,7 +275,7 @@ export default {
           })
         }
 
-        this.form=this.selRow;
+        this.form=JSON.parse(JSON.stringify(this.selRow));
         this.form.details = details;
         this.formVisible = true
       }

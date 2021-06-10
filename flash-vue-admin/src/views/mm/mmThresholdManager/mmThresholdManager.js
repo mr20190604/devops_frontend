@@ -320,6 +320,13 @@ export default {
       this.selection = selection
     },
     examine(){
+      if (this.selection.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
       let flag=true
       console.log(this.selection);
       this.selection.map(item => {
@@ -336,13 +343,6 @@ export default {
         this.$refs.thresholdTable.clearSelection();
         return false
       }
-      if (this.selection.length === 0) {
-        this.$message({
-          message: this.$t('common.mustSelectOne'),
-          type: 'warning'
-        })
-        return false
-      }
       this.formTitle='阈值批量审核';
       this.thresholdList=this.selection;
       this.thresholdVisible=true;
@@ -350,7 +350,7 @@ export default {
     saveThreshold(){
       this.$refs['thresholdForm'].validate((valid) =>{
         if(valid){
-          this.selection.map(item => {
+          this.selection.map((item,index) => {
             item.auditOpinion=this.thresholdForm.auditOpinion;
             item.isAudit=this.thresholdForm.isAudit;
             console.log(item);
@@ -370,18 +370,19 @@ export default {
               isDel: item.isDel,
               isAudit:item.isAudit,
             }
-            mmThresholdManagerApi.update(formData);
+            mmThresholdManagerApi.update(formData).then(()=>{
+              if(index==this.selection.length-1){
+                this.$message({
+                  message: this.$t('common.optionSuccess'),
+                  type: 'success'
+                })
+                this.thresholdVisible = false
+                this.selection=[];
+                this.$refs.thresholdTable.clearSelection();
+                this.fetchData()
+              }
+            });
           })
-          this.$message({
-            message: this.$t('common.optionSuccess'),
-            type: 'success'
-          })
-
-          this.thresholdVisible = false
-          this.selection=[];
-          this.$refs.thresholdTable.clearSelection();
-          this.fetchData()
-          this.fetchData()
         }else {
           return false
         }

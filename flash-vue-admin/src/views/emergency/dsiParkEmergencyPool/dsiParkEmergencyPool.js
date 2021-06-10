@@ -320,7 +320,7 @@ export default {
         }).catch(() => {
         })
       }
-    },initMaterialList(id){
+    }, initMaterialList(id){
       this.materialLoading = true
       if (id) {
         dsiParkEmergency.listForPoolId(id).then(response =>{

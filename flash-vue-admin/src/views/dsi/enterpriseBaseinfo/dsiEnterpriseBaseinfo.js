@@ -251,8 +251,6 @@ export default {
               } else {
                 this.activeName = 'first';
               }
-              /* this.fetchData()
-               this.formVisible = false*/
             })
           }
 
@@ -280,16 +278,11 @@ export default {
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
-        this.form = this.selRow
+        this.form = JSON.parse(JSON.stringify(this.selRow));
         this.enterpriseId = this.form.id;
         this.formTitle = '编辑企业信息'
         this.activeName = "first"
         this.formVisible = true
-
-        if (this.$refs['form'] !== undefined) {
-          this.$refs['form'].resetFields()
-        }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
       }
     },
     removeItem(record) {

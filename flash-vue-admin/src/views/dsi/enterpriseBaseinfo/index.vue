@@ -127,7 +127,7 @@
 
         <el-table-column label="负责人联系方式" show-overflow-tooltip width="140">
           <template slot-scope="scope">
-            {{ scope.row.envSafeLeader }}
+            {{ scope.row.enterpriseOtel }}
           </template>
         </el-table-column>
 
@@ -162,9 +162,8 @@
       <el-dialog class="el-dialog-style common-dialog-style height700"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="960px"
-                 @close="closeDialog">
-          <template v-if="formVisible">
+                width="960px">
+          <template>
             <el-tabs  v-model="activeName" type="card" :before-leave="handleClick">
               <el-tab-pane label="企业信息" name="first" style="visibility: visible">
                 <div class="block">
@@ -271,13 +270,11 @@
                         <el-input v-model="form.enterpriseEmail" minlength=1></el-input>
                       </el-form-item>
                     </el-col>
-
                   </el-row>
                   <el-form-item class="dialog-button-list">
                     <el-button type="primary"  class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click="closeDialog" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
+                    <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                   </el-form-item>
-
                 </el-form>
                 </div>
               </el-tab-pane>

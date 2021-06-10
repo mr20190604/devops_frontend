@@ -1,7 +1,7 @@
 <template>
   <div class="app-container" style="height: 550px">
     <div class="block">
-      <el-form label-width="76px" class="align-right has-Label-Width" style="margin: 0px;padding: 10px">
+      <!--<el-form label-width="76px" class="align-right has-Label-Width" style="margin: 0px;padding: 10px">
         <el-row  class="hasmarginBottom" >
           <el-col :span="6">
             <el-form-item label="管线编号：">
@@ -15,7 +15,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-form>
+      </el-form>-->
     </div>
 
     <div class="table-list">
@@ -64,19 +64,7 @@
     </el-table>
     </div>
     <div class="align-center" style="height: 120px;position: relative">
-      <el-pagination
-        background
-        style="position: relative"
-        class="position-pagination"
-        layout="total, sizes, prev, pager, next, jumper"
-        :page-sizes="[10, 20, 50, 100,500]"
-        :page-size="listQuery.limit"
-        :total="total"
-        @size-change="changeSize"
-        @current-change="fetchPage"
-        @prev-click="fetchPrev"
-        @next-click="fetchNext">
-      </el-pagination>
+
       <el-button type="primary" class="set-common-btn blue-button" @click="saveLine" style="width: 100px">选择起点管线</el-button>
     </div>
   </div>

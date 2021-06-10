@@ -295,7 +295,7 @@ export default {
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
-        this.form = this.selRow
+        this.form = JSON.parse(JSON.stringify(this.selRow));
 
         var temp = null
         this.fileList = []
