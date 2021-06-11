@@ -147,54 +147,7 @@ export default {
       }
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
-    save() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          const formData = {
-            id:this.form.id,
-            pipelineCode:this.form.pipelineCode,
-            pipelineType:this.form.pipelineType,
-            startPoint:this.form.startPoint,
-            endPoint:this.form.endPoint,
-            startHeight:this.form.startHeight,
-            endHeight:this.form.endHeight,
-            startDeep:this.form.startDeep,
-            endDeep:this.form.endDeep,
-            materialType:this.form.materialType,
-            pipeDiameter:this.form.pipeDiameter,
-            pipeLength:this.form.pipeLength,
-            districtCode:this.form.districtCode,
-            roadId:this.form.roadId,
-            address:this.form.address,
-            longitude:this.form.longitude,
-            latitude:this.form.latitude,
-            systemFlag:this.form.systemFlag,
-            notes:this.form.notes,
-          }
-          if(formData.id){
-            mmBasPipelineApi.update(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              this.fetchData()
-              this.formVisible = false
-            })
-          }else{
-            mmBasPipelineApi.add(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              this.fetchData()
-              this.formVisible = false
-            })
-          }
-        } else {
-          return false
-        }
-      })
-    },
+
     checkSel() {
       if (this.selRow && this.selRow.id) {
         return true
@@ -251,6 +204,7 @@ export default {
       }
     },
     toggleSelection(row) {
+      this.$refs.pipelineTable.clearSelection();
       this.$refs.pipelineTable.toggleRowSelection(row)
     },
     handleSelectionChange(selection) {
@@ -261,6 +215,8 @@ export default {
           this.selectLine.push(item);
         })
       this.$emit('setLineMessage',this.selectLine);
+      this.selection=[];
+      this.$refs.pipelineTable.clearSelection();
         this.closePipeline();
     },
     closePipeline(){

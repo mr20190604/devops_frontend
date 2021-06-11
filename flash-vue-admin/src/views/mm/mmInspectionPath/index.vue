@@ -130,7 +130,7 @@
                     </el-col>
                   <el-col :span="12">
                     <el-form-item label="管线信息："  >
-                      <el-input type="textarea" v-model="this.lineMessage" minlength=1></el-input>
+                      <el-input type="textarea" v-model="this.lineMessage" minlength=1 readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -159,7 +159,7 @@
         :visible.sync="againVisible"
         width="960px">
 
-        <againInfo ref="pipeline" @closePipeline="closeAgain" @setLineMessage="setLineMessage" :pipeline="pipeline"></againInfo>
+        <againInfo ref="pipeline" @closePipeline="closeAgain" @setLineMessage="setLineMessage" :pipeline="pipeline" :selectedList="selectedList"></againInfo>
 
       </el-dialog>
     </div>

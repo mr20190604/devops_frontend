@@ -3,7 +3,7 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props:['pipeline'],
+  props:['pipeline','selectedList'],
   data() {
     return {
       formVisible: false,
@@ -70,6 +70,11 @@ export default {
   created() {
     this.init()
   },
+  watch:{
+    'pipeline':function () {
+      this.fetchData();
+    }
+  },
   methods: {
     init() {
       this.fetchData()
@@ -78,9 +83,15 @@ export default {
       this.listLoading = true
       this.listQuery.endPoint=this.pipeline.endPoint;
       this.listQuery.startPoint=this.pipeline.startPoint;
-      console.log(this.pipeline)
-      mmBasPipelineApi.getList(this.listQuery).then(response => {
-        this.list = response.data.records
+      mmBasPipelineApi.selectList(this.listQuery).then(response => {
+        response.data.map((item,index)=>{
+          this.selectedList.map(item1=>{
+            if(item.pipelineCode==item1.pipelineCode){
+              response.data.splice(index,1)
+            }
+          })
+        });
+        this.list = response.data;
         this.$refs.pipelineTable.clearSelection();
         this.listLoading = false
         this.total = response.data.total
@@ -257,6 +268,7 @@ export default {
       }
     },
     toggleSelection(row) {
+      this.$refs.pipelineTable.clearSelection();
       this.$refs.pipelineTable.toggleRowSelection(row)
     },
     handleSelectionChange(selection) {
@@ -264,14 +276,10 @@ export default {
     },
     saveLine(){
         let ids =this.selection.map(item=>{
-          /*this.selectLine.map(index=>{
-            if(index.pipelineCode==item.pipelineCode){
-
-            }
-          });*/
           this.selectLine.push(item);
         })
       this.$emit('setLineMessage',this.selectLine);
+        this.selection=[];
         this.closePipeline();
     },
     closePipeline(){

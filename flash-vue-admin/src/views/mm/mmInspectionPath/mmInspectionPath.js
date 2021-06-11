@@ -1,4 +1,5 @@
 import mmInspectionPathApi from '@/api/mm/mmInspectionPath'
+import mmPathRelationPepelineApi from '@/api/mm/mmPathRelationPepeline'
 import permission from '@/directive/permission/index.js'
 import pipelineInfo from '@/views/mm/mmInspectionPath/pipelineInfo/pipelineInfo.vue'
 import againInfo from '@/views/mm/mmInspectionPath/againInfo/pipelineInfo.vue'
@@ -38,6 +39,8 @@ export default {
       selection:[],
       lineMessage:'',
       pipeline:'',
+      selectedList:[],
+      receiveData:'',
     }
   },
   filters: {
@@ -157,12 +160,22 @@ export default {
                     this.formVisible = false
                 })
             }else{
-              console.log(formData.pathStatus);
+              console.log(this.selectedList);
                 mmInspectionPathApi.add(formData).then(response => {
+                  let pathId=response.data.id;
+                  this.selectedList.map(item=>{
+                    const  formData1={
+                      pathId:pathId,
+                      pipelineId:item.id,
+                    }
+                    mmPathRelationPepelineApi.add(formData1);
+                  });
+                  this.selectedList=[];
+                  this.lineMessage='';
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
-                    })
+                    });
                   this.selection=[];
                   this.$refs.lineTable.clearSelection();
                     this.fetchData()
@@ -230,8 +243,11 @@ export default {
       }
     },
     addLine(){
-      console.log(this.lineMessage)
+
+      console.log(this.selectedList)
       if(this.lineMessage){
+        this.pipeline=this.receiveData;
+        console.log(this.pipeline)
         this.againVisible=true;
       }else{
         this.pipelineVisible=true;
@@ -337,12 +353,16 @@ export default {
       this.againVisible=false;
     },
     setLineMessage(data){
-      data.map(item=>{
-        this.pipeline=item;
-        if(this.lineMessage==''){
-          this.lineMessage+=item.pipelineCode;
-        }else {
-          this.lineMessage=this.lineMessage+'→'+item.pipelineCode;
+      data.map((item,index)=>{
+        if(index==data.length-1){
+          this.receiveData=item;
+          this.selectedList.push(item);
+          if(this.lineMessage==''){
+            this.lineMessage+=item.pipelineCode;
+          }else {
+            this.lineMessage=this.lineMessage+'→'+item.pipelineCode;
+          }
+          console.log(this.selectedList)
         }
       })
     }

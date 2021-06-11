@@ -183,7 +183,7 @@ export default {
                     })
                   var riskId = response.data.id
                   console.log(self.form.details)
-                  for (var item in self.form.details) {
+                  for (let item in self.form.details) {
                     const formData1 = {
                       riskUnitId:riskId,
                       materialId:self.form.details[item].materialId,
