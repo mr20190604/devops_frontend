@@ -29,5 +29,11 @@ export default {
                 id: id
             }
         })
-    }
+    },
+  listPath:function() {
+    return request({
+      url: '/inspection/path/listPath',
+      method: 'get'
+    })
+  }
 }
