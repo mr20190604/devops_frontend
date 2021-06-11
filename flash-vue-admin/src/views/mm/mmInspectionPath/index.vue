@@ -130,7 +130,7 @@
                     </el-col>
                   <el-col :span="12">
                     <el-form-item label="管线信息："  >
-                      <el-input type="textarea" v-model="this.lineMessage" minlength=1 readonly="true"></el-input>
+                      <el-input type="textarea" v-model="this.lineMessage" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
