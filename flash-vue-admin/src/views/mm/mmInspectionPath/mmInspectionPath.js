@@ -30,7 +30,10 @@ export default {
         page: 1,
         limit: 20,
         id: undefined,
-
+        pathName:undefined,
+        createTime:undefined,
+        startTime:undefined,
+        endTime:undefined,
       },
       total: 0,
       list: [],
@@ -41,6 +44,7 @@ export default {
       pipeline:'',
       selectedList:[],
       receiveData:'',
+      people_list:[],
     }
   },
   filters: {
@@ -73,7 +77,12 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true
+      this.listLoading = true;
+      console.log(this.listQuery.createTime);
+      if(this.listQuery.createTime){
+        this.listQuery.startTime=this.listQuery.createTime[0];
+        this.listQuery.endTime=this.listQuery.createTime[1];
+      }
         mmInspectionPathApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
@@ -84,7 +93,11 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.id = '';
+      this.listQuery.pathStatus =undefined ;
+      this.listQuery.pathName=undefined;
+      this.listQuery.createTime='';
+      this.listQuery.startTime='';
+      this.listQuery.endTime='';
       this.fetchData()
     },
     handleFilter() {

@@ -5,23 +5,31 @@
             <el-row  class="hasmarginBottom">
               <el-col :span="6">
                 <el-form-item label="路线名称：">
-                  <el-input v-model="listQuery.pathName"  placeholder="请输入企业名称"></el-input>
+                  <el-input v-model="listQuery.pathName"  placeholder="请输入路线名称"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="路线状态：">
-                  <dict-select   v-model="listQuery.pathStatus" dict-name="状态" placeholder="请选择经营状态"/>
-                </el-form-item>
-              </el-col>
-              <!--<el-col :span="6">
-                <el-form-item label="创建时间：">
-                  <el-date-picker v-model="listQuery.createTime" class="date_picker"
-                                  value-format="yyyy-MM-dd" minlength=1></el-date-picker>
+                  <dict-select   v-model="listQuery.pathStatus" dict-name="状态" placeholder="请选择路线状态"/>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item label="创建时间：">
+                  <el-date-picker
+                    v-model="listQuery.createTime"
+                    size="mini"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                  >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <!--<el-col :span="12">
                 <el-form-item label="创建人：">
-                  <el-select v-model="listQuery.createBy"  placeholder="请输入所属企业">
+                  <el-select v-model="listQuery.createBy"  placeholder="请选择创建人">
                     <el-option
                       v-for="item in people_list"
                       :key="item.id"
@@ -31,7 +39,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>-->
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-form-item>
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                   <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>

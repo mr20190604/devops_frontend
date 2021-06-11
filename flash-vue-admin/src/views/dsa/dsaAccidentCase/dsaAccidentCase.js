@@ -77,7 +77,6 @@ export default {
     },
     fetchData() {
       this.listLoading = true;
-      console.log(this.listQuery.accidentTime);
       if(this.listQuery.accidentTime){
         this.listQuery.startTime=this.listQuery.accidentTime[0];
         this.listQuery.endTime=this.listQuery.accidentTime[1];
