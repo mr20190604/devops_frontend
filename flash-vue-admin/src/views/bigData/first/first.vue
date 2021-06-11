@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="block">
-     <el-form>
+     <el-form >
        <el-row>
          <el-col :span="6">
            <el-form-item label="时间：">
@@ -18,6 +18,7 @@
                 size="mini"
                 v-model="date"
                 type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 range-separator="至"
                 start-placeholder="选择开始日期"
                 end-placeholder="选自结束日期">

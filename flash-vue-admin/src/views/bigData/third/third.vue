@@ -2,7 +2,8 @@
   <div>
     <div class="block">
          <el-form>
-             <el-row class="hasmarginBottom">
+             <!--<el-row class="hasmarginBottom">-->
+           <el-row >
               <el-col :span="6">
                 <el-form-item label="时间：">
                   <el-radio-group v-model="tabPosition" @change="handleClick">
@@ -12,7 +13,7 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <!--<el-col :span="8">
                   <el-form-item label="指定时间：">
                       <el-date-picker
                         size="mini"
@@ -23,7 +24,7 @@
                         end-placeholder="选自结束日期">
                       </el-date-picker>
                   </el-form-item>
-              </el-col>
+              </el-col>-->
               <el-col :span="6">
                   <el-form-item label="设备类型：">
                     <el-select v-model="equipmentTypeVal" placeholder="请选择" @change="selectEquipment">
@@ -36,8 +37,24 @@
                     </el-select>  
                   </el-form-item>
                 </el-col>
+               <el-col :span="6">
+                 <el-form-item label="特征因子：">
+                   <el-select v-model="featuresFactorVal" placeholder="请选择" @change="selectMonitor" >
+                     <el-option
+                       v-for="item in featuresFactor"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+                     </el-option>
+                   </el-select>
+                 </el-form-item>
+               </el-col>
+               <el-col :span="6">
+                 <el-button type="primary" class="set-common-btn blue-button" @click.native="search">查询</el-button>
+                 <el-button class="set-common-btn blank-blue-button" @click.native="reset">重置</el-button>
+               </el-col>
             </el-row>
-            <el-row>
+           <!-- <el-row>
                <el-col :span="6">
                   <el-form-item label="特征因子：">
                     <el-select v-model="featuresFactorVal" placeholder="请选择" >
@@ -54,7 +71,7 @@
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">查询</el-button>
                   <el-button class="set-common-btn blank-blue-button" @click.native="reset">重置</el-button>
                 </el-col>
-            </el-row>
+            </el-row>-->
          </el-form>
     </div>
     <el-card >

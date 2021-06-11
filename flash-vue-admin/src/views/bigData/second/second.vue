@@ -12,7 +12,7 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-               <el-col :span="8">
+               <!--<el-col :span="8">
                   <el-form-item label="指定时间：">
                       <el-date-picker
                         size="mini"
@@ -23,7 +23,7 @@
                         end-placeholder="选自结束日期">
                       </el-date-picker>
                   </el-form-item>
-                </el-col>
+                </el-col>-->
                <el-col :span="6">
                   <el-form-item label="设备类型：">
                     <el-select v-model="value" placeholder="请选择" @change="selectEquipment">
