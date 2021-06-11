@@ -54,3 +54,23 @@ export function resetPassword(userId) {
     }
   })
 }
+
+export function queryChildSysList(userId) {
+  return request({
+    url:'/child/sys/model/queryChildSysList',
+    method:'get',
+    params: {
+      userId:userId
+    }
+  })
+  
+}
+
+export function addRelation(params) {
+  return request({
+    url:'/child/sys/model/addRelation',
+    method:'post',
+    data:params
+  })
+  
+}

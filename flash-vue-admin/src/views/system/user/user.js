@@ -1,4 +1,4 @@
-import { deleteUser, getList, saveUser, remove, setRole, changeStatus,resetPassword } from '@/api/system/user'
+import { deleteUser, getList, saveUser, remove, setRole, changeStatus,resetPassword,queryChildSysList,addRelation } from '@/api/system/user'
 import { list as deptList } from '@/api/system/dept'
 import { parseTime } from '@/utils/index'
 import { roleTreeListByIdUser } from '@/api/system/role'
@@ -72,7 +72,15 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      selRow: {}
+      selRow: {},
+      childSysVisiable:false,
+      childSysList:[],
+      checkIds:[],
+      defaultProps: {
+        id: 'id',
+        label: 'name',
+        children: 'children'
+      },
     }
   },
   filters: {
@@ -337,6 +345,32 @@ export default {
           type: 'success'
         })
       })
+    },setChildSys (record) {
+        queryChildSysList(record.id).then(response =>{
+          this.childSysList = response.data.list;
+          this.checkIds = response.data.checkIds;
+          this.childSysVisiable = true
+        })
+    },saveChildSys() {
+      let checkedNodes = this.$refs.childSysTree.getCheckedNodes(false,true);
+      if (checkedNodes) {
+        let ids = [];
+        checkedNodes.forEach(item=>{
+          ids.push(item.id)
+        })
+        const formData = {
+          tempId:this.selRow.id,
+          ids:ids
+        }
+        addRelation(formData).then(response => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          });
+        })
+      }
+
+      this.childSysVisiable = false
     }
 
   }

@@ -74,28 +74,28 @@
         </el-tree>
       </el-col>
       <el-col :span="20">
-        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading"  border fit highlight-current-row
     @current-change="handleCurrentChange">
 
-      <el-table-column label="账号" show-overflow-tooltip>
+      <el-table-column label="账号" show-overflow-tooltip width="150px">
         <template slot-scope="scope">
           {{scope.row.account}}
         </template>
       </el-table-column>
-      <el-table-column label="姓名" show-overflow-tooltip>
+      <el-table-column label="姓名" show-overflow-tooltip width="150px">
         <template slot-scope="scope">
           {{scope.row.name}}
         </template>
       </el-table-column>
 
 
-      <el-table-column label="部门" show-overflow-tooltip>
+      <el-table-column label="部门" show-overflow-tooltip width="100px">
         <template slot-scope="scope">
           {{scope.row.dept.simplename}}
         </template>
       </el-table-column>
 
-      <el-table-column label="电话" show-overflow-tooltip>
+      <el-table-column label="电话" show-overflow-tooltip width="120px">
         <template slot-scope="scope">
           {{scope.row.phone}}
         </template>
@@ -105,12 +105,12 @@
           {{scope.row.createTime}}
         </template>
       </el-table-column>
-      <el-table-column label="状态" show-overflow-tooltip>
+      <el-table-column label="状态" show-overflow-tooltip width="100px">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.status==1" @change="changeUserStatus(scope.row)"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="268" align="center">
+      <el-table-column label="操作" width="350px" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/mgr/edit']">
             {{$t('button.edit') }}
@@ -119,6 +119,7 @@
             {{$t('button.delete') }}
           </el-button>
           <el-button type="text" size="mini" icon="el-icon-s-operation" @click.native="openRoleItem(scope.row)" v-permission="['/mgr/setRole']">角色分配</el-button>
+          <el-button type="text" size="mini" icon="el-icon-s-operation" @click.native="setChildSys(scope.row)" v-permission="['/mgr/setChildSys']">系统分配</el-button>
         </template>
       </el-table-column>
 
@@ -234,6 +235,32 @@
           <el-button type="primary" @click="setRole">{{ $t('button.submit') }}</el-button>
         </el-form-item>
       </el-form>
+    </el-dialog>
+
+    <el-dialog
+      title="子系统分配"
+      :visible.sync="childSysVisiable"
+      width="25%"
+    >
+      <el-form>
+        <el-row>
+          <el-col :span="12">
+            <el-tree
+              :data="childSysList"
+              ref="childSysTree"
+              show-checkbox
+              node-key="id"
+              :default-checked-keys="checkIds"
+              :props="defaultProps">
+            </el-tree>
+
+          </el-col>
+        </el-row>
+        <el-form-item>
+          <el-button type="primary" @click="saveChildSys">{{ $t('button.submit') }}</el-button>
+        </el-form-item>
+      </el-form>
+
     </el-dialog>
   </div>
 </template>
