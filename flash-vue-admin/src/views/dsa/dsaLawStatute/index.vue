@@ -46,12 +46,12 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="公布日期：">
-              <el-date-picker v-model="listQuery.publicationDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择日期" />
+              <el-date-picker v-model="listQuery.publicationDate" type="daterange" size="mini" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择日期" />
             </el-form-item>
           </el-col>
-          <el-col :span="18">
+          <el-col :span="14">
             <el-form-item>
               <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
               </el-button>

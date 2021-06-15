@@ -67,7 +67,9 @@ export default {
         formulateOffice:undefined,
         lawNature:undefined,
         isValid:undefined,
-        publicationDate:undefined
+        publicationDate:[],
+        startTime:'',
+        endTime:''
       },
       total: 0,
       list: null,
@@ -114,6 +116,10 @@ export default {
       this.uploadHeaders['Authorization'] = getToken()
     },
     fetchData() {
+      if (this.listQuery.publicationDate.length > 0) {
+        this.listQuery.startTime = this.listQuery.publicationDate[0];
+        this.listQuery.endTime = this.listQuery.publicationDate[1]
+      }
       this.listLoading = true
         dsaLawStatuteApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
@@ -140,7 +146,10 @@ export default {
       this.listQuery.lawName = ''
       this.listQuery.lawNature = ''
       this.listQuery.isValid = ''
-      this.listQuery.publicationDate = ''
+      this.listQuery.publicationDate = []
+      this.listQuery.star = ''
+      this.listQuery.endTime = ''
+
       this.fetchData()
     },
     handleFilter() {
