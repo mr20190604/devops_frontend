@@ -25,6 +25,7 @@ export default {
         isDel:'',
         id: '',
         auditUser:'',
+        detail:'',
       },
       listQuery: {
         page: 1,
@@ -136,7 +137,8 @@ export default {
         pathStatus:'',
         notes:'',
         isDel:'',
-        id: ''
+        id: '',
+        detail: '',
       };
       this.lineMessage='';
     },
@@ -166,7 +168,7 @@ export default {
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
-                    })
+                    });
                   this.selection=[];
                   this.$refs.lineTable.clearSelection();
                     this.fetchData()
@@ -184,7 +186,7 @@ export default {
                     mmPathRelationPepelineApi.add(formData1);
                   });
                   this.selectedList=[];
-                  this.lineMessage='';
+                  this.form.detail='';
                     this.$message({
                         message: this.$t('common.optionSuccess'),
                         type: 'success'
@@ -217,7 +219,7 @@ export default {
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
-        this.form = this.selRow
+        this.form = JSON.parse(JSON.stringify(this.selRow));
         this.formTitle = '编辑巡检巡查_线路管理'
         this.formVisible = true
 
@@ -256,11 +258,9 @@ export default {
       }
     },
     addLine(){
-
-      console.log(this.selectedList)
-      if(this.lineMessage){
+      if(this.form.detail){
         this.pipeline=this.receiveData;
-        console.log(this.pipeline)
+        this.receiveData='';
         this.againVisible=true;
       }else{
         this.pipelineVisible=true;
@@ -367,17 +367,23 @@ export default {
     },
     setLineMessage(data){
       data.map((item,index)=>{
+        console.log(index);
+        console.log(data.length-1)
+        console.log(data)
         if(index==data.length-1){
           this.receiveData=item;
           this.selectedList.push(item);
-          if(this.lineMessage==''){
-            this.lineMessage+=item.pipelineCode;
+          if(this.form.detail==''){
+            this.form.detail+=item.pipelineCode;
           }else {
-            this.lineMessage=this.lineMessage+'→'+item.pipelineCode;
+            this.form.detail=this.form.detail+'→'+item.pipelineCode;
           }
-          console.log(this.selectedList)
         }
       })
+    },
+    closeDialog(){
+      this.formVisible=false;
+      this.selectedList=[];
     }
   }
 }

@@ -80,7 +80,8 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true
+      this.listLoading = true;
+      console.log(this.pipeline);
       this.listQuery.endPoint=this.pipeline.endPoint;
       this.listQuery.startPoint=this.pipeline.startPoint;
       mmBasPipelineApi.selectList(this.listQuery).then(response => {
@@ -275,9 +276,9 @@ export default {
       this.selection = selection
     },
     saveLine(){
-        let ids =this.selection.map(item=>{
+        this.selection.map(item=>{
           this.selectLine.push(item);
-        })
+        });
       this.$emit('setLineMessage',this.selectLine);
         this.selection=[];
         this.closePipeline();

@@ -95,7 +95,6 @@ export default {
       this.listLoading = true
       this.listQuery.enterpriseId=this.enterpriseId;
       dsiEnterpriseRiskUnitApi.addUnit(this.listQuery).then(response => {
-        console.log(response.data.records);
         this.list = response.data.records;
         this.listLoading = false;
         this.total = response.data.total
@@ -160,16 +159,10 @@ export default {
     },
     add() {
       this.resetForm();
-      this.formTitle = '添加风险单元',
-        this.formVisible = true
+      this.formTitle = '添加风险单元';
+        this.formVisible = true;
       this.addDetail();
-      //this.form=[];
-      this.isAdd = true
-      //this.materialAdd = true
-      /* if(this.$refs['form'] !== undefined) {
-         this.$refs['form'].resetFields()
-       }*/
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
+      this.isAdd = true;
     },
     save() {
       let self=this
@@ -200,10 +193,9 @@ export default {
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-                var riskId = formData.id
+                let riskId = formData.id
                 dsiEnterpriseRiskMaterial.removeByUnitId(formData.id);
-                console.log(this.form.details)
-                for (var item in this.form.details) {
+                for (let item in this.form.details) {
                   const formData1 = {
                     riskUnitId:riskId,
                     materialId:this.form.details[item].materialId,
@@ -222,8 +214,8 @@ export default {
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-                var riskId = response.data.id
-                for (var item in self.form.details) {
+                let riskId = response.data.id
+                for (let item in self.form.details) {
                   const formData1 = {
                     riskUnitId:riskId,
                     materialId:self.form.details[item].materialId,

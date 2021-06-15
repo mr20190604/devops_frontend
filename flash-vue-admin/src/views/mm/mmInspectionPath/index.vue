@@ -97,7 +97,7 @@
             </el-table-column>
           <el-table-column label="路线信息" width="500px">
             <template slot-scope="scope">
-              {{scope.row.isDel}}
+              {{scope.row.detail}}
             </template>
           </el-table-column>
             <el-table-column label="操作" width="300px">
@@ -138,7 +138,7 @@
                     </el-col>
                   <el-col :span="12">
                     <el-form-item label="管线信息："  >
-                      <el-input type="textarea" v-model="this.lineMessage" minlength=1 :readonly="true"></el-input>
+                      <el-input type="textarea" v-model="form.detail" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -149,7 +149,7 @@
                 </el-row>
                 <el-form-item id="myself">
                     <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                    <el-button @click="closeDialog()">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>
