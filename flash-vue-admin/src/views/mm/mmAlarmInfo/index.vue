@@ -191,7 +191,7 @@
             <!--</el-table-column>-->
             <el-table-column label="操作" width="220px" align="center">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini" icon="el-icon-paperclip" @click="openProcess(scope.row)">流程</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-paperclip" @click="openProcess(scope.row)">流程</el-button>
                   <el-button type="text" icon="el-icon-s-marketing"  size="mini" @click="openCurve(scope.row)">监测曲线</el-button>
                   <el-button type="text" icon="el-icon-location-outline"  size="mini">定位</el-button>
                 </template>

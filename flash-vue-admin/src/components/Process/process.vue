@@ -13,7 +13,6 @@
 
 
     <div style="overflow-y: auto;height: 500px">
-
       <el-card >
         <div slot="header" class="clearfix">
           <span>监测报警</span>
@@ -208,10 +207,6 @@
         </div>
       </el-card>
     </div>
-
-
-
-
     <div>
       <el-dialog :title="fileTitle" :visible.sync="fileVisible" :modal-append-to-body="false" width="50%">
         <file-preview :files="files"  :download-file-url="downloadUrl">
