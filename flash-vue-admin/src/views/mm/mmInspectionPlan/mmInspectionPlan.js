@@ -1,11 +1,19 @@
 import mmInspectionPlanApi from '@/api/mm/mmInspectionPlan'
 import mmInspectionPathApi from '@/api/mm/mmInspectionPath'
 import permission from '@/directive/permission/index.js'
+import lineList from '@/views/mm/mmInspectionPlan/lineList/index.vue'
+import equipmentList from '@/views/mm/mmInspectionPlan/equipmentList/index.vue'
 
 export default {
   directives: {permission},
+  components: {
+    lineList,
+    equipmentList
+  },
+
   data() {
     return {
+      pathId:'',
       tableDisplay: 0,
       searchTime: '',
       formVisible: false,
@@ -67,7 +75,6 @@ export default {
       },
       total: 0,
       list: null,
-      listLoading: true,
       selRow: {}
     }
   },
@@ -307,10 +314,8 @@ export default {
         })
       }
     },
-    test(event, item) {
-      alert("aaaaaaaaaa");
-      console.log(event);
-      console.log(item);
+    changePath(event, item) {
+      this.pathId = event;
     }
 
   },

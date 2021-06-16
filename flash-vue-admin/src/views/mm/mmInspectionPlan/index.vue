@@ -196,13 +196,13 @@
     <!--弹出框-->
     <el-dialog
       :title="formTitle"
-      :visible.sync="formVisible"
+      :visible.sync="formVisible" :modal-append-to-body="false"
       width="70%">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="线路">
-              <el-select v-model="form.pathId" placeholder="请选择">
+              <el-select v-model="form.pathId" placeholder="请选择" @change="changePath(form.pathId)">
                 <el-option
                   v-for="item in pathList"
                   :key="item.id"
@@ -252,35 +252,10 @@
         </el-row>
         <el-row >
           <el-col>
-            <el-table v-if="tableDisplay === 1" :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                      @current-change="handleCurrentChange">
-              <el-table-column label="管线编号">
-                <template slot-scope="scope">
-                  {{scope.row.inspectType}}
-                </template>
-              </el-table-column>
-              <el-table-column label="管径">
-                <template slot-scope="scope">
-                  {{scope.row.inspectType}}
-                </template>
-              </el-table-column>
-              <el-table-column label="管长">
-                <template slot-scope="scope">
-                  {{scope.row.startTime}}
-                </template>
-              </el-table-column>
-              <el-table-column label="管线类型">
-                <template slot-scope="scope">
-                  {{scope.row.endTime}}
-                </template>
-              </el-table-column>
-              <el-table-column label="操作">
-                <template slot-scope="scope">
-                  <el-button type="text" size="mini" >定位</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-button v-if="tableDisplay === 2">设备信息</el-button>
+            <lineList v-if="tableDisplay === 1" :pathId="pathId"></lineList>
+          </el-col>
+          <el-col>
+            <equipmentList v-if="tableDisplay === 2" :pathId="pathId"></equipmentList>
           </el-col>
         </el-row>
         <el-row>

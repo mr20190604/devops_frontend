@@ -37,5 +37,12 @@ export default {
       method: 'get'
     })
   },
+  listEquipByPath: function (params) {
+    return request({
+      url: '/inspection/plan/listEquipByPath',
+      method: 'get',
+      params
+    })
+  },
 
 }

@@ -305,7 +305,7 @@ export default {
     },
     editItem(record) {
       this.selRow = record;
-      this.installInfo = record.equipmentInstallInfos[0];
+      this.installInfo = record.equipmentInstallInfos;
       this.activeName = 'first';
       this.edit()
     },
