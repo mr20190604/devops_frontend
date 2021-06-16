@@ -30,7 +30,8 @@ export default {
         troubleTypeName:'',
         troubleSourceName:'',
         troubleLevelName:'',
-        reportUser:''
+        reportUser:'',
+        auditTime:'',
       },
       listQuery: {
         troubleType:undefined,
