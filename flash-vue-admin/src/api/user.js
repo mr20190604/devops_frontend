@@ -6,9 +6,9 @@ export function login(data) {
     url: '/account/login',
     method: 'post',
     data: qs.stringify({
-         'username': data.username,
-         'password': data.password
-       })
+      'username': data.username,
+      'password': data.password
+    })
   })
 }
 

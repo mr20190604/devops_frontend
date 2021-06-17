@@ -32,7 +32,7 @@ Vue.component('enterprise', Enterprise)
 import Preview from './components/Preview/preview.vue'
 Vue.component('preview', Preview)
 import FilePreview from './components/FilePreview/FilePreview.vue'
-Vue.component("file-preview",FilePreview)
+Vue.component('file-preview', FilePreview)
 
 /**
  * 全局引用第三方组件
@@ -51,10 +51,14 @@ Vue.use(VueParticles)
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
+// 设置时间格式化方法
+import dateFormat from './utils/dateFormat'
+Vue.prototype.dateFormat = dateFormat
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { i18n: (key, value) => i18n.t(key, value) })
 Vue.component('v-chart', ECharts)
+Vue.prototype.$echarts = ECharts
 Vue.config.productionTip = false
 
 new Vue({

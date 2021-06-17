@@ -8,7 +8,8 @@ const state = {
   name: '',
   avatar: '',
   permissions: null,
-  roles: []
+  roles: [],
+  childSys: []
 }
 
 const mutations = {
@@ -29,6 +30,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_CHILDSYS: (state, childSys) => {
+    state.childSys = childSys
   }
 }
 
@@ -57,12 +61,13 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        const { name, profile, permissions, roles } = data
+        const { name, profile, permissions, roles, childSys } = data
         commit('SET_NAME', name)
         commit('SET_AVATAR', profile.avatar)
         commit('SET_PROFILE', profile)
         commit('SET_ROLES', roles)
         commit('SET_PERMISSIONS', permissions)
+        commit('SET_CHILDSYS', childSys)
         resolve(data)
       }).catch(error => {
         console.log('user', error)

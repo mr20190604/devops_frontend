@@ -32,7 +32,8 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path: '/login',
+    path: '/',
+    alias: '/login',
     name: 'login',
     meta: {
       title: 'login'
@@ -41,24 +42,26 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/screen',
-    component: () => import('@/views/screen/index'),
-    name: '大屏'
-  },
-  {
     path: '/platform',
     component: () => import('@/views/platform/index'),
-    name: '大屏'
+    name: '系统选择',
+    hidden: true
+  },
+  {
+    path: '/screen',
+    component: () => import('@/views/screen/index'),
+    name: '园区大屏',
+    hidden: true
+  },
+  {
+    path: '/gasScreen',
+    component: () => import('@/views/gasScreen'),
+    name: '燃气大屏'
   },
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
-  },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/platform'
   },
   {
     path: '/account',

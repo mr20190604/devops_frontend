@@ -1,61 +1,61 @@
 <template>
   <div class="app-container">
 
- <div class="table-list">
+    <div class="table-list">
 
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      :row-key="row=>row.id"
-      @current-change="handleCurrentChange"
-      @selection-change="handleSelectionChange"
-      @row-click="toggleSelection"
-      ref="productTable"
-    >
+      <el-table
+        ref="productTable"
+        v-loading="listLoading"
+        :data="list"
+        element-loading-text="Loading"
+        border
+        :row-key="row=>row.id"
+        @current-change="handleCurrentChange"
+        @selection-change="handleSelectionChange"
+        @row-click="toggleSelection"
+      >
 
-      <el-table-column
-        type="index"
-        width="50"
-        label="序号"
-        align="center"
-      />
-      <!-- <el-table-column label="产品编码">
+        <el-table-column
+          type="index"
+          width="50"
+          label="序号"
+          align="center"
+        />
+        <!-- <el-table-column label="产品编码">
         <template slot-scope="scope">
           {{ scope.row.productCode }}
         </template>
       </el-table-column>-->
-      <el-table-column label="产品名称" show-overflow-tooltip width="200px" align="center">
-        <template slot-scope="scope">
-          <span class="updateText" @click="viewProduct(scope.row)">{{ scope.row.productName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="产品型号" show-overflow-tooltip width="180px" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.productModel }}
-        </template>
-      </el-table-column>
-      <el-table-column label="易燃易爆" show-overflow-tooltip align="center">
-        <template slot-scope="scope">
-          {{ scope.row.isInflammableExplosiveName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="腐蚀性" show-overflow-tooltip align="center">
-        <template slot-scope="scope">
-          {{ scope.row.isCorrosiveName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="毒性" show-overflow-tooltip align="center">
-        <template slot-scope="scope">
-          {{ scope.row.isPoisonHarmName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="放射性" show-overflow-tooltip align="center">
-        <template slot-scope="scope">
-          {{ scope.row.isRadioactivityName }}
-        </template>
-      </el-table-column>
+        <el-table-column label="产品名称" show-overflow-tooltip width="200px" align="center">
+          <template slot-scope="scope">
+            <span class="updateText" @click="viewProduct(scope.row)">{{ scope.row.productName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="产品型号" show-overflow-tooltip width="180px" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.productModel }}
+          </template>
+        </el-table-column>
+        <el-table-column label="易燃易爆" show-overflow-tooltip align="center">
+          <template slot-scope="scope">
+            {{ scope.row.isInflammableExplosiveName }}
+          </template>
+        </el-table-column>
+        <el-table-column label="腐蚀性" show-overflow-tooltip align="center">
+          <template slot-scope="scope">
+            {{ scope.row.isCorrosiveName }}
+          </template>
+        </el-table-column>
+        <el-table-column label="毒性" show-overflow-tooltip align="center">
+          <template slot-scope="scope">
+            {{ scope.row.isPoisonHarmName }}
+          </template>
+        </el-table-column>
+        <el-table-column label="放射性" show-overflow-tooltip align="center">
+          <template slot-scope="scope">
+            {{ scope.row.isRadioactivityName }}
+          </template>
+        </el-table-column>
       <!--<el-table-column label="形状类型">
         <template slot-scope="scope">
           {{ scope.row.formName }}
@@ -66,7 +66,7 @@
           {{ scope.row.enterpriseName }}
         </template>
       </el-table-column>-->
-     <!-- <el-table-column label="操作" align="center" width="350px">
+        <!-- <el-table-column label="操作" align="center" width="350px">
         <template slot-scope="scope">
           <el-button
             class="font14"
@@ -106,23 +106,22 @@
           </el-button>
         </template>
       </el-table-column>-->
-    </el-table>
-  </div>
-<div>
-  <el-pagination
-    background
-    layout="total, sizes, prev, pager, next, jumper"
-    :page-sizes="[10, 20, 50, 100,500]"
-    :page-size="listQuery.limit"
-    :total="total"
-    @size-change="changeSize"
-    @current-change="fetchPage"
-    @prev-click="fetchPrev"
-    @next-click="fetchNext"
-  />
+      </el-table>
+    </div>
+    <div>
+      <el-pagination
+        background
+        layout="total, sizes, prev, pager, next, jumper"
+        :page-sizes="[10, 20, 50, 100,500]"
+        :page-size="listQuery.limit"
+        :total="total"
+        @size-change="changeSize"
+        @current-change="fetchPage"
+        @prev-click="fetchPrev"
+        @next-click="fetchNext"
+      />
 
-</div>
-
+    </div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
@@ -149,44 +148,44 @@
                   v-for="item in judge_list"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
-                </el-option>
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="腐蚀性：">
-              <el-select v-model="form.isCorrosive" >
+              <el-select v-model="form.isCorrosive">
                 <el-option
                   v-for="item in judge_list"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
-                </el-option>
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="毒性：">
-              <el-select v-model="form.isPoisonHarm" >
+              <el-select v-model="form.isPoisonHarm">
                 <el-option
                   v-for="item in judge_list"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
-                </el-option>
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="放射性：">
-              <el-select v-model="form.isRadioactivity"  >
+              <el-select v-model="form.isRadioactivity">
                 <el-option
                   v-for="item in judge_list"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
-                </el-option>
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -228,115 +227,115 @@
           <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="请选择是否" />
         </el-form-item>
         <el-form-item style="float: right;margin-right: 100px">
-          <el-button type="primary"  icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
+          <el-button type="primary" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}
           </el-button>
-          <el-button  icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
+          <el-button icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}
           </el-button>
         </el-form-item>
 
-      <el-row style="margin-left: 30px">
-        <el-col :span="24">
-          <el-button
-            v-permission="['/material/baseinfo/add']"
-            type="success"
-            size="mini"
-            icon="el-icon-plus"
-            @click.native="addMaterial"
-          >添加新原料
-          </el-button>
-        </el-col>
-      </el-row>
-<br>
-    <el-table
-      v-loading="listLoading"
-      :data="materialList"
-      element-loading-text="Loading"
-      border
-      fit
-      :row-key="row=>row.id"
-      highlight-current-row
-      @current-change="handleCurrentChange"
-      @selection-change="handleSelectionChange"
-      @row-click="toggleSelection1"
-      ref="materialTable"
-    >
-      <el-table-column
-        type="selection"
-        width="55"
-        :reserve-selection="true"
-      />
-      <el-table-column
-        type="index"
-        width="50"
-        label="序号"
-      />
-      <el-table-column label="原料编码">
-        <template slot-scope="scope">
-          {{ scope.row.materialCode }}
-        </template>
-      </el-table-column>
-      <el-table-column label="化学名称">
-        <template slot-scope="scope">
-          {{ scope.row.chemistryName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="英文名称">
-        <template slot-scope="scope">
-          {{ scope.row.englishName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="中文别名">
-        <template slot-scope="scope">
-          {{ scope.row.shortName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="原料类别">
-        <template slot-scope="scope">
-          {{ scope.row.materialTypeName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="理化性质">
-        <template slot-scope="scope">
-          {{ scope.row.physicochemicalProperties }}
-        </template>
-      </el-table-column>
-      <el-table-column label="健康危害">
-        <template slot-scope="scope">
-          {{ scope.row.healthHazards }}
-        </template>
-      </el-table-column>
-      <el-table-column label="危险特性">
-        <template slot-scope="scope">
-          {{ scope.row.dangerousCharacteristic }}
-        </template>
-      </el-table-column>
-      <el-table-column label="CAS编号">
-        <template slot-scope="scope">
-          {{ scope.row.casCode }}
-        </template>
-      </el-table-column>
-      <el-table-column label="是否危化品">
-        <template slot-scope="scope">
-          {{ scope.row.isDangerName }}
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-row style="margin-left: 30px">
+          <el-col :span="24">
+            <el-button
+              v-permission="['/material/baseinfo/add']"
+              type="success"
+              size="mini"
+              icon="el-icon-plus"
+              @click.native="addMaterial"
+            >添加新原料
+            </el-button>
+          </el-col>
+        </el-row>
+        <br>
+        <el-table
+          v-loading="listLoading"
+          ref="materialTable"
+          :data="materialList"
+          element-loading-text="Loading"
+          border
+          fit
+          :row-key="row=>row.id"
+          highlight-current-row
+          @current-change="handleCurrentChange"
+          @selection-change="handleSelectionChange"
+          @row-click="toggleSelection1"
+        >
+          <el-table-column
+            type="selection"
+            width="55"
+            :reserve-selection="true"
+          />
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          />
+          <el-table-column label="原料编码">
+            <template slot-scope="scope">
+              {{ scope.row.materialCode }}
+            </template>
+          </el-table-column>
+          <el-table-column label="化学名称">
+            <template slot-scope="scope">
+              {{ scope.row.chemistryName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="英文名称">
+            <template slot-scope="scope">
+              {{ scope.row.englishName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="中文别名">
+            <template slot-scope="scope">
+              {{ scope.row.shortName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="原料类别">
+            <template slot-scope="scope">
+              {{ scope.row.materialTypeName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="理化性质">
+            <template slot-scope="scope">
+              {{ scope.row.physicochemicalProperties }}
+            </template>
+          </el-table-column>
+          <el-table-column label="健康危害">
+            <template slot-scope="scope">
+              {{ scope.row.healthHazards }}
+            </template>
+          </el-table-column>
+          <el-table-column label="危险特性">
+            <template slot-scope="scope">
+              {{ scope.row.dangerousCharacteristic }}
+            </template>
+          </el-table-column>
+          <el-table-column label="CAS编号">
+            <template slot-scope="scope">
+              {{ scope.row.casCode }}
+            </template>
+          </el-table-column>
+          <el-table-column label="是否危化品">
+            <template slot-scope="scope">
+              {{ scope.row.isDangerName }}
+            </template>
+          </el-table-column>
+        </el-table>
         <div style="position:absolute;bottom: 30px;width: 100%">
-      <el-pagination
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :page-sizes="[5,10, 20, 50, 100,500]"
-        :page-size="listQuery.limit"
-        :total="total"
-        @size-change="changeSize"
-        @current-change="fetchPage"
-        @prev-click="fetchPrev"
-        @next-click="fetchNext"
-      />
-      <div style="text-align: center">
-        <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
-        <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
-      </div>
+          <el-pagination
+            background
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-sizes="[5,10, 20, 50, 100,500]"
+            :page-size="listQuery.limit"
+            :total="total"
+            @size-change="changeSize"
+            @current-change="fetchPage"
+            @prev-click="fetchPrev"
+            @next-click="fetchNext"
+          />
+          <div style="text-align: center">
+            <el-button type="primary" @click="saveProduct">{{ $t('button.submit') }}</el-button>
+            <el-button @click.native="materialVisible = false">{{ $t('button.cancel') }}</el-button>
+          </div>
         </div>
       </el-form>
     </el-dialog>
@@ -399,7 +398,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div style="text-align: center" >
+        <div style="text-align: center">
           <el-button type="primary" @click="saveMaterial">{{ $t('button.submit') }}</el-button>
           <el-button @click.native="addVisible = false">{{ $t('button.cancel') }}</el-button>
         </div>
@@ -407,7 +406,7 @@
       </el-form>
     </el-dialog>
     <el-dialog
-    class="common-dialog-style height700"
+      class="common-dialog-style height700"
       :title="'已添加原料'"
       :visible.sync="productVisible"
       :modal="false"
@@ -433,81 +432,80 @@
         </el-row>
       </el-form>-->
 
-        <div class="table-list">
-      <el-table
-        v-loading="listLoading"
-        :data="selectedList"
-        element-loading-text="Loading"
-        border
-        fit
-        highlight-current-row
-        @current-change="handleCurrentChange"
+      <div class="table-list">
+        <el-table
+          v-loading="listLoading"
+          :data="selectedList"
+          element-loading-text="Loading"
+          border
+          fit
+          highlight-current-row
+          @current-change="handleCurrentChange"
+        >
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          />
+          <el-table-column label="原料编码">
+            <template slot-scope="scope">
+              {{ scope.row.materialCode }}
+            </template>
+          </el-table-column>
+          <el-table-column label="化学名称">
+            <template slot-scope="scope">
+              {{ scope.row.chemistryName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="英文名称">
+            <template slot-scope="scope">
+              {{ scope.row.englishName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="中文别名">
+            <template slot-scope="scope">
+              {{ scope.row.shortName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="原料类别">
+            <template slot-scope="scope">
+              {{ scope.row.materialTypeName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="理化性质">
+            <template slot-scope="scope">
+              {{ scope.row.physicochemicalProperties }}
+            </template>
+          </el-table-column>
+          <el-table-column label="健康危害">
+            <template slot-scope="scope">
+              {{ scope.row.healthHazards }}
+            </template>
+          </el-table-column>
+          <el-table-column label="危险特性">
+            <template slot-scope="scope">
+              {{ scope.row.dangerousCharacteristic }}
+            </template>
+          </el-table-column>
+          <el-table-column label="CAS编号">
+            <template slot-scope="scope">
+              {{ scope.row.casCode }}
+            </template>
+          </el-table-column>
+          <el-table-column label="是否危化品">
+            <template slot-scope="scope">
+              {{ scope.row.isDangerName }}
+            </template>
+          </el-table-column>
 
-      >
-        <el-table-column
-          type="index"
-          width="50"
-          label="序号"
-        />
-        <el-table-column label="原料编码">
-          <template slot-scope="scope">
-            {{ scope.row.materialCode }}
-          </template>
-        </el-table-column>
-        <el-table-column label="化学名称">
-          <template slot-scope="scope">
-            {{ scope.row.chemistryName }}
-          </template>
-        </el-table-column>
-        <el-table-column label="英文名称">
-          <template slot-scope="scope">
-            {{ scope.row.englishName }}
-          </template>
-        </el-table-column>
-        <el-table-column label="中文别名">
-          <template slot-scope="scope">
-            {{ scope.row.shortName }}
-          </template>
-        </el-table-column>
-        <el-table-column label="原料类别">
-          <template slot-scope="scope">
-            {{ scope.row.materialTypeName }}
-          </template>
-        </el-table-column>
-        <el-table-column label="理化性质">
-          <template slot-scope="scope">
-            {{ scope.row.physicochemicalProperties }}
-          </template>
-        </el-table-column>
-        <el-table-column label="健康危害">
-          <template slot-scope="scope">
-            {{ scope.row.healthHazards }}
-          </template>
-        </el-table-column>
-        <el-table-column label="危险特性">
-          <template slot-scope="scope">
-            {{ scope.row.dangerousCharacteristic }}
-          </template>
-        </el-table-column>
-        <el-table-column label="CAS编号">
-          <template slot-scope="scope">
-            {{ scope.row.casCode }}
-          </template>
-        </el-table-column>
-        <el-table-column label="是否危化品">
-          <template slot-scope="scope">
-            {{ scope.row.isDangerName }}
-          </template>
-        </el-table-column>
+        </el-table>
 
-      </el-table>
-
-        </div>
-        <div class="align-center">
+      </div>
+      <div class="align-center">
 
         <el-button type="danger" class="set-common-btn blue-button" @click.native="productVisible = false">返回</el-button>
 
-        </div>
+      </div>
 
     </el-dialog>
   </div>

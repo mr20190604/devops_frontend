@@ -8,7 +8,7 @@
         <img src="../../assets/img/太阳.png" alt="太阳">
         <span class="weather">{{ weather }}</span>
         <span class="temperature">{{ temperature }}℃</span>
-        <el-link href="/#/platform" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>
+        <el-link href="/#/enterpriseBaseinfo" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>
       </p>
     </div>
     <div class="content">
@@ -72,7 +72,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -115,24 +114,7 @@ export default {
     }, 1000)
   },
   methods: {
-    dateFormat: function(fmt, date) {
-      let ret
-      const opt = {
-        'Y+': date.getFullYear().toString(), // 年
-        'm+': (date.getMonth() + 1).toString(), // 月
-        'd+': date.getDate().toString(), // 日
-        'H+': date.getHours().toString(), // 时
-        'M+': date.getMinutes().toString(), // 分
-        'S+': date.getSeconds().toString() // 秒
-      }
-      for (const k in opt) {
-        ret = new RegExp('(' + k + ')').exec(fmt)
-        if (ret) {
-          fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')))
-        }
-      }
-      return fmt
-    }
+
   }
 }
 </script>

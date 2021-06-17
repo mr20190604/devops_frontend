@@ -166,7 +166,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
   $default-height: 26px;
   $mini-height: 26px;

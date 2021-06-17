@@ -15,7 +15,6 @@ export function traverseRoutes(menus) {
       const name = menu.component
 	    menu.component = (resolve) => require([`@/${name}`], resolve)
     }
-
     if (menu.children && menu.children.length) {
       menu.children = traverseRoutes(menu.children)
     }

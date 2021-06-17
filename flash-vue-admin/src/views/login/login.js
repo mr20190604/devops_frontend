@@ -1,7 +1,7 @@
-
 import { isvalidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import { getAccount, setAccount, getPwd, setPwd, removeAccount, removePwd } from '@/utils/auth'
+
 const Base64 = require('js-base64').Base64
 export default {
   name: 'login',
@@ -33,7 +33,7 @@ export default {
       },
       loading: false,
       pwdType: 'password',
-      redirect: '/screen'
+      redirect: '/platform'
     }
   },
   mounted() {
@@ -48,7 +48,6 @@ export default {
   methods: {
     init() {
       const redirect = this.$route.query.redirect
-      console.log('redirect', redirect)
       if (redirect) {
         this.redirect = redirect
       }
@@ -73,8 +72,17 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.loading = false
-            console.log(this.redirect)
-            this.$router.push({ path: this.redirect })
+            const childSysList = this.$store.state.user.childSys
+            if (childSysList.length === 0) {
+              this.$message({
+                message: '暂未分配子系统,请联系管理员',
+                type: 'warning'
+              })
+            } else if (childSysList.length === 1) {
+              this.$router.push({ path: childSysList[0].mmChildSysModel.sysUrl })
+            } else {
+              this.$router.push({ path: this.redirect })
+            }
           }).catch(() => {
             this.loading = false
           })
