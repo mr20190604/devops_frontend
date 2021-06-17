@@ -5,7 +5,6 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-import i18n from '@/lang'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -13,7 +12,8 @@ const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
-  NProgress.start() 
+  NProgress.start()
+
   // set page title
   document.title = getPageTitle(to.name)
 
@@ -31,10 +31,6 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else {
         try {
-          // get user info
-          store.dispatch('user/getInfo')
-          const accessRoutes = await store.dispatch('menu/getSideMenus')
-          router.addRoutes(accessRoutes)
           next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login

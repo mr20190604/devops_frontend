@@ -1,6 +1,7 @@
 import { isvalidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import { getAccount, setAccount, getPwd, setPwd, removeAccount, removePwd } from '@/utils/auth'
+import router from '../../router'
 
 const Base64 = require('js-base64').Base64
 export default {
@@ -71,18 +72,26 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.loading = false
-            const childSysList = this.$store.state.user.childSys
-            if (childSysList.length === 0) {
-              this.$message({
-                message: '暂未分配子系统,请联系管理员',
-                type: 'warning'
+            this.$store.dispatch('user/getInfo').then(data => {
+
+              console.log(data)
+
+              this.$store.dispatch('menu/getSideMenus').then(accessRoutes => {
+                router.addRoutes(accessRoutes)
               })
-            } else if (childSysList.length === 1) {
-              this.$router.push({ path: childSysList[0].mmChildSysModel.sysUrl })
-            } else {
-              this.$router.push({ path: this.redirect })
-            }
+              this.loading = false
+              const childSysList = this.$store.state.user.childSys
+              if (childSysList.length === 0) {
+                this.$message({
+                  message: '暂未分配子系统,请联系管理员',
+                  type: 'warning'
+                })
+              } else if (childSysList.length === 1) {
+                this.$router.push({ path: childSysList[0].mmChildSysModel.sysUrl })
+              } else {
+                this.$router.push({ path: this.redirect })
+              }
+            })
           }).catch(() => {
             this.loading = false
           })

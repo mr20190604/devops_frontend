@@ -45,7 +45,6 @@ const actions = {
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
-
         resolve()
       }).catch(error => {
         reject(error)
@@ -76,7 +75,6 @@ const actions = {
           path: '/login',
           query: { redirect: router.currentRoute.path }
         })
-        // reject(error)
       })
     })
   },
