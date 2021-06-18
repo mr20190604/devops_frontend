@@ -43,7 +43,7 @@ export const constantRoutes = [
   },
   {
     path: '/platform',
-    component: () => import('@/views/platform/index'),
+    component: () => import('@/views/platform/index.svg'),
     name: '系统选择',
     hidden: true
   },

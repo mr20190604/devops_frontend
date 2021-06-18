@@ -6,18 +6,32 @@
     >
       <path
         id="outline"
-        :d="innerD1"
         fill="none"
         stroke="#34fff8"
         stroke-width="1"
-      />
+      >
+        <animate
+          attributeName="d"
+          repeatCount="indefinite"
+          :keyTimes="keyTimes"
+          :values="target.map(item=>item.d1).join(';')"
+          :dur="dur"
+        />
+      </path>
       <path
         id="inline"
-        :d="innerD2"
         fill="none"
         stroke="#34fff8"
         stroke-width="1"
-      />
+      >
+        <animate
+          attributeName="d"
+          repeatCount="indefinite"
+          :keyTimes="keyTimes"
+          :values="target.map(item=> item.d2).join(';')"
+          :dur="dur"
+        />
+      </path>
       <circle
         cx="154"
         cy="224"
@@ -35,14 +49,14 @@
         fill-opacity="0.2"
       />
       <image
-        :xlink:href="innerSrc"
+        :xlink:href="src"
         x="129"
         y="199"
         height="50"
         width="50"
       />
-      <text x="150" y="345" fill="#34fff8" font-size="24" style="dominant-baseline:middle;text-anchor:middle;">{{
-        innerName }}
+      <text x="150" y="345" fill="#34fff8" font-size="24" style="dominant-baseline:middle;text-anchor:middle;">{{ name
+      }}
       </text>
     </svg>
   </transition>
@@ -64,74 +78,62 @@ export default {
       type: String,
       default: ''
     },
-    d1: {
-      type: String,
-      default: ''
-    },
-    d2: {
-      type: String,
-      default: ''
+    index: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
-      innerName: undefined,
-      innerSrc: undefined,
-      innerD1: undefined,
-      innerD2: undefined,
-      innerUrl: undefined
-    }
-  },
-  watch: {
-    name: function(value) {
-      this.innerName = value
-    },
-    src: function(value) {
-      this.innerSrc = value
-    },
-    d1: function(value) {
-      this.innerD1 = value
-    },
-    d2: function(value) {
-      this.innerD2 = value
-    },
-    url: function(value) {
-      this.innerUrl = value
+      source: [
+        {
+          d1: 'M 0,-30 Q 154,8 308,20 L 308,490 Q 154,500 0,540 Z',
+          d2: 'M 10,-20 Q 154,20 298,30 L 298,480 Q 154,490 10,530 Z'
+        },
+        {
+          d1: 'M 0,25 Q 154,38 308,38 L 308,470 Q 154,475 0,485 Z',
+          d2: 'M 10,35 Q 154,48 298,48 L 298,460 Q 154,465 10,475 Z'
+        },
+        {
+          d1: 'M 0,40 Q 154,45 308,38 L 308,470 Q 154,465 0,470 Z',
+          d2: 'M 10,50 Q 154,55 298,48 L 298,460 Q 154,455 10,460 Z'
+        },
+        {
+          d1: 'M 0,40 Q 154,35 308,20 L 308,485 Q 154,475 0,470 Z',
+          d2: 'M 10,50 Q 154,45 298,30 L 298,475 Q 154,465 10,460 Z'
+        },
+        {
+          d1: 'M 0,20 Q 154,10 308,-30 L 308,540 Q 154,500 0,490 Z',
+          d2: 'M 10,30 Q 154,20 298,-20 L 298,530 Q 154,490 10,480 Z'
+        }
+      ],
+      target: [],
+      keyTimes: '',
+      dur: '40s'
     }
   },
   created() {
-    this.innerName = this.name
-    this.innerSrc = this.src
-    this.innerD1 = this.d1
-    this.innerD2 = this.d2
-    this.innerUrl = this.url
+    const temp = [0]
+    for (let i = 0; i < 10; i++) {
+      temp.push(temp[temp.length - 1] + (1.0 / 10))
+    }
+    this.keyTimes = temp.join(';')
+    const copy = JSON.parse(JSON.stringify(this.source))
+    this.source = this.source.concat(copy).reverse()
+    this.target = this.source.filter((item, index) => index >= this.source.length - 1 - this.index)
+      .concat(this.source.filter((item, index) => index < this.source.length - 1 - this.index))
+      .concat(this.source.find((item, index) => index === this.source.length - 1 - this.index))
   },
   methods: {
     handleClick: function() {
-      console.log(!!this.innerUrl)
-      this.innerUrl && this.$router.push(this.innerUrl)
+      this.url && this.$router.push(this.url)
     }
   }
 }
 </script>
 
 <style scoped>
-
   svg {
     cursor: pointer;
   }
-
-  @keyframes loading {
-    from {
-      padding-left: 500px;
-    }
-    to {
-      padding-left: 0;
-    }
-  }
-
-  .v-enter-active {
-    animation: loading 3s;
-  }
-
 </style>
