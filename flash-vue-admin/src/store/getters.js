@@ -6,6 +6,6 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   roles: state => state.user.roles,
-  language:state=>state.app.language
+  language: state => state.app.language
 }
 export default getters

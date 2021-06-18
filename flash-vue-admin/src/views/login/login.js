@@ -34,7 +34,6 @@ export default {
       },
       loading: false,
       pwdType: 'password',
-      redirect: '/platform'
     }
   },
   mounted() {
@@ -72,25 +71,22 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$store.dispatch('user/getInfo').then(data => {
-
-              console.log(data)
-
+            this.$store.dispatch('user/getInfo').then(() => {
               this.$store.dispatch('menu/getSideMenus').then(accessRoutes => {
                 router.addRoutes(accessRoutes)
+                this.loading = false
+                const childSysList = this.$store.state.user.childSys
+                if (childSysList.length === 0) {
+                  this.$message({
+                    message: '暂未分配子系统,请联系管理员',
+                    type: 'warning'
+                  })
+                } else if (childSysList.length === 1) {
+                  this.$router.push({ path: childSysList[0].mmChildSysModel.sysUrl })
+                } else {
+                  this.$router.push({ path: '/platform' })
+                }
               })
-              this.loading = false
-              const childSysList = this.$store.state.user.childSys
-              if (childSysList.length === 0) {
-                this.$message({
-                  message: '暂未分配子系统,请联系管理员',
-                  type: 'warning'
-                })
-              } else if (childSysList.length === 1) {
-                this.$router.push({ path: childSysList[0].mmChildSysModel.sysUrl })
-              } else {
-                this.$router.push({ path: this.redirect })
-              }
             })
           }).catch(() => {
             this.loading = false
