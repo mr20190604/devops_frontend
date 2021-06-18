@@ -3,7 +3,7 @@
 
     <!--列表-->
     <div class="table-list">
-      <div class="btnLists">
+      <div class="btnLists" v-if="isAdd">
         <el-button
           class="set-common-btn blue-button"
           type="success"
@@ -13,7 +13,7 @@
       <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
         <el-table-column label="设施设备名称">
           <template slot-scope="scope">
-            {{scope.row.pipeline.pipelineCode}}
+            {{scope.row.equipment.equipmentName}}
           </template>
         </el-table-column>
         <el-table-column label="位置">
@@ -28,14 +28,12 @@
         </el-table-column>
         <el-table-column label="设备类型">
           <template slot-scope="scope">
-            <!--{{scope.row.pipeline.pipelineType}}-->
-            {{ '燃气' }}
+            {{scope.row.equipment.equipmentTypeName}}
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="mini" >定位</el-button>
-            <el-button type="text" size="mini" >删除</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -18,7 +18,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="审核状态:">
-              <el-select v-model="listQuery.auditStatus" clearable  placeholder="请选择">
+              <el-select v-model="listQuery.auditStatus" clearable placeholder="请选择">
                 <el-option
                   v-for="item in auditStatusList"
                   :key="item.value"
@@ -42,7 +42,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="逾期状态:">
-              <el-select v-model="listQuery.isOverdue" clearable  placeholder="请选择">
+              <el-select v-model="listQuery.isOverdue" clearable placeholder="请选择">
                 <el-option
                   v-for="item in overdueList"
                   :key="item.value"
@@ -54,7 +54,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="巡检状态:">
-              <el-select v-model="listQuery.handleStatus" clearable  placeholder="请选择">
+              <el-select v-model="listQuery.handleStatus" clearable placeholder="请选择">
                 <el-option
                   v-for="item in handleStatusList"
                   :key="item.value"
@@ -158,7 +158,7 @@
             <span v-if="scope.row.handleStatus === 3">已完成</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" width="280px">
           <template slot-scope="scope">
             <el-button
               v-permission="['/bas/build/update']"
@@ -168,6 +168,32 @@
               v-if="scope.row.auditStatus !== 3"
               @click.native="editItem(scope.row)"
             >{{ $t('button.edit') }}
+            </el-button>
+            <el-button
+              v-permission="['/bas/build/update']"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              v-if="scope.row.auditStatus !== 3"
+              @click.native="audit(scope.row)"
+            >审核
+            </el-button>
+            <el-button
+              v-permission="['/bas/build/update']"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              @click.native="showPlan(scope.row)"
+            >查看
+            </el-button>
+            <el-button
+              v-permission="['/bas/build/update']"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              v-if="scope.row.auditStatus === 3"
+              @click.native="showHandle(scope.row)"
+            >处置记录
             </el-button>
             <el-button
               v-permission="['/bas/build/delete']"
@@ -194,7 +220,7 @@
       </el-pagination>
     </div>
     <!--弹出框-->
-    <el-dialog
+    <el-dialog @close="cancel"
       :title="formTitle"
       :visible.sync="formVisible" :modal-append-to-body="false"
       width="70%">
@@ -202,7 +228,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="线路">
-              <el-select v-model="form.pathId" placeholder="请选择" @change="changePath(form.pathId)">
+              <el-select v-model="form.pathId" placeholder="请选择" @change="changePath(form.pathId)" v-bind:disabled="readonly">
                 <el-option
                   v-for="item in pathList"
                   :key="item.id"
@@ -214,7 +240,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="巡查负责人">
-              <el-select v-model="form.personIdList" multiple  placeholder="请选择">
+              <el-select v-model="form.personIdList" multiple placeholder="请选择" v-bind:disabled="readonly">
                 <el-option
                   v-for="item in inspectionPersonList"
                   :key="item.id"
@@ -227,12 +253,13 @@
 
           <el-col :span="12">
             <el-form-item label="巡检形式">
-              <dict-select v-model="form.inspectForm" dict-name="巡检形式"></dict-select>
+              <dict-select v-model="form.inspectForm" dict-name="巡检形式" v-bind:disabled="readonly"></dict-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="计划开始日期">
               <el-date-picker
+                v-bind:disabled="readonly"
                 v-model="searchTime"
                 type="datetimerange"
                 range-separator="至"
@@ -246,30 +273,69 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="巡检类型">
-              <dict-select v-model="form.inspectType" dict-name="巡检类型" ></dict-select>
+              <dict-select v-model="form.inspectType" dict-name="巡检类型" v-bind:disabled="readonly"></dict-select>
             </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row >
-          <el-col>
-            <lineList v-if="tableDisplay === 1" :pathId="pathId"></lineList>
-          </el-col>
-          <el-col>
-            <equipmentList v-if="tableDisplay === 2" :pathId="pathId"></equipmentList>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="备注">
-              <el-input v-model="form.notes" minlength=1></el-input>
+          <el-col>
+            <lineList v-if="tableDisplay === 1" :pathId="pathId" ></lineList>
+          </el-col>
+          <el-col>
+            <equipmentList v-if="tableDisplay === 2" :pathId="pathId" :isAdd="isAdd"
+                           :planId="planId" @getEquipList="getEquipList" ></equipmentList>
+          </el-col>
+        </el-row>
+        <el-row v-if="fileDisplay">
+          <el-col :span="16">
+            <el-form-item label="选择文件：">
+              <el-upload v-bind:disabled="readonly"
+                :action="uploadUrl"
+                :headers="uploadHeaders"
+                :on-change="handleChangeUpload"
+                :on-success="uploadSuccess"
+                :accept="fileAccept"
+                :on-remove="removeFile"
+                :file-list="fileList"
+                :multiple="multiple"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" >总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{fileAccept}}</span></div>
+              </el-upload>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item id="myself">
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="备注">
+              <el-input v-model="form.notes" minlength=1 v-bind:disabled="readonly"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="auditResultDisplay">
+          <el-col :span="12">
+            <el-form-item label="审核结论">
+              <el-select v-model="form.auditStatus" placeholder="请选择">
+                <el-option
+                  v-for="item in auditResultList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item >
+          <el-button type="primary" @click="save" v-if="btnDisplay">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" @click="cancel">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
       </el-form>
+    </el-dialog>
+
+    <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false">
+      <handleRecord v-if="handleDisplay" :planId="planId" :inspectionType="inspectionType"></handleRecord>
     </el-dialog>
   </div>
 </template>

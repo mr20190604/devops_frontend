@@ -50,7 +50,7 @@
         />
         <el-table-column label="设施设备名称">
           <template slot-scope="scope">
-            {{scope.row.pipeline.pipelineCode}}
+            {{scope.row.equipment.equipmentName}}
           </template>
         </el-table-column>
         <el-table-column label="位置">
@@ -65,7 +65,7 @@
         </el-table-column>
         <el-table-column label="设备类型">
           <template slot-scope="scope">
-            {{ '燃气' }}
+            {{scope.row.equipment.equipmentTypeName}}
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -77,7 +77,7 @@
       <el-pagination
         background
         layout="total, sizes, prev, pager, next, jumper"
-        :page-sizes="[10, 20, 50, 100,500]"
+        :page-sizes="[2,5]"
         :page-size="listQuery.limit"
         :total="total"
         @size-change="changeSize"

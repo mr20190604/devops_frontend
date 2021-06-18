@@ -1,21 +1,40 @@
 import mmInspectionPlanApi from '@/api/mm/mmInspectionPlan'
 import mmInspectionPathApi from '@/api/mm/mmInspectionPath'
+import mmInspectionPlanFileApi from '@/api/mm/mmInspectionPlanFile'
 import permission from '@/directive/permission/index.js'
 import lineList from '@/views/mm/mmInspectionPlan/lineList/index.vue'
 import equipmentList from '@/views/mm/mmInspectionPlan/equipmentList/index.vue'
+import handleRecord from '@/views/mm/mmInspectionPlan/handleRecord/index.vue'
+import fileDelete from '@/api/mm/genEvent/genEvent'
+import { getApiUrl, getPreviewUrl} from '@/utils/utils'
+import { getToken } from '@/utils/auth'
 
 export default {
   directives: {permission},
   components: {
     lineList,
-    equipmentList
+    equipmentList,
+    handleRecord,
   },
 
   data() {
     return {
+      fileDisplay:true,
+      uploadUrl:'',
+      uploadHeaders: {
+        'Authorization': ''
+      },
+      multiple:true,
+      fileAccept:'.jpg,.png,.jpeg,.gif,.bmp,.doc,.docx,.pdf',
+      inspectionType:'',
+      handleDisplay:false,
+      btnDisplay:true,
+      planId:'',
+      readonly:false,
+      auditResultDisplay:false,
       pathId:'',
       tableDisplay: 0,
-      searchTime: '',
+      searchTime: [],
       formVisible: false,
       formTitle: '添加巡检巡查_巡检计划表',
       isAdd: true,
@@ -47,14 +66,22 @@ export default {
         value: 3,
         label: '已完成'
       }],
+      auditResultList: [{
+        value: 3,
+        label: '通过'
+      }, {
+        value: 2,
+        label: '不通过'
+      }],
       pathList: [],
+      fileList:[],
       form: {
         pathId: '',
         inspectType: '',
         inspectForm: '',
         startTime: '',
         endTime: '',
-        auditStatus: 1,
+        auditStatus: '',
         auditPerson: '',
         auditTime: '',
         planPerson: '',
@@ -63,7 +90,9 @@ export default {
         id: '',
         handleStatus:1,
         isOverdue:1,
-        personIdList:''
+        personIdList:[],
+        equipIdList:[],
+        auditResult:'',
       },
       listQuery: {
         page: 1,
@@ -89,7 +118,6 @@ export default {
     }
   },
   computed: {
-
     //表单验证
     rules() {
       return {
@@ -101,6 +129,8 @@ export default {
     }
   },
   created() {
+    this.uploadUrl = getApiUrl() + '/file';
+    this.uploadHeaders['Authorization'] = getToken();
     this.init()
   },
   methods: {
@@ -121,7 +151,7 @@ export default {
             if('' === name){
               name = personList[j].user.name;
             }else {
-              name += ',' + name;
+              name += ',' + personList[j].user.name;
             }
           }
           selfList[i].personNames = name;
@@ -130,7 +160,6 @@ export default {
         this.listLoading = false;
         this.total = response.data.total
       });
-
       mmInspectionPathApi.listPath().then(response => {
         this.pathList = response.data;
       });
@@ -183,7 +212,6 @@ export default {
       this.selRow = currentRow
     },
     resetForm() {
-      this.searchTime = '';
       this.form = {
         pathId: '',
         inspectType: '',
@@ -197,13 +225,21 @@ export default {
         notes: '',
         isDel: '',
         id: '',
-        personIdList:'',
-      }
+        personIdList:[],
+        equipIdList:[],
+        auditResult:'',
+      };
+      this.searchTime = [];
+      this.auditResultDisplay = false;
+      this.readonly = false;
+      this.fetchData();
     },
     add() {
+      this.btnDisplay = true;
       this.formTitle = '添加巡检巡查_巡检计划表';
       this.formVisible = true;
       this.isAdd = true;
+      this.fileList = [];
 
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
@@ -211,8 +247,11 @@ export default {
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
     save() {
+      this.readonly = true;
+
       this.form.startTime = this.searchTime[0];
       this.form.endTime = this.searchTime[1];
+      this.form.isOverdue = 1;
 
       this.$refs['form'].validate((valid) => {
         if (valid) {
@@ -230,7 +269,9 @@ export default {
             isDel: this.form.isDel,
             handleStatus:this.form.handleStatus,
             isOverdue:this.form.isOverdue,
-            personIdList:this.form.personIdList
+            personIdList:this.form.personIdList,
+            equipIdList:this.form.equipIdList,
+            auditResult:this.form.auditResult,
           };
           if (formData.id) {
             mmInspectionPlanApi.update(formData).then(response => {
@@ -238,6 +279,16 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               });
+              for (let i = 0; i < this.fileList.length ; i++) {
+                if(this.fileList[i].response) {
+                  let fileId = this.fileList[i].response.data.id;
+                  const tempData = {
+                    planId:formData.id,
+                    fileId:fileId,
+                  };
+                  mmInspectionPlanFileApi.add(tempData).then()
+                }
+              }
               this.fetchData();
               this.formVisible = false
             })
@@ -247,6 +298,14 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               });
+              for (let i = 0; i < this.fileList.length ; i++) {
+                const tempData = {
+                  planId:response.data.id,
+                  fileId:this.fileList[i].response.data.id,
+                  orderNum:i+1
+                };
+                mmInspectionPlanFileApi.add(tempData).then()
+              }
               this.fetchData();
               this.formVisible = false
             })
@@ -271,12 +330,41 @@ export default {
     },
     editItem(record) {
       this.selRow = record;
+      this.planId = record.id;
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
         this.isAdd = false;
         this.form = this.selRow;
+
+        let temp = null;
+        this.fileList = [];
+
+        mmInspectionPlanFileApi.listPlanFile(this.form.id).then(response=>{
+          temp = response.data;
+          if(temp) {
+            temp.forEach(item =>{
+              if(item.fileInfo) {
+                this.fileList.push({
+                  "url":"",
+                  "name":item.fileInfo.originalFileName,
+                  "id":item.fileId,
+                  "status":"success",
+                })
+              }
+            })
+          }
+        });
+
+        this.searchTime.push(this.selRow.startTime);
+        this.searchTime.push(this.selRow.endTime);
+        let ids = [];
+        let list = this.selRow.personList;
+        list.forEach(item =>{
+          ids.push(item.personId);
+        });
+        this.form.personIdList = ids;
         this.formTitle = '编辑巡检巡查_巡检计划表';
         this.formVisible = true;
 
@@ -285,6 +373,43 @@ export default {
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
       }
+    },
+    audit(record){
+      this.btnDisplay = true;
+      this.readonly = true;
+      this.auditResultDisplay = true;
+      this.selRow = record;
+      if (this.checkSel()) {
+        this.isAdd = false;
+        this.form = this.selRow;
+
+        this.form.auditStatus = '';
+        this.searchTime.push(this.selRow.startTime);
+        this.searchTime.push(this.selRow.endTime);
+        let ids = [];
+        let list = this.selRow.personList;
+        list.forEach(item =>{
+          ids.push(item.personId);
+        });
+        this.form.personIdList = ids;
+        this.formTitle = '编辑巡检巡查_巡检计划表';
+        this.formVisible = true;
+
+        if (this.$refs['form'] !== undefined) {
+          this.$refs['form'].resetFields()
+        }
+      }
+    },
+    showPlan(record){
+      this.readonly = true;
+      this.auditResultDisplay = false;
+      this.btnDisplay = false;
+      this.editItem(record);
+    },
+    showHandle(record){
+      this.handleDisplay = true;
+      this.planId = record.id;
+      this.inspectionType = record.inspectType;
     },
     removeItem(record) {
       this.selRow = record;
@@ -316,6 +441,48 @@ export default {
     },
     changePath(event, item) {
       this.pathId = event;
+    },
+    getEquipList(data){
+      let list = [];
+      data.forEach(item =>{
+        list.push(item.id);
+      });
+      this.form.equipIdList = list;
+    },
+    handleChangeUpload(file,fileList){
+      this.fileList = fileList.slice(-10)
+    },
+    uploadSuccess(response) {
+
+    },
+    removeFile(file){
+      let arr = [];
+      const param = {
+        idFile:null
+      };
+      if (file.response) {
+        param.idFile = file.response.data.id
+      } else {
+        param.idFile = file.id
+      }
+      this.fileList.forEach(item =>{
+        if(item.response && file.response) {
+          if(item.response.data.id != file.response.data.id) {
+            arr.push((item))
+          }
+        } else if(item.id != file.id) {
+          arr.push(item)
+        }
+      });
+      this.fileList = arr;
+      this.removeFileItem(param)
+    },
+    removeFileItem(param) {
+      fileDelete.deleteFile(param).then()
+    },
+    cancel(){
+      this.resetForm();
+      this.btnDisplay = true;
     }
 
   },

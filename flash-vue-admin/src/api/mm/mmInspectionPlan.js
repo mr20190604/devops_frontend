@@ -44,5 +44,12 @@ export default {
       params
     })
   },
+  listInspectionEquip: function (params) {
+    return request({
+      url: '/inspection/plan/listInspectionEquip',
+      method: 'get',
+      params
+    })
+  },
 
 }

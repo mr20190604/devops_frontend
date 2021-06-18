@@ -1,9 +1,10 @@
 import permission from '@/directive/permission/index.js'
 import equipList from '@/views/mm/mmInspectionPlan/equipmentList/equipList/index.vue'
+import mmInspectionPlanApi from '@/api/mm/mmInspectionPlan'
 
 export default {
   directives: {permission},
-  props:['pathId'],
+  props:['pathId','isAdd','planId'],
   components: {
     equipList
   },
@@ -15,7 +16,8 @@ export default {
       pageSize:5,// 每页条数
       total: 0,
       list: [],
-      equipList:[]
+      equipList:[],
+      inspectionEquipmentList:[]
     }
   },
   filters: {
@@ -41,6 +43,12 @@ export default {
     }
   },
   created() {
+    if(!this.isAdd){
+      mmInspectionPlanApi.listInspectionEquip({'id':this.planId}).then(response => {
+        this.equipList = response.data;
+        this.fetchData();
+      });
+    }
     this.routeId = this.pathId;
     this.init()
   },
@@ -49,6 +57,7 @@ export default {
       this.fetchData()
     },
     fetchData() {
+
       this.listLoading = true;
       this.list = this.equipList;
       this.listLoading = false;
@@ -70,6 +79,7 @@ export default {
       this.equipList = this.unique(tmpList);
       this.total = this.equipList.length;
       this.fetchPage(1);
+      this.$emit('getEquipList',this.equipList);
     },
     //去重对象数组
     unique(arr) {

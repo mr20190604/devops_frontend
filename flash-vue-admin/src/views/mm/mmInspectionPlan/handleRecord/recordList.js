@@ -1,21 +1,20 @@
-import mmInspectionPlanApi from '@/api/mm/mmInspectionPlan'
 import permission from '@/directive/permission/index.js'
+import handleRecordApi from '@/api/mm/mmInspectionHandleRecord'
 
 export default {
   directives: {permission},
-  props:['routeId'],
+  props:['planId','inspectionType'],
   data() {
     return {
-      selection:[],
+      equipDisplay:false,
+      lineDisplay:false,
+      list:null,
       listQuery: {
         page: 1,
-        limit: 5,
-        id: undefined,
-        equipType:undefined,
-        equipName:undefined,
+        limit: 20,
+        planId: undefined,
       },
-      total: 0,
-      list: null,
+      total:0,
     }
   },
   filters: {
@@ -41,24 +40,21 @@ export default {
     }
   },
   created() {
-    this.listQuery.id = this.routeId;
+    if(this.inspectionType === 260){
+      this.lineDisplay = true;
+    }else{
+      this.equipDisplay = true;
+    }
+    this.listQuery.planId = this.planId;
     this.init()
   },
   methods: {
     init() {
       this.fetchData()
     },
-    search() {
-      this.fetchData()
-    },
-    reset() {
-      this.listQuery.equipType = '';
-      this.listQuery.equipName = '';
-      this.fetchData()
-    },
     fetchData() {
       this.listLoading = true;
-      mmInspectionPlanApi.listEquipByPath(this.listQuery).then(response => {
+      handleRecordApi.getList(this.listQuery).then(response => {
         this.list = response.data.records;
         this.listLoading = false;
         this.total = response.data.total
@@ -91,12 +87,17 @@ export default {
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
     },
-    handleSelectionChange(selection) {
-      this.selection = selection
-    },
-    submitEquip(){
-      this.$emit('getEquipList',this.selection);
 
-    }
-  }
+    checkSel() {
+      if (this.selRow && this.selRow.id) {
+        return true
+      }
+      this.$message({
+        message: this.$t('common.mustSelectOne'),
+        type: 'warning'
+      });
+      return false
+    },
+
+  },
 }
