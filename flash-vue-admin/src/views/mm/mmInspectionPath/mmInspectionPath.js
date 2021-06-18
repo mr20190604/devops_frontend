@@ -367,9 +367,6 @@ export default {
     },
     setLineMessage(data){
       data.map((item,index)=>{
-        console.log(index);
-        console.log(data.length-1)
-        console.log(data)
         if(index==data.length-1){
           this.receiveData=item;
           this.selectedList.push(item);

@@ -353,7 +353,6 @@ export default {
           this.selection.map((item,index) => {
             item.auditOpinion=this.thresholdForm.auditOpinion;
             item.isAudit=this.thresholdForm.isAudit;
-            console.log(item);
             const formData = {
               id: item.id,
               equipmentId: item.equipmentId,

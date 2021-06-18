@@ -55,7 +55,7 @@ export default {
 
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selRow: {},
       selection: [],

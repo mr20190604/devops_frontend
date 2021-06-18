@@ -730,7 +730,6 @@ export default {
         }
       })
       this.acceptPerson = data
-
     },
     //监测曲线
     openCurve(record) {
