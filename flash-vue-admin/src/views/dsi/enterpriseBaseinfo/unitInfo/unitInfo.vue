@@ -12,6 +12,7 @@
       </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               :row-key="row=>row.id"
+              height="331"
               @selection-change="handleSelectionChange"
               @current-change="handleCurrentChange"
               ref="unitTable" @row-click="toggleSelection">
@@ -129,13 +130,13 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="22">
+            <el-col>
               <el-form-item >
-                <el-button @click="addDetail" class="set-common-btn blank-blue-button width92" style="float: right;margin-right: 24px">新增风险物质</el-button>
+                <el-button @click="addDetail" class="set-common-btn blank-blue-button width92" style="float: right;">新增风险物质</el-button>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row style="border:1px solid #f3f5fb;padding-top:15px">
 
              <el-scrollbar style="height:310px">
           <el-form-item
@@ -148,33 +149,34 @@
             :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
           >
          
-            <el-col :span="6">
+            <el-col :span="7">
               <el-form-item label="风险物质">
                 <el-input class="el-input-style" v-model="rec.materialId"  minlength=1 @input="onInput()" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
               <el-form-item label="现存量" >
                 <el-input class="el-input-style" v-model="rec.currentStock"  @input="onInput()" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
               <el-form-item label="临界量" >
                 <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">&nbsp;
-              <el-button @click.prevent="removeDetail(rec)" type="danger" class="set-common-btn blank-blue-button">{{ $t('button.delete') }}
-              </el-button>
+            <el-col :span="2">
+              <i class="el-icon-remove-outline operate-icon" @click.prevent="removeDetail(rec)"/>
+              <!-- <el-button @click.prevent="removeDetail(rec)" type="danger" class="set-common-btn blank-blue-button">{{ $t('button.delete') }}
+              </el-button> -->
             </el-col>
           </el-form-item>
 </el-scrollbar>
           </el-row>
           <el-row>
-            <el-form-item  class="align-center">
+            <el-form-item  class="align-center" style="margin-top:10px">
               <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
 
-              <el-button @click.native="formVisible = false" class="set-common-btn blue-button">{{ $t('button.cancel') }}</el-button>
+              <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
             </el-form-item>
            </el-row>
         </el-form>
@@ -189,6 +191,12 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .common-dialog-style{
+    .operate-icon{
+      height: 28px;
+      line-height: 28px;
+      font-size: 20px;
+      color: #1a80ff;
+    }
    >>> .el-dialog{
        min-height: 642px;
     }

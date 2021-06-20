@@ -3,20 +3,20 @@
 
     <!--查询条件-->
     <div class="block">
-      <el-form label-width="76px" :inline="true">
+      <el-form label-width="80px" :inline="true" class="align-right has-Label-Width"  style="width:900px">
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="设备类型:">
+          <el-col :span="9">
+            <el-form-item label="设备类型：">
               <dict-select v-model="listQuery.equipType" dict-name="设备类型"  placeholder="请选择"></dict-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="设备名称:">
+          <el-col :span="9">
+            <el-form-item label="设备名称：">
               <el-input v-model="listQuery.equipName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item>
+          <el-col :span="6">
+            <el-form-item align="right">
               <el-button
                 type="primary"
                 class="set-common-btn blue-button"
@@ -48,27 +48,27 @@
           width="55"
           label="序号"
         />
-        <el-table-column label="设施设备名称">
+        <el-table-column label="设施设备名称" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.equipment.equipmentName}}
           </template>
         </el-table-column>
-        <el-table-column label="位置">
+        <el-table-column label="位置" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.installLocation}}
           </template>
         </el-table-column>
-        <el-table-column label="所属管线">
+        <el-table-column label="所属管线" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.pipeline.pipelineCode}}
           </template>
         </el-table-column>
-        <el-table-column label="设备类型">
+        <el-table-column label="设备类型" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.equipment.equipmentTypeName}}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="mini" >定位</el-button>
           </template>
@@ -76,6 +76,7 @@
       </el-table>
       <el-pagination
         background
+        class="outer-pagenation"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[2,5]"
         :page-size="listQuery.limit"
@@ -86,9 +87,9 @@
         @next-click="fetchNext">
       </el-pagination>
     </div>
-
-    <el-button type="primary" @click="submitEquip">{{ $t('button.submit') }}</el-button>
-
+    <div style="text-align:center">
+    <el-button type="primary" class="set-common-btn blue-button"   @click="submitEquip">{{ $t('button.submit') }}</el-button>
+</div>
   </div>
 </template>
 

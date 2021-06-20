@@ -3,25 +3,25 @@
         <div class="block">
           <el-form label-width="76px" :inline="true">
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="设施编码：">
                   <el-input v-model="listQuery.equipCode"  placeholder="请输入编号"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
 
                 <el-form-item label="报警等级：">
                   <dict-select v-model="listQuery.alarmLevel" dict-name="报警等级" placeholder="--请选择--"></dict-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="监测类型：">
                  <dict-select dict-name="设备类型" v-model="listQuery.monitorType"></dict-select>
                 </el-form-item>
               </el-col>
 
 
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="排查状态：">
                 <dict-select  dict-name="排查状态" v-model="listQuery.screenStatus"></dict-select>
                 </el-form-item>
@@ -30,7 +30,7 @@
             </el-row>
 
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="处置状态：">
                   <el-select v-model="listQuery.isFeedBack"  placeholder="--请选择--">
                     <el-option
@@ -43,7 +43,7 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="解除状态：">
                   <el-select v-model="listQuery.isRelieve"  placeholder="--请选择--">
                     <el-option
@@ -57,7 +57,7 @@
 
               </el-col>
 
-              <el-col :span="10">
+              <el-col :span="14">
                 <el-form-item label="报警时间：">
                   <el-date-picker
                     v-model="listQuery.searchTime"
@@ -73,7 +73,7 @@
               </el-col>
         </el-row>
         <el-row>
-                <el-col>
+                <el-col :span="23">
                   <el-form-item>
                     <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                     <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
@@ -208,9 +208,10 @@
       <!--报警处置弹窗-->
       <el-dialog
         :title="disposeTitle"
+        class="el-dialog-style common-dialog-style"
         :visible.sync="disposeVisible"
-        width="60%">
-        <div id="disposeDiv" v-show="vShow">
+        width="960px">
+        <div id="disposeDiv" v-show="vShow" class="block">
           <el-form ref="disposeForm" :model="disposeForm" :rules="rules" label-width="120px">
             <el-row>
               <el-col :span="12">
@@ -254,53 +255,56 @@
 
           </el-form>
         </div>
+        <div class="table-list marginT15">
+          <el-table :data="disposeList" v-loading="disposeLoading" element-loading-text="Loading" max-height="200px" border fit>
+            <el-table-column label="处置时间" show-overflow-tooltip>
+              <template slot-scope="scope">
+                {{scope.row.createTime}}
+              </template>
+            </el-table-column>
 
-        <el-table :data="disposeList" v-loading="disposeLoading" element-loading-text="Loading" max-height="200px" border fit>
-          <el-table-column label="处置时间">
-            <template slot-scope="scope">
-              {{scope.row.createTime}}
-            </template>
-          </el-table-column>
+            <el-table-column label="处置人" show-overflow-tooltip>
+              <template slot-scope="scope">
+                {{scope.row.user.name}}
+              </template>
+            </el-table-column>
 
-          <el-table-column label="处置人">
-            <template slot-scope="scope">
-              {{scope.row.user.name}}
-            </template>
-          </el-table-column>
-
-          <el-table-column label="处置说明">
-            <template slot-scope="scope">
-              {{scope.row.handleConent}}
-            </template>
-          </el-table-column>
-          <el-table-column label="处置状态">
-            <template slot-scope="scope">
-              <template v-if="scope.row.handleStatus == 1" id="handleStatus1">处置中</template>
-              <template v-if="scope.row.handleStatus == 2" id="handleStatus2">已处置</template>
-            </template>
-          </el-table-column>
-          <el-table-column label="附件">
-            <template slot-scope="scope">
-              <el-button type="text" size="mini" icon="el-icon-view" @click.native="previewFile(scope.row)" >预览</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+            <el-table-column label="处置说明" show-overflow-tooltip>
+              <template slot-scope="scope">
+                {{scope.row.handleConent}}
+              </template>
+            </el-table-column>
+            <el-table-column label="处置状态">
+              <template slot-scope="scope">
+                <template v-if="scope.row.handleStatus == 1" id="handleStatus1">处置中</template>
+                <template v-if="scope.row.handleStatus == 2" id="handleStatus2">已处置</template>
+              </template>
+            </el-table-column>
+            <el-table-column label="附件" align="center">
+              <template slot-scope="scope">
+                <el-button type="text" size="mini" icon="el-icon-view" @click.native="previewFile(scope.row)" >预览</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
       </el-dialog>
 
       <!--附件预览弹窗-->
       <el-dialog
         :title="previewTitle"
         :visible.sync="previewVisible"
+        class="el-dialog-style common-dialog-style"
         width="60%" style="margin-top: 0px;">
         <file-preview :files="files" :download-file-url="downloadUrl"></file-preview>
       </el-dialog>
 
       <!--现场排查-->
       <el-dialog
+         class="el-dialog-style common-dialog-style"
         :title="acceptTitle"
         :visible.sync="acceptVisible"
-        width="40%" style="margin-top: 0px;">
-        <div align="center">
+        width="960px" >
+        <div class="block">
           <el-form :model="screenForm">
             <el-row>
               <el-col :span="12">
@@ -325,7 +329,7 @@
             </el-row>
             <el-row>
               <el-col :span="24">
-                <el-form-item>
+                <el-form-item class="dialog-button-list">
                   <el-button  class="set-common-btn blue-button" @click.native="updateScreen" >确定</el-button>
                   <el-button  class="set-common-btn blank-blue-button" @click.native="acceptVisible = false" >取消</el-button>
                 </el-form-item>
@@ -339,11 +343,12 @@
       <!--报警流程弹窗-->
        <el-dialog
       :title="formTitle"
+      class="el-dialog-style common-dialog-style"
       :visible.sync="processVisiable"
-      width="60%"
+      width="960px"
 
     >
-      <div>
+      <div class="marginT26">
         <process :checkList="checkList" :disposeList="disposeList" :screenList="screenList"></process>
       </div>
 
@@ -351,38 +356,53 @@
 
       <!--监测曲线弹窗-->
       <el-dialog
+       class="el-dialog-style common-dialog-style chart-dialog-style"
+
         :title="formTitle"
         :visible.sync="echartVisiable"
-        width="55%"
+        width="960px"
         @close="clearData"
       >
-        <div style="padding-left: 10px">
-          <el-form  :inline="true">
-            <el-form-item>
-              <el-button  icon="el-icon-search" @click.native="day()">本日</el-button>
-              <el-button  icon="el-icon-search" @click.native="OneWeeks()">本周</el-button>
-              <el-button  icon="el-icon-search" @click.native="month()">本月</el-button>
-            </el-form-item>
-            <el-form-item label="">
-              <el-date-picker el-date-picker
-                              v-model="modelTime"
-                              :picker-options="pickerOptions"
-                              type="datetimerange"
-                              range-separator="至"
-                              start-placeholder="开始日期"
-                              value-format="yyyy-MM-dd HH:mm:ss"
-                              end-placeholder="结束日期">
-              </el-date-picker>
-            </el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click.native="searchData">{{ $t('button.search') }}</el-button>
-            <el-button  icon="el-icon-search" @click.native="resetModel">{{ $t('button.reset') }}</el-button>
-
+     <div class="app-container">
+        <div class="block">
+          <el-form  :inline="true" style="width:900px">
+            <el-row>
+                <el-col :span="6">
+                  <el-form-item>
+                    <ul class="date-ul-change">
+                      <li @click="day()" :class="dateCur==0?'isFocus':'isNotFocus'">今日</li>
+                      <li @click="OneWeeks()"  :class="dateCur==1?'isFocus':''">本周</li>
+                      <li @click="month()"  :class="dateCur==2?'isFocus':''">本月</li>
+                    </ul>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  
+                  <el-form-item label="">
+                     <el-date-picker
+                    v-model="modelTime"
+                    size="mini"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    end-placeholder="结束日期">
+                  </el-date-picker>
+                  
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                      <el-button type="primary" class="set-common-btn blue-button" @click.native="searchData">{{ $t('button.search') }}</el-button>
+                      <el-button  class="set-common-btn blank-blue-button" @click.native="resetModel">{{ $t('button.reset') }}</el-button>
+                </el-col>
+            </el-row>
           </el-form>
 
         </div>
 
         <div align="center" style="width: 100%">
-          <v-chart :options="lineData" ref="myEchart" style="width: 90%;"/>
+          <v-chart :options="lineData" ref="myEchart" style="width: 100%;"/>
+        </div>
         </div>
       </el-dialog>
 
@@ -397,9 +417,46 @@
 </template>
 
 <script src="./mmAlarmHandle.js"></script>
-
-<style rel="stylesheet/scss" lang="scss" scoped >
-  @import "src/styles/commonmyself.scss";
+<style lang="scss" scoped>
+*{
+  margin: 0;
+  padding: 0;
+}
+.common-dialog-style.chart-dialog-style .block .el-form .el-row .el-col:nth-of-type(even){
+  display: initial;
+}
+.date-ul-change{
+  display: flex;
+  // width: 196px;
+  border-radius: 0 4px 4px 0;
+  li{
+    // padding: 0 20px;
+    width: 64px;
+    text-align: center;
+    font-size: 12px;
+    height: 28px;
+    line-height: 28px;
+    list-style: none;
+    border:  1px solid #DCDFE6;
+    border-right: none;
+    cursor: pointer;
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    &:last-child{
+     border-right:  1px solid #DCDFE6;
+     border-radius: 0px 4px 4px 0;
+    }
+    &.isFocus{
+          color: #FFF;
+    background-color: #409EFF;
+    border-color: #409EFF;
+    }
+    &:nth-of-type(1){
+      border-radius: 4px 0px 0px 4px;
+      
+    }
+  }
+  
+}
 </style>
 
 

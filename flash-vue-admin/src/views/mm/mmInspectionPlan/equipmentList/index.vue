@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" style="width:100%">
 
     <!--列表-->
     <div class="table-list">
@@ -11,27 +11,27 @@
           @click = "selectEquip">选择设备</el-button>
       </div>
       <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-        <el-table-column label="设施设备名称">
+        <el-table-column label="设施设备名称" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.equipment.equipmentName}}
           </template>
         </el-table-column>
-        <el-table-column label="位置">
+        <el-table-column label="位置" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.installLocation}}
           </template>
         </el-table-column>
-        <el-table-column label="所属管线">
+        <el-table-column label="所属管线" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.pipeline.pipelineCode}}
           </template>
         </el-table-column>
-        <el-table-column label="设备类型">
+        <el-table-column label="设备类型" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.equipment.equipmentTypeName}}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="mini" >定位</el-button>
           </template>
@@ -39,6 +39,7 @@
       </el-table>
       <el-pagination
         background
+        class="outer-pagenation"
         layout="total, sizes, prev, pager, next, jumper"
         :current-page="currentPage"
         :page-size="pageSize"
@@ -49,16 +50,19 @@
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="dialogDisplay" :modal-append-to-body="false">
+    <el-dialog :visible.sync="dialogDisplay" :modal-append-to-body="false" class="el-dialog-style common-dialog-style equip-dialog-style" width="960px">
       <equipList v-if="dialogDisplay" :routeId="routeId" @getEquipList="getEquipList"></equipList>
     </el-dialog>
   </div>
 </template>
 
 <script src="./equipmentList.js"></script>
-
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
+<style lang="scss" scoped>
+>>> .equip-dialog-style{
+  .block .el-form .el-row .el-col:nth-of-type(even){
+    display: initial;
+  }
+}
 </style>
+
 

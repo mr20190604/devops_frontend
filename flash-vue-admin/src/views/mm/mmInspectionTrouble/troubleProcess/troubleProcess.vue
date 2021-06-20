@@ -7,12 +7,14 @@
         <el-step title="隐患处置" :description="troubleHandleTime()"><i v-if="handleStatus == 1" class="step03" slot="icon"></i><i v-else-if="handleStatus == 0" class="step08" slot="icon"></i></el-step>
       </el-steps>
     </div>
-    <div style="overflow-y: auto;height: 400px">
+    <div>
+       <el-scrollbar  style="height: 500px;margin-top:20px">
       <el-card>
         <div slot="header" class="clearfix">
           <span>隐患上报</span>
         </div>
         <div>
+          <div class="table-list">
           <el-table :data="trouble_list" v-loading="false" max-height="120px" element-loading-text="Loading" border>
             <el-table-column label="上报人" width="80px" align="center">
               <template slot-scope="scope">
@@ -49,6 +51,7 @@
             </el-table-column>
           </el-table>
         </div>
+        </div>
       </el-card>
 
       <el-card>
@@ -56,8 +59,9 @@
           <span>隐患审核</span>
         </div>
         <div v-if="trouble_list[0].auditTime != null">
+          <div class="table-list">
           <el-table :data="trouble_list" v-loading="false" max-height="120px" element-loading-text="Loading" border>
-            <el-table-column label="审核人"width="80px" align="center">
+            <el-table-column label="审核人" width="80px" align="center">
               <template slot-scope="scope">
                 <template v-if="scope.row.auditUser != null">{{scope.row.auditUser.name}}</template>
               </template>
@@ -85,6 +89,7 @@
             </el-table-column>
           </el-table>
         </div>
+        </div>
       </el-card>
       <el-card>
         <div slot="header" class="clearfix">
@@ -92,8 +97,9 @@
         </div>
         <div v-if="trouble_handle_list.length > 0">
           <div v-if="trouble_handle_list[0].handleStatus > 1">
+            <div class="table-list">
             <el-table :data="trouble_handle_list[0].mmInspectionTroubleHandleRecords" v-loading="false" max-height="200px" element-loading-text="Loading" border>
-              <el-table-column label="处置人"width="80px" align="center">
+              <el-table-column label="处置人" width="80px" align="center">
                 <template slot-scope="scope">
                   <template v-if="trouble_handle_list[0].repairUser != null">{{trouble_handle_list[0].repairUser.name}}</template>
                 </template>
@@ -122,8 +128,10 @@
               </el-table-column>
             </el-table>
           </div>
+          </div>
         </div>
       </el-card>
+    </el-scrollbar>
     </div>
     <div>
       <el-dialog :title="fileTitle" :visible.sync="fileVisible" :modal-append-to-body="false" width="50%">
@@ -131,6 +139,7 @@
         </file-preview>
 
       </el-dialog>
+      
     </div>
 
   </div>
@@ -221,12 +230,23 @@
 </script>
 
 <style lang="scss" scoped>
+>>> .el-scrollbar__wrap{
+  overflow-x: hidden;
+  .el-scrollbar__bar.is-horizontal{
+    display: none;
+  }
+}
+.el-card{
+  margin-bottom: 10px;
+}
   >>> .el-card__header{
-    padding: 10px 10px;
+    padding: 0 10px;
     border-bottom: 1px solid #EBEEF5;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 30px;
+    line-height: 30px;
+    color: #409EFF;
   }
 
   >>> .el-step{

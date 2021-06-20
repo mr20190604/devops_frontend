@@ -3,24 +3,24 @@
     <div class="block">
       <el-form>
         <el-row class="hasmarginBottom">
-          <el-col :span="6">
+          <el-col :span="5">
              <el-form-item label="起始日期：">
                  <el-date-picker type="date" size="mini" placeholder="起始日期" v-model="listQuery.beginTime" value-format="yyyy-MM-dd"
                           style="width: 100%;"></el-date-picker>
             </el-form-item>
            </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="结束日期：">
                   <el-date-picker type="date" size="mini" placeholder="结束日期" v-model="listQuery.endTime"  value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="日志名称：">
                  <el-input v-model="listQuery.logName" size="mini" placeholder="日志名称"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="6">
+             <el-col :span="5">
               <el-form-item label="日志类型：">
                  <dict-select v-model="listQuery.logType" dict-name="日志类型" placeholder="请选择日志类型" />
               </el-form-item>

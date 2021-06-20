@@ -64,29 +64,33 @@
                 @next-click="fetchNext">
         </el-pagination>
     </div>
+    <!-- 添加消息发送者弹框 -->
         <el-dialog
+                class="el-dialog-style common-dialog-style"  
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+                width="960px">
+                <div class="block">
+            <el-form ref="form" :model="form" :rules="rules">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="名称"  >
+                        <el-form-item label="名称："  >
                             <el-input v-model="form.name" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="发送类"  >
+                        <el-form-item label="发送类："  >
                             <el-input v-model="form.className" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-form-item>
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                 <el-form-item class="dialog-button-list">
+                  <el-button type="primary"  class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+                  <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
-
+              
             </el-form>
+            </div>
         </el-dialog>
     </div>
 </template>

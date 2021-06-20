@@ -95,6 +95,7 @@
       @selection-change="handleSelectionChange"
       @row-click="toggleSelection"
       ref="productTable"
+      height="331"
     >
       <el-table-column
         type="selection"
@@ -111,12 +112,12 @@
           {{ scope.row.productCode }}
         </template>
       </el-table-column>-->
-      <el-table-column label="产品名称" show-overflow-tooltip width="200px">
+      <el-table-column label="产品名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.productName }}
         </template>
       </el-table-column>
-      <el-table-column label="产品型号" show-overflow-tooltip width="180px">
+      <el-table-column label="产品型号" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.productModel }}
         </template>
@@ -286,9 +287,11 @@
               <el-input v-model="form.storageStandards" style="width: 71%" />
             </el-form-item>
           </el-col>
+           </el-row>
+           <el-row>
           <el-col :span="24">
             <el-form-item label="产品说明：">
-              <el-input v-model="form.productDesc" type="textarea" style="width: 71%" />
+              <el-input v-model="form.productDesc" type="textarea"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -310,21 +313,21 @@
       width="960px"
     >
     <div class="block">
-      <el-form label-width="84px" class="align-right has-Label-Width">
+      <el-form label-width="84px" class="align-right has-Label-Width" style="width:100%">
         <el-row>
-          <el-col :span="10">
+          <el-col :span="9">
             <el-form-item label="关键字：">
               <el-input v-model="listQuery.key" placeholder="请输入关键字(编码、名称)" />
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="9">
             <el-form-item label="原料类别：">
               <dict-select v-model="listQuery.materialType" dict-name="原料类别" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="hasNoMarginBottom">
-          <el-col :span="10">
+          <el-col :span="9">
             <el-form-item label="是否危化品：">
               <dict-select v-model="listQuery.isDanger" dict-name="是否" placeholder="请选择是否" />
             </el-form-item>
@@ -363,6 +366,7 @@
       @selection-change="handleSelectionChange"
       @row-click="toggleSelection1"
       ref="materialTable"
+      height="331"
     >
       <el-table-column
         type="selection"

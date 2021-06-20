@@ -3,29 +3,29 @@
         <div class="block">
           <el-form :model="listQuery" ref="listQuery">
             <el-row class="hasmarginBottom">
-                <el-col :span="6">
+                <el-col :span="5">
                     <el-form-item label="设备名称：">
                     <el-input v-model="listQuery.equipmentName"  placeholder="请输入设备名称"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="5">
                     <el-form-item label="设备编号：">
                     <el-input v-model="listQuery.equipmentCode"  placeholder="请输入设备编号"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="5">
                     <el-form-item label="审核状态：">
                     <dict-select v-model="listQuery.dictId" dict-name="阈值审核状态"  placeholder="请输入备名称"/>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="5">
                     <el-form-item label="设备类别：">
                     <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"/>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-              <el-col>
+              <el-col :span="23">
                 <el-form-item>
                     <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                     <el-button  class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
@@ -123,11 +123,14 @@
         </el-pagination>
  </div>
       <!--新增-->
+       <!-- 添加阈值弹框 -->
         <el-dialog
+        class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
-            <el-form ref="form" :model="form"  label-width="120px" :rules="thresholdRules">
+                width="960px">
+                <div class="block">
+            <el-form ref="form" :model="form"  label-width="120px" :rules="thresholdRules" class="align-right has-Label-Width">
                 <el-row>
                   <el-col :span="12">
                     <el-form-item label="设备类别："  prop="equipmentType">
@@ -185,21 +188,25 @@
                     </el-col>
 
                 </el-row>
-                <el-form-item align="center" >
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                <el-form-item class="dialog-button-list">
+                    <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+                    <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
             </el-form>
+                </div>
         </el-dialog>
       <!--编辑-->
+     
       <el-dialog
+      class="el-dialog-style common-dialog-style"
         :title="formTitle"
         :visible.sync="thresholdVisible"
-        width="70%">
-        <div class="table-list" style="margin-bottom: 50px">
+        width="960px">
+        <div class="table-list" style="margin-bottom: 50px;width:800px;margin:15px auto 0">
         <el-table :data="thresholdList" v-loading="listLoading" element-loading-text="Loading" border
                   :row-key="row=>row.id"
                   @current-change="handleCurrentChange"
+                  max-height="331px"
                   >
 
           <el-table-column type="index" width="55px" label="序号"></el-table-column>
@@ -249,12 +256,11 @@
             </template>
           </el-table-column>
         </el-table>
-        </div>
+      
 
   <el-pagination
-    style="position: relative"
     background
-    class="position-pagination"
+    class="outer-pagenation"
     layout="total, sizes, prev, pager, next, jumper"
     :page-sizes="[10, 20, 50, 100,500]"
     :page-size="listQuery.limit"
@@ -264,28 +270,32 @@
     @prev-click="fetchPrev"
     @next-click="fetchNext">
   </el-pagination>
-  <el-form ref="thresholdForm" :model="thresholdForm"  label-width="120px" :rules="examineRules">
+    </div>
+  <div class="block">
+  <el-form ref="thresholdForm" :model="thresholdForm" label-width="80px" class="align-right has-Label-Width" :rules="examineRules">
     <el-row>
-    <el-col :span="24">
-      <el-form-item label="审核结果"  prop="isAudit">
+    <el-col>
+      <el-form-item label="审核结果："  prop="isAudit">
         <el-select v-model="thresholdForm.isAudit" minlength=1>
           <el-option key="1" label="通过" value="1" ></el-option>
           <el-option key="0" label="不通过" value="0" ></el-option>
         </el-select>
       </el-form-item>
     </el-col>
-
-      <el-col :span="12">
-        <el-form-item label="审核意见"  prop="auditOpinion">
+ </el-row>
+ <el-row>
+      <el-col>
+        <el-form-item label="审核意见："  prop="auditOpinion">
           <el-input type="textarea" v-model="thresholdForm.auditOpinion" minlength=1></el-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-form-item id="myself">
-      <el-button type="primary" @click="saveThreshold">{{ $t('button.submit') }}</el-button>
-      <el-button @click.native="thresholdVisible = false">{{ $t('button.cancel') }}</el-button>
+    <el-form-item id="myself" class="dialog-button-list">
+      <el-button type="primary" @click="saveThreshold" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+      <el-button @click.native="thresholdVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
     </el-form-item>
   </el-form>
+  </div>
 
       </el-dialog>
 

@@ -111,6 +111,7 @@
     <div>
       <el-pagination
         background
+         class="outer-pagenation"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[10, 20, 50, 100,500]"
         :page-size="listQuery.limit"
@@ -441,6 +442,8 @@
           fit
           highlight-current-row
           @current-change="handleCurrentChange"
+          height="331"
+          style="margin:15px auto 10px"
         >
           <el-table-column
             type="index"

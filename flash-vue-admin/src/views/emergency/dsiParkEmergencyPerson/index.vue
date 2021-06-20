@@ -2,7 +2,7 @@
     <div class="app-container">
         <div class="block">
           <el-form label-width="90px" class="has-Label-Width">
-            <el-row class="hasmarginBottom">
+            <el-row>
               <el-col :span="5">
                   <el-form-item label="人员名称：">
                     <el-input v-model="listQuery.name"  placeholder="请输入人员名称"></el-input>
@@ -145,10 +145,14 @@
                 @next-click="fetchNext">
         </el-pagination>
 </div>
+<!-- 添加应急人员弹框 -->
         <el-dialog
+           class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="60%">            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+                width="960px">       
+                <div class="block">     
+                <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
 
               <el-row>
                 <el-col :span="12">
@@ -252,13 +256,13 @@
 
 
               </el-row>
-
-                <el-form-item id="myself">
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="cancle">{{ $t('button.cancel') }}</el-button>
-                </el-form-item>
-
+                <el-form-item class="dialog-button-list"  id="myself">
+                    <el-button type="primary"  class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+                    <el-button @click.native="cancle" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
+                  </el-form-item>
+                
             </el-form>
+                </div>
         </el-dialog>
     </div>
 </template>

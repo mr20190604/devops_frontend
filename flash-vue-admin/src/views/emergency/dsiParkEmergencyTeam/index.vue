@@ -3,22 +3,22 @@
         <div class="block">
           <el-form label-width="76px" class="align-right has-Label-Width">
            <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                   <el-form-item label="队伍名称：">
                     <el-input v-model="listQuery.name"  placeholder="请输入队伍名称"></el-input>
                   </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                     <el-form-item label="所在地区：">
                     <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"></district>
                     </el-form-item>
                 </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                   <el-form-item label="负责人：">
                     <el-input v-model="listQuery.personContact"  placeholder="请输入负责人"></el-input>
                   </el-form-item>
                 </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                     <el-form-item label="所属企业：">
                       <el-select v-model="listQuery.belongingUnit"  placeholder="请选择所属企业">
                           <el-option
@@ -32,7 +32,7 @@
                 </el-col>
              </el-row>
             <el-row>
-                <el-col :span="6">
+                <el-col :span="5">
                   <el-form-item label="地址：">
                        <el-input v-model="listQuery.address"  placeholder="请输入地址"></el-input>
                     </el-form-item>
@@ -135,11 +135,14 @@
                 @next-click="fetchNext">
         </el-pagination>
 </div>
+<!-- 添加应急队伍弹框 -->
         <el-dialog
+        class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="60%">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+                width="960px">
+                  <div class="block">
+            <el-form ref="form" :model="form" :rules="rules"  label-width="80px" class="align-right has-Label-Width">
                 <el-row>
                    <!-- <el-col :span="12">
                         <el-form-item label="编码"  >
@@ -165,7 +168,7 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="负责人："  >
-                      <el-input v-model="form.personContact"placeholder="请输入负责人"  minlength=1></el-input>
+                      <el-input v-model="form.personContact" placeholder="请输入负责人"  minlength=1></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
@@ -208,75 +211,82 @@
 
                 </el-row>
 
-              <el-form-item align="right" style="margin-right: 50px">
-                <el-button type="primary"  @click.native="choosePerson">选择应急人员</el-button>
+              <el-form-item align="right" class="marginTop10">
+                <el-button type="primary"  @click.native="choosePerson" class="set-common-btn blank-blue-button width92">选择应急人员</el-button>
               </el-form-item>
+                  <div class="table-list">
               <el-table :data="personList"
                         v-loading="personLoading"
                         element-loading-text="Loading"
                         border fit highlight-current-row
                         @current-change="handleCurrentChange"
-                        max-height="200px"
+                        max-height="331px"
               >
 
-                <el-table-column label="名称" width="80px">
+                <el-table-column label="名称" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{scope.row.name}}
                   </template>
                 </el-table-column>
-                <el-table-column label="性别" width="60px" align="center">
+                <el-table-column label="性别" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{scope.row.genderName}}
                   </template>
                 </el-table-column>
-                <el-table-column label="学历" width="60px" align="center">
+                <el-table-column label="学历" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{scope.row.educationName}}
                   </template>
                 </el-table-column>
-                <el-table-column label="职称" >
+                <el-table-column label="职称" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{scope.row.professionalName}}
                   </template>
                 </el-table-column>
-                <el-table-column label="专业特长">
+                <el-table-column label="专业特长" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{scope.row.majorSpecialty}}
                   </template>
                 </el-table-column>
-                <el-table-column label="是否专家" width="80px" align="center">
+                <el-table-column label="是否专家" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{scope.row.isExpertName}}
                   </template>
                 </el-table-column>
 
-                <el-table-column label="联系方式">
+                <el-table-column label="联系方式" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{scope.row.tel}}
                   </template>
                 </el-table-column>
 
-                <el-table-column label="操作">
+                <el-table-column label="操作" align="center" width="170">
                   <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="viewPerson(scope.row)" >查看</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removePersonItem(scope.row)" >{{ $t('button.delete') }}</el-button>
                   </template>
                 </el-table-column>
               </el-table>
-
-              <el-form-item align="center">
-                <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                <el-button @click.native="cancle">{{ $t('button.cancel') }}</el-button>
+                  </div>
+          
+               <el-form-item class="marginT10 dialog-button-list" >
+                <el-button type="primary"  class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+                <el-button @click.native="cancle" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
               </el-form-item>
             </el-form>
+                  </div>
         </el-dialog>
+        <!-- 选择应急人员弹框 -->
       <el-dialog
+       class="el-dialog-style common-dialog-style"
         :title="personTitle"
         :visible.sync="personVisible"
-        width="60%"
+        width="960px"
         onclose="cancle"
       >
+      <div class="block">
         <el-form>
+          <div class="table-list">
           <el-table
             :data="person_data"
             v-loading="personLoading"
@@ -285,6 +295,7 @@
             @selection-change="handleSelectionChange"
             ref="emergencyPersonTable"
             @row-click="personToggleSelection"
+            max-height="331px"
 
           >
             <el-table-column
@@ -293,64 +304,69 @@
             >
 
             </el-table-column>
-            <el-table-column label="名称"  width="80px">
+            <el-table-column label="名称" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.name}}
               </template>
             </el-table-column>
-            <el-table-column label="性别" width="60px" align="center">
+            <el-table-column label="性别" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.genderName}}
               </template>
             </el-table-column>
-            <el-table-column label="学历" width="80px" align="center">
+            <el-table-column label="学历" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.educationName}}
               </template>
             </el-table-column>
-            <el-table-column label="职称" >
+            <el-table-column label="职称" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.professionalName}}
               </template>
             </el-table-column>
-            <el-table-column label="专业特长">
+            <el-table-column label="专业特长" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.majorSpecialty}}
               </template>
             </el-table-column>
-            <el-table-column label="是否专家" width="80px" align="center">
+            <el-table-column label="是否专家" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.isExpertName}}
               </template>
             </el-table-column>
 
-            <el-table-column label="联系方式">
+            <el-table-column label="联系方式" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.tel}}
               </template>
             </el-table-column>
           </el-table>
-          <el-form-item id="myself">
-            <el-button type="primary" @click="addPerson">{{ $t('button.submit') }}</el-button>
-            <el-button @click.native="personVisible = false">{{ $t('button.cancel') }}</el-button>
+          </div>
+          
+          <el-form-item align="center" class="marginT10">
+            <el-button type="primary"  class="set-common-btn blue-button" @click="addPerson">{{ $t('button.submit') }}</el-button>
+             <el-button @click.native="personVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
           </el-form-item>
         </el-form>
+       </div>
       </el-dialog>
-
+<!-- 应急人员信息查看弹框 -->
       <el-dialog :title="personTitle"
+       class="el-dialog-style common-dialog-style"
                  :visible.sync="viewVisible"
-                 width="60%">
-        <el-form ref="personForm" :model="personForm" :rules="rules" label-width="120px">
+                 width="960px">
+                  <div class="block">
+        <el-form ref="personForm" :model="personForm" :rules="rules" label-width="120px" class="align-right has-Label-Width">
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="人员名称"  >
+              <el-form-item label="人员名称："  >
                 <el-input v-model="personForm.name" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
-              <el-form-item label="现工作单位"  >
+              <el-form-item label="现工作单位："  >
                 <el-input v-model="personForm.workPlace" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
@@ -358,7 +374,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="性别"  >
+              <el-form-item label="性别："  >
                 <el-select v-model="personForm.gender" disabled="disabled" minlength=1>
                   <el-option
                     v-for="item in sex"
@@ -370,20 +386,20 @@
               </el-form-item>
             </el-col>
             <el-col  :span="12">
-              <el-form-item label="行政区划">
+              <el-form-item label="行政区划：">
                 <district v-model="personForm.districtCode" :disabled="true"></district>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="联系电话"  >
+              <el-form-item label="联系电话："  >
                 <el-input v-model="personForm.tel" minlength=1 disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
-                <el-form-item label="地址"  >
+                <el-form-item label="地址："  >
                   <el-input v-model="personForm.address" disabled="disabled" minlength=1></el-input>
                 </el-form-item>
             </el-col>
@@ -391,47 +407,47 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="职称"  >
+              <el-form-item label="职称："  >
                 <el-input v-model="personForm.professionalName" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
-              <el-form-item label="学历"  >
+              <el-form-item label="学历："  >
                 <el-input v-model="personForm.educationName" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="紧急联系人"  >
+              <el-form-item label="紧急联系人："  >
                 <el-input v-model="personForm.emergencyContact" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
-              <el-form-item label="紧急联系方式"  >
+              <el-form-item label="紧急联系方式："  >
                 <el-input v-model="personForm.emergencyTel" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="职务"  >
+              <el-form-item label="职务："  >
                 <el-input v-model="personForm.postName" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
-              <el-form-item label="专业特长"  >
+              <el-form-item label="专业特长："  >
                 <el-input v-model="personForm.majorSpecialty" disabled="disabled" minlength=1></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="是否专家"  >
-                <el-select v-model="personForm.isExpert"disabled="disabled"  minlength=1>
+              <el-form-item label="是否专家："  >
+                <el-select v-model="personForm.isExpert" disabled="disabled"  minlength=1>
                   <el-option
                     v-for="item in isExpert"
                     :key="item.id"
@@ -446,7 +462,7 @@
           </el-row>
 
         </el-form>
-
+                  </div>
       </el-dialog>
 
     </div>
@@ -455,7 +471,4 @@
 <script src="./dsiParkEmergencyTeam.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/commonmyself.scss";
-</style>
 

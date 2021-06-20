@@ -3,29 +3,29 @@
     <div class="block">
       <el-form label-width="76px" :inline="true">
         <el-row class="hasmarginBottom">
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="建筑名称:">
               <el-input v-model="listQuery.buildName" placeholder="请输入建筑名称"/>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="所在地区:">
               <district v-model="listQuery.districtCode" placeholder="请选择所在地区"/>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="防护等级:">
               <dict-select v-model="listQuery.levelCode" dict-name="防护等级"/>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="负责人:">
               <el-input v-model="listQuery.personName" placeholder="请输入负责人"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="目标类型:">
               <dict-select v-model="listQuery.targetType" dict-name="防护目标" placeholder="请选择目标类型"/>
             </el-form-item>
@@ -169,70 +169,75 @@
         @next-click="fetchNext"
       />
     </div>
+    <!-- 添加地上建筑物弹框 -->
     <el-dialog
-      class="common-dialog-style"
+  class="el-dialog-style common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="60%"
+      width="960px"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px" size="mini">
+    <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width" size="mini">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="建筑名称:" prop="buildName">
+            <el-form-item label="建筑名称：" prop="buildName">
               <el-input v-model="form.buildName" minlength="1" placeholder="请输入建筑名称"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="防护等级:" prop="levelCode">
+            <el-form-item label="防护等级：" prop="levelCode">
               <dict-select v-model="form.levelCode" dict-name="防护等级"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="目标类型:" prop="targetType">
+            <el-form-item label="目标类型：" prop="targetType">
               <dict-select v-model="form.targetType" dict-name="防护目标" placeholder="请选择目标类型"/>
             </el-form-item>
           </el-col>
           <el-col :span="12" style="height: 53px;">
-            <el-form-item label="所在地区:" prop="districtCode">
+            <el-form-item label="所在地区：" prop="districtCode">
               <district v-model="form.districtCode" placeholder="请选择所在地区"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="地址:" prop="address">
+            <el-form-item label="地址：" prop="address">
               <el-input v-model="form.address" minlength="1" placeholder="请输入地址"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="负责人:" prop="personName">
+            <el-form-item label="负责人：" prop="personName">
               <el-input v-model="form.personName" minlength="1" placeholder="请输入负责人"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="办公电话:" prop="personOtel">
+            <el-form-item label="办公电话：" prop="personOtel">
               <el-input v-model="form.personOtel" minlength="1" placeholder="请输入负责人办公电话"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="人数:" prop="personNum">
+            <el-form-item label="人数：" prop="personNum">
               <el-input v-model="form.personNum" minlength="1" placeholder="请输入人数" type="number"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="面积(万平方米):" prop="engrossArea">
+            <el-form-item label="面积(万平方米)：" prop="engrossArea">
               <el-input v-model="form.engrossArea" minlength="1" placeholder="请输入面积" type="number"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="备注:">
+            <el-form-item label="备注：">
               <el-input v-model="form.notes" minlength="1" placeholder="请输入备注"/>
             </el-form-item>
           </el-col>
-          <el-col :span="24" style="text-align: center;">
-            <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-            <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+          <el-col>
+            <el-form-item class="dialog-button-list">
+            <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+            <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
+             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
+      </div>
     </el-dialog>
   </div>
 </template>

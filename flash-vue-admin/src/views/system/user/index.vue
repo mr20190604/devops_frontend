@@ -3,29 +3,29 @@
     <div class="block">
       <el-form label-width="76px" class="align-right has-Label-Width">
         <el-row class="hasmarginBottom">
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="帐号：">
                 <el-input v-model="listQuery.account" size="mini" placeholder="请输入帐号"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="姓名：">
                 <el-input v-model="listQuery.name" size="mini" placeholder="请输入姓名"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="性别：">
                 <dict-select v-model="listQuery.sex" dict-name="性别" placeholder="请选择性别" />
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="手机号：">
                 <el-input v-model="listQuery.phone" size="mini" placeholder="请输入手机号"></el-input>
               </el-form-item>
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="账号状态：">
                 <el-select v-model="listQuery.status" size="mini" placeholder="账号状态">
                   <el-option
@@ -74,7 +74,8 @@
         </el-tree>
       </el-col>
       <el-col :span="20">
-        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading"  border fit highlight-current-row
+        
+        <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" height="331"  border fit highlight-current-row
     @current-change="handleCurrentChange">
 
       <el-table-column label="账号" show-overflow-tooltip width="150px">
@@ -128,7 +129,7 @@
 
         <el-pagination
       background
-      class="position-pagination"
+      style="margin-top:10px"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -143,25 +144,28 @@
       </el-col>
     </el-row>
   </div>
+  <!-- 添加用户弹框 -->
     <el-dialog
       :title="formTitle"
+      class="el-dialog-style common-dialog-style"
       :visible.sync="formVisible"
-      width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px" label-position="right">
+      width="960px">
+      <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="98px"  class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="账户" prop="account">
+            <el-form-item label="账户：" prop="account">
               <el-input v-model="form.account" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="姓名" prop="name">
+            <el-form-item label="姓名：" prop="name">
               <el-input v-model="form.name"  minlength=1></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="性别">
+            <el-form-item label="性别：">
               <el-radio-group v-model="form.sex">
                 <el-radio :label="1">男</el-radio>
                 <el-radio :label="2">女</el-radio>
@@ -169,55 +173,58 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
+            <el-form-item label="邮箱：" prop="email">
               <el-input v-model="form.email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" v-show="isAdd">
-            <el-form-item label="密码" prop="password">
+            <el-form-item label="密码：" prop="password">
               <el-input v-model="form.password"  type="password"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" v-show="isAdd">
-            <el-form-item label="确认密码" prop="rePassword">
+            <el-form-item label="确认密码：" prop="rePassword">
               <el-input v-model="form.rePassword"  type="password"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="电话" prop="phone">
+            <el-form-item label="电话：" prop="phone">
               <el-input v-model="form.phone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="所属部门" prop="deptid" >
+            <el-form-item label="所属部门：" prop="deptid" >
               <treeselect v-model="form.deptid"  :options="deptTree.data"  placeholder="请选择所属部门"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否启用">
+            <el-form-item label="是否启用：">
               <el-switch v-model="form.statusBool"></el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="出生日期">
+            <el-form-item label="出生日期：">
                 <el-date-picker type="date" placeholder="选择日期" v-model="form.birthday" style="width: 100%;">
 
                 </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="saveUser">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+       <el-form-item class="dialog-button-list">
+          <el-button type="primary" @click="saveUser" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
       </el-form>
+      </div>
     </el-dialog>
-
+<!-- 角色分配弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       title="角色分配"
       :visible.sync="roleDialog.visible"
       width="25%">
-      <el-form>
+       <div class="block">
+      <el-form class="width-auto">
         <el-row>
           <el-col :span="12">
             <el-tree
@@ -231,18 +238,21 @@
 
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="setRole">{{ $t('button.submit') }}</el-button>
+       <el-form-item class="dialog-button-list marginT10">
+          <el-button type="primary" class="set-common-btn blue-button" @click="setRole">{{ $t('button.submit') }}</el-button>
         </el-form-item>
       </el-form>
+       </div>
     </el-dialog>
-
+<!-- 子系统分配弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       title="子系统分配"
       :visible.sync="childSysVisiable"
       width="25%"
     >
-      <el-form>
+    <div class="block">
+      <el-form class="width-auto">
         <el-row>
           <el-col :span="12">
             <el-tree
@@ -256,11 +266,11 @@
 
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="saveChildSys">{{ $t('button.submit') }}</el-button>
+        <el-form-item class="dialog-button-list marginT10">
+          <el-button type="primary" class="set-common-btn blue-button" @click="saveChildSys">{{ $t('button.submit') }}</el-button>
         </el-form-item>
       </el-form>
-
+</div>
     </el-dialog>
   </div>
 </template>

@@ -1,27 +1,29 @@
 <template>
-  <div style="width: 100%;height: 600px">
-    <el-row style="width: 100%;height: 600px;margin-top: 10px;">
-      <el-col style="width: 25%;height: 620px">
+  <div style="width: 100%;max-height: 600px">
+    <el-row class="flex justify-between marginT20">
+      <el-col :class="!fileShow?'fullWidth':'smallWidth'">
         <div class="grid-content bg-purple">
+          <div class="table-list">
           <el-table v-loading="loading" :data="init_list" element-loading-text="Loading">
-            <el-table-column label="附件名称">
+            <el-table-column label="附件名称" show-overflow-tooltip>
               <template slot-scope="scope">
                 <div @click="viewFile(scope.row)">
                   {{ scope.row.fileInfo.originalFileName }}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center">
               <template slot-scope="scope">
                 <el-button type="text" size="mini" icon="el-icon-download" @click.native="downloads(scope.row)">下载</el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
+        </div>
       </el-col>
-      <el-col style="width: 75%;height: 620px">
+      <el-col class="remainWidth" v-if="fileShow">
         <div class="grid-content bg-purple">
-          <preview v-if="fileShow" :preview-style="previewStyle" :preview-file-url="previewFileUrl" />
+          <preview  :preview-style="previewStyle" :preview-file-url="previewFileUrl" />
         </div>
       </el-col>
     </el-row>
@@ -111,5 +113,16 @@ export default {
 </script>
 
 <style scoped>
-
+.grid-content{
+  margin-left: 2%;
+}
+.fullWidth{
+  width: 100%;
+}
+.smallWidth{
+  width: 33%;
+}
+.remainWidth{
+  width: 68%;
+}
 </style>

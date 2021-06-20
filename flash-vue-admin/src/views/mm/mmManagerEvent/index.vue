@@ -102,35 +102,44 @@
         @next-click="fetchNext"
       />
     </div>
+    <!-- 编辑应急事件弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
       :close="clearForm"
-      width="60%"
+      width="960px"
     >
-      <el-form ref="form" :model="mmManagerEvent" :rules="rules" label-width="120px">
+    <div class="block">
+      <el-form ref="form" :model="mmManagerEvent" :rules="rules" label-width="80px" class="align-right has-Label-Width">
         <el-row>
-          <el-col :offset="3" :span="10">
+          <el-col  :span="12">
             <el-form-item label="事件类型：" class="formLable">
               <dict-select v-model="mmManagerEvent.eventType" dict-name="事件类型" />
             </el-form-item>
           </el-col>
-          <el-col :pull="2" :span="10">
+          <el-col  :span="12">
             <el-form-item label="事件名称：" class="formLable">
               <el-input v-model="mmManagerEvent.eventName" minlength="1" placeholder="请输入事件名称" />
             </el-form-item>
           </el-col>
-          <el-col :offset="3" :span="10">
+          <el-col  :span="12">
             <el-form-item label="事件地点：" class="formLable">
               <el-input v-model="mmManagerEvent.eventAddress" minlength="1" placeholder="请输入事件地点" />
             </el-form-item>
           </el-col>
-          <el-col :offset="3" :span="16">
+        </el-row>
+        <el-row>
+          <el-col>
             <el-form-item label="事件描述：" class="formLable">
               <el-input v-model="mmManagerEvent.eventDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" minlength="1" placeholder="请输入事件描述" />
             </el-form-item>
           </el-col>
-          <el-col :offset="4" :span="16">
+        </el-row>
+       
+        <el-row>
+          <el-col>
+            <el-form-item label="选择文件：">
             <el-upload
               :action="uploadUrl"
               :headers="uploadHeaders"
@@ -142,16 +151,23 @@
               :limit="fileLimit"
               accept=".doc,.docx,.pdf,.zip,.rar"
             >
-              <el-button size="small" type="primary">点击上传</el-button>
+              <el-button size="small" type="primary" class="set-common-btn blue-button">点击上传</el-button>
               <div slot="tip">最多上传个数{{ fileLimit }};单个文件上限10MB;</div>
             </el-upload>
+             </el-form-item>
           </el-col>
-          <el-col :span="24" style="text-align: center;">
-            <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-            <el-button @click.native="closeDialog">{{ $t('button.cancel') }}</el-button>
+          </el-row>
+          <el-row>
+          <el-col>
+            <el-form-item class="dialog-button-list">
+            <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+            <el-button @click.native="closeDialog" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
+            </el-form-item>
           </el-col>
+          
         </el-row>
       </el-form>
+    </div>
     </el-dialog>
     <el-dialog
       title="预览附件"

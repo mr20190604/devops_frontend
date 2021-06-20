@@ -2,7 +2,7 @@
     <div class="app-container">
         <div class="block">
           <el-form>
-            <el-row class="hasmarginBottom">
+            <el-row>
               <el-col :span="5">
                 <el-form-item label="预案名称：">
                   <el-input v-model="listQuery.planName" placeholder="请输预案名称"></el-input>
@@ -37,7 +37,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <el-form-item>
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
                   </el-button>
@@ -135,12 +135,15 @@
                 @next-click="fetchNext">
         </el-pagination>
 </div>
+<!-- 应急预案新增弹框 -->
         <el-dialog
+            class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
                 onclose="cancleDelete"
-                width="60%">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+                width="960px">
+                 <div class="block">
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="预案名称："  >
@@ -195,7 +198,7 @@
                   </el-col>
                 </el-row>
               <el-row>
-                <el-col :span="16">
+                <el-col>
                   <el-form-item label="选择文件："  >
                     <el-upload
                       :action="uploadUrl"
@@ -207,20 +210,23 @@
                       :file-list="fileList"
                       :multiple="multiple"
                     >
-                      <el-button size="small" type="primary">点击上传</el-button>
+                      <el-button size="small" type="primary"  class="set-common-btn blue-button">点击上传</el-button>
                       <div slot="tip" >总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{fileAccept}}</span></div>
                     </el-upload>
                   </el-form-item>
                 </el-col>
               </el-row>
-                <el-form-item id="myself">
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="cancleDelete">{{ $t('button.cancel') }}</el-button>
+                <el-form-item id="myself" class="dialog-button-list">
+                    <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+                    <el-button @click.native="cancleDelete" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>
+                 </div>
         </el-dialog>
       <el-dialog
+      
+  class="el-dialog-style common-dialog-style"
         :title="previewTitle"
         :visible.sync="previewVisible"
         width="60%" style="margin-top: 0px;" >

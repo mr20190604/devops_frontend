@@ -111,62 +111,68 @@
                 @next-click="fetchNext">
         </el-pagination>
 </div>
+<!-- 添加消息模板弹框开始 -->
         <el-dialog
+               class="el-dialog-style common-dialog-style"  
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="70%">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="编号"  >
-                            <el-input v-model="form.code" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="标题"  >
-                            <el-input v-model="form.title" minlength=1></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-form-item label="消息类型">
-                        <el-radio-group v-model="form.type">
-                          <el-radio :label="0">短信</el-radio>
-                          <el-radio :label="1">邮件</el-radio>
-                        </el-radio-group>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="发送器"  >
-                          <el-select  v-model="form.idMessageSender"   placeholder="请选择">
-                            <el-option
-                              v-for="item in sendList"
-                              :key="item.id"
-                              :label="item.name"
-                              :value="item.id"
+                width="960px">
+                 <div class="block">
+                    <el-form ref="form" :model="form" :rules="rules" label-width="98px" class="align-right has-Label-Width">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="编号："  >
+                                    <el-input v-model="form.code" minlength=1></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="标题："  >
+                                    <el-input v-model="form.title" minlength=1></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                              <el-form-item label="消息类型：">
+                                <el-radio-group v-model="form.type">
+                                  <el-radio :label="0">短信</el-radio>
+                                  <el-radio :label="1">邮件</el-radio>
+                                </el-radio-group>
+                              </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="发送器："  >
+                                  <el-select  v-model="form.idMessageSender"   placeholder="请选择">
+                                    <el-option
+                                      v-for="item in sendList"
+                                      :key="item.id"
+                                      :label="item.name"
+                                      :value="item.id"
 
-                            >
-                            </el-option>
-                          </el-select>
+                                    >
+                                    </el-option>
+                                  </el-select>
 
+                                </el-form-item>
+                            </el-col>
+                          <el-col :span="12" v-if="form.type==0">
+                            <el-form-item label="远程模板编号："  >
+                              <el-input v-model="form.remoteTplCode" placeholder="请输入配置在短信服务商的短信模板编号"></el-input>
+                            </el-form-item>
+                          </el-col>
+                          </el-row>
+                          <el-row>
+                          <el-col :span="24">
+                            <el-form-item label="内容："  >
+                              <el-input  type="textarea" :rows="4" v-model="form.content" minlength=1></el-input>
+                            </el-form-item>
+                          </el-col>
+                        </el-row>
+                         <el-form-item class="dialog-button-list">
+                          <el-button type="primary"  class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+                          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                         </el-form-item>
-                    </el-col>
-                  <el-col :span="12" v-if="form.type==0">
-                    <el-form-item label="远程模板编号"  >
-                      <el-input v-model="form.remoteTplCode" placeholder="请输入配置在短信服务商的短信模板编号"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="24">
-                    <el-form-item label="内容"  >
-                      <el-input  type="textarea" :rows="4" v-model="form.content" minlength=1></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-form-item>
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-                </el-form-item>
-
-            </el-form>
+                      
+                    </el-form>
+                 </div>
         </el-dialog>
     </div>
 </template>

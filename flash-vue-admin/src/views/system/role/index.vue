@@ -76,56 +76,62 @@
       @next-click="fetchNext">
     </el-pagination>
 </div>
+<!-- 添加角色弹框 -->
     <el-dialog
       :title="formTitle"
+      class="el-dialog-style common-dialog-style"
       :visible.sync="formVisible"
-      width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      width="960px">
+      <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="编码" prop="tips">
+            <el-form-item label="编码：" prop="tips">
               <el-input v-model="form.tips" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="名称" prop="name">
+            <el-form-item label="名称：" prop="name">
               <el-input v-model="form.name" minlength=1></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="上级角色">
+            <el-form-item label="上级角色：">
               <treeselect v-model="form.pid"  :options="roleTree.data"  placeholder="请选择上级角色"/>
 
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="排序">
+            <el-form-item label="排序：">
               <el-input v-model="form.num" type="number"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="所在部门">
+            <el-form-item label="所在部门：">
               <treeselect v-model="form.deptid"  :options="deptTree.data"  placeholder="请选择所属部门"/>
             </el-form-item>
           </el-col>
 
 
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+        <el-form-item class="dialog-button-list">
+          <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
       </el-form>
+      </div>
     </el-dialog>
 
-
+<!-- 权限配置弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       title="权限配置"
       :visible.sync="permissonVisible"
       width="25%">
-      <el-form>
+      <div class="block">
+      <el-form class="width-auto">
         <el-row>
           <el-col :span="12">
             <el-tree
@@ -139,10 +145,11 @@
 
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="savePermissions">{{ $t('button.submit') }}</el-button>
+       <el-form-item class="dialog-button-list marginT10">
+          <el-button type="primary" @click="savePermissions" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
         </el-form-item>
       </el-form>
+      </div>
     </el-dialog>
 
   </div>

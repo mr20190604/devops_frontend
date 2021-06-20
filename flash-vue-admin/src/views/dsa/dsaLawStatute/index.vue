@@ -3,12 +3,12 @@
     <div class="block">
       <el-form>
         <el-row class="hasmarginBottom">
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="文件标题：">
               <el-input v-model="listQuery.lawName" placeholder="请输文件标题" />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="制定机关：">
               <el-select v-model="listQuery.formulateOffice" placeholder="请选择制定机关">
                 <el-option
@@ -20,7 +20,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="法律性质：">
               <el-select v-model="listQuery.lawNature" placeholder="请选择法律性质">
                 <el-option
@@ -32,7 +32,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="时效性：">
               <el-select v-model="listQuery.isValid" placeholder="请选择时效性">
                 <el-option
@@ -51,7 +51,7 @@
               <el-date-picker v-model="listQuery.publicationDate" type="daterange" size="mini" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择日期" />
             </el-form-item>
           </el-col>
-          <el-col :span="14">
+          <el-col :span="15">
             <el-form-item>
               <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
               </el-button>
@@ -138,13 +138,17 @@
         @next-click="fetchNext"
       />
     </div>
+    <!-- 添加法律法规库弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
       onclose="cancleDelete"
-      width="60%"
+      width="960px"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width"
+>
         <el-row>
           <el-col :span="12">
             <el-form-item label="法律法规名称：">
@@ -203,7 +207,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="选择文件：">
               <el-upload
                 :action="uploadUrl"
@@ -216,7 +220,7 @@
                 :accept="fileAccept"
               >
                 <!--accept=".doc,.docx,.pdf,.zip,.rar"-->
-                <el-button size="small" type="primary">点击上传</el-button>
+                <el-button size="small" type="primary" class="set-common-btn blue-button">点击上传</el-button>
                 <div slot="tip">总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{ fileAccept }}</span></div>
               </el-upload>
             </el-form-item>
@@ -224,16 +228,18 @@
 
         </el-row>
 
-        <el-form-item id="myself">
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="cancleDelete">{{ $t('button.cancel') }}</el-button>
+        <el-form-item id="myself" class="dialog-button-list">
+          <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="cancleDelete" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
 
       </el-form>
+    </div>
     </el-dialog>
-
+    <!-- 预览弹框 -->
     <el-dialog
       :title="previewTitle"
+      class="el-dialog-style common-dialog-style"
       :visible.sync="previewVisible"
       width="60%"
     >

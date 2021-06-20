@@ -1,7 +1,7 @@
 <template>
   <div class="app-container" style="height: 550px">
     <div class="block">
-      <el-form label-width="76px" class="align-right has-Label-Width" style="margin: 0px;padding: 10px">
+      <el-form label-width="80px" class="align-right has-Label-Width" style="margin: 0px;padding: 10px">
         <el-row  class="hasmarginBottom" >
           <el-col :span="6">
             <el-form-item label="管线编号：">
@@ -24,6 +24,8 @@
               @selection-change="handleSelectionChange"
               @row-click="toggleSelection"
               @current-change="handleCurrentChange"
+              max-height="331px"
+              style="height:auto"
               ref="pipelineTable">
       <el-table-column
         type="selection"
@@ -35,39 +37,34 @@
         width="55"
         label="序号"
       />
-      <el-table-column label="管线编号">
+      <el-table-column label="管线编号" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pipelineCode}}
         </template>
       </el-table-column>
 
 
-      <el-table-column label="管径">
+      <el-table-column label="管径" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pipeDiameter}}
         </template>
       </el-table-column>
-      <el-table-column label="管长">
+      <el-table-column label="管长" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pipeLength}}
         </template>
       </el-table-column>
 
-
-
-
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">>
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" v-permission="['/bas/pipeline/update']">定位</el-button>
         </template>
       </el-table-column>
     </el-table>
     </div>
-    <div class="align-center" style="height: 120px;position: relative">
       <el-pagination
         background
-        style="position: relative"
-        class="position-pagination"
+        class="outer-pagenation"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[10, 20, 50, 100,500]"
         :page-size="listQuery.limit"
@@ -77,8 +74,7 @@
         @prev-click="fetchPrev"
         @next-click="fetchNext">
       </el-pagination>
-      <el-button type="primary" class="set-common-btn blue-button" @click="saveLine" style="width: 100px">选择起点管线</el-button>
-    </div>
+      <el-button type="primary" class="set-common-btn blue-button width92" @click="saveLine" >选择起点管线</el-button>
   </div>
 </template>
 

@@ -12,55 +12,58 @@
 
 
 
-    <div style="overflow-y: auto;height: 500px">
+    <div>
+      <el-scrollbar  style="height: 500px;margin-top:20px">
       <el-card >
         <div slot="header" class="clearfix">
           <span>监测报警</span>
         </div>
         <div>
+       <div class="table-list">
           <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border>
-            <el-table-column label="设备名称">
+            <el-table-column label="设备名称" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.equipment.equipmentName}}
               </template>
             </el-table-column>
-            <el-table-column label="报警位置">
+            <el-table-column label="报警位置" show-overflow-tooltip>
               <template slot-scope="scope">
                 <template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].installLocation}}</template>
               </template>
             </el-table-column>
-            <el-table-column label="报警时间">
+            <el-table-column label="报警时间" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.alarmTime}}
               </template>
             </el-table-column>
 
-            <el-table-column label="报警等级" width="80px" align="center">
+            <el-table-column label="报警等级" width="80px" align="center" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.alarmLevelName}}
               </template>
             </el-table-column>
 
-            <el-table-column label="报警值" width="80px" align="center">
+            <el-table-column label="报警值" width="80px" align="center" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.alarmValue}}<template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].equipmentUnit}}</template>
               </template>
             </el-table-column>
 
-            <el-table-column label="审核状态" width="80px" align="center">
+            <el-table-column label="审核状态" width="80px" align="center" show-overflow-tooltip>
               <template slot-scope="scope">
                 <template  v-if="scope.row.isAudit === 0">未审核</template>
                 <template  v-if="scope.row.isAudit === 1">已审核</template>
               </template>
             </el-table-column>
 
-            <el-table-column label="解除状态" width="80px" align="center">
+            <el-table-column label="解除状态" width="80px" align="center" show-overflow-tooltip>
               <template slot-scope="scope">
                 <template  v-if="scope.row.isRelieve === 0 ">未解除</template>
                 <template  v-if="scope.row.isRelieve === 1 ">已解除</template>
               </template>
             </el-table-column>
           </el-table>
+       </div>
         </div>
       </el-card>
       <el-card >
@@ -68,36 +71,38 @@
           <span>报警审核</span>
         </div>
         <div v-if="checkList[0].isAudit == 1">
+          <div class="table-list">
           <el-table :data="checkList" v-loading="false" max-height="100px" element-loading-text="Loading" border >
-            <el-table-column label="审核人">
+            <el-table-column label="审核人" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.auditUser.name}}
               </template>
             </el-table-column>
-            <el-table-column label="审核时间">
+            <el-table-column label="审核时间" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.auditTime}}
               </template>
             </el-table-column>
-            <el-table-column label="审核值">
+            <el-table-column label="审核值" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.auditValue}}<template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].equipmentUnit}}</template>
               </template>
             </el-table-column>
-            <el-table-column label="审核结果">
+            <el-table-column label="审核结果" show-overflow-tooltip>
               <template slot-scope="scope">
                 <template v-if="scope.row.auditStatus == 0" id="audit1">误报</template>
                 <template v-if="scope.row.auditStatus == 1" id="audit2">确认报警</template>
               </template>
             </el-table-column>
 
-            <el-table-column label="审核意见">
+            <el-table-column label="审核意见" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.auditOpinion}}
               </template>
             </el-table-column>
 
           </el-table>
+          </div>
         </div>
       </el-card>
       <el-card >
@@ -105,24 +110,25 @@
           <span>报警排查</span>
         </div>
         <div v-if="checkList[0].screenStatus == 258">
+          <div class="table-list">
           <el-table :data="screenList" v-loading="false" max-height="120px" element-loading-text="Loading" border>
-            <el-table-column label="排查人">
+            <el-table-column label="排查人" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.screenUser.name}}
               </template>
             </el-table-column>
-            <el-table-column label="排查时间">
+            <el-table-column label="排查时间" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.screenTime}}
               </template>
             </el-table-column>
-            <el-table-column label="排查结果">
+            <el-table-column label="排查结果" show-overflow-tooltip>
               <template slot-scope="scope">
                 <template v-if="scope.row.screenResult == 0" >误报</template>
                 <template v-if="scope.row.screenResult == 1" >确认报警</template>
               </template>
             </el-table-column>
-            <el-table-column label="备注">
+            <el-table-column label="备注" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.remark}}
               </template>
@@ -133,6 +139,7 @@
               </template>
             </el-table-column>
           </el-table>
+          </div>
         </div>
       </el-card>
       <el-card >
@@ -140,25 +147,26 @@
           <span>报警处置</span>
         </div>
         <div v-if="checkList[0].isFeedback > 0">
+          <div class="table-list">
           <el-table :data="disposeList" v-loading="false" max-height="200px" element-loading-text="Loading" border>
-            <el-table-column label="处置时间">
+            <el-table-column label="处置时间" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.createTime}}
               </template>
             </el-table-column>
 
-            <el-table-column label="处置人">
+            <el-table-column label="处置人" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.user.name}}
               </template>
             </el-table-column>
 
-            <el-table-column label="处置说明">
+            <el-table-column label="处置说明" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.handleConent}}
               </template>
             </el-table-column>
-            <el-table-column label="处置状态">
+            <el-table-column label="处置状态" show-overflow-tooltip>
               <template slot-scope="scope">
                 <template v-if="scope.row.handleStatus == 1" id="handleStatus1">处置中</template>
                 <template v-if="scope.row.handleStatus == 2" id="handleStatus2">已处置</template>
@@ -172,6 +180,7 @@
             </el-table-column>
           </el-table>
         </div>
+        </div>
       </el-card>
 
       <el-card >
@@ -179,21 +188,22 @@
           <span>报警解除</span>
         </div>
         <div v-if="checkList[0].isRelieve == 1">
+          <div class="table-list">
           <el-table :data="checkList" v-loading="false" max-height="120px" element-loading-text="Loading" border>
-            <el-table-column label="解除人">
+            <el-table-column label="解除人" show-overflow-tooltip>
               <template slot-scope="scope">
                 <template v-if="scope.row.relieveUser != null">{{scope.row.relieveUser.name}}</template>
                 <template v-if="scope.row.relieveUser == null">system</template>
               </template>
             </el-table-column>
 
-            <el-table-column label="解除时间">
+            <el-table-column label="解除时间" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.relieveTime}}
               </template>
             </el-table-column>
 
-            <el-table-column label="解除意见">
+            <el-table-column label="解除意见" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.relieveOpinion}}
               </template>
@@ -205,7 +215,9 @@
             <!--</el-table-column>-->
           </el-table>
         </div>
+        </div>
       </el-card>
+      </el-scrollbar>
     </div>
     <div>
       <el-dialog :title="fileTitle" :visible.sync="fileVisible" :modal-append-to-body="false" width="50%">
@@ -335,13 +347,23 @@
 </script>
 
 <style lang="scss" scoped >
-
+>>> .el-scrollbar__wrap{
+  overflow-x: hidden;
+  .el-scrollbar__bar.is-horizontal{
+    display: none;
+  }
+}
+.el-card{
+  margin-bottom: 10px;
+}
   >>> .el-card__header{
-    padding: 10px 10px;
+    padding: 0 10px;
     border-bottom: 1px solid #EBEEF5;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 30px;
+    line-height: 30px;
+    color: #409EFF;
   }
 
 >>> .el-step{

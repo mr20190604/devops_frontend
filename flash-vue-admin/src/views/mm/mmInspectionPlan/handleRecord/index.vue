@@ -2,55 +2,55 @@
   <div class="app-container">
 
     <!--列表-->
-    <div class="table-list">
+    <div class="table-list marginT15">
       <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-        <el-table-column label="设备编号" v-if="equipDisplay">
+        <el-table-column label="设备编号" v-if="equipDisplay" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.installInfo.equipment.equipmentCode}}
         </template>
       </el-table-column>
-        <el-table-column label="设备类型" v-if="equipDisplay">
+        <el-table-column label="设备类型" v-if="equipDisplay"  show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.installInfo.equipment.equipmentTypeName}}
           </template>
         </el-table-column>
-        <el-table-column label="管线编号" v-if="lineDisplay">
+        <el-table-column label="管线编号" v-if="lineDisplay"  show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.pipeline.pipelineCode}}
           </template>
         </el-table-column>
-        <el-table-column label="管线类型" v-if="lineDisplay">
+        <el-table-column label="管线类型" v-if="lineDisplay"  show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.pipeline.pipelineTypeName}}
           </template>
         </el-table-column>
-        <el-table-column label="地址">
+        <el-table-column label="地址"  show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.address}}
           </template>
         </el-table-column>
-        <el-table-column label="问题类型">
+        <el-table-column label="问题类型"  show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.problemTypeName}}
           </template>
         </el-table-column>
-        <el-table-column label="上报时间">
+        <el-table-column label="上报时间"  show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.inspectTime}}
           </template>
         </el-table-column>
-        <el-table-column label="巡检结果">
+        <el-table-column label="巡检结果"  show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-if="scope.row.inspectResult === 1">正常</span>
             <span v-if="scope.row.inspectResult === 2">异常</span>
           </template>
         </el-table-column>
-        <el-table-column label="负责人">
+        <el-table-column label="负责人"  show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.user.name}}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="mini" >定位</el-button>
           </template>
@@ -58,6 +58,7 @@
       </el-table>
       <el-pagination
         background
+        class="outer-pagenation"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[10, 20, 50, 100,500]"
         :page-size="listQuery.limit"
@@ -73,9 +74,4 @@
 </template>
 
 <script src="./recordList.js"></script>
-
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
 

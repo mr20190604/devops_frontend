@@ -40,9 +40,9 @@
 
     </el-table>
     </div>
-    <div style="position:absolute;bottom: 30px;width: 100%">
     <el-pagination
       background
+      class="outer-pagenation"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[5,10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -53,14 +53,15 @@
       @next-click="fetchNext">
     </el-pagination>
 
-</div>
     <el-dialog
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
-      width="75%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="height: 600px">
-        <el-row style="margin-left: 200px;margin-top: 50px">
+       class="common-dialog-style height700"
+      width="960px">
+      <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="104px"  class="align-right has-Label-Width" >
+        <el-row>
 
           <el-col :span="12">
             <el-form-item label="风险单元名称：">
@@ -102,44 +103,56 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row style="margin-left: 200px">
-        <el-form-item
+         <el-row>
+            <el-col>
+              <el-form-item >
+                <el-button @click="addDetail" class="set-common-btn blank-blue-button width92" style="float: right;">新增风险物质</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+       <el-row style="border:1px solid #f3f5fb;padding-top:15px">
+         <el-scrollbar style="height:310px">
+            <el-form-item
+              class="risk-material-item"
+            v-for="(rec, index) in form.details"
+            :label="'风险物质' + (index+1)"
+            :key="index"
+            :prop="'details.' + index + '.criticalQuantity'"
+            :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
+          >
+            <el-col :span="7">
+              <el-form-item label="风险物质">
+                <el-input class="el-input-style" v-model="rec.materialId"  minlength=1 @input="onInput()" ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="现存量" >
+                <el-input class="el-input-style" v-model="rec.currentStock"  @input="onInput()" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="临界量" >
+                <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <i class="el-icon-remove-outline operate-icon" @click.prevent="removeDetail(rec)"/>
+              <!-- <el-button @click.prevent="removeDetail(rec)" type="danger" icon="el-icon-delete"  >{{ $t('button.delete') }} -->
+              <!-- </el-button> -->
+            </el-col>
 
-          v-for="(rec, index) in form.details"
-          :label="'风险物质' + (index+1)"
-          :key="index"
-          :prop="'details.' + index + '.criticalQuantity'"
-          :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
-        >
-          <el-col :span="5">
-            <el-form-item label="风险物质">
-              <el-input class="el-input-style" v-model="rec.materialId"  minlength=1 @input="onInput()" ></el-input>
             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="现存量" >
-              <el-input class="el-input-style" v-model="rec.currentStock"  @input="onInput()" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="临界量" >
-              <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="margin-left: 100px">&nbsp;
-            <el-button @click.prevent="removeDetail(rec)" type="danger" icon="el-icon-delete"  >{{ $t('button.delete') }}
-            </el-button>
-          </el-col>
-
-        </el-form-item>
+        </el-scrollbar>
         </el-row>
-        <el-form-item id="myself">
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click="addDetail">新增风险物质</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
-        </el-form-item>
-
+         <el-row>
+            <el-form-item id="myself" class="align-center marginT10">
+            <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+            <!-- <el-button @click="addDetail" class="set-common-btn blank-blue-button width92">新增风险物质</el-button> -->
+            <el-button @click.native="formVisible = false" class="set-common-btn blue-button">{{ $t('button.cancel') }}</el-button>
+          </el-form-item>
+       </el-row>
       </el-form>
+      </div>
     </el-dialog>
 
 
@@ -147,7 +160,47 @@
 </template>
 
 <script  src="./unitInfo.js"></script>
-
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/commonmyself.scss";
+  .common-dialog-style{
+    .operate-icon{
+      height: 28px;
+      line-height: 28px;
+      font-size: 20px;
+      color: #1a80ff;
+    }
+   >>> .el-dialog{
+       min-height: 642px;
+    }
+   
+    .el-form{
+      .el-form-item{
+        &.risk-material-item{
+         margin-bottom: 0;
+         >>> .el-form-item__content{
+            .el-form-item{
+               
+             .el-form-item__label{
+                width: 76px !important;
+              }
+             .el-form-item__content{
+                margin-left: 88px !important;
+                .el-input{
+                  width: 82px !important;
+                  input{
+                    width: 100% !important;
+                  }
+                }
+             }
+
+            }
+          }
+        }
+      }
+    }
+    >>> .el-scrollbar{
+  .el-scrollbar__wrap{
+    overflow-x: hidden;
+  } 
+}
+  }
 </style>

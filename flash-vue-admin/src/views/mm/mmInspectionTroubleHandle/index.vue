@@ -3,22 +3,22 @@
         <div class="block">
           <el-form label-width="76px" class="align-right has-Label-Width">
             <el-row  class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="隐患类型：">
                   <dict-select v-model="listQuery.troubleType" dict-name="隐患类型" placeholder="请选择隐患类型"></dict-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="隐患来源：">
                   <dict-select v-model="listQuery.troubleSource" dict-name="隐患来源" placeholder="请选择隐患来源"></dict-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="隐患等级：">
                   <dict-select v-model="listQuery.troubleLevel" dict-name="隐患等级" placeholder="请选择隐患等级"></dict-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="维修人：">
                   <el-select v-model="listQuery.repairPerson" filterable placeholder="请选择" @change="getTelephone">
                     <el-option
@@ -30,17 +30,17 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="分配状态：">
                   <dict-select v-model="listQuery.distributeStatus" dict-name="分配状态" placeholder="请选择分配状态"></dict-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="处置状态：">
                   <dict-select v-model="listQuery.handleStatus" dict-name="处置状态" placeholder="请选择处置状态"></dict-select>
                 </el-form-item>
               </el-col>
-                <el-col :span="12">
+                <el-col :span="13">
                     <el-button type="success" size="mini" class="set-common-btn blue-button"  @click.native="search">{{ $t('button.search') }}</el-button>
                     <el-button type="primary" size="mini" class="set-common-btn blank-blue-button"  @click.native="reset">{{ $t('button.reset') }}</el-button>
                 </el-col>
@@ -118,7 +118,7 @@
                   <template v-if="scope.row.handleStatus==295">已处置</template>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="250px">
+            <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-view" @click.native="openProcess(scope.row)">查看</el-button>
                     <el-button type="text" size="mini" icon="el-icon-location-outline"  >定位</el-button>
@@ -128,6 +128,7 @@
 
         <el-pagination
                 background
+               class="position-pagination"
                 layout="total, sizes, prev, pager, next, jumper"
                 :page-sizes="[10, 20, 50, 100,500]"
                 :page-size="listQuery.limit"
@@ -138,14 +139,16 @@
                 @next-click="fetchNext">
         </el-pagination>
           </div>
-        <el-dialog class="el-dialog-style common-dialog-style height700"
+        <!-- 分配弹框 -->
+        <el-dialog class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
                 width="960px">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px" style="margin-top: 50px">
+                <div class="block">
+            <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="align-right has-Label-Width">
                 <el-row>
                   <el-col :span="12">
-                    <el-form-item label="维修人员"  >
+                    <el-form-item label="维修人员："  >
                       <el-select v-model="form.repairPerson" filterable placeholder="请选择" @change="getTelephone">
                         <el-option
                           v-for="item in repair_person"
@@ -157,7 +160,7 @@
                     </el-form-item>
                   </el-col>
                     <el-col :span="12">
-                        <el-form-item label="联系电话"  >
+                        <el-form-item label="联系电话："  >
                             <el-input v-model="form.repairPersonCellphone" minlength=1></el-input>
                         </el-form-item>
                     </el-col>
@@ -168,13 +171,18 @@
                 </el-form-item>
 
             </el-form>
+            </div>
         </el-dialog>
+        <!-- 隐患流程跟踪弹框 -->
       <el-dialog
+      class="el-dialog-style common-dialog-style"
         :title="processTitle"
         :visible.sync="processVisible"
-        width="70%"
+        width="960px"
       >
+      <div class="marginT26">
         <troubleProcess :trouble_list="trouble_list" :trouble_handle_list="trouble_handle_list"></troubleProcess>
+      </div>
       </el-dialog>
 
     </div>
@@ -183,7 +191,4 @@
 <script src="./mmInspectionTroubleHandle.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/commonmyself.scss";
-</style>
 

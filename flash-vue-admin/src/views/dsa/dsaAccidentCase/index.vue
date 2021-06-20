@@ -3,17 +3,17 @@
         <div class="block">
           <el-form>
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="事故名称：">
                   <el-input v-model="listQuery.accidentName"  placeholder="请输事故名称"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="事故地点：">
                   <el-input v-model="listQuery.accidentAddress"  placeholder="请输事故地点"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="事件类型：">
                   <el-select v-model="listQuery.accidentType"  placeholder="请选择事件类型">
                     <el-option
@@ -25,7 +25,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="所属行业：">
                   <el-select v-model="listQuery.industryId"  placeholder="请选择所属行业">
                     <el-option
@@ -53,7 +53,7 @@
                     </el-date-picker>
                   </el-form-item>
                 </el-col>
-                <el-col :span="16" style="float: right">
+                <el-col :span="15">
                     <el-form-item>
                         <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}
                         </el-button>
@@ -159,12 +159,15 @@
                 @next-click="fetchNext">
         </el-pagination>
  </div>
+ <!-- 添加事故案例库弹框 -->
         <el-dialog
+        class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="60%"
+                width="960px"
                 @close="closeDialog">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+                <div class="block">
+            <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="align-right has-Label-Width">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="事故名称："  >
@@ -211,7 +214,9 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                    <el-col :span="12">
+                  </el-row>
+                  <el-row>
+                    <el-col>
                         <el-form-item label="事故描述："  >
                             <el-input type="textarea" v-model="form.accidentDesc" minlength=1></el-input>
                         </el-form-item>
@@ -223,21 +228,23 @@
                         </el-form-item>
                     </el-col>-->
                 </el-row>
-                <el-form-item id="myself">
-                    <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible=false">{{ $t('button.cancel') }}</el-button>
+                <el-form-item id="myself" class="dialog-button-list">
+                    <el-button type="primary" class="set-common-btn blue-button"  @click="save">{{ $t('button.submit') }}</el-button>
+                    <el-button @click.native="formVisible=false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>
+                </div>
         </el-dialog>
       <!--详情-->
       <el-dialog
+      class="el-dialog-style common-dialog-style"
         :title="formTitle"
         :visible.sync="accidentVisible"
-        width="60%"
+        width="960px"
         @close="closeDialog">
-
-        <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+<div class="block">
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="align-right has-Label-Width">
           <el-row>
             <el-col :span="12">
               <el-form-item label="事故名称："  >
@@ -284,13 +291,16 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+             </el-row>
+             <el-row>
+            <el-col>
               <el-form-item label="事故描述："  >
                 <el-input type="textarea" v-model="form.accidentDesc" minlength=1 readonly="true"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
+</div>
       </el-dialog>
     </div>
 </template>

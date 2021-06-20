@@ -3,25 +3,25 @@
         <div class="block">
           <el-form label-width="76px" :inline="true">
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="设施编码：">
                   <el-input v-model="listQuery.equipCode"  placeholder="请输入编号"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
 
                 <el-form-item label="报警等级：">
                   <dict-select v-model="listQuery.alarmLevel" dict-name="报警等级" placeholder="--请选择--"></dict-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="监测类型：">
                  <dict-select dict-name="设备类型" v-model="listQuery.monitorType"></dict-select>
                 </el-form-item>
               </el-col>
 
 
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="审核状态：">
                   <el-select v-model="listQuery.isAudit"  placeholder="--请选择--">
                     <el-option
@@ -38,7 +38,7 @@
             </el-row>
 
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="审核结果：">
                   <el-select v-model="listQuery.auditStatus"  placeholder="--请选择--">
                     <el-option
@@ -51,7 +51,7 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="解除状态：">
                   <el-select v-model="listQuery.isRelieve"  placeholder="--请选择--">
                     <el-option
@@ -65,7 +65,7 @@
 
               </el-col>
 
-              <el-col :span="10">
+              <el-col :span="14">
                 <el-form-item label="报警时间：">
                   <el-date-picker
                     v-model="listQuery.searchTime"
@@ -81,7 +81,7 @@
               </el-col>
         </el-row>
         <el-row>
-                <el-col>
+                <el-col :span="23">
                   <el-form-item>
                     <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                     <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>

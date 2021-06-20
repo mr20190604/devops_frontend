@@ -18,12 +18,14 @@
       </el-form>-->
     </div>
 
-    <div class="table-list">
+    <div class="table-list marginT15">
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
               :row-key="(row) => row.id"
               @selection-change="handleSelectionChange"
               @row-click="toggleSelection"
               @current-change="handleCurrentChange"
+              ax-height="331px"
+              style="height:auto"
               ref="pipelineTable">
       <el-table-column
         type="selection"
@@ -35,19 +37,19 @@
         width="55"
         label="序号"
       />
-      <el-table-column label="管线编号">
+      <el-table-column label="管线编号" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pipelineCode}}
         </template>
       </el-table-column>
 
 
-      <el-table-column label="管径">
+      <el-table-column label="管径" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pipeDiameter}}
         </template>
       </el-table-column>
-      <el-table-column label="管长">
+      <el-table-column label="管长" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pipeLength}}
         </template>
@@ -56,7 +58,7 @@
 
 
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" v-permission="['/bas/pipeline/update']">定位</el-button>
         </template>

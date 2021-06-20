@@ -3,17 +3,17 @@
         <div class="block">
           <el-form label-width="76px" class="align-right has-Label-Width">
             <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="企业名称：">
                   <el-input v-model="listQuery.enterpriseName"  placeholder="请输入企业名称"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="所在地区：">
                   <district v-model="listQuery.districtCode"  placeholder="请选择所在地区"/>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                  <el-form-item label="经营状态：">
                   <el-select   v-model="listQuery.managementSituation" placeholder="请选择经营状态">
                     <el-option
@@ -25,14 +25,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                  <el-form-item  label="地址：">
                   <el-input v-model="listQuery.enterpriseAddress"  placeholder="请输入所在地址"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item  label="风险等级：">
                   <el-select v-model="listQuery.riskLevel"  placeholder="请选择风险等级">
                     <el-option
@@ -44,12 +44,12 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item  label="法人：">
                   <el-input v-model="listQuery.legalPerson"  placeholder="请输入法人名称"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="13">
                 <el-form-item>
                   <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
                   <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
@@ -159,7 +159,7 @@
         </el-pagination>
      </div>
     <!-- 添加 -->
-      <el-dialog class="el-dialog-style common-dialog-style height700"
+      <el-dialog class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
                 width="960px">

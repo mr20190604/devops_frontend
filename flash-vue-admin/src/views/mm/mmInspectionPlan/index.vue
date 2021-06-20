@@ -4,7 +4,7 @@
     <div class="block">
       <el-form label-width="76px" :inline="true">
         <el-row class="hasmarginBottom">
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="路线名称:">
               <el-select v-model="listQuery.path" clearable placeholder="请选择">
                 <el-option
@@ -16,7 +16,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="审核状态:">
               <el-select v-model="listQuery.auditStatus" clearable placeholder="请选择">
                 <el-option
@@ -28,19 +28,19 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="巡检类型:">
               <dict-select v-model="listQuery.inspectType" dict-name="巡检类型" placeholder="请选择巡检类型"/>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="巡检形式:">
               <dict-select v-model="listQuery.inspectForm" dict-name="巡检形式" placeholder="请选择巡检形式"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="逾期状态:">
               <el-select v-model="listQuery.isOverdue" clearable placeholder="请选择">
                 <el-option
@@ -52,7 +52,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="巡检状态:">
               <el-select v-model="listQuery.handleStatus" clearable placeholder="请选择">
                 <el-option
@@ -77,7 +77,10 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+         
+        </el-row>
+        <el-row>
+           <el-col :span="23">
             <el-form-item>
               <el-button
                 type="primary"
@@ -158,7 +161,7 @@
             <span v-if="scope.row.handleStatus === 3">已完成</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="280px">
+        <el-table-column label="操作" align="center" width="320px">
           <template slot-scope="scope">
             <el-button
               v-permission="['/bas/build/update']"
@@ -209,6 +212,7 @@
       </el-table>
       <el-pagination
         background
+        class="position-pagination"
         layout="total, sizes, prev, pager, next, jumper"
         :page-sizes="[10, 20, 50, 100,500]"
         :page-size="listQuery.limit"
@@ -220,14 +224,17 @@
       </el-pagination>
     </div>
     <!--弹出框-->
+    <!-- 添加巡检巡查_巡检计划表弹框 -->
     <el-dialog @close="cancel"
       :title="formTitle"
+      class="el-dialog-style common-dialog-style"
       :visible.sync="formVisible" :modal-append-to-body="false"
-      width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      width="960px">
+      <div class="block">
+      <el-form ref="form" style="width:900px" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="线路">
+            <el-form-item label="线路：">
               <el-select v-model="form.pathId" placeholder="请选择" @change="changePath(form.pathId)" v-bind:disabled="readonly">
                 <el-option
                   v-for="item in pathList"
@@ -239,8 +246,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="巡查负责人">
-              <el-select v-model="form.personIdList" multiple placeholder="请选择" v-bind:disabled="readonly">
+            <el-form-item label="巡查负责人：">
+              <el-select v-model="form.personIdList" multiple collapse-tags placeholder="请选择" v-bind:disabled="readonly">
                 <el-option
                   v-for="item in inspectionPersonList"
                   :key="item.id"
@@ -250,17 +257,25 @@
               </el-select>
             </el-form-item>
           </el-col>
-
-          <el-col :span="12">
-            <el-form-item label="巡检形式">
-              <dict-select v-model="form.inspectForm" dict-name="巡检形式" v-bind:disabled="readonly"></dict-select>
+        <el-col :span="12">
+            <el-form-item label="巡检类型：">
+              <dict-select v-model="form.inspectType" dict-name="巡检类型" v-bind:disabled="readonly"></dict-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="计划开始日期">
+            <el-form-item label="巡检形式：">
+              <dict-select v-model="form.inspectForm" dict-name="巡检形式" v-bind:disabled="readonly"></dict-select>
+            </el-form-item>
+          </el-col>
+         
+        </el-row>
+        <el-row>
+           <el-col :span="12">
+            <el-form-item label="计划开始日期：">
               <el-date-picker
                 v-bind:disabled="readonly"
                 v-model="searchTime"
+                size="mini"
                 type="datetimerange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -269,25 +284,11 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+         
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="巡检类型">
-              <dict-select v-model="form.inspectType" dict-name="巡检类型" v-bind:disabled="readonly"></dict-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col>
-            <lineList v-if="tableDisplay === 1" :pathId="pathId" ></lineList>
-          </el-col>
-          <el-col>
-            <equipmentList v-if="tableDisplay === 2" :pathId="pathId" :isAdd="isAdd"
-                           :planId="planId" @getEquipList="getEquipList" ></equipmentList>
-          </el-col>
-        </el-row>
+       
         <el-row v-if="fileDisplay">
-          <el-col :span="16">
+          <el-col>
             <el-form-item label="选择文件：">
               <el-upload v-bind:disabled="readonly"
                 :action="uploadUrl"
@@ -307,15 +308,15 @@
         </el-row>
 
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="备注">
-              <el-input v-model="form.notes" minlength=1 v-bind:disabled="readonly"></el-input>
+          <el-col>
+            <el-form-item label="备注：">
+              <el-input v-model="form.notes" minlength=1 v-bind:disabled="readonly" type="textarea"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row v-if="auditResultDisplay">
           <el-col :span="12">
-            <el-form-item label="审核结论">
+            <el-form-item label="审核结论：">
               <el-select v-model="form.auditStatus" placeholder="请选择">
                 <el-option
                   v-for="item in auditResultList"
@@ -327,14 +328,24 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item >
-          <el-button type="primary" @click="save" v-if="btnDisplay">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false" @click="cancel">{{ $t('button.cancel') }}</el-button>
+         <el-row>
+          <el-col>
+            <lineList v-if="tableDisplay === 1" :pathId="pathId" ></lineList>
+          </el-col>
+          <el-col>
+            <equipmentList v-if="tableDisplay === 2" :pathId="pathId" :isAdd="isAdd"
+                           :planId="planId" @getEquipList="getEquipList" ></equipmentList>
+          </el-col>
+        </el-row>
+        <el-form-item class="dialog-button-list">
+          <el-button type="primary" @click="save" v-if="btnDisplay" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" @click="cancel" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
       </el-form>
+      </div>
     </el-dialog>
 
-    <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false">
+    <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false" class="el-dialog-style common-dialog-style">
       <handleRecord v-if="handleDisplay" :planId="planId" :inspectionType="inspectionType"></handleRecord>
     </el-dialog>
   </div>
@@ -343,7 +354,4 @@
 <script src="./mmInspectionPlan.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
 

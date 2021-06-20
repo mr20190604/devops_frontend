@@ -2,7 +2,7 @@
     <div class="app-container">
         <div class="block">
             <el-form>
-              <el-row class="hasmarginBottom">
+              <el-row>
                 <el-col :span="6">
                   <el-form-item label="设备类型：">
                     <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"  placeholder="请选择"/>
@@ -116,20 +116,22 @@
     </div>
       <!--阈值管理-->
       <el-dialog
+      class="el-dialog-style common-dialog-style"
         :title="thresholdTitle"
         :visible="thresholdVisible"
-        width="50"
+        width="960px"
         @close="cancleThreshold"
       >
         <threshold :thresholdForm="thresholdForm" :editFlag="true" :equipmentCode="equipCode"></threshold>
       </el-dialog>
 
 
-
+<!-- 监测曲线弹框 -->
         <el-dialog
+        class="el-dialog-style common-dialog-style"
                 :title="formTitle"
                 :visible.sync="formVisible"
-                width="40%"
+                width="50%"
 
                 @close="closeTimer"
         >

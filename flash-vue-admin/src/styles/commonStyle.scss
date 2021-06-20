@@ -3,6 +3,7 @@
   margin: 0;
   padding:0;
 }
+
 .main-container{
 .table-list {
     padding: 0 12px;
@@ -114,6 +115,12 @@
     margin-bottom: 10px;
   }
 }
+.flex{
+  display: flex;
+}
+.justify-between{
+  justify-content: space-between;
+}
 
 .block{
   padding: 0;
@@ -224,11 +231,31 @@
 .marginT20{
   margin-top: 20px;
 }
+.marginT15{
+  margin-top: 15px;
+}
+.marginT10{
+  margin-top: 10px;
+}
+.marginT26{
+  margin-top: 26px;
+}
+.item-content-margiN-zero{
+  .el-form-item__content{
+    margin-left: 0 !important;
+  }
+}
 .paddingTop12{
   padding-top: 12px;
 }
 .white{
   background: #fff;
+}
+.common-dialog-style{
+  .table-list{
+    height: auto;
+    padding: 0;
+  }
 }
 }
 .app-container{
@@ -277,6 +304,9 @@
   cursor: pointer;
   color: #1a80ff;
 }
+.width-auto{
+  width: auto !important;
+}
 // 公共弹框样式
 .common-dialog-style{
   &.height700{
@@ -287,7 +317,8 @@
   .el-dialog__header{
     background-color: #1a90ff;
     padding: 8px 15px;
-   
+    box-sizing: border-box;
+    height: 40px;
     .el-dialog__title{
       font-size: 14px;
       color:#fff;
@@ -309,7 +340,9 @@
   .block{
     .el-form{
       padding-bottom: 0;
-      margin-left: 30px;
+      // margin-left: 30px;
+      width: 800px;
+      margin: 0 auto;
       .el-form-item{
         margin-bottom: 20px;
         &.dialog-button-list{
@@ -337,6 +370,27 @@
             margin-bottom: 0;
           }
         }
+        .el-col{
+          &:nth-of-type(even){
+            display: flex;
+            justify-content: flex-end;
+            .el-form-item{
+              display: flex;
+            }
+          }
+        }
+      }
+      &.has-Label-Width{
+        .el-row{
+          .el-col{
+            &:nth-of-type(even){
+              .el-form-item{
+                display: initial;
+              }
+            }
+          }
+        }
+        
       }
     }
   }

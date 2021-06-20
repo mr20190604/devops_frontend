@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-right: 20px;">
+  <div>
     <!--fileType-->
     <iframe :style="previewStyle" :src="previewFileUrl" />
     <!--<img v-if="fileType === 2" style="previewStyle" :src="previewFileUrl"/>
