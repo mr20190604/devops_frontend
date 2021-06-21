@@ -37,7 +37,7 @@
     <!--列表-->
     <div class="table-list">
       <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-                @current-change="handleCurrentChange" @selection-change="handleSelectionChange">
+                @current-change="handleCurrentChange" @selection-change="handleSelectionChange" :row-key="getRowKey">
         <el-table-column
           type="selection"
           width="55"

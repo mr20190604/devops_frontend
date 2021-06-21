@@ -19,7 +19,7 @@ export default {
 
   data() {
     return {
-      fileDisplay:true,
+      fileBtnDisplay:true,
       uploadUrl:'',
       uploadHeaders: {
         'Authorization': ''
@@ -235,8 +235,11 @@ export default {
       this.fetchData();
     },
     add() {
+      //保存按钮显示
       this.btnDisplay = true;
-      this.formTitle = '添加巡检巡查_巡检计划表';
+      //附件上传按钮显示
+      this.fileBtnDisplay = true;
+      this.formTitle = '添加巡检计划';
       this.formVisible = true;
       this.isAdd = true;
       this.fileList = [];
@@ -244,11 +247,8 @@ export default {
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
     save() {
-      this.readonly = true;
-
       this.form.startTime = this.searchTime[0];
       this.form.endTime = this.searchTime[1];
       this.form.isOverdue = 1;
@@ -329,82 +329,78 @@ export default {
       return false
     },
     editItem(record) {
+      //保存按钮显示
+      this.btnDisplay = true;
+      //附件上传按钮显示
+      this.fileBtnDisplay = true;
       this.selRow = record;
       this.planId = record.id;
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
-        this.isAdd = false;
-        this.form = this.selRow;
+       this.fillFormData('编辑巡检计划')
+      }
+    },
+    fillFormData(formTitle,flag){
+      this.isAdd = false;
+      this.form = this.selRow;
 
-        let temp = null;
-        this.fileList = [];
+      let temp = null;
+      this.fileList = [];
 
-        mmInspectionPlanFileApi.listPlanFile(this.form.id).then(response=>{
-          temp = response.data;
-          if(temp) {
-            temp.forEach(item =>{
-              if(item.fileInfo) {
-                this.fileList.push({
-                  "url":"",
-                  "name":item.fileInfo.originalFileName,
-                  "id":item.fileId,
-                  "status":"success",
-                })
-              }
-            })
-          }
-        });
-
-        this.searchTime.push(this.selRow.startTime);
-        this.searchTime.push(this.selRow.endTime);
-        let ids = [];
-        let list = this.selRow.personList;
-        list.forEach(item =>{
-          ids.push(item.personId);
-        });
-        this.form.personIdList = ids;
-        this.formTitle = '编辑巡检巡查_巡检计划表';
-        this.formVisible = true;
-
-        if (this.$refs['form'] !== undefined) {
-          this.$refs['form'].resetFields()
+      mmInspectionPlanFileApi.listPlanFile(this.form.id).then(response=>{
+        temp = response.data;
+        if(temp) {
+          temp.forEach(item =>{
+            if(item.fileInfo) {
+              this.fileList.push({
+                "url":"",
+                "name":item.fileInfo.originalFileName,
+                "id":item.fileId,
+                "status":"success",
+              })
+            }
+          })
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
+      });
+
+      this.searchTime.push(this.selRow.startTime);
+      this.searchTime.push(this.selRow.endTime);
+      let ids = [];
+      let list = this.selRow.personList;
+      list.forEach(item =>{
+        ids.push(item.personId);
+      });
+      this.form.personIdList = ids;
+      this.formTitle = formTitle;
+      this.formVisible = true;
+      if('审核' === flag){
+        this.form.auditStatus = '';
+      }
+
+      if (this.$refs['form'] !== undefined) {
+        this.$refs['form'].resetFields()
       }
     },
     audit(record){
       this.btnDisplay = true;
+      this.fileBtnDisplay = false;
       this.readonly = true;
       this.auditResultDisplay = true;
       this.selRow = record;
       if (this.checkSel()) {
-        this.isAdd = false;
-        this.form = this.selRow;
-
-        this.form.auditStatus = '';
-        this.searchTime.push(this.selRow.startTime);
-        this.searchTime.push(this.selRow.endTime);
-        let ids = [];
-        let list = this.selRow.personList;
-        list.forEach(item =>{
-          ids.push(item.personId);
-        });
-        this.form.personIdList = ids;
-        this.formTitle = '编辑巡检巡查_巡检计划表';
-        this.formVisible = true;
-
-        if (this.$refs['form'] !== undefined) {
-          this.$refs['form'].resetFields()
-        }
+        this.fillFormData('审核巡检计划','审核');
       }
     },
     showPlan(record){
       this.readonly = true;
       this.auditResultDisplay = false;
       this.btnDisplay = false;
-      this.editItem(record);
+      this.fileBtnDisplay = false;
+      this.selRow = record;
+      this.planId = record.id;
+      this.fillFormData('查看巡检计划');
     },
     showHandle(record){
       this.handleDisplay = true;

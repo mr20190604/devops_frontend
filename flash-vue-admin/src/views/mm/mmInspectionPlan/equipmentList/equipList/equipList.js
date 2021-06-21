@@ -15,7 +15,7 @@ export default {
         equipName:undefined,
       },
       total: 0,
-      list: null,
+      list: [],
     }
   },
   filters: {
@@ -96,7 +96,9 @@ export default {
     },
     submitEquip(){
       this.$emit('getEquipList',this.selection);
-
-    }
+    },
+    getRowKey(row){
+      return row.id;
+    },
   }
 }
