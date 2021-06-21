@@ -60,26 +60,29 @@
         </el-table-column>
       </el-table>
     </div>
+    <!-- 添加菜单弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="70%"
+      width="960px"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="名称" prop="name">
+            <el-form-item label="名称：" prop="name">
               <el-input v-model="form.name" minlength="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="资源地址" prop="url">
+            <el-form-item label="资源地址：" prop="url">
               <el-input v-model="form.url" minlength="1" />
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="菜单类型">
+            <el-form-item label="菜单类型：">
               <el-radio-group v-model="form.ismenu">
                 <el-radio :label="1">菜单</el-radio>
                 <el-radio :label="0">按钮</el-radio>
@@ -87,7 +90,7 @@
             </el-form-item>
           </el-col>
           <el-col v-show="form.ismenu" :span="12">
-            <el-form-item label="是否隐藏">
+            <el-form-item label="是否隐藏：">
               <el-radio-group v-model="form.hidden">
                 <el-radio :label="true">是</el-radio>
                 <el-radio :label="false">否</el-radio>
@@ -95,23 +98,23 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="菜单编号" prop="code">
+            <el-form-item label="菜单编号：" prop="code">
               <el-input v-model="form.code" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="父菜单">
+            <el-form-item label="父菜单：">
               <treeselect v-model="form.pcode" :options="treeData" placeholder="请选择父菜单/顶级菜单目录无需选择" />
             </el-form-item>
           </el-col>
 
           <el-col v-show="form.ismenu===1" :span="12">
-            <el-form-item label="组件">
+            <el-form-item label="组件：">
               <el-input v-model="form.component" @focus="componentTips" />
             </el-form-item>
           </el-col>
           <el-col v-show="form.ismenu===1" :span="12">
-            <el-form-item label="图标">
+            <el-form-item label="图标：">
               <el-popover
                 placement="bottom-start"
                 width="460"
@@ -134,20 +137,26 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="排序" prop="num">
+            <el-form-item label="排序：" prop="num">
               <el-input v-model="form.num" type="number" />
             </el-form-item>
           </el-col>
 
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+        <el-form-item class="dialog-button-list">
+          <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
       </el-form>
+    </div>
     </el-dialog>
   </div>
 </template>
 
 <script src="./menu.js"></script>
+<style scoped>
+>>> .el-radio-group{
+  width: 200px;
+}
+</style>
 

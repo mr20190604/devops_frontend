@@ -3,28 +3,29 @@
     <div class="block">
       <el-row>
         <el-col :span="24">
-          <el-button icon="el-icon-back" size="mini" @click.native="back">{{ $t('button.back') }}</el-button>
+          <el-button  size="mini" @click.native="back" class="set-common-btn blue-button back-icon">{{ $t('button.back') }}</el-button>
         </el-col>
       </el-row>
     </div>
+   <div class="table-list">
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
 
-      <el-table-column label="任务名">
+      <el-table-column label="任务名" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.name}}
         </template>
       </el-table-column>
-      <el-table-column label="执行时间">
+      <el-table-column label="执行时间" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.execAt}}
         </template>
       </el-table-column>
-      <el-table-column label="执行结果">
+      <el-table-column label="执行结果" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.execSuccess === 1 ? '成功' : '失败'}}
         </template>
       </el-table-column>
-      <el-table-column label="异常信息">
+      <el-table-column label="异常信息" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.jobException}}
         </template>
@@ -34,6 +35,7 @@
 
     <el-pagination
       background
+      class="position-pagination"
       layout="total, sizes, prev, pager, next, jumper"
       :page-sizes="[10, 20, 50, 100,500]"
       :page-size="listQuery.limit"
@@ -45,12 +47,21 @@
       @next-click="fetchNext">
     </el-pagination>
   </div>
+  </div>
 </template>
 
 <script src="./log.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
+<style lang="scss" scoped>
+.main-container {
+  .table-list{
+    height: calc(100% - 53px)
+  }
+  .back-icon{
+    margin: 15px 0 10px 12px;
+  }
+}
+
 </style>
 

@@ -46,26 +46,26 @@
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
      <el-table-column type="expand">
        <template slot-scope="props">
-         <el-form label-position="left" inline class="flash-table-expand">
-           <el-form-item label="用户id">
+          <el-form  inline label-width="90px" class="flash-table-expand expand-log-form align-right has-Label-Width">
+           <el-form-item label="用户id：">
              <span>{{ props.row.userid }}</span>
            </el-form-item>
-           <el-form-item label="日志名称">
+           <el-form-item label="日志名称：">
              <span>{{ props.row.logname }}</span>
            </el-form-item>
-           <el-form-item label="用户">
+           <el-form-item label="用户：">
              <span>{{ props.row.userName }}</span>
            </el-form-item>
-           <el-form-item label="IP">
+           <el-form-item label="IP：">
              <span>{{ props.row.ip }}</span>
            </el-form-item>
-           <el-form-item label="结果">
+           <el-form-item label="结果：">
              <span>{{ props.row.succeed }}</span>
            </el-form-item>
-           <el-form-item label="时间">
+           <el-form-item label="时间：">
              <span>{{ props.row.createtime }}</span>
            </el-form-item>
-           <el-form-item label="内容">
+           <el-form-item label="内容：">
              <span>{{ props.row.regularMessage }}</span>
            </el-form-item>
          </el-form>

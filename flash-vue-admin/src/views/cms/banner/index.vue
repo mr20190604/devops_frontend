@@ -65,9 +65,9 @@
     class="common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="1100px">
+      width="960px">
       <div class="block">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="92px"  class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
             <el-form-item label="标题：" prop="title">
@@ -92,8 +92,9 @@
             </el-form-item>
           </el-col>
 
-
-          <el-col :span="12">
+</el-row>
+<el-row>
+          <el-col>
             <el-form-item label="banner图片：">
               <el-upload
                 class="upload-demo"

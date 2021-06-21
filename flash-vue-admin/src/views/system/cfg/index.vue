@@ -74,36 +74,42 @@
       @next-click="fetchNext">
     </el-pagination>
  </div>
+ <!-- 添加参数弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      width="960px">
+      <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item :label="$t('config.name')" prop="cfgName">
+
+            <el-form-item :label="$t('config.name')+'：'" prop="cfgName">
               <el-input v-model="form.cfgName" minlength=1></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('config.value')" prop="cfgValue">
+            <el-form-item :label="$t('config.value')+'：'" prop="cfgValue">
               <el-input v-model="form.cfgValue"  minlength=1></el-input>
             </el-form-item>
           </el-col>
 
-
-          <el-col :span="12">
-            <el-form-item :label="$t('config.descript')" prop="cfgDesc">
-              <el-input v-model="form.cfgDesc"></el-input>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item :label="$t('config.descript')+'：'" prop="cfgDesc">
+              <el-input v-model="form.cfgDesc" type="textarea"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+        <el-form-item class="dialog-button-list">
+          <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
 
       </el-form>
+      </div>
     </el-dialog>
   </div>
 </template>

@@ -5,12 +5,12 @@
       <el-form ref="form" :model="form" label-width="76px" class="align-right has-Label-Width">
         <el-input type="hidden" ref="content" v-model="form.content"></el-input>
         <el-row class="hasmarginBottom">
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="文章标题：">
                   <el-input v-model="form.title" minlength=1 placeholder="文章标题"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="选择栏目：">
                   <el-select v-model="form.idChannel" placeholder="选择栏目">
                     <el-option
@@ -22,9 +22,15 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <el-form-item label="作者：">
                   <el-input v-model="form.author" minlength=1 placeholder="作者"></el-input>
+                </el-form-item>
+              </el-col>
+               <el-col :span="8">
+                <el-form-item>
+                    <el-button  class="set-common-btn blue-button" type="primary" @click="save">{{ $t('button.submit') }}</el-button>
+                    <el-button  class="set-common-btn blank-blue-button" @click.native="back">{{ $t('button.back') }}</el-button>
                 </el-form-item>
               </el-col>
         </el-row>
@@ -43,15 +49,14 @@
                 <div class="el-upload__text">上传图片</div>
               </el-upload>
             </el-form-item>
-            <img :src="articleImg" style="height:8rem;"  v-if="ifUpload!==true" >
-            <el-button icon="el-icon-edit" v-if="ifUpload!==true" @click.native="uploadImg">修改题图</el-button>
+            
           </el-col>
-            <el-col :span="12">
-              <el-form-item>
-                  <el-button  class="set-common-btn blue-button" type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                  <el-button  class="set-common-btn blank-blue-button" @click.native="back">{{ $t('button.back') }}</el-button>
-              </el-form-item>
-            </el-col>
+          </el-row>
+          <el-row v-if="ifUpload!==true">
+           <el-col :span="12" class="flex flex-column marginT20">
+            <p class="textAlignLeft"><img  :src="articleImg" style="height:8rem;" ></p>
+            <el-button  @click.native="uploadImg" class="set-common-btn blue-button marginT10">修改题图</el-button>
+           </el-col>
         </el-row>
       </el-form>
     </div>
@@ -68,7 +73,16 @@
 
 <script src="./edit.js"></script>
 
-<style scoped>
+<style scoped lang="scss">
+.main-container .block .el-form .el-row:last-child .el-col:last-child{
+  text-align: left;
+}
+>>> .upload-demo{
+  display: flex;
+  .el-upload-list{
+     margin-left: 10px;
+  }
+}
   .tinymce-container {
     position: relative;
     line-height: normal;

@@ -41,23 +41,23 @@
                   @current-change="handleCurrentChange">
           <el-table-column type="expand">
             <template slot-scope="props">
-              <el-form label-position="left" inline class="flash-table-expand">
-                <el-form-item label="编号">
+             <el-form  inline label-width="114px" class="flash-table-expand expand-log-form align-right has-Label-Width">
+                <el-form-item label="编号：">
                   <span>{{ props.row.code }}</span>
                 </el-form-item>
-                <el-form-item label="标题">
+                <el-form-item label="标题：">
                   <span>{{ props.row.title }}</span>
                 </el-form-item>
-                <el-form-item label="发送器">
+                <el-form-item label="发送器：">
                   <span>{{ props.row.messageSender.name }}</span>
                 </el-form-item>
-                <el-form-item label="内容">
+                <el-form-item label="内容：">
                   <span>{{ props.row.content }}</span>
                 </el-form-item>
-                <el-form-item label="消息类型">
+                <el-form-item label="消息类型：">
                   <span>{{ props.row.type==0?'短信':'邮件' }}</span>
                 </el-form-item>
-                <el-form-item label="远程模板编号">
+                <el-form-item label="远程模板编号：">
                   <span>{{ props.row.remoteTplCode }}</span>
                 </el-form-item>
 

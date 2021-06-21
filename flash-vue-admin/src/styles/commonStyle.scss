@@ -118,10 +118,18 @@
 .flex{
   display: flex;
 }
+.flex-column{
+  flex-direction: column;
+}
 .justify-between{
   justify-content: space-between;
 }
-
+.operate-icon{
+  height: 28px;
+  line-height: 28px;
+  font-size: 20px;
+  color: #1a80ff;
+}
 .block{
   padding: 0;
   background: #fff;
@@ -264,6 +272,12 @@
 .textAlignRight{
   text-align: right;
 }
+.textAlignCenter{
+  text-align: center;
+}
+.textAlignLeft{
+  text-align: left;
+}
 .el-button{
 &.set-common-btn{
    border:1px solid rgb(26, 128, 255);
@@ -403,4 +417,32 @@
 }
 .width92{
   width: 92px !important;
+}
+.noXscroll{
+  .el-scrollbar__wrap{
+    overflow-x: hidden;
+    .el-scrollbar__bar.is-horizontal{
+      display: none;
+    }
+  }
+}
+// 日志table
+.expand-log-form{
+  width: 100%;
+  padding: 10px 0;
+  .el-form-item{
+    width: 100%;
+    margin: 0;
+    display: flex;
+    .el-form-item__label{
+      flex-shrink: 0;
+      line-height: 24px;
+      font-size: 12px;
+      padding-right: 6px;
+    }
+    .el-form-item__content{
+        line-height: 24px;
+        font-size: 12px;
+    }
+  }
 }

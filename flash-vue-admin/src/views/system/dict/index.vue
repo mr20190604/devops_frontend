@@ -56,21 +56,32 @@
 
     </el-table>
  </div>
+ <!-- 添加字典弹框 -->
     <el-dialog
+    class="el-dialog-style common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="60%"
+      width="960px"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="名称：" prop="name">
           <el-input v-model="form.name" minlength="1" />
         </el-form-item>
+         <el-row>
+            <el-col>
+              <el-form-item >
+                <el-button @click="addDetail" class="set-common-btn blank-blue-button">新增字典</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="noXscroll">
+            <el-scrollbar>
         <el-form-item
           v-for="(rec, index) in form.details"
-          :key="rec.key"
-          :label="'字典' + (index+1)"
-          :prop="'details.' + index + '.value'"
+          :key="index"
+          :label="'字典' + (index+1)+'：'" :prop="'details.' + index + '.value'"
           :rules="{
             required: true, message: '不能为空', trigger: 'blur'
           }"
@@ -78,25 +89,37 @@
           <el-col :span="9">
             <el-input v-model="rec.key" placeholder="值" />
           </el-col>
-          <el-col class="line" :span="1">&nbsp; </el-col>
+          <el-col class="line" :span="1">&nbsp;</el-col>
           <el-col :span="9">
             <el-input v-model="rec.value" placeholder="名称" />
           </el-col>
-          <el-col :span="4">&nbsp;
-            <el-button type="danger" icon="el-icon-delete" @click.prevent="removeDetail(rec)">{{ $t('button.delete')
-            }}</el-button>
+          <el-col :span="2">
+             <i class="el-icon-remove-outline operate-icon" @click.prevent="removeDetail(rec)"/>
+            <!-- <el-button type="danger" icon="el-icon-delete" @click.prevent="removeDetail(rec)">{{ $t('button.delete') }}</el-button> -->
           </el-col>
         </el-form-item>
-
-        <el-form-item>
-          <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-          <el-button @click="addDetail">新增字典</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+        </el-scrollbar>
+      </el-row>
+        <el-form-item class="dialog-button-list marginT10">
+          <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+          <!-- <el-button @click="addDetail" class="set-common-btn blank-blue-button">新增字典</el-button> -->
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
         </el-form-item>
       </el-form>
+    </div>
     </el-dialog>
 
   </div>
 </template>
 
 <script src="./dict.js"></script>
+<style scoped lang="scss">
+.common-dialog-style .block .el-form .el-row .el-col:nth-of-type(even){
+  display: initial;
+}
+>>> .el-scrollbar {
+	.el-scrollbar__wrap {
+    max-height: 480px;
+	}
+}
+</style>

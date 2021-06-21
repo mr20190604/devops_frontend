@@ -15,10 +15,12 @@
         :headers="uploadHeaders"
         :action="fileUrl"
         list-type="picture-card">
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="small" type="primary" class="set-common-btn blue-button">点击上传</el-button>
       </el-upload>
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="handleSubmit">确 定</el-button>
+      <div class="textAlignCenter">
+      <el-button type="primary" @click="handleSubmit" class="set-common-btn blue-button">确 定</el-button>
+      <el-button @click="dialogVisible = false" class="set-common-btn blank-blue-button">取 消</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>

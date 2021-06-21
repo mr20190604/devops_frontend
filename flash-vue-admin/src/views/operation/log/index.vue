@@ -43,26 +43,26 @@
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
      <el-table-column type="expand">
        <template slot-scope="props">
-         <el-form label-position="left" inline class="flash-table-expand">
-           <el-form-item label="日志类型">
+         <el-form  inline label-width="90px" class="flash-table-expand expand-log-form align-right has-Label-Width">
+           <el-form-item label="日志类型：">
              <span>{{ props.row.logtype }}</span>
            </el-form-item>
-           <el-form-item label="日志名称">
+           <el-form-item label="日志名称：">
              <span>{{ props.row.logname }}</span>
            </el-form-item>
-           <el-form-item label="用户">
+           <el-form-item label="用户：">
              <span>{{ props.row.userName }}</span>
            </el-form-item>
-           <el-form-item label="类名">
+           <el-form-item label="类名：">
              <span>{{ props.row.classname }}</span>
            </el-form-item>
-           <el-form-item label="方法名">
+           <el-form-item label="方法名：">
              <span>{{ props.row.method }}</span>
            </el-form-item>
-           <el-form-item label="时间">
+           <el-form-item label="时间：">
              <span>{{ props.row.createtime }}</span>
            </el-form-item>
-           <el-form-item label="内容">
+           <el-form-item label="内容：">
              <span>{{ props.row.regularMessage }}</span>
            </el-form-item>
          </el-form>
@@ -106,4 +106,5 @@
 </template>
 
 <script src="./log.js"></script>
+
 

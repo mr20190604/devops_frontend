@@ -41,7 +41,7 @@
        class="common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
-      width="662px">
+      width="960px">
       <div class="block">
         <el-form ref="form" :model="form" :rules="rules">
           <el-row>
@@ -59,7 +59,7 @@
           </el-row>
           <el-row>
             <el-col>
-              <el-form-item class="align-center">
+              <el-form-item class="dialog-button-list">
                 <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
                 <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
               </el-form-item>
@@ -75,6 +75,4 @@
 
 <script src="./channel.js"></script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+
