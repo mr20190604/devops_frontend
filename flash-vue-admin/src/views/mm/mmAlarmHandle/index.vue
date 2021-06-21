@@ -182,7 +182,7 @@
               <template  v-if="scope.row.isRelieve === 1 ">已解除</template>
             </template>
           </el-table-column>
-            <el-table-column label="操作" width="220px" align="center">
+            <el-table-column label="操作" width="268" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-paperclip" @click="openProcess(scope.row)">流程</el-button>
                   <el-button type="text" icon="el-icon-s-marketing"  size="mini" @click="openCurve(scope.row)">监测曲线</el-button>
