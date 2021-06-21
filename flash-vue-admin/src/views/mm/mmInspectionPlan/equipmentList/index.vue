@@ -34,6 +34,7 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="mini" >定位</el-button>
+            <el-button type="text" size="mini" @click="removeEquip(scope.row)" v-if="false">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
