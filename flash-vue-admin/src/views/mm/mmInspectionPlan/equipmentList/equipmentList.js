@@ -86,6 +86,19 @@ export default {
       const res = new Map();
       return arr.filter((arr) => !res.has(arr.id) && res.set(arr.id, 1));
     },
+    removeEquip(record){
+      let id = record.id;
+      let equipList = this.equipList;
+      for(let i=0;i<equipList.length;i++){
+        if(equipList[i].id === id){
+          equipList.splice(i,1);
+        }
+      }
+      this.equipList = equipList;
+      this.total = this.equipList.length;
+      this.fetchData(1);
+    },
 
-  }
+  },
+
 }
