@@ -50,7 +50,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="dialogDisplay" :modal-append-to-body="false" class="el-dialog-style common-dialog-style equip-dialog-style" width="960px">
+    <el-dialog :visible.sync="dialogDisplay" :append-to-body="true" class="el-dialog-style common-dialog-style equip-dialog-style" width="960px">
       <equipList v-if="dialogDisplay" :routeId="routeId" @getEquipList="getEquipList"></equipList>
     </el-dialog>
   </div>

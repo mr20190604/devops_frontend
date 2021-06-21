@@ -3,7 +3,7 @@
 
     <!--查询条件-->
     <div class="block">
-      <el-form label-width="80px" :inline="true" class="align-right has-Label-Width"  style="width:900px">
+      <el-form label-width="90px" :inline="true" class="align-right has-Label-Width"  style="width:900px">
         <el-row>
           <el-col :span="9">
             <el-form-item label="设备类型：">
