@@ -236,25 +236,41 @@ export default {
     remove() {
       if (this.checkSel()) {
         var id = this.selRow.id
-        this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
-          confirmButtonText: this.$t('button.submit'),
-          cancelButtonText: this.$t('button.cancel'),
-          type: 'warning'
-        }).then(() => {
+        mmInspectionPathApi.queryPlan(id).then(response=>{
+
+         if(response.data.length>0){
+           this.$message({
+             message: this.$t('绑定路线信息，不能被删除！'),
+             type: 'warning'
+           })
+           this.$refs.lineTable.clearSelection();
+           this.selection=[];
+           return
+         }
+
+          this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+            confirmButtonText: this.$t('button.submit'),
+            cancelButtonText: this.$t('button.cancel'),
+            type: 'warning'
+          }).then(() => {
             mmInspectionPathApi.remove(id).then(response => {
-            this.$message({
-              message: this.$t('common.optionSuccess'),
-              type: 'success'
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.$refs.lineTable.clearSelection();
+              this.selection=[];
+              this.fetchData()
+            }).catch( err=> {
+              this.$notify.error({
+                title: '错误',
+                message: err
+              })
             })
-            this.fetchData()
-          }).catch( err=> {
-            this.$notify.error({
-              title: '错误',
-              message: err
-            })
+          }).catch(() => {
           })
-        }).catch(() => {
-        })
+        });
+
       }
     },
     addLine(){

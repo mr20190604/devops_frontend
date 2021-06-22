@@ -35,5 +35,14 @@ export default {
       url: '/inspection/path/listPath',
       method: 'get'
     })
+  },
+  queryPlan:function (id) {
+    return request({
+      url:'/inspection/plan/queryPlan',
+      method:'get',
+      params:{
+        pathId:id
+      }
+    })
   }
 }
