@@ -4,7 +4,7 @@ import mmInspectionPlanApi from '@/api/mm/mmInspectionPlan'
 
 export default {
   directives: {permission},
-  props:['pathId','isAdd','planId'],
+  props:['pathId','equipBtnDisplay','planId','isAdd'],
   components: {
     equipList
   },
@@ -43,6 +43,7 @@ export default {
     }
   },
   created() {
+    debugger;
     if(!this.isAdd){
       mmInspectionPlanApi.listInspectionEquip({'id':this.planId}).then(response => {
         this.equipList = response.data;
@@ -100,5 +101,14 @@ export default {
     },
 
   },
+  watch:{
+      pathId:{
+        handler(newName, oldName) {
+          this.routeId = newName;
+          this.equipList = [];
+          this.fetchData(1);
+        },
+      }
+  }
 
 }

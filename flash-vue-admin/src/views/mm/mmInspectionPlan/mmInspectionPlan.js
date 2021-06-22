@@ -19,6 +19,7 @@ export default {
 
   data() {
     return {
+      equipBtnDisplay:true,
       fileBtnDisplay:true,
       uploadUrl:'',
       uploadHeaders: {
@@ -239,6 +240,8 @@ export default {
       this.btnDisplay = true;
       //附件上传按钮显示
       this.fileBtnDisplay = true;
+      //设备列表相关按钮显示
+      this.equipBtnDisplay = true;
       this.formTitle = '添加巡检计划';
       this.formVisible = true;
       this.isAdd = true;
@@ -333,8 +336,11 @@ export default {
       this.btnDisplay = true;
       //附件上传按钮显示
       this.fileBtnDisplay = true;
+      //设备列表相关按钮显示
+      this.equipBtnDisplay = true;
       this.selRow = record;
       this.planId = record.id;
+      this.pathId = record.pathId;
       this.edit()
     },
     edit() {
@@ -388,6 +394,8 @@ export default {
       this.fileBtnDisplay = false;
       this.readonly = true;
       this.auditResultDisplay = true;
+      //设备列表相关按钮不显示
+      this.equipBtnDisplay = false;
       this.selRow = record;
       if (this.checkSel()) {
         this.fillFormData('审核巡检计划','审核');
@@ -398,6 +406,8 @@ export default {
       this.auditResultDisplay = false;
       this.btnDisplay = false;
       this.fileBtnDisplay = false;
+      //设备列表相关按钮不显示
+      this.equipBtnDisplay = false;
       this.selRow = record;
       this.planId = record.id;
       this.fillFormData('查看巡检计划');

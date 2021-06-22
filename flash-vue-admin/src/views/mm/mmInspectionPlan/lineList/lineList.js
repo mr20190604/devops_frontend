@@ -77,5 +77,14 @@ export default {
       this.listQuery.limit = limit;
       this.fetchData()
     },
+  },
+  watch:{
+    pathId:{
+      handler(newName, oldName) {
+        debugger;
+        this.listQuery.id = newName;
+        this.fetchData();
+      },
+    }
   }
 }

@@ -3,7 +3,7 @@
 
     <!--列表-->
     <div class="table-list">
-      <div class="btnLists" v-if="isAdd">
+      <div class="btnLists" v-if="equipBtnDisplay">
         <el-button
           class="set-common-btn blue-button"
           type="success"
@@ -34,7 +34,7 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="mini" >定位</el-button>
-            <el-button type="text" size="mini" @click="removeEquip(scope.row)" v-if="false">删除</el-button>
+            <el-button type="text" size="mini" @click="removeEquip(scope.row)" v-if="equipBtnDisplay">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,7 +52,7 @@
     </div>
 
     <el-dialog :visible.sync="dialogDisplay" :append-to-body="true" class="el-dialog-style common-dialog-style equip-dialog-style" width="960px">
-      <equipList v-if="dialogDisplay" :routeId="routeId" @getEquipList="getEquipList"></equipList>
+      <equipList v-if="dialogDisplay" :routeId="pathId" @getEquipList="getEquipList"></equipList>
     </el-dialog>
   </div>
 </template>

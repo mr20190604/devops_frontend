@@ -336,7 +336,7 @@
               <lineList v-if="tableDisplay === 1" :pathId="pathId"></lineList>
             </el-col>
             <el-col>
-              <equipmentList v-if="tableDisplay === 2" :pathId="pathId" :isAdd="isAdd"
+              <equipmentList v-if="tableDisplay === 2" :pathId="pathId" :isAdd="isAdd" :equipBtnDisplay="equipBtnDisplay"
                              :planId="planId" @getEquipList="getEquipList"></equipmentList>
             </el-col>
           </el-row>
