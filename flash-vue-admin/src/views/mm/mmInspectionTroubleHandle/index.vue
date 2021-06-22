@@ -103,7 +103,7 @@
             </el-table-column>
           <el-table-column label="维修人员">
             <template slot-scope="scope">
-              {{scope.row.repairUser.name}}
+              <template v-if="scope.row.repairUser!=null"> {{scope.row.repairUser.name}} </template>
             </template>
           </el-table-column>
           <el-table-column label="联系电话">

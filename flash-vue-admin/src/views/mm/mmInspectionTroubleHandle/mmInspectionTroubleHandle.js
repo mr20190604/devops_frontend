@@ -126,6 +126,7 @@ export default {
       this.selection = selection
     },
     toggleSelection(row) {
+      this.$refs.handleTable.clearSelection();
       this.$refs.handleTable.toggleRowSelection(row)
     },
     resetForm() {
@@ -252,6 +253,14 @@ export default {
       this.resetForm();
       if (this.checkSel()) {
         this.isAdd = false
+        console.log(this.selRow)
+        if(this.selRow.distributeStatus==291){
+          this.$message({
+            message: this.$t('不允许重复分配！'),
+            type: 'warning'
+          })
+          return
+        }
         this.form = this.selRow
         this.formTitle = '分配人员'
         this.formVisible = true
@@ -281,7 +290,7 @@ export default {
             const formData={
               id:item.id,
               troubleId:item.troubleId,
-              distributeStatus:2,
+              distributeStatus:291,
               handleStatus:item.handleStatus,
               handleTime:item.handleTime,
               repairPersonCellphone:item.repairPersonCellphone,
