@@ -55,6 +55,12 @@ Vue.use(VueParticles)
 import dateFormat from './utils/dateFormat'
 Vue.prototype.dateFormat = dateFormat
 
+import VueCesium from 'vue-cesium'
+Vue.use(VueCesium, {
+  cesiumPath: './cesium/Cesium/Cesium.js',
+  accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NGM2YmU1Mi1mYzdmLTRkMzEtOGVlZi1jZjllNDA3MzRhNTYiLCJpZCI6NDUyMzksImlhdCI6MTYxNDg0NTMyM30.O7rZhPAtjVnto7BeVXbaQ4qbm5wAHMMpWaDp7-5DH1s'
+})
+
 // set ElementUI lang to EN
 Vue.use(ElementUI, { i18n: (key, value) => i18n.t(key, value) })
 Vue.component('v-chart', ECharts)

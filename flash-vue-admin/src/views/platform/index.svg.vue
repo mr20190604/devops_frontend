@@ -64,8 +64,8 @@ export default {
           url: '',
           index: 1
         }, {
-          name: '三维地理信息系统',
-          img: '/img/GIS.png',
+          name: '数据资源辅助子系统',
+          img: '/img/checking-in.png',
           url: '',
           index: 2
         }, {
@@ -74,9 +74,9 @@ export default {
           url: '',
           index: 3
         }, {
-          name: '数据资源辅助子系统',
-          img: '/img/checking-in.png',
-          url: '',
+          name: '三维地理信息系统',
+          img: '/img/GIS.png',
+          url: '/3dgis',
           index: 4
         }
       ]

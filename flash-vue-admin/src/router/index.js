@@ -34,7 +34,7 @@ export const constantRoutes = [
   {
     path: '/',
     alias: '/login',
-    name: 'login',
+    name: '登录',
     meta: {
       title: 'login'
     },
@@ -49,7 +49,7 @@ export const constantRoutes = [
   },
   {
     path: '/screen',
-    component: () => import('@/views/screen/index'),
+    component: () => import('@/views/screen'),
     name: '园区大屏',
     hidden: true
   },
@@ -57,6 +57,11 @@ export const constantRoutes = [
     path: '/gasScreen',
     component: () => import('@/views/gasScreen'),
     name: '燃气大屏'
+  },
+  {
+    path: '/3dgis',
+    component: () => import('@/views/3dgis'),
+    name: '三维GIS'
   },
   {
     path: '/404',
