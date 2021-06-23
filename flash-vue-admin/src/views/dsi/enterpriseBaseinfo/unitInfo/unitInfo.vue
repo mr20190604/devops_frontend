@@ -129,13 +129,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col>
-              <el-form-item >
-                <el-button @click="addDetail" class="set-common-btn blank-blue-button width92" style="float: right;">新增风险物质</el-button>
-              </el-form-item>
-            </el-col>
-          </el-row>
+
           <el-row style="border:1px solid #f3f5fb;padding-top:15px">
 
              <el-scrollbar style="height:310px">
@@ -150,22 +144,23 @@
           >
          
             <el-col :span="7">
-              <el-form-item label="风险物质">
+              <el-form-item label='名称：'>
                 <el-input class="el-input-style" v-model="rec.materialId"  minlength=1 @input="onInput()" ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
-              <el-form-item label="现存量" >
+              <el-form-item label="现存量：" >
                 <el-input class="el-input-style" v-model="rec.currentStock"  @input="onInput()" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
-              <el-form-item label="临界量" >
+              <el-form-item label="临界量：" >
                 <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="2">
-              <i class="el-icon-remove-outline operate-icon" @click.prevent="removeDetail(rec)"/>
+            <el-col :span="3" style="text-align: center">
+              <i v-if="index==form.details.length-1" class="el-icon-circle-plus-outline operate-icon"  @click.prevent="addDetail"/>
+              <i v-if="form.details.length>1" class="el-icon-remove-outline operate-icon" style="margin-left: 10px" @click.prevent="removeDetail(rec)"/>
               <!-- <el-button @click.prevent="removeDetail(rec)" type="danger" class="set-common-btn blank-blue-button">{{ $t('button.delete') }}
               </el-button> -->
             </el-col>

@@ -81,7 +81,6 @@ export default {
   watch:{
     pathId:{
       handler(newName, oldName) {
-        debugger;
         this.listQuery.id = newName;
         this.fetchData();
       },

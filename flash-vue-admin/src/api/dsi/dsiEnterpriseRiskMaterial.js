@@ -14,6 +14,13 @@ export default {
             params
         })
     },
+    addAll:function(params){
+      return request({
+        url:'/enterprise/risk/material/addAll',
+        method:'post',
+        data:params
+      })
+    },
     update:function(params) {
         return request({
             url: '/enterprise/risk/material',

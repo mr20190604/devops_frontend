@@ -193,39 +193,45 @@ export default {
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-                let riskId = formData.id
+                let riskId = formData.id;
+                let formList=[];
                 dsiEnterpriseRiskMaterial.removeByUnitId(formData.id);
-                for (let item in this.form.details) {
+                this.form.details.map(item => {
                   const formData1 = {
-                    riskUnitId:riskId,
-                    materialId:this.form.details[item].materialId,
-                    currentStock:this.form.details[item].currentStock,
-                    criticalQuantity:this.form.details[item].criticalQuantity,
+                    riskUnitId: riskId,
+                    materialId: item.materialId,
+                    currentStock: item.currentStock,
+                    criticalQuantity: item.criticalQuantity,
                   }
-                  dsiEnterpriseRiskMaterial.add(formData1).then();
-                }
-                this.fetchData()
-                this.formVisible = false
+                  formList.push(formData1);
+                });
+                dsiEnterpriseRiskMaterial.addAll(formList).then(()=>{
+                  this.fetchData()
+                  this.formVisible = false
+                })
+
               })
-            }else{
-              console.log(formData.riskType);
+            }else {
               dsiEnterpriseRiskUnitApi.add(formData).then(response => {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-                let riskId = response.data.id
-                for (let item in self.form.details) {
+                let riskId = response.data.id;
+                let formList=[];
+                this.form.details.map(item => {
                   const formData1 = {
-                    riskUnitId:riskId,
-                    materialId:self.form.details[item].materialId,
-                    currentStock:self.form.details[item].currentStock,
-                    criticalQuantity:self.form.details[item].criticalQuantity,
+                    riskUnitId: riskId,
+                    materialId: item.materialId,
+                    currentStock: item.currentStock,
+                    criticalQuantity: item.criticalQuantity,
                   }
-                  dsiEnterpriseRiskMaterial.add(formData1).then();
-                }
-                this.fetchData()
-                this.formVisible = false
+                  formList.push(formData1);
+                });
+                dsiEnterpriseRiskMaterial.addAll(formList).then(()=>{
+                  this.fetchData()
+                  this.formVisible = false
+                })
               })
             }
           }else{
@@ -234,7 +240,6 @@ export default {
             });
             return false
           }
-
         } else {
           return false
         }
@@ -266,7 +271,6 @@ export default {
             details.push({'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2]})
           })
         }
-
         this.form=JSON.parse(JSON.stringify(this.selRow));
         this.form.details = details;
         this.formVisible = true
@@ -301,42 +305,8 @@ export default {
         })
       }
     },
-    /*initEmerMaterialList(id){
-      this.materialLoading = true
-      if (id) {
-        dsiEnterpriseRiskMaterial.listForUnitId(id).then(response =>{
-          this.materialList = response.data
-          this.materialList.forEach(item =>{
-            this.material_type.forEach(index =>{
-              if (item.materialType == index.id) {
-                item.materialTypeName = index.name
-              }
-            })
-            this.material_num_unit.forEach(index =>{
-              if (item.chUnitId == index.id) {
-                item.chUnitIdName = index.name
-              }
-            })
-          })
-        })
-      } else {
-        this.material_list.forEach(item =>{
-          this.material_type.forEach(index =>{
-            if (item.materialType == index.id) {
-              item.materialTypeName = index.name
-            }
-          })
-          this.material_num_unit.forEach(index =>{
-            if (item.chUnitId == index.id) {
-              item.chUnitIdName = index.name
-            }
-          })
-        })
-        this.materialList = this.material_list
-      }
-
-    },*/
     addDetail() {
+
       let details = this.form.details
       details.push({
         materialId: '',
@@ -347,14 +317,18 @@ export default {
       this.$forceUpdate();
     },
     removeDetail(detail) {
-      // this.form.details.splice(this.form.details.findIndex(item => item.materialId === detail.materialId), 1);
-      let details = [];
-      this.form.details.forEach(function(val, index) {
+      this.form.details.splice(this.form.details.findIndex(item => item.materialId === detail.materialId), 1);
+      console.log(this.form.details);
+      //let details = [];
+      /*if(this.form.details.length<=1){
+        return
+      }*/
+     /* this.form.details.forEach(function(val, index) {
         if (detail.materialId !== val.materialId) {
           details.push(val)
         }
       })
-      this.form.details = details
+      this.form.details = details*/
       this.$forceUpdate();
     },
     removeBatch() {
@@ -398,8 +372,8 @@ export default {
     closeFatherDialog(){
       this.$emit("closeDialog");
       //this.$parent.closeDialog();
-
-    }, toggleSelection(row) {
+    },
+    toggleSelection(row) {
       this.$refs.unitTable.toggleRowSelection(row)
     },
   }

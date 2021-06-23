@@ -142,7 +142,16 @@
                 <el-row>
                   <el-col>
                     <el-form-item label="管线信息："  >
-                      <el-input type="textarea" v-model="form.detail" minlength=1 :readonly="true"></el-input>
+                      <!--<el-input type="textarea" v-model="form.detail" minlength=1 :readonly="true"></el-input>-->
+                      <el-tabs  type="card" closable @tab-remove="removeTab">
+                        <el-tab-pane
+                          v-for="(item, index) in selectedList"
+                          :key="index"
+                          :label="item.pipelineCode"
+                          :name="index.toString()"
+                        >
+                        </el-tab-pane>
+                      </el-tabs>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -150,6 +159,7 @@
                   <el-col :span="12">
                     <el-form-item >
                       <el-button v-if="isAdd" @click="addLine" class="set-common-btn blank-blue-button width92">添加管线</el-button>
+                      <el-button v-if="!isAdd" @click="addLine" class="set-common-btn blank-blue-button width92">修改管线</el-button>
                     </el-form-item>
                   </el-col>
                 </el-row>

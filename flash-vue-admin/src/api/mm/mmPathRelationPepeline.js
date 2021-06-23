@@ -1,10 +1,12 @@
 import request from '@/utils/request'
 export default {
-    getList:function(params) {
+    getList:function(pathId) {
         return request({
             url: '/path/relation/pepeline/list',
             method: 'get',
-            params
+            params:{
+              pathId:pathId
+            }
         })
     },
     add:function(params) {
@@ -14,6 +16,13 @@ export default {
             params
         })
     },
+  addAll:function(params) {
+    return request({
+      url: '/path/relation/pepeline/addAll',
+      method: 'post',
+      data:params
+    })
+  },
     update:function(params) {
         return request({
             url: '/path/relation/pepeline',

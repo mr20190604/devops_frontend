@@ -43,7 +43,6 @@ export default {
     }
   },
   created() {
-    debugger;
     if(!this.isAdd){
       mmInspectionPlanApi.listInspectionEquip({'id':this.planId}).then(response => {
         this.equipList = response.data;

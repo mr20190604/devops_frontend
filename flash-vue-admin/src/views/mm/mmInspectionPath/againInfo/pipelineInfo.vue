@@ -1,23 +1,5 @@
 <template>
   <div class="app-container" style="height: 550px">
-    <div class="block">
-      <!--<el-form label-width="76px" class="align-right has-Label-Width" style="margin: 0px;padding: 10px">
-        <el-row  class="hasmarginBottom" >
-          <el-col :span="6">
-            <el-form-item label="管线编号：">
-              <el-input v-model="listQuery.pipelineCode"  placeholder="请输入管线编号"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item>
-              <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button  @click.native="reset" class="set-common-btn blank-blue-button">{{ $t('button.reset') }}</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>-->
-    </div>
-
     <div class="table-list marginT15">
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
               :row-key="(row) => row.id"
@@ -42,8 +24,6 @@
           {{scope.row.pipelineCode}}
         </template>
       </el-table-column>
-
-
       <el-table-column label="管径" show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.pipeDiameter}}
@@ -54,10 +34,6 @@
           {{scope.row.pipeLength}}
         </template>
       </el-table-column>
-
-
-
-
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" v-permission="['/bas/pipeline/update']">定位</el-button>
@@ -66,8 +42,8 @@
     </el-table>
     </div>
     <div class="align-center" style="height: 120px;position: relative">
-
-      <el-button type="primary" class="set-common-btn blue-button" @click="saveLine" style="width: 100px">选择起点管线</el-button>
+      <el-button v-if="list.length>0" type="primary" class="set-common-btn blue-button" @click="saveLine" style="width: 100px">添加管线</el-button>
+      <el-button v-if="list.length==0" type="danger" class="set-common-btn blue-button" @click="closePipeline">返回</el-button>
     </div>
   </div>
 </template>
