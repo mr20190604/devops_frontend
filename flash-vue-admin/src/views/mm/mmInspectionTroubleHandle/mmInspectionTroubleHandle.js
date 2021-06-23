@@ -321,7 +321,6 @@ export default {
       })
       mmInspectionTroubleApi.queryHandleList(record.troubleId).then(response =>{
         this.trouble_handle_list = response.data
-        console.log(this.trouble_handle_list)
       })
 
     }

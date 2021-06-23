@@ -111,8 +111,9 @@
               </el-table-column>
               <el-table-column label="处置结果" width="80px" align="center">
                 <template slot-scope="scope">
-                  <template v-if="scope.row.handleStatus == 1">维修中</template>
-                  <template v-if="scope.row.handleStatus == 2">已完成</template>
+                  <template v-if="scope.row.handleStatus == 293">待维修</template>
+                  <template v-if="scope.row.handleStatus == 294">维修中</template>
+                  <template v-if="scope.row.handleStatus == 295">已完成</template>
                 </template>
               </el-table-column>
               <el-table-column label="备注">
