@@ -80,7 +80,14 @@ export default {
       url:'/alarm/info/getAcceptPerson',
       method:'GET'
     })
-  },msgSend:function(params) {
+  },
+  getHandlePerson:function () {
+    return request({
+      url:'/alarm/info/getHandlePerson',
+      method:'GET'
+    })
+  }
+,msgSend:function(params) {
       return request({
         url:'/alarm/info/saveNotice',
         method:'POST',
@@ -111,6 +118,15 @@ export default {
         method:'post',
         data:param
       })
+  },updateAlarmHandle(alarmId,handlePerson) {
+    return request({
+      url:'alarm/info/updateAlarmHandle',
+      method:'post',
+      params:{
+        alarmId:alarmId,
+        handlePerson:handlePerson
+      }
+    })
   }
 
 

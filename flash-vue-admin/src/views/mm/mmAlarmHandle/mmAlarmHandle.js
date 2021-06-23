@@ -147,6 +147,7 @@ export default {
       acceptTitle:'现场排查',
       acceptVisible:false,
       acceptPerson:[],
+      handlePerson:[],
       acceptList:null,
       value:[],
       acceptForm:{
@@ -276,6 +277,10 @@ export default {
         screenPerson:'',
         screenPhone:'',
       },
+      handleForm:{
+        handlePerson:'',
+        handlePhone:'',
+      },
       modelTime:[],
       pickerOptions:{
         disabledDate (time) {
@@ -312,6 +317,8 @@ export default {
       this.downloadUrl = getApiUrl() + '/file/download?idFile='
       this.uploadUrl = getApiUrl() + '/file'
       this.uploadHeaders['Authorization'] = getToken()
+      //初始化处置人列表
+      this.initHandlePerson();
     },
     getRowKey(row) {
       return row.id;
@@ -543,17 +550,16 @@ export default {
             message: '请等待排查完成后进行处置',
             type: 'warning'
           });
+        } else if(this.selRow.isFeedback != 0) {
+          this.$message({
+            message: '请选择待处置的报警',
+            type: 'warning'
+          });
         } else {
-          if(this.selRow.isFeedback == 2) {
-            this.vShow = false
-          } else {
-            this.vShow = true
-          }
-          this.fileList = []
-          this.resetDisposeForm()
+          this.form = this.selRow
           this.disposeTitle = '报警处置'
           this.disposeVisible = true
-          this.initDisposeList(this.selRow.id)
+
         }
 
         }
@@ -723,6 +729,23 @@ export default {
       this.acceptPerson = data
 
     },
+    //初始化处置人列表信息
+    initHandlePerson() {
+      const data = []
+      mmAlarmInfoApi.getHandlePerson().then(response =>{
+        if (response.data) {
+          response.data.forEach(item=>{
+            data.push({
+              key: item.id,
+              label: item.name,
+              phone:item.phone
+            })
+          })
+        }
+      })
+      this.handlePerson = data
+
+    },
     //监测曲线
     openCurve(record) {
       this.clearEchart()
@@ -777,6 +800,14 @@ export default {
         }
       })
 
+    },changeHandlePerson(value) {
+      //动态渲染联系电话框
+      this.handlePerson.forEach(item =>{
+        if (value == item.key) {
+          this.handleForm.handlePhone = item.phone
+        }
+      })
+
     },updateScreen() {
 
       const formData = {
@@ -791,6 +822,16 @@ export default {
           type: 'success'
         })
         this.acceptVisible = false
+        this.fetchData();
+      })
+
+    },updateHandlePerson() {
+      mmAlarmInfoApi.updateAlarmHandle(this.form.id,this.handleForm.handlePerson).then(response =>{
+        this.$message({
+          message: this.$t('操作成功'),
+          type: 'success'
+        })
+        this.disposeVisible = false
         this.fetchData();
       })
 

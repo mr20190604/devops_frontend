@@ -107,14 +107,7 @@
             label="序号"
           >
           </el-table-column>
-          <!--<el-table-column label="设施名称" >-->
-            <!--<template slot-scope="scope">-->
-            <!--</template>-->
-          <!--</el-table-column>-->
-          <!--<el-table-column label="设施类型" width="80px" align="center">-->
-            <!--<template slot-scope="scope">-->
-            <!--</template>-->
-          <!--</el-table-column>-->
+
 
             <el-table-column label="设备名称" show-overflow-tooltip>
                 <template slot-scope="scope">
@@ -205,89 +198,6 @@
         </el-pagination>
 </div>
 
-      <!--报警处置弹窗-->
-      <el-dialog
-        :title="disposeTitle"
-        class="el-dialog-style common-dialog-style"
-        :visible.sync="disposeVisible"
-        width="960px">
-        <div id="disposeDiv" v-show="vShow" class="block">
-          <el-form ref="disposeForm" :model="disposeForm" :rules="rules" label-width="120px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="处置状态"  >
-                  <el-select v-model="disposeForm.handleStatus" minlength=1>
-                    <el-option key="1" label="处置中" value="1"></el-option>
-                    <el-option key="2" label="已处置" value="2"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-button type="primary" @click="addDispose()">处置</el-button>
-
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="处置说明"  >
-                  <el-input type="textarea" v-model="disposeForm.handleConent" minlength=1></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="选择文件"  >
-                  <el-upload
-                    :action="uploadUrl"
-                    :headers="uploadHeaders"
-                    :on-change="handleChangeUpload"
-                    :accept="fileAccept"
-                    :on-remove="removeFile"
-                    :file-list="fileList"
-                    :multiple="multiple"
-                  >
-                    <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" >总上传大小50M，单个文件最大10M,<template>允许的文件类型为</template><span style="color: red">{{fileAccept}}</span></div>
-                  </el-upload>
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-          </el-form>
-        </div>
-        <div class="table-list marginT15">
-          <el-table :data="disposeList" v-loading="disposeLoading" element-loading-text="Loading" max-height="200px" border fit>
-            <el-table-column label="处置时间" show-overflow-tooltip>
-              <template slot-scope="scope">
-                {{scope.row.createTime}}
-              </template>
-            </el-table-column>
-
-            <el-table-column label="处置人" show-overflow-tooltip>
-              <template slot-scope="scope">
-                {{scope.row.user.name}}
-              </template>
-            </el-table-column>
-
-            <el-table-column label="处置说明" show-overflow-tooltip>
-              <template slot-scope="scope">
-                {{scope.row.handleConent}}
-              </template>
-            </el-table-column>
-            <el-table-column label="处置状态">
-              <template slot-scope="scope">
-                <template v-if="scope.row.handleStatus == 1" id="handleStatus1">处置中</template>
-                <template v-if="scope.row.handleStatus == 2" id="handleStatus2">已处置</template>
-              </template>
-            </el-table-column>
-            <el-table-column label="附件" align="center">
-              <template slot-scope="scope">
-                <el-button type="text" size="mini" icon="el-icon-view" @click.native="previewFile(scope.row)" >预览</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-dialog>
 
       <!--附件预览弹窗-->
       <el-dialog
@@ -338,6 +248,48 @@
           </el-form>
         </div>
 
+      </el-dialog>
+
+      <!--现场处置-->
+      <el-dialog
+        class="el-dialog-style common-dialog-style"
+        :title="disposeTitle"
+        :visible.sync="disposeVisible"
+        width="960px" >
+
+        <div class="block">
+          <el-form :model="handleForm">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item  label="出质人">
+                  <el-select v-model="handleForm.handlePerson" @change="changeHandlePerson">
+                    <el-option
+                      v-for="item in handlePerson"
+                      :key="item.key"
+                      :label="item.label"
+                      :value="item.key"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
+                <el-form-item  label="联系电话">
+                  <el-input  v-model="handleForm.handlePhone" disabled  minlength=1></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item class="dialog-button-list">
+                  <el-button  class="set-common-btn blue-button" @click.native="updateHandlePerson" >确定</el-button>
+                  <el-button  class="set-common-btn blank-blue-button" @click.native="acceptVisible = false" >取消</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
       </el-dialog>
 
       <!--报警流程弹窗-->
