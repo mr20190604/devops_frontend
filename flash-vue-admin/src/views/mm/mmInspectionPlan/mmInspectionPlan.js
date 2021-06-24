@@ -252,6 +252,13 @@ export default {
       }
     },
     save() {
+      if(this.searchTime.length === 0){
+        this.$message({
+          message: '请选择计划周期',
+          type: 'success'
+        });
+        return;
+      }
       this.form.startTime = this.searchTime[0];
       this.form.endTime = this.searchTime[1];
       this.form.isOverdue = 1;
@@ -451,7 +458,7 @@ export default {
     getEquipList(data){
       let list = [];
       data.forEach(item =>{
-        list.push(item.id);
+        list.push(item.equipmentId);
       });
       this.form.equipIdList = list;
     },

@@ -46,6 +46,7 @@ export default {
     if(!this.isAdd){
       mmInspectionPlanApi.listInspectionEquip({'id':this.planId}).then(response => {
         this.equipList = response.data;
+        this.total = this.equipList.length;
         this.fetchData();
       });
     }
@@ -70,8 +71,16 @@ export default {
       this.fetchPage(1);
     },
     selectEquip(){
+      if('' === this.routeId){
+        this.$message({
+          message: '请先选择线路',
+          type: 'success'
+        });
+        return;
+      }
       this.dialogDisplay = true;
     },
+    //从子组件中获取选中的设备数据
     getEquipList(data){
       this.dialogDisplay = false;
       let list = this.equipList;
@@ -79,6 +88,7 @@ export default {
       this.equipList = this.unique(tmpList);
       this.total = this.equipList.length;
       this.fetchPage(1);
+      //将最新的设备数据传送给父组件
       this.$emit('getEquipList',this.equipList);
     },
     //去重对象数组
@@ -97,6 +107,8 @@ export default {
       this.equipList = equipList;
       this.total = this.equipList.length;
       this.fetchData(1);
+      //在页面删除设备时，重新传给父页面新的设备数据
+      this.getEquipList(this.equipList);
     },
 
   },

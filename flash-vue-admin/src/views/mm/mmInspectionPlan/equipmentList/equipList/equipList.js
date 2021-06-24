@@ -95,6 +95,7 @@ export default {
       this.selection = selection
     },
     submitEquip(){
+      //将选中的设备数据传送给父组件
       this.$emit('getEquipList',this.selection);
     },
     getRowKey(row){
