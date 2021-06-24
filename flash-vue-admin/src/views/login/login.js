@@ -67,30 +67,29 @@ export default {
         removeAccount()
         removePwd()
       }
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$store.dispatch('user/getInfo').then(() => {
-              this.$store.dispatch('menu/getSideMenus').then(accessRoutes => {
-                router.addRoutes(accessRoutes)
-                this.loading = false
-                const childSysList = this.$store.state.user.childSys
-                if (childSysList.length === 0) {
-                  this.$message({
-                    message: '暂未分配子系统,请联系管理员',
-                    type: 'warning'
-                  })
-                } else if (childSysList.length === 1) {
-                  this.$router.push({ path: childSysList[0].mmChildSysModel.sysUrl })
-                } else {
-                  this.$router.push({ path: '/platform' })
-                }
-              })
-            })
-          }).catch(() => {
+          try {
+            await this.$store.dispatch('user/login', this.loginForm)
+            await this.$store.dispatch('user/getInfo')
+            const accessRoutes = await this.$store.dispatch('menu/getSideMenus')
+            router.addRoutes(accessRoutes)
             this.loading = false
-          })
+            const childSysList = this.$store.state.user.childSys
+            if (childSysList.length === 0) {
+              this.$message({
+                message: '暂未分配子系统,请联系管理员',
+                type: 'warning'
+              })
+            } else if (childSysList.length === 1) {
+              this.$router.push({ path: childSysList[0].mmChildSysModel.sysUrl })
+            } else {
+              this.$router.push({ path: '/platform' })
+            }
+          } catch (e) {
+            this.loading = false
+          }
         } else {
           return false
         }
