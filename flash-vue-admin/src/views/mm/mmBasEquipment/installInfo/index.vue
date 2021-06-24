@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="安装日期">
-            <el-date-picker v-model="form.installDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+            <el-date-picker v-model="form.installDate" type="date" value-format="yyyy-MM-dd"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">

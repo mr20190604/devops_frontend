@@ -3,7 +3,7 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: {permission},
-  props:['equipmentId','installInfo','isAdd'],
+  props:['equipmentId','isAdd'],
   data() {
     return {
       form: {
@@ -63,8 +63,14 @@ export default {
   },
   created() {
     //是编辑操作时给当前表单赋值
-    if(!this.isAdd && undefined !== this.installInfo){
-      this.form = this.installInfo;
+    if(!this.isAdd){
+      mmEquipmentInstallInfoApi.getEquipInstall({'equipmentId':this.equipmentId}).then(response =>{
+        console.log(response);
+        if(response.data != null){
+          this.form = response.data;
+        }
+
+      });
     }
 
   },

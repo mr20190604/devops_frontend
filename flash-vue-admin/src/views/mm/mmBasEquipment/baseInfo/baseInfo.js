@@ -10,7 +10,6 @@ export default {
   data() {
     return {
       equipmentId: '',
-      installInfo:{},
       formVisible: false,
       formTitle: '添加设备信息',
       isAdd: true,
@@ -117,7 +116,6 @@ export default {
         this.listLoading = false;
         this.total = response.data.total
       });
-      this.$refs.equipTable.clearSelection();
     },
     search() {
       this.fetchData()
@@ -305,7 +303,6 @@ export default {
     },
     editItem(record) {
       this.selRow = record;
-      this.installInfo = record.equipmentInstallInfos;
       this.activeName = 'first';
       this.edit()
     },
@@ -375,7 +372,6 @@ export default {
             type: 'success'
           });
          this.reset();
-         this.$refs.equipTable.clearSelection();
         }).catch(err => {
           this.$notify.error({
             title: '错误',

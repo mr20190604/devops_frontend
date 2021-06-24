@@ -33,11 +33,11 @@
     <div class="table-list">
       <div class="btnLists">
           <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button" @click="resetForm()" @click.native="add"> {{ $t('button.add') }} </el-button>
-          <el-button v-permission="['/bas/equipment/delete']" type="danger" class="set-common-btn blank-blue-button" @click.native="removeBatch"> 批量删除 </el-button>
+          <el-button v-permission="['/bas/equipment/delete']" type="danger" class="set-common-btn blank-blue-button" @click.native="removeBatch" v-if="false"> 批量删除 </el-button>
       </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
               @current-change="handleCurrentChange" @selection-change="handleSelectionChange" ref="equipTable">
-      <el-table-column
+      <el-table-column v-if="false"
         type="selection"
         width="55"
         :reserve-selection="true"
@@ -212,7 +212,7 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="设备安装信息" name="second" id="second"  style="height: 550px">
-            <install :equipmentId="equipmentId" :installInfo="installInfo" :isAdd="isAdd" @closeDialog="closeDialog"></install>
+            <install :equipmentId="equipmentId" :isAdd="isAdd" @closeDialog="closeDialog"></install>
           </el-tab-pane>
         </el-tabs>
       </template>
