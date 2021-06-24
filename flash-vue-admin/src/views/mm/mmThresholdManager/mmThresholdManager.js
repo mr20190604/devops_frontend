@@ -198,12 +198,12 @@ export default {
             auditPerson: this.form.auditPerson,
             isDel: this.form.isDel,
           }
-          console.log(this.form.dictId)
           if(!formData.dictId){
             formData.dictId=252
           }
           if (formData.id) {
             formData.equipmentId=this.selRow.equipmentId
+            console.log(formData);
             mmThresholdManagerApi.update(formData).then(response => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
@@ -328,7 +328,6 @@ export default {
         return false
       }
       let flag=true
-      console.log(this.selection);
       this.selection.map(item => {
         if(item.dictIdName=='已审核'||item.dictIdName=='审核未通过'){
           flag=false;
@@ -369,7 +368,7 @@ export default {
               isDel: item.isDel,
               isAudit:item.isAudit,
             }
-            mmThresholdManagerApi.update(formData).then(()=>{
+            mmThresholdManagerApi.examineThreshold(formData).then(()=>{
               if(index==this.selection.length-1){
                 this.$message({
                   message: this.$t('common.optionSuccess'),

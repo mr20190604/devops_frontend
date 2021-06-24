@@ -14,13 +14,20 @@ export default {
             params
         })
     },
-    update:function(params) {
+  examineThreshold:function(params) {
         return request({
-            url: '/threshold/manager',
+            url: '/threshold/manager/examineThreshold',
             method: 'PUT',
             params
         })
     },
+  update:function(params) {
+    return request({
+      url: '/threshold/manager',
+      method: 'PUT',
+      params
+    })
+  },
     remove:function(id) {
         return request({
             url: '/threshold/manager',
@@ -56,5 +63,5 @@ export default {
         ids: ids
       }
     })
-  }
+  },
 }

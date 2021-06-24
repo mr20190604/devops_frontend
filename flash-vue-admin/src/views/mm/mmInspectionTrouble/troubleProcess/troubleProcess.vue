@@ -135,7 +135,7 @@
     </el-scrollbar>
     </div>
     <div>
-      <el-dialog :title="fileTitle" :visible.sync="fileVisible" :modal-append-to-body="false" width="50%">
+      <el-dialog :title="fileTitle" :visible.sync="fileVisible" append-to-body="true" width="50%">
         <file-preview :files="files"  :download-file-url="downloadUrl">
         </file-preview>
 
