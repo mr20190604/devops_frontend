@@ -82,7 +82,6 @@ export const constantRoutes = [
       }
     ]
   }
-
 ]
 
 const createRouter = () => new Router({

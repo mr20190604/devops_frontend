@@ -1,6 +1,7 @@
 <template>
   <transition>
     <svg
+      ref="svg"
       xmlns="http://www.w3.org/2000/svg"
       @click="handleClick()"
     >
@@ -81,6 +82,10 @@ export default {
     index: {
       type: Number,
       default: 0
+    },
+    isPaused: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -110,6 +115,15 @@ export default {
       target: [],
       keyTimes: '',
       dur: '40s'
+    }
+  },
+  watch: {
+    isPaused(value) {
+      if (value) {
+        this.$refs.svg.pauseAnimations()
+      } else {
+        this.$refs.svg.unpauseAnimations()
+      }
     }
   },
   created() {

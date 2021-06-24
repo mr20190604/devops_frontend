@@ -4,11 +4,13 @@
   >
     <vc-viewer
       ref="vcViewer"
-      :info-box="true"
+      :info-box="false"
+      :selection-indicator="false"
       style="overflow: hidden; position: absolute"
       @ready="ready"
       @LEFT_DOWN="mouseDown"
       @LEFT_UP="mouseUp"
+      @moveEnd="cameraMoveEnd"
     >
       <vc-navigation :options="compassOptions" />
       <vc-layer-imagery>
@@ -29,9 +31,31 @@
         url="./models/buildings/tileset.json"
         @readyPromise="buildingsReadyPromise"
       />
-      <vc-collection-primitive-billboard
-        :debug-show-bounding-volume="true"
-        :billboards="billboards"
+      <vc-entity
+        v-for="item in billboards"
+        :id="String(item.id)"
+        :key="item.id"
+        :position="item.position"
+        :billboard="item"
+        @mouseover="billboardMouseover"
+        @mousemove="billboardMousemove"
+        @mouseout="billboardMouseout"
+        @click="billboardClick(item)"
+      >
+        <vc-graphics-billboard
+          :image="item.image"
+          :scale="item.scale"
+          :show="item.show"
+        />
+      </vc-entity>
+      <vc-heatmap
+        :show="heatmapInfo.show"
+        :bounds="heatmapInfo.bounds"
+        :options="heatmapInfo.options"
+        :min="heatmapInfo.min"
+        :max="heatmapInfo.max"
+        :data="heatmapInfoData"
+        :type="1"
       />
     </vc-viewer>
     <div class="cover">
@@ -86,11 +110,11 @@
           <el-image :src="require('../../assets/img/gis/设备类_监控点报警.png')" />
           <p>监测报警</p>
         </div>
-        <div>
+        <div @click="handleRiskClick">
           <el-image :src="require('../../assets/img/gis/风险评估.png')" />
           <p>风险评估</p>
         </div>
-        <div>
+        <div @click="handleToolsClick">
           <el-image :src="require('../../assets/img/gis/地图.png')" />
           <p>地图工具</p>
         </div>
@@ -160,6 +184,28 @@ export default {
       visible: false,
       billboards: [],
       isOnlyShowAlarm: true,
+      heatmapInfo: {
+        bounds: { west: 120.74386, south: 30.77158, east: 120.74758, north: 30.77673 },
+        options: {
+          backgroundColor: 'rgba(0,0,0,0)',
+          gradient: {
+            '0.9': 'red',
+            '0.8': 'orange',
+            '0.7': 'yellow',
+            '0.6': 'blue',
+            '0.5': 'green'
+          },
+          radius: 40,
+          maxOpacity: 0.5,
+          minOpacity: 0,
+          blur: 0.75
+        },
+        data: [],
+        min: 0,
+        max: 100,
+        show: false
+      },
+      heatmapInfoData: [],
       token: '9732120f82392988567929c7c9ff034d'
     }
   },
@@ -175,17 +221,7 @@ export default {
     }
   },
   mounted() {
-    // 设置报警图标闪烁
-    const that = this
-    let isShowAlarm = true
-    setInterval(function() {
-      that.billboards.filter(item => {
-        return item.level === 1 && that.selectedCoverages.indexOf(item.typeName) > -1
-      }).forEach(item => {
-        item.show = !isShowAlarm
-      })
-      isShowAlarm = !isShowAlarm
-    }, 500)
+
   },
   methods: {
     ready({ Cesium, viewer }) {
@@ -199,11 +235,13 @@ export default {
       // viewer.scene.globe.depthTestAgainstTerrain = true
     },
     buildingsReadyPromise(buildings) {
+      // 贴地
       const cartographic = this.Cesium.Cartographic.fromCartesian(buildings.boundingSphere.center)
       const surface = this.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, cartographic.height)
       const offset = this.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0)
       const translation = this.Cesium.Cartesian3.subtract(offset, surface, new this.Cesium.Cartesian3())
       buildings.modelMatrix = this.Cesium.Matrix4.fromTranslation(translation)
+      // 初始化测试数据
       this.initTestData(offset)
       this.viewer.flyTo(buildings)
     },
@@ -232,6 +270,22 @@ export default {
       images1.push(b5)
       images1.push(b6)
 
+      const canvasList = []
+      for (let i = 0; i < 6; i++) {
+        const canvas = document.createElement('canvas')
+        const context2D = canvas.getContext('2d')
+        canvas.style.height = '61px'
+        canvas.style.width = '40px'
+        if (i < 3) {
+          const image = new Image()
+          image.src = i === 0 ? a12 : i === 1 ? a22 : a32
+          image.onload = function() {
+            context2D.drawImage(image, 0, 0)
+          }
+        }
+        canvasList.push(canvas)
+      }
+
       // 构造监测预警测试数据
       for (let i = 0; i < 200; i++) {
         const billboard = {}
@@ -244,19 +298,26 @@ export default {
         for (let j = 0; j < 3; j++) {
           for (let k = 0; k < 4; k++) {
             if (type === j && level === k) {
-              billboard.image = images[j][k]
+              if (level === 1) {
+                billboard.image = new this.Cesium.CallbackProperty((time, result) => {
+                  const milliseconds = new Date().getMilliseconds()
+                  const canvas = canvasList[type + 3 * (milliseconds < 500)]
+                  result = canvas.toDataURL('image/png')
+                  return result
+                })
+              } else {
+                billboard.image = images[j][k]
+              }
             }
           }
         }
         billboard.scale = 0.5
         billboard.id = i
+        billboard.verticalOrigin = this.Cesium.VerticalOrigin.BOTTOM
         if (this.isOnlyShowAlarm) {
           billboard.show = level === 1
         } else {
           billboard.show = true
-        }
-        billboard.click = function() {
-          console.log(billboard)
         }
         this.billboards.push(billboard)
       }
@@ -274,12 +335,33 @@ export default {
         }
         billboard.scale = 1
         billboard.id = i + 200
+        billboard.verticalOrigin = this.Cesium.VerticalOrigin.BOTTOM
         billboard.show = false
-        billboard.click = function() {
-          console.log(billboard)
-        }
         this.billboards.push(billboard)
       }
+
+      // 构造热力图的数据
+      for (let i = 0; i < 500; i++) {
+        const val = Math.floor(Math.random() * 100)
+        this.heatmapInfo.data.push({
+          x: this.heatmapInfo.bounds.west + Math.random() * (this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west),
+          y: this.heatmapInfo.bounds.south + Math.random() * (this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south),
+          value: val
+        })
+      }
+      this.heatmapInfoData = this.heatmapInfo.data
+    },
+    billboardMouseover() {
+      this.viewer._container.style.cursor = 'pointer'
+    },
+    billboardMousemove() {
+      this.viewer._container.style.cursor = 'pointer'
+    },
+    billboardMouseout() {
+      this.viewer._container.style.cursor = 'grab'
+    },
+    billboardClick(billboard) {
+      console.log(billboard)
     },
     mouseDown() {
       this.viewer._container.style.cursor = 'grabbing'
@@ -287,11 +369,18 @@ export default {
     mouseUp() {
       this.viewer._container.style.cursor = 'grab'
     },
+    cameraMoveEnd() {
+      const position = this.viewer.scene.camera.position
+      const cartographic = this.Cesium.Cartographic.fromCartesian(position)
+      this.heatmapInfo.options.radius = cartographic.height / 5
+    },
     handleResourceClick() {
       const infos = this.coverages.filter((item, index) => index > 2)
       this.selectedCoverages = infos
       this.handleCheckedCoveragesChange(infos)
       this.showBillboards()
+      this.isOnlyShowAlarm = false
+      this.heatmapInfo.show = false
     },
     handleZoomInClick() {
       this.viewer.camera.zoomIn(50)
@@ -323,6 +412,17 @@ export default {
       this.handleCheckedCoveragesChange(infos)
       this.isOnlyShowAlarm = !this.isOnlyShowAlarm
       this.showBillboards()
+      this.heatmapInfo.show = false
+    },
+    handleRiskClick() {
+      this.billboards.forEach(item => {
+        item.show = false
+      })
+      this.isOnlyShowAlarm = false
+      this.heatmapInfo.show = true
+    },
+    handleToolsClick() {
+
     },
     showBillboards() {
       this.billboards.forEach(item => {
@@ -451,27 +551,26 @@ export default {
 
   .legend span {
     width: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding:3px 10px;
     box-sizing: content-box;
     text-align: center;
     border-radius: 3px;
   }
 
   .legend span:first-child {
-    background: green;
+    background: #00CEB5;
   }
 
   .legend span:nth-child(2) {
-    background: red;
+    background: #CD4D54;
   }
 
   .legend span:nth-child(3) {
-    background: yellow;
+    background: #EC9C29;
   }
 
   .legend span:last-child {
-    background: blue;
+    background: #2E8CEE;
   }
 
   .equipment {

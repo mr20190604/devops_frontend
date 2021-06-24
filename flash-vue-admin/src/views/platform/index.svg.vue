@@ -2,7 +2,11 @@
   <div class="bg">
     <p class="title">{{ systemName }}</p>
     <div class="outerBox">
-      <div class="innerBox">
+      <div
+        class="innerBox"
+        @mouseover="handleMouseover"
+        @mouseout="handleMouseout"
+      >
         <template v-for="count of 2">
           <Card
             v-for="(item,index) in list"
@@ -12,6 +16,7 @@
             :src="item.img"
             :url="item.url"
             :index="item.index"
+            :is-paused="isPaused"
           />
         </template>
       </div>
@@ -59,12 +64,12 @@ export default {
           index: 0
         },
         {
-          name: '数据资源一体化子系统',
+          name: '数据资源系统(开发中)',
           img: '/img/integration.png',
           url: '',
           index: 1
         }, {
-          name: '数据资源辅助子系统',
+          name: '数据资源辅助系统(开发中)',
           img: '/img/checking-in.png',
           url: '',
           index: 2
@@ -79,7 +84,8 @@ export default {
           url: '/3dgis',
           index: 4
         }
-      ]
+      ],
+      isPaused: false
     }
   },
   created() {
@@ -124,6 +130,12 @@ export default {
           item.d2 = array[index + 1].d2
         }
       })
+    },
+    handleMouseover() {
+      this.isPaused = true
+    },
+    handleMouseout() {
+      this.isPaused = false
     }
   }
 }
@@ -176,6 +188,10 @@ export default {
     height: 100%;
     width: 3800px;
     animation: running 20s linear 0s infinite;
+  }
+
+  .innerBox:hover{
+    animation-play-state: paused;
   }
 
   .outerRectangle {
