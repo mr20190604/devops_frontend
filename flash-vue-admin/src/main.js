@@ -52,8 +52,8 @@ Vue.use(VueParticles)
  * please remove it before going online! ! !
  */
 // 设置时间格式化方法
-import dateFormat from './utils/dateFormat'
-Vue.prototype.dateFormat = dateFormat
+import dateFormatter from './utils/dateFormat'
+Vue.prototype.dateFormatter = dateFormatter
 
 import VueCesium from 'vue-cesium'
 Vue.use(VueCesium, {

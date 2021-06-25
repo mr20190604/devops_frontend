@@ -93,10 +93,10 @@ export default {
     }
   },
   created() {
-    this.now = this.dateFormat('YYYY-mm-dd HH:MM:SS', new Date())
+    this.now = this.dateFormatter('YYYY-mm-dd HH:MM:SS', new Date())
     const that = this
     setInterval(function() {
-      that.now = that.dateFormat('YYYY-mm-dd HH:MM:SS', new Date())
+      that.now = that.dateFormatter('YYYY-mm-dd HH:MM:SS', new Date())
     }, 1000)
 
     axios.get('https://restapi.amap.com/v3/weather/weatherInfo?key=e5381a1bb9d2a25deebbf285775fe191&city=340100&extensions=base').then(res => {
