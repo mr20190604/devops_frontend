@@ -10,6 +10,7 @@
         fill="none"
         stroke="#34fff8"
         stroke-width="1"
+        :d="target[0].d1"
       >
         <animate
           attributeName="d"
@@ -24,6 +25,7 @@
         fill="none"
         stroke="#34fff8"
         stroke-width="1"
+        :d="target[0].d2"
       >
         <animate
           attributeName="d"

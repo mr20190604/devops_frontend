@@ -8,7 +8,7 @@
         <p class="toolbar">
           <img src="../../assets/img/时间.png" alt="time">
           <span class="time">{{ now }}</span>
-          <img src="../../assets/img/太阳.png" alt="太阳">
+          <img class="icon" :src="icon" alt="天气图标">
           <span class="weather">{{ weather }}</span>
           <span class="temperature">{{ temperature }}℃</span>
           <el-link href="/#/enterpriseBaseinfo" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>
@@ -68,6 +68,8 @@ import inspection from './components/inspection'
 import screenNav from './components/screenNav'
 import screenMap from './components/screenMap'
 import screenVideo from './components/screenVideo'
+import axios from 'axios'
+import fair from '../../assets/img/太阳.png'
 
 export default {
   name: 'Index',
@@ -86,7 +88,8 @@ export default {
     return {
       now: undefined,
       weather: '晴',
-      temperature: '6-12'
+      icon: fair,
+      temperature: '12'
     }
   },
   created() {
@@ -95,6 +98,13 @@ export default {
     setInterval(function() {
       that.now = that.dateFormat('YYYY-mm-dd HH:MM:SS', new Date())
     }, 1000)
+
+    axios.get('https://restapi.amap.com/v3/weather/weatherInfo?key=e5381a1bb9d2a25deebbf285775fe191&city=340100&extensions=base').then(res => {
+      const info = res.data.lives[0]
+      this.weather = info.weather
+      this.temperature = info.temperature
+      this.icon = '/weather/' + info.weather + '.png'
+    })
   }
 }
 </script>
@@ -130,6 +140,11 @@ export default {
     height: 36px;
     padding-left: 30px;
     margin-top: -20px;
+  }
+
+  .icon{
+    height: 26px;
+    width: 26px;
   }
 
   .time, .weather, .temperature {

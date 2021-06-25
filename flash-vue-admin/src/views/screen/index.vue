@@ -5,7 +5,7 @@
       <p class="toolbar">
         <img src="../../assets/img/时间.png" alt="time">
         <span class="time">{{ now }}</span>
-        <img src="../../assets/img/太阳.png" alt="太阳">
+        <img class="icon" :src="icon" alt="天气图标">
         <span class="weather">{{ weather }}</span>
         <span class="temperature">{{ temperature }}℃</span>
         <el-link href="/#/enterpriseBaseinfo" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>
@@ -85,6 +85,9 @@ import equipment from './components/equipment'
 import warning from './components/warning'
 import monitoring from './components/monitoring'
 import screenMap from './components/screenMap'
+import axios from 'axios'
+
+import fair from '../../assets/img/太阳.png'
 
 export default {
   name: 'ScreenMonitors',
@@ -102,8 +105,9 @@ export default {
   data() {
     return {
       now: undefined,
+      icon: fair,
       weather: '晴',
-      temperature: '6-12'
+      temperature: '12'
     }
   },
   created() {
@@ -112,6 +116,13 @@ export default {
     setInterval(function() {
       that.now = that.dateFormat('YYYY-mm-dd HH:MM:SS', new Date())
     }, 1000)
+
+    axios.get('https://restapi.amap.com/v3/weather/weatherInfo?key=e5381a1bb9d2a25deebbf285775fe191&city=340100&extensions=base').then(res => {
+      const info = res.data.lives[0]
+      this.weather = info.weather
+      this.temperature = info.temperature
+      this.icon = '/weather/' + info.weather + '.png'
+    })
   },
   methods: {
 
@@ -138,8 +149,13 @@ export default {
   .header {
     width: 100%;
     height: 80px;
-    background: url('../../assets/img/头部.png') no-repeat ;
+    background: url('../../assets/img/头部.png') no-repeat;
     background-size: 1920px 80px;
+  }
+
+  .icon{
+    height: 26px;
+    width: 26px;
   }
 
   .title {
@@ -153,7 +169,7 @@ export default {
   }
 
   .toolbar {
-    color:white;
+    color: white;
     vertical-align: top;
     overflow: hidden;
     height: 36px;
@@ -161,7 +177,7 @@ export default {
     margin-top: -20px;
   }
 
-  .time,.weather,.temperature{
+  .time, .weather, .temperature {
     margin: 0 10px;
     height: 36px;
     line-height: 36px;
@@ -215,7 +231,7 @@ export default {
     margin-right: 16px;
   }
 
-  .subTitle{
+  .subTitle {
     width: 100%;
     height: 35px;
     background-size: 100% 35px;
@@ -234,7 +250,7 @@ export default {
     background-size: 100% 35px;
   }
 
-  .warning .subTitle,.monitoring .subTitle{
+  .warning .subTitle, .monitoring .subTitle {
     background: url('../../assets/img/标题装饰2.png') no-repeat bottom;
   }
 

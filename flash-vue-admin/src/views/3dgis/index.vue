@@ -3,14 +3,12 @@
     class="viewer"
   >
     <vc-viewer
-      ref="vcViewer"
       :info-box="false"
       :selection-indicator="false"
       style="overflow: hidden; position: absolute"
       @ready="ready"
       @LEFT_DOWN="mouseDown"
       @LEFT_UP="mouseUp"
-      @moveEnd="cameraMoveEnd"
     >
       <vc-navigation :options="compassOptions" />
       <vc-layer-imagery>
@@ -31,8 +29,15 @@
         url="./models/buildings/tileset.json"
         @readyPromise="buildingsReadyPromise"
       />
+      <vc-collection-primitive-billboard
+        :billboards="billboards.filter(item=>!item.level||item.level!==1)"
+        @mouseover="billboardMouseover"
+        @mousemove="billboardMousemove"
+        @mouseout="billboardMouseout"
+        @click="billboardCollectionClick"
+      />
       <vc-entity
-        v-for="item in billboards"
+        v-for="item in billboards.filter(item=>item.level&&item.level===1)"
         :id="String(item.id)"
         :key="item.id"
         :position="item.position"
@@ -40,7 +45,7 @@
         @mouseover="billboardMouseover"
         @mousemove="billboardMousemove"
         @mouseout="billboardMouseout"
-        @click="billboardClick(item)"
+        @click="billboardClick"
       >
         <vc-graphics-billboard
           :image="item.image"
@@ -55,6 +60,14 @@
         :min="heatmapInfo.min"
         :max="heatmapInfo.max"
         :data="heatmapInfoData"
+      />
+      <vc-heatmap
+        :show="heatmapInfo1.show"
+        :bounds="heatmapInfo1.bounds"
+        :options="heatmapInfo1.options"
+        :min="heatmapInfo1.min"
+        :max="heatmapInfo1.max"
+        :data="heatmapInfoData1"
         :type="1"
       />
     </vc-viewer>
@@ -66,7 +79,7 @@
         placeholder="模糊搜索 地点防护目标"
       />
       <el-button type="primary" class="resource" @click="handleResourceClick">应急资源</el-button>
-      <el-button type="primary" class="diffusion">预测扩散模型</el-button>
+      <el-button type="primary" class="diffusion" @click="handleDiffusionClick">预测扩散模型</el-button>
       <div class="toolbar">
         <div class="zoomIn" @click="handleZoomInClick" />
         <div class="zoomOut" @click="handleZoomOutClick" />
@@ -173,16 +186,23 @@ export default {
   name: 'Index',
   data: function() {
     return {
-      Cesium: undefined,
-      viewer: undefined,
       search: undefined,
-      compassOptions: undefined,
+      compassOptions: {
+        enableCompass: true,
+        enableZoomControl: false,
+        enableDistanceLegend: true,
+        enableLocationBar: true,
+        enableCompassOuterRing: true,
+        enablePrintView: false,
+        enableMyLocation: false
+      },
       coverages: ['激光雷达', '傅立叶仪', '质谱仪', '企业', '人员', '危险源', '应急车辆', '应急人员', '应急物资库'],
       selectedCoverages: ['激光雷达', '傅立叶仪', '质谱仪'],
       selectAll: true,
       isIndeterminate: false,
       visible: false,
       billboards: [],
+      isForecast: false,
       isOnlyShowAlarm: true,
       heatmapInfo: {
         bounds: { west: 120.74386, south: 30.77158, east: 120.74758, north: 30.77673 },
@@ -200,50 +220,56 @@ export default {
           minOpacity: 0,
           blur: 0.75
         },
-        data: [],
         min: 0,
         max: 100,
+        data: [],
         show: false
       },
       heatmapInfoData: [],
+      heatmapInfo1: {
+        bounds: { west: 120.74386, south: 30.77158, east: 120.74758, north: 30.77673 },
+        options: {
+          backgroundColor: 'rgba(0,0,0,0)',
+          gradient: {
+            '0.9': 'red',
+            '0.8': 'orange',
+            '0.7': 'yellow',
+            '0.6': 'blue',
+            '0.5': 'green'
+          },
+          radius: 10,
+          maxOpacity: 0.5,
+          minOpacity: 0,
+          blur: 0.75
+        },
+        min: 0,
+        max: 100,
+        data: [],
+        show: false
+      },
+      heatmapInfoData1: [],
       token: '9732120f82392988567929c7c9ff034d'
     }
   },
-  created() {
-    this.compassOptions = {
-      enableCompass: true,
-      enableZoomControl: false,
-      enableDistanceLegend: true,
-      enableLocationBar: true,
-      enableCompassOuterRing: true,
-      enablePrintView: false,
-      enableMyLocation: false
-    }
-  },
-  mounted() {
-
-  },
   methods: {
     ready({ Cesium, viewer }) {
-      this.Cesium = Cesium
-      this.viewer = viewer
-
+      window.Cesium = Cesium
+      window.viewer = viewer
       // 修改鼠标样式
-      viewer._container.style.cursor = 'grab'
-
+      window.viewer._container.style.cursor = 'grab'
       // 开启调试深度
-      // viewer.scene.globe.depthTestAgainstTerrain = true
+      // window.viewer.scene.globe.depthTestAgainstTerrain = true
     },
     buildingsReadyPromise(buildings) {
       // 贴地
-      const cartographic = this.Cesium.Cartographic.fromCartesian(buildings.boundingSphere.center)
-      const surface = this.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, cartographic.height)
-      const offset = this.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0)
-      const translation = this.Cesium.Cartesian3.subtract(offset, surface, new this.Cesium.Cartesian3())
-      buildings.modelMatrix = this.Cesium.Matrix4.fromTranslation(translation)
+      const cartographic = window.Cesium.Cartographic.fromCartesian(buildings.boundingSphere.center)
+      const surface = window.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, cartographic.height)
+      const offset = window.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0)
+      const translation = window.Cesium.Cartesian3.subtract(offset, surface, new window.Cesium.Cartesian3())
+      buildings.modelMatrix = window.Cesium.Matrix4.fromTranslation(translation)
       // 初始化测试数据
       this.initTestData(offset)
-      this.viewer.flyTo(buildings)
+      window.viewer.flyTo(buildings)
     },
     initTestData(offset) {
       const images = [[], [], []]
@@ -282,6 +308,9 @@ export default {
           image.onload = function() {
             context2D.drawImage(image, 0, 0)
           }
+        } else {
+          context2D.fillStyle = 'rgba(255,255,255,0)'
+          context2D.fillRect(0, 0, 40, 60)
         }
         canvasList.push(canvas)
       }
@@ -299,9 +328,9 @@ export default {
           for (let k = 0; k < 4; k++) {
             if (type === j && level === k) {
               if (level === 1) {
-                billboard.image = new this.Cesium.CallbackProperty((time, result) => {
-                  const milliseconds = new Date().getMilliseconds()
-                  const canvas = canvasList[type + 3 * (milliseconds < 500)]
+                billboard.image = new window.Cesium.CallbackProperty((time, result) => {
+                  const seconds = new Date().getSeconds()
+                  const canvas = canvasList[type + 3 * (seconds % 2)]
                   result = canvas.toDataURL('image/png')
                   return result
                 })
@@ -313,7 +342,7 @@ export default {
         }
         billboard.scale = 0.5
         billboard.id = i
-        billboard.verticalOrigin = this.Cesium.VerticalOrigin.BOTTOM
+        billboard.verticalOrigin = window.Cesium.VerticalOrigin.BOTTOM
         if (this.isOnlyShowAlarm) {
           billboard.show = level === 1
         } else {
@@ -321,7 +350,8 @@ export default {
         }
         this.billboards.push(billboard)
       }
-      // 构造监测预警测试数据
+
+      // 构造风险评估测试数据
       for (let i = 0; i < 100; i++) {
         const billboard = {}
         billboard.position = [offset.x + Math.random() * 100, offset.y + Math.random() * 100, offset.z + Math.random() * 10]
@@ -335,58 +365,73 @@ export default {
         }
         billboard.scale = 1
         billboard.id = i + 200
-        billboard.verticalOrigin = this.Cesium.VerticalOrigin.BOTTOM
+        billboard.verticalOrigin = window.Cesium.VerticalOrigin.BOTTOM
         billboard.show = false
         this.billboards.push(billboard)
       }
-
-      // 构造热力图的数据
-      for (let i = 0; i < 500; i++) {
-        const val = Math.floor(Math.random() * 100)
-        this.heatmapInfo.data.push({
-          x: this.heatmapInfo.bounds.west + Math.random() * (this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west),
-          y: this.heatmapInfo.bounds.south + Math.random() * (this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south),
-          value: val
-        })
-      }
-      this.heatmapInfoData = this.heatmapInfo.data
     },
     billboardMouseover() {
-      this.viewer._container.style.cursor = 'pointer'
+      window.viewer._container.style.cursor = 'pointer'
     },
     billboardMousemove() {
-      this.viewer._container.style.cursor = 'pointer'
+      window.viewer._container.style.cursor = 'pointer'
     },
     billboardMouseout() {
-      this.viewer._container.style.cursor = 'grab'
+      window.viewer._container.style.cursor = 'grab'
     },
-    billboardClick(billboard) {
-      console.log(billboard)
+    billboardClick(e) {
+      if (this.isForecast) {
+        const position = e.surfacePosition
+        const cartographic = window.Cesium.Cartographic.fromCartesian(position)
+        const minNum = -0.0001
+        const maxNum = 0.0001
+        this.heatmapInfo1.data = []
+        // 构造热力图的数据
+        for (let i = 0; i < 50; i++) {
+          const val = Math.floor(Math.random() * 100)
+          this.heatmapInfo1.data.push({
+            x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
+            y: window.Cesium.Math.toDegrees(cartographic.latitude) + Math.random() * (maxNum - minNum) + minNum,
+            value: val
+          })
+        }
+        this.heatmapInfoData1 = this.heatmapInfo1.data
+        this.heatmapInfo1.show = true
+      }
+    },
+    billboardCollectionClick() {
+
     },
     mouseDown() {
-      this.viewer._container.style.cursor = 'grabbing'
+      window.viewer._container.style.cursor = 'grabbing'
     },
     mouseUp() {
-      this.viewer._container.style.cursor = 'grab'
-    },
-    cameraMoveEnd() {
-      const position = this.viewer.scene.camera.position
-      const cartographic = this.Cesium.Cartographic.fromCartesian(position)
-      this.heatmapInfo.options.radius = cartographic.height / 5
+      window.viewer._container.style.cursor = 'grab'
     },
     handleResourceClick() {
+      this.isForecast = false
       const infos = this.coverages.filter((item, index) => index > 2)
       this.selectedCoverages = infos
       this.handleCheckedCoveragesChange(infos)
-      this.showBillboards()
       this.isOnlyShowAlarm = false
       this.heatmapInfo.show = false
+      this.showBillboards()
+    },
+    handleDiffusionClick() {
+      this.isForecast = true
+      this.heatmapInfo1.show = false
+      const infos = this.coverages.filter((item, index) => index < 3)
+      this.selectedCoverages = infos
+      this.handleCheckedCoveragesChange(infos)
+      this.isOnlyShowAlarm = true
+      this.heatmapInfo.show = false
+      this.showBillboards()
     },
     handleZoomInClick() {
-      this.viewer.camera.zoomIn(50)
+      window.viewer.camera.zoomIn(50)
     },
     handleZoomOutClick() {
-      this.viewer.camera.zoomOut(50)
+      window.viewer.camera.zoomOut(50)
     },
     handleCleanClick() {
 
@@ -407,6 +452,7 @@ export default {
       this.showBillboards()
     },
     handleAlarmClick() {
+      this.isForecast = false
       const infos = this.coverages.filter((item, index) => index < 3)
       this.selectedCoverages = infos
       this.handleCheckedCoveragesChange(infos)
@@ -415,10 +461,21 @@ export default {
       this.heatmapInfo.show = false
     },
     handleRiskClick() {
+      this.isForecast = false
       this.billboards.forEach(item => {
         item.show = false
       })
       this.isOnlyShowAlarm = false
+      // 构造热力图的数据
+      for (let i = 0; i < 100; i++) {
+        const val = Math.floor(Math.random() * 100)
+        this.heatmapInfo.data.push({
+          x: this.heatmapInfo.bounds.west + Math.random() * (this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west),
+          y: this.heatmapInfo.bounds.south + Math.random() * (this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south),
+          value: val
+        })
+      }
+      this.heatmapInfoData = this.heatmapInfo.data
       this.heatmapInfo.show = true
     },
     handleToolsClick() {
@@ -476,21 +533,6 @@ export default {
     top: 20px;
     right: 260px;
     pointer-events: auto;
-  }
-
-  .compass {
-    height: 60px;
-    width: 60px;
-    pointer-events: auto;
-    position: absolute;
-    right: 100px;
-    top: 200px;
-    border-radius: 30px;
-    font-size: 8px;
-    line-height: 60px;
-    text-align: center;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.5) url("../../assets/img/gis/指南针.png") no-repeat 50% 50%;
   }
 
   .toolbar {
