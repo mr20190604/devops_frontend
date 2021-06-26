@@ -442,7 +442,7 @@
           fit
           highlight-current-row
           @current-change="handleCurrentChange"
-          height="331"
+          max-height="331px"
           style="margin:15px auto 10px"
         >
           <el-table-column

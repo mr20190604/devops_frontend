@@ -130,9 +130,9 @@
             </el-col>
           </el-row>
 
-          <el-row style="border:1px solid #f3f5fb;padding-top:15px">
+          <el-row style="border:1px solid #f3f5fb;padding-top:15px;padding-bottom:10px;">
 
-             <el-scrollbar style="height:310px">
+             <el-scrollbar class="material-scrollbar">
           <el-form-item
             class="risk-material-item"
 
@@ -158,7 +158,7 @@
                 <el-input class="el-input-style" v-model="rec.criticalQuantity "  @input="onInput()" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1  ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3" style="text-align: center">
+            <el-col :span="2" style="text-align: center">
               <i v-if="index==form.details.length-1" class="el-icon-circle-plus-outline operate-icon"  @click.prevent="addDetail"/>
               <i v-if="form.details.length>1" class="el-icon-remove-outline operate-icon" style="margin-left: 10px" @click.prevent="removeDetail(rec)"/>
               <!-- <el-button @click.prevent="removeDetail(rec)" type="danger" class="set-common-btn blank-blue-button">{{ $t('button.delete') }}
@@ -223,6 +223,7 @@
     }
     >>> .el-scrollbar{
   .el-scrollbar__wrap{
+    max-height: 300px; // 最大高度
     overflow-x: hidden;
   } 
 }

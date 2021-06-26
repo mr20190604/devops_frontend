@@ -95,7 +95,7 @@
       @selection-change="handleSelectionChange"
       @row-click="toggleSelection"
       ref="productTable"
-      height="331"
+      max-height="331px"
     >
       <el-table-column
         type="selection"
@@ -217,7 +217,7 @@
       class="common-dialog-style height700"
       :title="formTitle"
       :visible.sync="formVisible"
-      :modal="false"
+     :modal="false"
       width="960px"
       @close="closeDialog"
     >
@@ -366,7 +366,7 @@
       @selection-change="handleSelectionChange"
       @row-click="toggleSelection1"
       ref="materialTable"
-      height="331"
+      max-height="331px"
     >
       <el-table-column
         type="selection"

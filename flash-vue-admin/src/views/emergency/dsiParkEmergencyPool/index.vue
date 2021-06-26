@@ -195,7 +195,7 @@
                 <el-button type="primary"  align="center" class="set-common-btn blank-blue-button"  @click="addMaterial">添加新物资</el-button>
               </el-form-item>
               <div class="table-list">
-              <el-table :data="materialList" v-loading="listLoading" height="331" element-loading-text="Loading" border fit highlight-current-row
+              <el-table :data="materialList" v-loading="listLoading" max-height="331px" element-loading-text="Loading" border fit highlight-current-row
                         @current-change="handleCurrentChange">
                 <el-table-column label="物资名称" show-overflow-tooltip>
                   <template slot-scope="scope">

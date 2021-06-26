@@ -2,11 +2,11 @@ import { isvalidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import { getAccount, setAccount, getPwd, setPwd, removeAccount, removePwd } from '@/utils/auth'
 import router from '../../router'
-
+import countTo from 'vue-count-to';
 const Base64 = require('js-base64').Base64
 export default {
   name: 'login',
-  components: { LangSelect },
+  components: { LangSelect ,countTo },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
@@ -23,6 +23,9 @@ export default {
       }
     }
     return {
+      decimals:3,
+      startVal:0,
+      endVal:113.719,
       loginForm: {
         username: '',
         password: '',
