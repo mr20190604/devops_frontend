@@ -22,6 +22,7 @@ export default {
   data() {
 
     return {
+      dateCur:0,
       genEventTitle:'生成事件',
       genEventVisible:false,
       formVisible: false,
@@ -814,6 +815,7 @@ export default {
         this.lineData.series[0].data.push(value)
       }
     }, day() {
+      this.dateCur =0;
       this.clearEchart()
       let date = new Date();
       let hour = date.getHours();
@@ -836,6 +838,7 @@ export default {
         this.lineData.series[0].data.push(value)
       }
     },OneWeeks() {
+      this.dateCur =1;
       this.clearEchart()
       let date = new Date();
       //获取上月天数
@@ -878,6 +881,7 @@ export default {
         this.lineData.series[0].data.push(value)
       }
     },month() {
+      this.dateCur =2;
       this.clearEchart()
       let date = new Date();
       let year = date.getFullYear();

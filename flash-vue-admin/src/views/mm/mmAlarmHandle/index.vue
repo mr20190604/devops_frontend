@@ -218,7 +218,7 @@
           <el-form :model="screenForm">
             <el-row>
               <el-col :span="12">
-                <el-form-item  label="排查人">
+                <el-form-item  label="排查人：">
                   <el-select v-model="screenForm.screenPerson" @change="changeScreenPerson">
                     <el-option
                       v-for="item in acceptPerson"
@@ -232,7 +232,7 @@
               </el-col>
 
               <el-col :span="12">
-                <el-form-item  label="联系电话">
+                <el-form-item  label="联系电话：">
                   <el-input  v-model="screenForm.screenPhone" disabled  minlength=1></el-input>
                 </el-form-item>
               </el-col>
@@ -261,7 +261,7 @@
           <el-form :model="handleForm">
             <el-row>
               <el-col :span="12">
-                <el-form-item  label="出质人">
+                <el-form-item  label="出质人：">
                   <el-select v-model="handleForm.handlePerson" @change="changeHandlePerson">
                     <el-option
                       v-for="item in handlePerson"
@@ -275,7 +275,7 @@
               </el-col>
 
               <el-col :span="12">
-                <el-form-item  label="联系电话">
+                <el-form-item  label="联系电话：">
                   <el-input  v-model="handleForm.handlePhone" disabled  minlength=1></el-input>
                 </el-form-item>
               </el-col>

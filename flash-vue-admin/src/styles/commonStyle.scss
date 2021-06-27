@@ -235,7 +235,9 @@
 .navbar{
   background-color: #fff;
 }
-
+.padLr20{
+  padding: 0 20px;
+}
 .marginT20{
   margin-top: 20px;
 }
@@ -262,7 +264,7 @@
 .common-dialog-style{
   .table-list{
     height: auto;
-    padding: 0;
+    // padding: 0;
   }
 }
 }

@@ -207,6 +207,7 @@
                   :row-key="row=>row.id"
                   @current-change="handleCurrentChange"
                   max-height="331px"
+                  style="height:auto"
                   >
 
           <el-table-column type="index" width="55px" label="序号"></el-table-column>
