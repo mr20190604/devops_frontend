@@ -78,13 +78,13 @@
             label="序号"
           >
           </el-table-column>
-            <el-table-column label="隐患描述">
-                <template slot-scope="scope">
+            <el-table-column label="隐患描述" style="width: 200px;" show-overflow-tooltip="true">
+                <template slot-scope="scope" >
                     {{scope.row.troubleInfo}}
                 </template>
             </el-table-column>
 
-            <el-table-column label="隐患地址">
+            <el-table-column label="隐患地址" show-overflow-tooltip="true">
                 <template slot-scope="scope">
                     {{scope.row.address}}
                 </template>

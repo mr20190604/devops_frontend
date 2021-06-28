@@ -42,19 +42,19 @@ export default {
     // 天数据
     const now = new Date()
     for (let i = 6; i < 23; i++) {
-      this.dayInfo.xData.push(this.dateFormat('YYYY-mm-dd', now) + ' ' + i + ':00')
+      this.dayInfo.xData.push(this.dateFormatter('YYYY-mm-dd', now) + ' ' + i + ':00')
       // 随机1到11次
       this.dayInfo.seriesData.push(Math.floor((Math.random() * 10) + 1))
     }
 
     for (let i = 0; i < (new Date()).getDate(); i++) {
-      this.monthInfo.xData.push(this.dateFormat('YYYY-mm-dd', new Date(now.getFullYear(), now.getMonth(), i + 1)))
+      this.monthInfo.xData.push(this.dateFormatter('YYYY-mm-dd', new Date(now.getFullYear(), now.getMonth(), i + 1)))
       // 随机10到110次
       this.monthInfo.seriesData.push(Math.floor((Math.random() * 100) + 10))
     }
 
     for (let i = 0; i < (new Date()).getMonth() + 1; i++) {
-      this.yearInfo.xData.push(this.dateFormat('YYYY-mm', new Date(now.getFullYear(), i)))
+      this.yearInfo.xData.push(this.dateFormatter('YYYY-mm', new Date(now.getFullYear(), i)))
       // 随机100到1100次
       this.yearInfo.seriesData.push(Math.floor((Math.random() * 1000) + 100))
     }
