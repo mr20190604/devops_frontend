@@ -50,7 +50,7 @@ export default {
       mmInspectionPathApi.getList(this.listQuery).then(response => {
         this.list = response.data.records[0].relationPipelineList
         this.listLoading = false
-        this.total = response.data.total
+        this.total = this.list.length
       })
     },
 

@@ -245,7 +245,7 @@
         <el-form ref="form" style="width:900px" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="线路：">
+              <el-form-item label="路线：">
                 <el-select
                   v-model="form.pathId"
                   placeholder="请选择"

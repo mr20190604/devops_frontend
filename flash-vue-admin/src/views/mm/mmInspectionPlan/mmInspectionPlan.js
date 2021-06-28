@@ -239,6 +239,7 @@ export default {
       this.searchTime = []
       this.auditResultDisplay = false
       this.readonly = false
+      this.pathId = ''
       this.fetchData()
     },
     add() {
@@ -470,6 +471,10 @@ export default {
     },
     changePath(event, item) {
       this.pathId = event
+      //切换路线时,如果当前巡检类型不是设备巡检,则显示管线列表
+      if(this.tableDisplay !== 2){
+        this.tableDisplay = 1;
+      }
     },
     getEquipList(data) {
       const list = []
@@ -527,9 +532,20 @@ export default {
     'form.inspectType': {
       handler(newName, oldName) {
         if (newName) {
+          //管线
           if (newName === 260) {
+            if(this.pathId === ''){
+              this.$message({
+                message: '请选择路线',
+                type: 'success'
+              })
+              this.tableDisplay = 0
+              return
+            }
             this.tableDisplay = 1
-          } else {
+          }
+          //设备
+          if(newName === 261){
             this.tableDisplay = 2
           }
         } else {

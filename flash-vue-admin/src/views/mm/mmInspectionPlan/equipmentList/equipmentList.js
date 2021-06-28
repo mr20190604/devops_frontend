@@ -72,7 +72,7 @@ export default {
     selectEquip() {
       if (this.routeId === '') {
         this.$message({
-          message: '请先选择线路',
+          message: '请先选择路线',
           type: 'success'
         })
         return

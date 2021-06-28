@@ -25,7 +25,7 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
+          <template>
             <el-button type="text" size="mini">定位</el-button>
           </template>
         </el-table-column>
@@ -34,7 +34,7 @@
         background
         class="outer-pagenation"
         layout="total, sizes, prev, pager, next, jumper"
-        :page-sizes="[10, 20, 50, 100,500]"
+        :page-sizes="[5, 10]"
         :page-size="listQuery.limit"
         :total="total"
         @size-change="changeSize"
