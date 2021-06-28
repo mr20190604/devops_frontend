@@ -1,39 +1,44 @@
 import mmInspectionPlanApi from '@/api/mm/mmInspectionPlan'
 import mmInspectionPathApi from '@/api/mm/mmInspectionPath'
+import handleRecordApi from '@/api/mm/mmInspectionHandleRecord'
 import mmInspectionPlanFileApi from '@/api/mm/mmInspectionPlanFile'
 import permission from '@/directive/permission/index.js'
 import lineList from '@/views/mm/mmInspectionPlan/lineList/index.vue'
 import equipmentList from '@/views/mm/mmInspectionPlan/equipmentList/index.vue'
 import handleRecord from '@/views/mm/mmInspectionPlan/handleRecord/index.vue'
 import fileDelete from '@/api/mm/genEvent/genEvent'
-import { getApiUrl, getPreviewUrl} from '@/utils/utils'
+import { getApiUrl } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 
 export default {
-  directives: {permission},
+  directives: { permission },
   components: {
     lineList,
     equipmentList,
-    handleRecord,
+    handleRecord
   },
 
   data() {
     return {
-      equipBtnDisplay:true,
-      fileBtnDisplay:true,
-      uploadUrl:'',
+      previewTitle: '预览',
+      downloadUrl: '',
+      files: null,
+      previewVisible: false,
+      equipBtnDisplay: true,
+      fileBtnDisplay: true,
+      uploadUrl: '',
       uploadHeaders: {
         'Authorization': ''
       },
-      multiple:true,
-      fileAccept:'.jpg,.png,.jpeg,.gif,.bmp,.doc,.docx,.pdf',
-      inspectionType:'',
-      handleDisplay:false,
-      btnDisplay:true,
-      planId:'',
-      readonly:false,
-      auditResultDisplay:false,
-      pathId:'',
+      multiple: true,
+      fileAccept: '.jpg,.png,.jpeg,.gif,.bmp,.doc,.docx,.pdf',
+      inspectionType: '',
+      handleDisplay: false,
+      btnDisplay: true,
+      planId: '',
+      readonly: false,
+      auditResultDisplay: false,
+      pathId: '',
       tableDisplay: 0,
       searchTime: [],
       formVisible: false,
@@ -75,7 +80,7 @@ export default {
         label: '不通过'
       }],
       pathList: [],
-      fileList:[],
+      fileList: [],
       form: {
         pathId: '',
         inspectType: '',
@@ -89,11 +94,11 @@ export default {
         notes: '',
         isDel: '',
         id: '',
-        handleStatus:1,
-        isOverdue:1,
-        personIdList:[],
-        equipIdList:[],
-        auditResult:'',
+        handleStatus: 1,
+        isOverdue: 1,
+        personIdList: [],
+        equipIdList: [],
+        auditResult: ''
       },
       listQuery: {
         page: 1,
@@ -101,7 +106,7 @@ export default {
         id: undefined,
         searchTime: undefined,
         startTime: undefined,
-        endTime: undefined,
+        endTime: undefined
       },
       total: 0,
       list: null,
@@ -114,12 +119,12 @@ export default {
         published: 'success',
         draft: 'gray',
         deleted: 'danger'
-      };
+      }
       return statusMap[status]
     }
   },
   computed: {
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -130,8 +135,9 @@ export default {
     }
   },
   created() {
-    this.uploadUrl = getApiUrl() + '/file';
-    this.uploadHeaders['Authorization'] = getToken();
+    this.downloadUrl = getApiUrl() + '/file/download?idFile='
+    this.uploadUrl = getApiUrl() + '/file'
+    this.uploadHeaders['Authorization'] = getToken()
     this.init()
   },
   methods: {
@@ -139,74 +145,74 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       mmInspectionPlanApi.getList(this.listQuery).then(response => {
-        this.list = response.data.records;
+        this.list = response.data.records
 
-        //用于拼接巡查人中的姓名
-        let selfList = this.list;
-        for(let i=0;i<selfList.length;i++){
-          let personList = selfList[i].personList;
-          let name = '';
-          for(let j = 0;j<personList.length;j++){
-            if('' === name){
-              name = personList[j].user.name;
-            }else {
-              name += ',' + personList[j].user.name;
+        // 用于拼接巡查人中的姓名
+        const selfList = this.list
+        for (let i = 0; i < selfList.length; i++) {
+          const personList = selfList[i].personList
+          let name = ''
+          for (let j = 0; j < personList.length; j++) {
+            if (name === '') {
+              name = personList[j].user.name
+            } else {
+              name += ',' + personList[j].user.name
             }
           }
-          selfList[i].personNames = name;
+          selfList[i].personNames = name
         }
 
-        this.listLoading = false;
+        this.listLoading = false
         this.total = response.data.total
-      });
+      })
       mmInspectionPathApi.listPath().then(response => {
-        this.pathList = response.data;
-      });
+        this.pathList = response.data
+      })
       mmInspectionPlanApi.listInspectionPerson().then(response => {
-        this.inspectionPersonList = response.data;
-      });
+        this.inspectionPersonList = response.data
+      })
     },
     search() {
       if (this.listQuery.searchTime) {
-        this.listQuery.startTime = this.listQuery.searchTime[0];
+        this.listQuery.startTime = this.listQuery.searchTime[0]
         this.listQuery.endTime = this.listQuery.searchTime[1]
       }
 
       this.fetchData()
     },
     reset() {
-      this.listQuery.path = '';
-      this.listQuery.auditStatus = '';
-      this.listQuery.inspectType = '';
-      this.listQuery.inspectForm = '';
-      this.listQuery.searchTime = '';
-      this.listQuery.isOverdue = '';
-      this.listQuery.handleStatus = '';
+      this.listQuery.path = ''
+      this.listQuery.auditStatus = ''
+      this.listQuery.inspectType = ''
+      this.listQuery.inspectForm = ''
+      this.listQuery.searchTime = ''
+      this.listQuery.isOverdue = ''
+      this.listQuery.handleStatus = ''
       this.fetchData()
     },
     handleFilter() {
-      this.listQuery.page = 1;
+      this.listQuery.page = 1
       this.getList()
     },
     handleClose() {
 
     },
     fetchNext() {
-      this.listQuery.page = this.listQuery.page + 1;
+      this.listQuery.page = this.listQuery.page + 1
       this.fetchData()
     },
     fetchPrev() {
-      this.listQuery.page = this.listQuery.page - 1;
+      this.listQuery.page = this.listQuery.page - 1
       this.fetchData()
     },
     fetchPage(page) {
-      this.listQuery.page = page;
+      this.listQuery.page = page
       this.fetchData()
     },
     changeSize(limit) {
-      this.listQuery.limit = limit;
+      this.listQuery.limit = limit
       this.fetchData()
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
@@ -226,42 +232,42 @@ export default {
         notes: '',
         isDel: '',
         id: '',
-        personIdList:[],
-        equipIdList:[],
-        auditResult:'',
-      };
-      this.searchTime = [];
-      this.auditResultDisplay = false;
-      this.readonly = false;
-      this.fetchData();
+        personIdList: [],
+        equipIdList: [],
+        auditResult: ''
+      }
+      this.searchTime = []
+      this.auditResultDisplay = false
+      this.readonly = false
+      this.fetchData()
     },
     add() {
-      //保存按钮显示
-      this.btnDisplay = true;
-      //附件上传按钮显示
-      this.fileBtnDisplay = true;
-      //设备列表相关按钮显示
-      this.equipBtnDisplay = true;
-      this.formTitle = '添加巡检计划';
-      this.formVisible = true;
-      this.isAdd = true;
-      this.fileList = [];
+      // 保存按钮显示
+      this.btnDisplay = true
+      // 附件上传按钮显示
+      this.fileBtnDisplay = true
+      // 设备列表相关按钮显示
+      this.equipBtnDisplay = true
+      this.formTitle = '添加巡检计划'
+      this.formVisible = true
+      this.isAdd = true
+      this.fileList = []
 
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
     },
     save() {
-      if(this.searchTime.length === 0){
+      if (this.searchTime.length === 0) {
         this.$message({
           message: '请选择计划周期',
           type: 'success'
-        });
-        return;
+        })
+        return
       }
-      this.form.startTime = this.searchTime[0];
-      this.form.endTime = this.searchTime[1];
-      this.form.isOverdue = 1;
+      this.form.startTime = this.searchTime[0]
+      this.form.endTime = this.searchTime[1]
+      this.form.isOverdue = 1
 
       this.$refs['form'].validate((valid) => {
         if (valid) {
@@ -277,29 +283,29 @@ export default {
             auditTime: this.form.auditTime,
             notes: this.form.notes,
             isDel: this.form.isDel,
-            handleStatus:this.form.handleStatus,
-            isOverdue:this.form.isOverdue,
-            personIdList:this.form.personIdList,
-            equipIdList:this.form.equipIdList,
-            auditResult:this.form.auditResult,
-          };
+            handleStatus: this.form.handleStatus,
+            isOverdue: this.form.isOverdue,
+            personIdList: this.form.personIdList,
+            equipIdList: this.form.equipIdList,
+            auditResult: this.form.auditResult
+          }
           if (formData.id) {
             mmInspectionPlanApi.update(formData).then(response => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
-              });
-              for (let i = 0; i < this.fileList.length ; i++) {
-                if(this.fileList[i].response) {
-                  let fileId = this.fileList[i].response.data.id;
+              })
+              for (let i = 0; i < this.fileList.length; i++) {
+                if (this.fileList[i].response) {
+                  const fileId = this.fileList[i].response.data.id
                   const tempData = {
-                    planId:formData.id,
-                    fileId:fileId,
-                  };
+                    planId: formData.id,
+                    fileId: fileId
+                  }
                   mmInspectionPlanFileApi.add(tempData).then()
                 }
               }
-              this.fetchData();
+              this.fetchData()
               this.formVisible = false
             })
           } else {
@@ -307,26 +313,25 @@ export default {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
-              });
-              for (let i = 0; i < this.fileList.length ; i++) {
+              })
+              for (let i = 0; i < this.fileList.length; i++) {
                 const tempData = {
-                  planId:response.data.id,
-                  fileId:this.fileList[i].response.data.id,
-                  orderNum:i+1
-                };
+                  planId: response.data.id,
+                  fileId: this.fileList[i].response.data.id,
+                  orderNum: i + 1
+                }
                 mmInspectionPlanFileApi.add(tempData).then()
               }
-              this.fetchData();
+              this.fetchData()
               this.formVisible = false
             })
           }
         } else {
           return false
         }
-      });
+      })
 
-      this.resetForm();
-
+      this.resetForm()
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {
@@ -335,102 +340,113 @@ export default {
       this.$message({
         message: this.$t('common.mustSelectOne'),
         type: 'warning'
-      });
+      })
       return false
     },
     editItem(record) {
-      //保存按钮显示
-      this.btnDisplay = true;
-      //附件上传按钮显示
-      this.fileBtnDisplay = true;
-      //设备列表相关按钮显示
-      this.equipBtnDisplay = true;
-      this.selRow = record;
-      this.planId = record.id;
-      this.pathId = record.pathId;
+      // 保存按钮显示
+      this.btnDisplay = true
+      // 附件上传按钮显示
+      this.fileBtnDisplay = true
+      // 设备列表相关按钮显示
+      this.equipBtnDisplay = true
+      this.selRow = record
+      this.planId = record.id
+      this.pathId = record.pathId
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
-       this.fillFormData('编辑巡检计划')
+        this.fillFormData('编辑巡检计划')
       }
     },
-    fillFormData(formTitle,flag){
-      this.isAdd = false;
-      this.form = this.selRow;
+    fillFormData(formTitle, flag) {
+      this.isAdd = false
+      this.form = this.selRow
 
-      let temp = null;
-      this.fileList = [];
+      let temp = null
+      this.fileList = []
 
-      mmInspectionPlanFileApi.listPlanFile(this.form.id).then(response=>{
-        temp = response.data;
-        if(temp) {
-          temp.forEach(item =>{
-            if(item.fileInfo) {
+      mmInspectionPlanFileApi.listPlanFile(this.form.id).then(response => {
+        temp = response.data
+        if (temp) {
+          temp.forEach(item => {
+            if (item.fileInfo) {
               this.fileList.push({
-                "url":"",
-                "name":item.fileInfo.originalFileName,
-                "id":item.fileId,
-                "status":"success",
+                'url': '',
+                'name': item.fileInfo.originalFileName,
+                'id': item.fileId,
+                'status': 'success'
               })
             }
           })
         }
-      });
+      })
 
-      this.searchTime.push(this.selRow.startTime);
-      this.searchTime.push(this.selRow.endTime);
-      let ids = [];
-      let list = this.selRow.personList;
-      list.forEach(item =>{
-        ids.push(item.personId);
-      });
-      this.form.personIdList = ids;
-      this.formTitle = formTitle;
-      this.formVisible = true;
-      if('审核' === flag){
-        this.form.auditStatus = '';
+      this.searchTime.push(this.selRow.startTime)
+      this.searchTime.push(this.selRow.endTime)
+      const ids = []
+      const list = this.selRow.personList
+      list.forEach(item => {
+        ids.push(item.personId)
+      })
+      this.form.personIdList = ids
+      this.formTitle = formTitle
+      this.formVisible = true
+      if (flag === '审核') {
+        this.form.auditStatus = ''
       }
 
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
     },
-    audit(record){
-      this.btnDisplay = true;
-      this.fileBtnDisplay = false;
-      this.readonly = true;
-      this.auditResultDisplay = true;
-      //设备列表相关按钮不显示
-      this.equipBtnDisplay = false;
-      this.selRow = record;
+    audit(record) {
+      this.btnDisplay = true
+      this.fileBtnDisplay = false
+      this.readonly = true
+      this.auditResultDisplay = true
+      // 设备列表相关按钮不显示
+      this.equipBtnDisplay = false
+      this.selRow = record
       if (this.checkSel()) {
-        this.fillFormData('审核巡检计划','审核');
+        this.fillFormData('审核巡检计划', '审核')
       }
     },
-    showPlan(record){
-      this.readonly = true;
-      this.auditResultDisplay = false;
-      this.btnDisplay = false;
-      this.fileBtnDisplay = false;
-      //设备列表相关按钮不显示
-      this.equipBtnDisplay = false;
-      this.selRow = record;
-      this.planId = record.id;
-      this.fillFormData('查看巡检计划');
+    showPlan(record) {
+      this.readonly = true
+      this.auditResultDisplay = false
+      this.btnDisplay = false
+      this.fileBtnDisplay = false
+      // 设备列表相关按钮不显示
+      this.equipBtnDisplay = false
+      this.selRow = record
+      this.planId = record.id
+      this.fillFormData('查看巡检计划')
     },
-    showHandle(record){
-      this.handleDisplay = true;
-      this.planId = record.id;
-      this.inspectionType = record.inspectType;
+    showHandle(record) {
+      this.listQuery.planId = record.id
+      handleRecordApi.getList(this.listQuery).then(response => {
+        const list = response.data.records
+        if (list.length > 0) {
+          this.handleDisplay = true
+          this.planId = record.id
+          this.inspectionType = record.inspectType
+        } else {
+          this.$message({
+            message: '暂无处置记录',
+            type: 'success'
+          })
+        }
+      })
     },
     removeItem(record) {
-      this.selRow = record;
+      this.selRow = record
       this.remove()
     },
     remove() {
       if (this.checkSel()) {
-        let id = this.selRow.id;
+        const id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
@@ -440,7 +456,7 @@ export default {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
-            });
+            })
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
@@ -453,65 +469,72 @@ export default {
       }
     },
     changePath(event, item) {
-      this.pathId = event;
+      this.pathId = event
     },
-    getEquipList(data){
-      let list = [];
-      data.forEach(item =>{
-        list.push(item.equipmentId);
-      });
-      this.form.equipIdList = list;
+    getEquipList(data) {
+      const list = []
+      data.forEach(item => {
+        list.push(item.equipmentId)
+      })
+      this.form.equipIdList = list
     },
-    handleChangeUpload(file,fileList){
+    handleChangeUpload(file, fileList) {
       this.fileList = fileList.slice(-10)
     },
     uploadSuccess(response) {
 
     },
-    removeFile(file){
-      let arr = [];
+    removeFile(file) {
+      const arr = []
       const param = {
-        idFile:null
-      };
+        idFile: null
+      }
       if (file.response) {
         param.idFile = file.response.data.id
       } else {
         param.idFile = file.id
       }
-      this.fileList.forEach(item =>{
-        if(item.response && file.response) {
-          if(item.response.data.id != file.response.data.id) {
+      this.fileList.forEach(item => {
+        if (item.response && file.response) {
+          if (item.response.data.id !== file.response.data.id) {
             arr.push((item))
           }
-        } else if(item.id != file.id) {
+        } else if (item.id !== file.id) {
           arr.push(item)
         }
-      });
-      this.fileList = arr;
+      })
+      this.fileList = arr
       this.removeFileItem(param)
     },
     removeFileItem(param) {
       fileDelete.deleteFile(param).then()
     },
-    cancel(){
-      this.resetForm();
-      this.btnDisplay = true;
+    cancel() {
+      this.resetForm()
+      this.btnDisplay = true
+    },
+    previewFile(record) {
+      mmInspectionPlanFileApi.listPlanFile(record.id).then(response => {
+        const planFileList = response.data
+        if (planFileList.length > 0) {
+          this.previewVisible = true
+          this.files = planFileList
+        }
+      })
     }
-
   },
   watch: {
     'form.inspectType': {
       handler(newName, oldName) {
         if (newName) {
           if (newName === 260) {
-            this.tableDisplay = 1;
+            this.tableDisplay = 1
           } else {
-            this.tableDisplay = 2;
+            this.tableDisplay = 2
           }
         } else {
           this.tableDisplay = 0
         }
-
       },
       immediate: true
     }

@@ -2,19 +2,19 @@ import permission from '@/directive/permission/index.js'
 import handleRecordApi from '@/api/mm/mmInspectionHandleRecord'
 
 export default {
-  directives: {permission},
-  props:['planId','inspectionType'],
+  directives: { permission },
+  props: ['planId', 'inspectionType'],
   data() {
     return {
-      equipDisplay:false,
-      lineDisplay:false,
-      list:null,
+      equipDisplay: false,
+      lineDisplay: false,
+      list: null,
       listQuery: {
         page: 1,
         limit: 20,
-        planId: undefined,
+        planId: undefined
       },
-      total:0,
+      total: 0
     }
   },
   filters: {
@@ -23,13 +23,13 @@ export default {
         published: 'success',
         draft: 'gray',
         deleted: 'danger'
-      };
+      }
       return statusMap[status]
     }
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -40,12 +40,12 @@ export default {
     }
   },
   created() {
-    if(this.inspectionType === 260){
-      this.lineDisplay = true;
-    }else{
-      this.equipDisplay = true;
+    if (this.inspectionType === 260) {
+      this.lineDisplay = true
+    } else {
+      this.equipDisplay = true
     }
-    this.listQuery.planId = this.planId;
+    this.listQuery.planId = this.planId
     this.init()
   },
   methods: {
@@ -53,35 +53,35 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       handleRecordApi.getList(this.listQuery).then(response => {
-        this.list = response.data.records;
-        this.listLoading = false;
+        this.list = response.data.records
+        this.listLoading = false
         this.total = response.data.total
-      });
+      })
     },
 
     handleFilter() {
-      this.listQuery.page = 1;
+      this.listQuery.page = 1
       this.getList()
     },
     handleClose() {
 
     },
     fetchNext() {
-      this.listQuery.page = this.listQuery.page + 1;
+      this.listQuery.page = this.listQuery.page + 1
       this.fetchData()
     },
     fetchPrev() {
-      this.listQuery.page = this.listQuery.page - 1;
+      this.listQuery.page = this.listQuery.page - 1
       this.fetchData()
     },
     fetchPage(page) {
-      this.listQuery.page = page;
+      this.listQuery.page = page
       this.fetchData()
     },
     changeSize(limit) {
-      this.listQuery.limit = limit;
+      this.listQuery.limit = limit
       this.fetchData()
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
@@ -95,9 +95,9 @@ export default {
       this.$message({
         message: this.$t('common.mustSelectOne'),
         type: 'warning'
-      });
+      })
       return false
-    },
+    }
 
-  },
+  }
 }

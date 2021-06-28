@@ -2,8 +2,8 @@ import mmInspectionPathApi from '@/api/mm/mmInspectionPath'
 import permission from '@/directive/permission/index.js'
 
 export default {
-  directives: {permission},
-  props:['pathId'],
+  directives: { permission },
+  props: ['pathId'],
   data() {
     return {
       listQuery: {
@@ -12,7 +12,7 @@ export default {
         id: undefined
       },
       total: 0,
-      list: null,
+      list: null
     }
   },
   filters: {
@@ -21,13 +21,13 @@ export default {
         published: 'success',
         draft: 'gray',
         deleted: 'danger'
-      };
+      }
       return statusMap[status]
     }
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -38,7 +38,7 @@ export default {
     }
   },
   created() {
-    this.listQuery.id = this.pathId;
+    this.listQuery.id = this.pathId
     this.init()
   },
   methods: {
@@ -46,44 +46,44 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       mmInspectionPathApi.getList(this.listQuery).then(response => {
-        this.list = response.data.records[0].relationPipelineList;
-        this.listLoading = false;
+        this.list = response.data.records[0].relationPipelineList
+        this.listLoading = false
         this.total = response.data.total
-      });
+      })
     },
 
     handleFilter() {
-      this.listQuery.page = 1;
+      this.listQuery.page = 1
       this.getList()
     },
     handleClose() {
 
     },
     fetchNext() {
-      this.listQuery.page = this.listQuery.page + 1;
+      this.listQuery.page = this.listQuery.page + 1
       this.fetchData()
     },
     fetchPrev() {
-      this.listQuery.page = this.listQuery.page - 1;
+      this.listQuery.page = this.listQuery.page - 1
       this.fetchData()
     },
     fetchPage(page) {
-      this.listQuery.page = page;
+      this.listQuery.page = page
       this.fetchData()
     },
     changeSize(limit) {
-      this.listQuery.limit = limit;
+      this.listQuery.limit = limit
       this.fetchData()
-    },
+    }
   },
-  watch:{
-    pathId:{
+  watch: {
+    pathId: {
       handler(newName, oldName) {
-        this.listQuery.id = newName;
-        this.fetchData();
-      },
+        this.listQuery.id = newName
+        this.fetchData()
+      }
     }
   }
 }

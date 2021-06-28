@@ -3,56 +3,56 @@
 
     <!--列表-->
     <div class="table-list marginT15">
-      <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-        <el-table-column label="设备编号" v-if="equipDisplay" show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.installInfo.equipment.equipmentCode}}
-        </template>
-      </el-table-column>
-        <el-table-column label="设备类型" v-if="equipDisplay"  show-overflow-tooltip>
+      <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
+        <el-table-column v-if="equipDisplay" label="设备编号" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.installInfo.equipment.equipmentTypeName}}
+            {{ scope.row.installInfo.equipment.equipmentCode }}
           </template>
         </el-table-column>
-        <el-table-column label="管线编号" v-if="lineDisplay"  show-overflow-tooltip>
+        <el-table-column v-if="equipDisplay" label="设备类型" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.pipeline.pipelineCode}}
+            {{ scope.row.installInfo.equipment.equipmentTypeName }}
           </template>
         </el-table-column>
-        <el-table-column label="管线类型" v-if="lineDisplay"  show-overflow-tooltip>
+        <el-table-column v-if="lineDisplay" label="管线编号" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.pipeline.pipelineTypeName}}
+            {{ scope.row.pipeline.pipelineCode }}
           </template>
         </el-table-column>
-        <el-table-column label="地址"  show-overflow-tooltip>
+        <el-table-column v-if="lineDisplay" label="管线类型" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.address}}
+            {{ scope.row.pipeline.pipelineTypeName }}
           </template>
         </el-table-column>
-        <el-table-column label="问题类型"  show-overflow-tooltip>
+        <el-table-column label="地址" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.problemTypeName}}
+            {{ scope.row.address }}
           </template>
         </el-table-column>
-        <el-table-column label="上报时间"  show-overflow-tooltip>
+        <el-table-column label="问题类型" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.inspectTime}}
+            {{ scope.row.problemTypeName }}
           </template>
         </el-table-column>
-        <el-table-column label="巡检结果"  show-overflow-tooltip>
+        <el-table-column label="上报时间" show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{ scope.row.inspectTime }}
+          </template>
+        </el-table-column>
+        <el-table-column label="巡检结果" show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-if="scope.row.inspectResult === 1">正常</span>
             <span v-if="scope.row.inspectResult === 2">异常</span>
           </template>
         </el-table-column>
-        <el-table-column label="负责人"  show-overflow-tooltip>
+        <el-table-column label="负责人" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.user.name}}
+            {{ scope.row.user.name }}
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button type="text" size="mini" >定位</el-button>
+          <template>
+            <el-button type="text" size="mini">定位</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -66,8 +66,8 @@
         @size-change="changeSize"
         @current-change="fetchPage"
         @prev-click="fetchPrev"
-        @next-click="fetchNext">
-      </el-pagination>
+        @next-click="fetchNext"
+      />
     </div>
 
   </div>

@@ -3,38 +3,39 @@
 
     <!--列表-->
     <div class="table-list">
-      <div class="btnLists" v-if="equipBtnDisplay">
+      <div v-if="equipBtnDisplay" class="btnLists">
         <el-button
           class="set-common-btn blue-button"
           type="success"
           size="mini"
-          @click = "selectEquip">选择设备</el-button>
+          @click="selectEquip"
+        >选择设备</el-button>
       </div>
-      <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
+      <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
         <el-table-column label="设施设备名称" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.equipment.equipmentName}}
+            {{ scope.row.equipment.equipmentName }}
           </template>
         </el-table-column>
         <el-table-column label="位置" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.installLocation}}
+            {{ scope.row.installLocation }}
           </template>
         </el-table-column>
         <el-table-column label="所属管线" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.pipeline.pipelineCode}}
+            {{ scope.row.pipeline.pipelineCode }}
           </template>
         </el-table-column>
         <el-table-column label="设备类型" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.equipment.equipmentTypeName}}
+            {{ scope.row.equipment.equipmentTypeName }}
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="mini" >定位</el-button>
-            <el-button type="text" size="mini" @click="removeEquip(scope.row)" v-if="equipBtnDisplay">删除</el-button>
+            <el-button type="text" size="mini">定位</el-button>
+            <el-button v-if="equipBtnDisplay" type="text" size="mini" @click="removeEquip(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -47,12 +48,12 @@
         :page-sizes="[2,5]"
         :total="total"
         @size-change="changeSize"
-        @current-change="fetchPage">
-      </el-pagination>
+        @current-change="fetchPage"
+      />
     </div>
 
     <el-dialog :visible.sync="dialogDisplay" :append-to-body="true" class="el-dialog-style common-dialog-style equip-dialog-style" width="960px">
-      <equipList v-if="dialogDisplay" :routeId="pathId" @getEquipList="getEquipList"></equipList>
+      <equipList v-if="dialogDisplay" :route-id="pathId" @getEquipList="getEquipList" />
     </el-dialog>
   </div>
 </template>
@@ -65,5 +66,4 @@
   }
 }
 </style>
-
 
