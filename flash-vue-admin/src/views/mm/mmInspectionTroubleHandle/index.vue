@@ -68,7 +68,7 @@
             width="55"
             label="序号"
           />
-          <el-table-column label="隐患描述" width="250px">
+          <el-table-column label="隐患描述" width="250px" show-overflow-tooltip>
             <template slot-scope="scope">
               {{scope.row.inspectionTrouble.troubleInfo}}
             </template>

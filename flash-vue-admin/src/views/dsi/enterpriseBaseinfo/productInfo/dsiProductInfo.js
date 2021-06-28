@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       formVisible: false,
+      productDetailVisible:false,
       formTitle: '添加产品信息',
       isAdd: true,
       form: {
@@ -50,6 +51,14 @@ export default {
         enterpriseId: this.enterpriseId,
         materialType:undefined,
         isDanger:undefined,
+      },
+      listQuery1: {
+        page: 1,
+        limit: 10,
+        key: '',
+        materialType: '',
+        isDanger: '',
+        ids: '',
       },
       materialList:[],
       selectedList:[],
@@ -169,57 +178,6 @@ export default {
         id: undefined
       }
     },
-    add() {
-      this.resetForm();
-      this.formTitle = '添加产品信息'
-      this.formVisible = true
-      this.isAdd = true
-      if (this.$refs['form']) {
-        this.$refs['form'].resetFields()
-      }
-    },
-    save() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          const formData = {
-            id: this.form.id,
-            productCode: this.form.productCode,
-            productName: this.form.productName,
-            isPoisonHarm: this.form.isPoisonHarm,
-            isInflammableExplosive: this.form.isInflammableExplosive,
-            isRadioactivity: this.form.isRadioactivity,
-            isCorrosive: this.form.isCorrosive,
-            formId: this.form.formId,
-            productModel: this.form.productModel,
-            storageStandards: this.form.storageStandards,
-            productDesc: this.form.productDesc,
-            enterpriseId: this.enterpriseId,
-          }
-          if (this.productAdd) {
-            if (formData.id) {
-              dsiProductInfoApi.update(formData).then(response => {
-                this.$message({
-                  message: this.$t('common.optionSuccess'),
-                  type: 'success'
-                })
-
-                this.formVisible = false;
-                this.fetchData();
-              })
-            } else {
-              dsiProductInfoApi.add(formData).then(response => {
-                this.fetchData()
-                this.formVisible = false
-              })
-
-            }
-
-          } else {
-            return false
-          }
-        }
-      })
-    },
     checkSel() {
       if (this.selRow && this.selRow.id) {
         return true
@@ -295,9 +253,7 @@ export default {
       let ids = this.selection.map(item => {
         return item.id
       })
-
       ids = ids.join(',')
-
       if (ids === null || ids.length === 0) {
         this.$message({
           message: this.$t('common.mustSelectOne'),
@@ -329,10 +285,6 @@ export default {
       this.formTitle = '添加原料'
       this.addVisible = true
       this.isAdd = true
-
-     /* if (this.$refs['form'] !== undefined) {
-        this.$refs['form'].resetFields()
-      }*/
     },
     saveMaterial(){
 
@@ -413,34 +365,8 @@ export default {
       }else {
         this.closeFatherDialog();
       }
-      },
-
-    viewProduct(record){
-      dsiProductFromMaterialApi.getList(record.id).then(response => {
-        console.log(response);
-        if (response.data.length) {
-          let ids = '';
-          this.formTitle = '查看产品信息';
-          this.productVisible = true;
-          for (let i = 0; i < response.data.length; i++) {
-            if (i == 0) {
-              ids = ids + response.data[i].materialId;
-            } else {
-              ids = ids + ',' + response.data[i].materialId;
-            }
-          }
-          console.log(ids);
-          dsiMaterialBaseinfoApi.getSelected(ids).then(response => {
-            this.selectedList = response.data;
-            this.listLoading = false
-          })
-        } else {
-          this.$alert('暂未添加添加原料信息！', '提示', {
-            confirmButtonText: '确定',
-          });
-        }
-      })
-    },toggleSelection(row) {
+      }
+    ,toggleSelection(row) {
       this.$refs.productTable.toggleRowSelection(row)
     },
     closeDialog() {
@@ -454,6 +380,48 @@ export default {
     },
     toggleSelection1(row) {
       this.$refs.materialTable.toggleRowSelection(row)
+    },
+    fetchNext1() {
+      this.listQuery1.page = this.listQuery1.page + 1
+      this.viewProductDetail(this.selRow)
+    },
+    fetchPrev1() {
+      this.listQuery1.page = this.listQuery1.page - 1
+      this.viewProductDetail(this.selRow)
+    },
+    fetchPage1(page) {
+      this.listQuery1.page = page
+      this.viewProductDetail(this.selRow)
+    },
+    changeSize1(limit) {
+      this.listQuery1.limit = limit
+      this.viewProductDetail(this.selRow)
+    },
+    viewProductDetail(record){
+      this.selRow = record
+      this.form = this.selRow
+
+      dsiProductFromMaterialApi.getList(record.id).then(response => {
+        if (response.data.length) {
+          let ids = '';
+          this.formTitle = '查看产品信息';
+          for (let i = 0; i < response.data.length; i++) {
+            if (i == 0) {
+              ids = ids + response.data[i].materialId;
+            } else {
+              ids = ids + ',' + response.data[i].materialId;
+            }
+          }
+          this.listQuery1.ids=ids;
+          dsiMaterialBaseinfoApi.getList(this.listQuery1).then(response => {
+            this.selectedList = response.data.records;
+            this.listLoading = false
+            this.total=response.data.total;
+            this.formTitle = '查看产品信息'
+            this.productDetailVisible = true
+          })
+        }
+      })
     },
   }
 }

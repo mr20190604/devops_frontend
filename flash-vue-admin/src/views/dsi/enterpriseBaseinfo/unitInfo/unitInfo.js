@@ -9,6 +9,7 @@ export default {
   data() {
     return {
       formVisible: false,
+      unitVisible:false,
       formTitle: '添加数据资源一体化系统-企业信息-企业风险单元',
       isAdd: true,
       flag:true,
@@ -259,12 +260,27 @@ export default {
       this.selRow = record
       this.edit()
     },
+    viewUnit(record){
+      this.selRow = record
+      this.formTitle = '查看风险单元'
+      let detail = this.selRow.detail.split(';')
+      let details = []
+      if(this.selRow.detail){
+        detail.forEach(function (val) {
+          let arr = val.split(',')
+          details.push({'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2]})
+        })
+      }
+      this.form=JSON.parse(JSON.stringify(this.selRow));
+      this.form.details = details;
+      this.unitVisible = true
+    },
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
         this.formTitle = '编辑风险单元'
-        var detail = this.selRow.detail.split(';')
-        var details = []
+        let detail = this.selRow.detail.split(';')
+        let details = []
         if(this.selRow.detail){
           detail.forEach(function (val) {
             let arr = val.split(',')
