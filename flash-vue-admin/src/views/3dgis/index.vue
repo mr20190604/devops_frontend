@@ -51,6 +51,7 @@
           :image="item.image"
           :scale="item.scale"
           :show="item.show"
+          :color="item.color"
         />
       </vc-entity>
       <vc-heatmap
@@ -70,6 +71,91 @@
         :data="heatmapInfoData1"
         :type="1"
       />
+      <vc-overlay-html v-if="windowInfo.show" :position="windowInfo.position" :pixel-offset="windowInfo.offset">
+        <div class="windowInfo">
+          <p class="title">设备信息
+            <span class="close" title="关闭" @click="handleWindowInfoClose" />
+          </p>
+          <ul>
+            <li :class="{selected:windowInfo.tabName==='基本信息'}" @click="handleTabNameChange('基本信息')">基本信息</li>
+            <li :class="{selected:windowInfo.tabName==='报警记录'}" @click="handleTabNameChange('报警记录')">报警记录</li>
+            <li :class="{selected:windowInfo.tabName==='溯源分析'}" @click="handleTabNameChange('溯源分析')">溯源分析</li>
+            <li :class="{selected:windowInfo.tabName==='扩散分析'}" @click="handleTabNameChange('扩散分析')">扩散分析</li>
+          </ul>
+          <div class="tab-container">
+            <div v-if="windowInfo.tabName==='基本信息'" class="basicInfo">
+              <p class="equipmentType">{{ windowInfo.equipmentType }}</p>
+              <p>设备编号:<span>FFSS2344</span></p>
+              <p>设备状态:<span>正常</span></p>
+              <p>报警地点:<span>11号楼109房间报警</span></p>
+              <p>历史报警:<span>3</span></p>
+            </div>
+            <div v-if="windowInfo.tabName==='报警记录'" class="alarmInfo">
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>处置状态:<span>已处置</span></p>
+              <p>处置人:<span>高益</span></p>
+              <p>审核状态:<span>已审核</span></p>
+              <p>审核人:<span>高益</span></p>
+              <hr>
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>处置状态:<span>已处置</span></p>
+              <p>处置人:<span>高益</span></p>
+              <p>审核状态:<span>已审核</span></p>
+              <p>审核人:<span>高益</span></p>
+              <hr>
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>处置状态:<span>已处置</span></p>
+              <p>处置人:<span>高益</span></p>
+              <p>审核状态:<span>已审核</span></p>
+              <p>审核人:<span>高益</span></p>
+              <div class="page">
+                <div class="first" title="上一页" />
+                <div class="next" title="下一页" />
+              </div>
+            </div>
+            <div v-if="windowInfo.tabName==='溯源分析'" class="backAnalysis">
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>可能泄露的企业:<span> xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
+              <hr>
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>可能泄露的企业:<span>xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
+              <hr>
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>可能泄露的企业:<span>xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
+              <div class="page">
+                <div class="first" title="上一页" />
+                <div class="next" title="下一页" />
+              </div>
+            </div>
+            <div v-if="windowInfo.tabName==='扩散分析'" class="diffusionAnalysis">
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>6小时影响范围:<span>已消散，无影响</span></p>
+              <p>24小时影响范围:<span>无影响</span></p>
+              <hr>
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>6小时影响范围:<span>已消散，无影响</span></p>
+              <p>24小时影响范围:<span>无影响</span></p>
+              <hr>
+              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+              <p>报警等级:<span>一级</span></p>
+              <p>6小时影响范围:<span>已消散，无影响</span></p>
+              <p>24小时影响范围:<span>无影响</span></p>
+              <div class="page">
+                <div class="first" title="上一页" />
+                <div class="next" title="下一页" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </vc-overlay-html>
     </vc-viewer>
     <div class="cover">
       <el-input
@@ -99,23 +185,14 @@
         <div class="equipment">
           <p>傅立叶</p>
           <div class="icon icon11" />
-          <div class="icon icon12" />
-          <div class="icon icon13" />
-          <div class="icon icon14" />
         </div>
         <div class="equipment">
           <p>质谱仪</p>
           <div class="icon icon21" />
-          <div class="icon icon22" />
-          <div class="icon icon23" />
-          <div class="icon icon24" />
         </div>
         <div class="equipment">
           <p>激光雷达</p>
           <div class="icon icon31" />
-          <div class="icon icon32" />
-          <div class="icon icon33" />
-          <div class="icon icon34" />
         </div>
       </div>
       <div class="bigToolbar">
@@ -127,7 +204,7 @@
           <el-image :src="require('../../assets/img/gis/风险评估.png')" />
           <p>风险评估</p>
         </div>
-        <div @click="handleToolsClick">
+        <div>
           <el-image :src="require('../../assets/img/gis/地图.png')" />
           <p>地图工具</p>
         </div>
@@ -161,6 +238,7 @@
 
 <script>
 import 'vue-cesium/lib/vc-navigation.css'
+import 'vue-cesium/lib/style.css'
 
 import a11 from '../../assets/img/gis/傅立叶仪绿.png'
 import a12 from '../../assets/img/gis/傅立叶仪红.png'
@@ -181,6 +259,8 @@ import b3 from '../../assets/img/gis/危险源.png'
 import b4 from '../../assets/img/gis/应急车辆.png'
 import b5 from '../../assets/img/gis/应急人员.png'
 import b6 from '../../assets/img/gis/应急物资库.png'
+
+import empty from '../../assets/img/gis/empty.png'
 
 export default {
   name: 'Index',
@@ -203,7 +283,6 @@ export default {
       visible: false,
       billboards: [],
       isForecast: false,
-      isOnlyShowAlarm: true,
       heatmapInfo: {
         bounds: { west: 120.74386, south: 30.77158, east: 120.74758, north: 30.77673 },
         options: {
@@ -248,6 +327,13 @@ export default {
         show: false
       },
       heatmapInfoData1: [],
+      windowInfo: {
+        show: false,
+        equipmentType: undefined,
+        position: undefined,
+        offset: undefined,
+        tabName: '基本信息'
+      },
       token: '9732120f82392988567929c7c9ff034d'
     }
   },
@@ -268,10 +354,10 @@ export default {
       const translation = window.Cesium.Cartesian3.subtract(offset, surface, new window.Cesium.Cartesian3())
       buildings.modelMatrix = window.Cesium.Matrix4.fromTranslation(translation)
       // 初始化测试数据
-      this.initTestData(offset)
+      this.initTestData()
       window.viewer.flyTo(buildings)
     },
-    initTestData(offset) {
+    initTestData() {
       const images = [[], [], []]
       images[0].push(a11)
       images[0].push(a12)
@@ -309,8 +395,11 @@ export default {
             context2D.drawImage(image, 0, 0)
           }
         } else {
-          context2D.fillStyle = 'rgba(255,255,255,0)'
-          context2D.fillRect(0, 0, 40, 60)
+          const image = new Image()
+          image.src = empty
+          image.onload = function() {
+            context2D.drawImage(image, 0, 0)
+          }
         }
         canvasList.push(canvas)
       }
@@ -318,7 +407,11 @@ export default {
       // 构造监测预警测试数据
       for (let i = 0; i < 200; i++) {
         const billboard = {}
-        billboard.position = [offset.x + Math.random() * 100, offset.y + Math.random() * 100, offset.z + Math.random() * 10]
+        billboard.position = {
+          lng: this.heatmapInfo.bounds.west + Math.random() * (this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west),
+          lat: this.heatmapInfo.bounds.south + Math.random() * (this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south),
+          height: 20
+        }
         const type = Math.floor(Math.random() * 3)
         billboard.type = type
         billboard.typeName = this.coverages[type]
@@ -343,21 +436,21 @@ export default {
         billboard.scale = 0.5
         billboard.id = i
         billboard.verticalOrigin = window.Cesium.VerticalOrigin.BOTTOM
-        if (this.isOnlyShowAlarm) {
-          billboard.show = level === 1
-        } else {
-          billboard.show = true
-        }
+        billboard.show = level === 1
         this.billboards.push(billboard)
       }
 
-      // 构造风险评估测试数据
+      // 构造应急资源试数据
       for (let i = 0; i < 100; i++) {
         const billboard = {}
-        billboard.position = [offset.x + Math.random() * 100, offset.y + Math.random() * 100, offset.z + Math.random() * 10]
-        const type = Math.floor(Math.random() * 6)
+        billboard.position = {
+          lng: this.heatmapInfo.bounds.west + Math.random() * (this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west),
+          lat: this.heatmapInfo.bounds.south + Math.random() * (this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south),
+          height: 20
+        }
+        const type = Math.floor(Math.random() * 6) + 3
         billboard.type = type
-        billboard.typeName = this.coverages[type + 3]
+        billboard.typeName = this.coverages[type]
         for (let k = 0; k < 6; k++) {
           if (type === k) {
             billboard.image = images1[k]
@@ -387,7 +480,7 @@ export default {
         const maxNum = 0.0001
         this.heatmapInfo1.data = []
         // 构造热力图的数据
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 20; i++) {
           const val = Math.floor(Math.random() * 100)
           this.heatmapInfo1.data.push({
             x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
@@ -397,10 +490,34 @@ export default {
         }
         this.heatmapInfoData1 = this.heatmapInfo1.data
         this.heatmapInfo1.show = true
+      } else {
+        this.handleBillboardDetail(e.cesiumObject)
       }
     },
-    billboardCollectionClick() {
-
+    billboardCollectionClick(e) {
+      if (e.cesiumObject instanceof window.Cesium.Billboard) {
+        this.handleBillboardDetail(e.cesiumObject)
+      } else if (e.cesiumObject instanceof window.Cesium.BillboardCollection) {
+        this.handleBillboardDetail(e.pickedFeature.primitive)
+      }
+    },
+    handleBillboardDetail(cesiumObject) {
+      const id = Number(cesiumObject.id)
+      const current = this.billboards.find(item => item.id === id)
+      if (current.type < 3) {
+        window.viewer.flyTo(cesiumObject, {
+          duration: 1,
+          maximumHeight: 20
+        })
+        if (current.level === 1) {
+          this.windowInfo.offset = { x: -450, y: -380 }
+        } else {
+          this.windowInfo.offset = { x: -380, y: -380 }
+        }
+        this.windowInfo.position = current.position
+        this.windowInfo.equipmentType = current.typeName
+        this.windowInfo.show = true
+      }
     },
     mouseDown() {
       window.viewer._container.style.cursor = 'grabbing'
@@ -409,23 +526,23 @@ export default {
       window.viewer._container.style.cursor = 'grab'
     },
     handleResourceClick() {
-      this.isForecast = false
+      this.setDefault()
       const infos = this.coverages.filter((item, index) => index > 2)
       this.selectedCoverages = infos
       this.handleCheckedCoveragesChange(infos)
-      this.isOnlyShowAlarm = false
-      this.heatmapInfo.show = false
-      this.showBillboards()
+      this.billboards.forEach(item => {
+        item.show = infos.indexOf(item.typeName) > -1
+      })
     },
     handleDiffusionClick() {
+      this.setDefault()
       this.isForecast = true
-      this.heatmapInfo1.show = false
       const infos = this.coverages.filter((item, index) => index < 3)
       this.selectedCoverages = infos
       this.handleCheckedCoveragesChange(infos)
-      this.isOnlyShowAlarm = true
-      this.heatmapInfo.show = false
-      this.showBillboards()
+      this.billboards.forEach(item => {
+        item.show = item.level === 1 && infos.indexOf(item.typeName) > -1
+      })
     },
     handleZoomInClick() {
       window.viewer.camera.zoomIn(50)
@@ -449,24 +566,29 @@ export default {
       this.visible = !this.visible
     },
     handleCloseDialog() {
-      this.showBillboards()
+
     },
     handleAlarmClick() {
-      this.isForecast = false
       const infos = this.coverages.filter((item, index) => index < 3)
+      const showCount = this.billboards.filter(item => item.show && infos.indexOf(item.typeName) > -1).length
+      this.setDefault()
       this.selectedCoverages = infos
       this.handleCheckedCoveragesChange(infos)
-      this.isOnlyShowAlarm = !this.isOnlyShowAlarm
-      this.showBillboards()
-      this.heatmapInfo.show = false
+      const alarmCount = this.billboards.filter(item => this.selectedCoverages.indexOf(item.typeName) > -1).length
+      if (showCount === alarmCount || showCount === 0) {
+        this.billboards.forEach(item => {
+          item.show = item.level === 1 && infos.indexOf(item.typeName) > -1
+        })
+      } else {
+        this.billboards.forEach(item => {
+          item.show = infos.indexOf(item.typeName) > -1
+        })
+      }
     },
     handleRiskClick() {
-      this.isForecast = false
-      this.billboards.forEach(item => {
-        item.show = false
-      })
-      this.isOnlyShowAlarm = false
+      this.setDefault()
       // 构造热力图的数据
+      this.heatmapInfo.data = []
       for (let i = 0; i < 100; i++) {
         const val = Math.floor(Math.random() * 100)
         this.heatmapInfo.data.push({
@@ -478,16 +600,24 @@ export default {
       this.heatmapInfoData = this.heatmapInfo.data
       this.heatmapInfo.show = true
     },
-    handleToolsClick() {
-
-    },
-    showBillboards() {
+    setDefault() {
       this.billboards.forEach(item => {
-        item.show = this.selectedCoverages.indexOf(item.typeName) > -1
-        if (this.isOnlyShowAlarm && item.level !== undefined) {
-          item.show = item.show && item.level === 1
-        }
+        item.show = false
       })
+      this.selectedCoverages = []
+      this.handleCheckedCoveragesChange([])
+      this.isIndeterminate = false
+      this.heatmapInfo.show = false
+      this.heatmapInfo1.show = false
+      this.windowInfo.show = false
+      this.isForecast = false
+    },
+    handleTabNameChange(tabName) {
+      this.windowInfo.tabName = tabName
+    },
+    handleWindowInfoClose() {
+      this.windowInfo.show = false
+      this.windowInfo.tabName = '基本信息'
     }
   }
 }
@@ -593,7 +723,7 @@ export default {
 
   .legend span {
     width: 50px;
-    padding:3px 10px;
+    padding: 3px 10px;
     box-sizing: content-box;
     text-align: center;
     border-radius: 3px;
@@ -633,7 +763,7 @@ export default {
     float: left;
     background-size: contain !important;
     background-repeat: no-repeat !important;
-    margin-right: 5px;
+    margin-left: 50px;
   }
 
   .legend .icon11 {
@@ -733,8 +863,191 @@ export default {
     margin-bottom: 10px;
   }
 
-  >>> .vc-navigation{
+  >>> .vc-navigation {
     top: 200px;
     right: 95px;
   }
+
+  .windowInfo {
+    position: absolute;
+    top: 0;
+    left: 400px;
+    width: 360px;
+    height: 380px;
+    background: #101933;
+    opacity: 0.88;
+    color: white;
+    font-size: 12px;
+    cursor: default;
+  }
+
+  .windowInfo .title {
+    padding-left: 15px;
+    height: 30px;
+    line-height: 30px;
+    background: url("../../assets/img/gis/title-background.png") no-repeat;
+    background-size: cover;
+    margin-top: -2px;
+  }
+
+  .windowInfo .title span {
+    height: 12px;
+    width: 12px;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    background: url("../../assets/img/gis/close.png") no-repeat;
+    background-size: contain !important;
+  }
+
+  .windowInfo ul {
+    margin-left: 25px;
+  }
+
+  .windowInfo ul li {
+    height: 35px;
+    width: 100px;
+    list-style-type: none;
+    background-size: 100% 100% !important;
+    display: inline-block;
+    line-height: 35px;
+    margin-left: -20px;
+    background-repeat: no-repeat !important;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  .windowInfo ul li:first-child {
+    background: url("../../assets/img/gis/tab-left.png");
+  }
+
+  .windowInfo ul li.selected:first-child {
+    background: url("../../assets/img/gis/tab-left-select.png");
+  }
+
+  .windowInfo ul li:nth-child(2), .windowInfo ul li:nth-child(3) {
+    background: url("../../assets/img/gis/tab-middle.png");
+  }
+
+  .windowInfo ul li.selected:nth-child(2), .windowInfo ul li.selected:nth-child(3) {
+    background: url("../../assets/img/gis/tab-middle-select.png");
+  }
+
+  .windowInfo ul li:last-child {
+    background: url("../../assets/img/gis/tab-right.png");
+  }
+
+  .windowInfo ul li.selected:last-child {
+    background: url("../../assets/img/gis/tab-right-select.png");
+  }
+
+  .tab-container {
+    padding: 0 10px;
+  }
+
+  .tab-container p {
+    color: #909ABB;
+    line-height: 24px;
+    display: inline-block;
+  }
+
+  .tab-container p > span {
+    color: white;
+    padding-left: 8px;
+  }
+
+  .tab-container hr {
+    height: 1px;
+    background-color: #4B5A8A;
+    border: none;
+    margin: 5px 0;
+  }
+
+  .basicInfo {
+    margin-top: 8px;
+  }
+
+  .basicInfo p {
+    line-height: 28px;
+    display: block;
+  }
+
+  .basicInfo .equipmentType {
+    height: 20px;
+    line-height: 20px;
+    color: #48D2FA;
+    padding-left: 10px;
+    width: 50%;
+    background: linear-gradient(to right, rgba(83, 104, 171, 0.8), rgba(83, 104, 171, 0));
+    margin-bottom: 8px;
+  }
+
+  .alarmInfo > p:nth-of-type(2n+1) {
+    width: 60%;
+  }
+
+  .alarmInfo > p:nth-of-type(2n) {
+    width: calc(40% - 20px);
+  }
+
+  .backAnalysis > p:nth-of-type(3n+1) {
+    width: 60%;
+  }
+
+  .backAnalysis > p:nth-of-type(3n+2) {
+    width: calc(40% - 20px);
+  }
+
+  .backAnalysis > p:nth-of-type(3n) {
+    width: 100%;
+  }
+
+  .diffusionAnalysis > p:nth-of-type(4n+1) {
+    width: 60%;
+  }
+
+  .diffusionAnalysis > p:nth-of-type(4n+2) {
+    width: calc(40% - 20px);
+  }
+
+  .diffusionAnalysis > p:nth-of-type(4n), .diffusionAnalysis > p:nth-of-type(4n+3) {
+    width: 100%;
+  }
+
+  .page {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+  }
+
+  .page > div {
+    display: inline-block;
+    height: 16px;
+    width: 8px;
+    cursor: pointer;
+    background-size: contain !important;
+    padding: 0 8px;
+    background-repeat: no-repeat !important;
+  }
+
+  .page .prev {
+    background: url("../../assets/img/gis/arrows.png");
+  }
+
+  .page .next {
+    background: url("../../assets/img/gis/arrows.png");
+    transform: rotateY(180deg);
+  }
+
+  .page .first {
+    background: url("../../assets/img/gis/arrows-hide.png");
+    transform: rotateY(180deg);
+  }
+
+  .page .last {
+    background: url("../../assets/img/gis/arrows-hide.png");
+  }
+
 </style>
