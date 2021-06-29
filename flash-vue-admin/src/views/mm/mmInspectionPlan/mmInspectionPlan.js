@@ -413,6 +413,7 @@ export default {
       if (this.checkSel()) {
         this.fillFormData('审核巡检计划', '审核')
       }
+
     },
     showPlan(record) {
       this.readonly = true
@@ -427,19 +428,9 @@ export default {
     },
     showHandle(record) {
       this.listQuery.planId = record.id
-      handleRecordApi.getList(this.listQuery).then(response => {
-        const list = response.data.records
-        if (list.length > 0) {
-          this.handleDisplay = true
-          this.planId = record.id
-          this.inspectionType = record.inspectType
-        } else {
-          this.$message({
-            message: '暂无处置记录',
-            type: 'success'
-          })
-        }
-      })
+      this.handleDisplay = true
+      this.planId = record.id
+      this.inspectionType = record.inspectType
     },
     removeItem(record) {
       this.selRow = record
@@ -534,7 +525,7 @@ export default {
         if (newName) {
           //管线
           if (newName === 260) {
-            if(this.pathId === ''){
+            if(this.pathId === '' && !this.readonly){
               this.$message({
                 message: '请选择路线',
                 type: 'success'

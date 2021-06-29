@@ -197,7 +197,7 @@
             >查看
             </el-button>
             <el-button
-              v-if="scope.row.auditStatus === 3"
+              v-if="scope.row.auditStatus === 3 && scope.row.handleStatus !== 1 "
               v-permission="['/bas/build/update']"
               type="text"
               size="mini"
