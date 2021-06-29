@@ -165,9 +165,9 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-form-item id="myself">
-                    <el-button type="primary" @click="saveOption">{{ $t('button.submit') }}</el-button>
-                    <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+                <el-form-item id="myself" class="dialog-button-list">
+                    <el-button type="primary" @click="saveOption" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+                    <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
 
             </el-form>

@@ -1,10 +1,10 @@
 <template>
-  <div style="width: 100%;max-height: 600px">
+  <div style="width: 100%;" class="file-container">
     <el-row class="flex justify-between marginT20">
       <el-col :class="!fileShow?'fullWidth':'smallWidth'">
         <div class="grid-content bg-purple">
-          <div class="table-list">
-          <el-table v-loading="loading" :data="init_list" element-loading-text="Loading">
+          <div class="table-list" style="padding-left:0">
+          <el-table v-loading="loading" :data="init_list" element-loading-text="Loading" max-height="331px">
             <el-table-column label="附件名称" show-overflow-tooltip>
               <template slot-scope="scope">
                 <div @click="viewFile(scope.row)">

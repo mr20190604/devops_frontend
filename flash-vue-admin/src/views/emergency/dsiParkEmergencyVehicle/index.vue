@@ -294,7 +294,7 @@
       </el-dialog>
     <!-- 应急车辆预览弹框 -->
       <el-dialog
-      class="el-dialog-style common-dialog-style"
+      class="el-dialog-style common-dialog-style car-dialog-style"
         :title="previewTitle"
         :visible.sync="previewVisible"
         width="960px" style="margin-top: 0px">
@@ -304,5 +304,13 @@
 </template>
 
 <script src="./dsiParkEmergencyVehicle.js"></script>
+<style scoped lang="scss">
+>>> .car-dialog-style {
+  .el-dialog__body{
+    padding-top: 20px;
+   }
+}
+
+</style>
 
 

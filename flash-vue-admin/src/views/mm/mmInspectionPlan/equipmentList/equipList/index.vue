@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container main-container">
 
     <!--查询条件-->
     <div class="block">
@@ -15,7 +15,7 @@
               <el-input v-model="listQuery.equipName" />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" style="text-align:right">
             <el-form-item align="right">
               <el-button
                 type="primary"
@@ -46,6 +46,7 @@
         :row-key="getRowKey"
         @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange"
+        max-height="331px"
       >
         <el-table-column
           type="selection"
@@ -104,7 +105,5 @@
 
 <script src="./equipList.js"></script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+
 

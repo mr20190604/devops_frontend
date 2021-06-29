@@ -1,7 +1,7 @@
 <template>
-  <div class="app-container" style="height: 550px">
+  <div class="app-container">
     <div class="table-list marginT15">
-    <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
+    <el-table :data="list" max-height="331px" v-loading="listLoading" element-loading-text="Loading" border
               :row-key="(row) => row.id"
               @selection-change="handleSelectionChange"
               @row-click="toggleSelection"
@@ -41,7 +41,7 @@
       </el-table-column>
     </el-table>
     </div>
-    <div class="align-center" style="height: 120px;position: relative">
+    <div class="dialog-button-list align-center marginT10">
       <el-button v-if="list.length>0" type="primary" class="set-common-btn blue-button" @click="saveLine" style="width: 100px">添加管线</el-button>
       <el-button v-if="list.length==0" type="danger" class="set-common-btn blue-button" @click="closePipeline">返回</el-button>
     </div>

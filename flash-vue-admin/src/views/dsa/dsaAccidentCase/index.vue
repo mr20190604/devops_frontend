@@ -308,7 +308,3 @@
 <script src="./dsaAccidentCase.js"></script>
 
 
-<style rel="stylesheet/scss" lang="scss"  scoped>
-    @import "src/styles/commonmyself.scss";
-</style>
-

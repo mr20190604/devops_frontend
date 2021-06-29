@@ -323,7 +323,7 @@
                   :file-list="fileList"
                   :multiple="multiple"
                 >
-                  <el-button v-if="fileBtnDisplay" size="small" type="primary">选择文件</el-button>
+                  <el-button v-if="fileBtnDisplay" size="small" type="primary"  class="set-common-btn blue-button">选择文件</el-button>
                   <div v-if="fileBtnDisplay" slot="tip">总上传大小50M，单个文件最大10M,
                     <template>允许的文件类型为</template>
                     <span style="color: red">{{ fileAccept }}</span></div>

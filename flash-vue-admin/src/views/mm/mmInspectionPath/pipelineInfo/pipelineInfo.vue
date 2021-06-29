@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" style="height: 550px">
+  <div class="app-container">
     <div class="block">
       <el-form label-width="80px" class="align-right has-Label-Width" style="margin: 0px;padding: 10px">
         <el-row  class="hasmarginBottom" >
@@ -74,7 +74,7 @@
         @prev-click="fetchPrev"
         @next-click="fetchNext">
       </el-pagination>
-      <el-button type="primary" class="set-common-btn blue-button width92" @click="saveLine" >选择起点管线</el-button>
+      <el-button type="primary" class="set-common-btn blue-button width92 marginL10" @click="saveLine" >选择起点管线</el-button>
   </div>
 </template>
 

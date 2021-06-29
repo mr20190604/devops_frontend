@@ -214,13 +214,14 @@
               <el-form-item align="right" class="marginTop10">
                 <el-button type="primary"  @click.native="choosePerson" class="set-common-btn blank-blue-button width92">选择应急人员</el-button>
               </el-form-item>
-                  <div class="table-list">
+                  <div class="table-list" style="padding:0">
               <el-table :data="personList"
                         v-loading="personLoading"
                         element-loading-text="Loading"
                         border fit highlight-current-row
                         @current-change="handleCurrentChange"
                         max-height="331px"
+                        style="width:100%"
               >
 
                 <el-table-column label="名称" show-overflow-tooltip>
@@ -260,7 +261,7 @@
                   </template>
                 </el-table-column>
 
-                <el-table-column label="操作" align="center" width="170">
+                <el-table-column label="操作" align="center" width="150">
                   <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="viewPerson(scope.row)" >查看</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removePersonItem(scope.row)" >{{ $t('button.delete') }}</el-button>

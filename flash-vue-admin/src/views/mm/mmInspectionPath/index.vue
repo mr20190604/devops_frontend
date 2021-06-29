@@ -109,6 +109,7 @@
         </el-table>
 
         <el-pagination
+        class="position-pagination"
                 background
                 layout="total, sizes, prev, pager, next, jumper"
                 :page-sizes="[10, 20, 50, 100,500]"
@@ -163,7 +164,7 @@
                     </el-form-item>
                   </el-col>
                 </el-row>
-                <el-form-item id="myself">
+                <el-form-item id="myself" class="dialog-button-list">
                     <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
                     <el-button @click="closeDialog()" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                 </el-form-item>
@@ -181,9 +182,10 @@
       <pipelineInfo ref="pipeline" @closePipeline="closePipeline" @setLineMessage="setLineMessage"></pipelineInfo>
 
       </el-dialog>
+      <!-- 添加管线弹框 -->
       <el-dialog
         :title="formTitle"
-        class="el-dialog-style common-dialog-style"
+        class="el-dialog-style common-dialog-style line-dialog-style"
         :visible.sync="againVisible"
         width="960px">
 
@@ -195,8 +197,11 @@
 
 <script src="./mmInspectionPath.js"></script>
 
+<style scoped lang="scss">
+>>> .line-dialog-style {
+  .el-dialog__body{
+    padding-top: 20px;
+   }
+}
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/commonmyself.scss";
 </style>
-

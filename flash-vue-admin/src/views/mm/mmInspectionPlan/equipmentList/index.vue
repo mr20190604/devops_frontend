@@ -2,7 +2,7 @@
   <div class="app-container" style="width:100%">
 
     <!--列表-->
-    <div class="table-list">
+    <div class="table-list paddingRightZero">
       <div v-if="equipBtnDisplay" class="btnLists">
         <el-button
           class="set-common-btn blue-button"
@@ -11,7 +11,7 @@
           @click="selectEquip"
         >选择设备</el-button>
       </div>
-      <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
+      <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row max-height="331px">
         <el-table-column label="设施设备名称" show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.equipment.equipmentName }}
@@ -51,7 +51,7 @@
         @current-change="fetchPage"
       />
     </div>
-
+   <!-- 选择设备弹框 -->
     <el-dialog :visible.sync="dialogDisplay" :append-to-body="true" class="el-dialog-style common-dialog-style equip-dialog-style" width="960px">
       <equipList v-if="dialogDisplay" :route-id="pathId" @getEquipList="getEquipList" />
     </el-dialog>

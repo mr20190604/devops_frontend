@@ -273,7 +273,7 @@
   </el-pagination>
     </div>
   <div class="block">
-  <el-form ref="thresholdForm" :model="thresholdForm" label-width="80px" class="align-right has-Label-Width" :rules="examineRules">
+  <el-form ref="thresholdForm" :model="thresholdForm" label-width="80px" class="align-right has-Label-Width" :rules="examineRules" style="padding:20px 8px">
     <el-row>
     <el-col>
       <el-form-item label="审核结果："  prop="isAudit">
@@ -305,8 +305,4 @@
 
 <script src="./mmThresholdManager.js"></script>
 
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/commonmyself.scss";
-</style>
 

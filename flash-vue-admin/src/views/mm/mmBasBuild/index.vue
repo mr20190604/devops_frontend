@@ -244,7 +244,4 @@
 
 <script src="./mmBasBuild.js"></script>
 
-<style rel="stylesheet/scss" lang="scss">
-  @import "src/styles/commonmyself.scss";
-</style>
 
