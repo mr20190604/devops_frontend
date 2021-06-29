@@ -19,6 +19,8 @@ import 'echarts/lib/component/visualMap'
 import 'echarts/lib/component/dataset'
 import 'echarts/map/js/world'
 
+import {getInfo} from '@/api/user.js'
+
 export default {
   directives: { permission },
   components: {
@@ -91,7 +93,8 @@ export default {
         equipmentType:'',
         equipmentStatus1:'',
         startTime:'',
-        endTime:''
+        endTime:'',
+        personId:'',
       },
       total: 0,
       list: null,
@@ -233,7 +236,10 @@ export default {
   },
   methods: {
     init() {
-      this.fetchData()
+      getInfo().then(response =>{
+        this.listQuery.personId = response.data.userId
+        this.fetchData()
+      })
     },
     fetchData() {
       this.listLoading = true
