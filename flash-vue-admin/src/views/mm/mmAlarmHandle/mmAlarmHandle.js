@@ -7,6 +7,8 @@ import {isCanPreview} from '@/utils/preview.js'
 import genEvent from '@/views/mm/mmAlarmInfo/genEvent/genEvent.vue'
 import process from '@/components/Process/process.vue'
 import fileDelete from '@/api/mm/genEvent/genEvent'
+import {getInfo} from '@/api/user.js'
+
 
 
 import charts from  '@/utils/localEcharts'
@@ -108,7 +110,8 @@ export default {
         isFeedBack:undefined,
         auditStatus:1,
         isRelieve:undefined,
-        screenStatus:undefined
+        screenStatus:undefined,
+        personId:undefined,
       },
       total: 0,
       list: null,
@@ -313,7 +316,10 @@ export default {
   },
   methods: {
     init() {
-      this.fetchData()
+      getInfo().then(response =>{
+        this.listQuery.personId = response.data.userId
+        this.fetchData()
+      })
       this.downloadUrl = getApiUrl() + '/file/download?idFile='
       this.uploadUrl = getApiUrl() + '/file'
       this.uploadHeaders['Authorization'] = getToken()
@@ -349,7 +355,7 @@ export default {
     },
     reset() {
       for(let key in this.listQuery) {
-        if (key != 'limit' && key != 'page' && key != 'isAudit' && key != 'auditStatus') {
+        if (key != 'limit' && key != 'page' && key != 'isAudit' && key != 'auditStatus' && key != 'personId') {
           this.listQuery[key] = ''
         }
       }

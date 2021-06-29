@@ -1,6 +1,7 @@
 import mmInspectionTroubleApi from '@/api/mm/mmInspectionTrouble'
 import permission from '@/directive/permission/index.js'
 import TroubleProcess from '@/views/mm/mmInspectionTrouble/troubleProcess/troubleProcess.vue'
+import {getInfo} from '@/api/user.js'
 
 export default {
   directives: { permission },
@@ -41,7 +42,8 @@ export default {
         auditStatus:undefined,
         page: 1,
         limit: 20,
-        id: undefined
+        id: undefined,
+        personId:undefined
       },
       check_list:[
         {
@@ -102,7 +104,10 @@ export default {
   },
   methods: {
     init() {
-      this.fetchData()
+      getInfo().then(response =>{
+        this.listQuery.personId = response.data.userId
+        this.fetchData()
+      })
     },
     fetchData() {
       this.listLoading = true
@@ -118,7 +123,7 @@ export default {
     },
     reset() {
       for(let key in this.listQuery) {
-        if (key != 'limit' && key != 'page') {
+        if (key != 'limit' && key != 'page' && key != 'personId') {
           this.listQuery[key] = ''
         }
       }
