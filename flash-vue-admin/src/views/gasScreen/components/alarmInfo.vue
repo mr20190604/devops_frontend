@@ -5,7 +5,12 @@
       <p class="title">监测报警</p>
       <p class="subTitle">MONITOR ALARM</p>
     </div>
-    <table border="0" cellpadding="0" cellspacing="0">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="cursor: default"
+    >
       <thead>
         <tr>
           <th style="width: 180px;">事件</th>
@@ -16,7 +21,12 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in alarmList" :key="index">
-          <td class="event">
+          <td
+            class="event"
+            :title="item.event"
+            style="cursor: pointer"
+            @click="handleEventClick(index+1)"
+          >
             {{ item.event.length>12?item.event.substring(0,9)+'...':item.event }}
           </td>
           <td class="time">
@@ -24,13 +34,15 @@
           </td>
           <td class="level">
             <span
-              :style="{&quot;color&quot;:item.level===1?&quot;#F5516A&quot;:item.level===2?&quot;#FBB500&quot;:&quot;#5B8AD8&quot;}"
+              style="border-radius: 4px;padding: 2px 5px;"
+              :style="{'color':item.level===1?'#F70C27':item.level===2?'#FBB500':'#5B8AD8',
+                       'background':item.level===1?'rgba(247,12,39,0.2)':item.level===2?'rgba(251,181,0,0.2)':'rgba(91,138,216,0.2)'}"
             >
-              {{ item.level===1?"一":item.level===2?"二":"三" }}级
+              {{ item.level===1?'一':item.level===2?'二':'三' }}级
             </span>
           </td>
           <td class="status">
-            {{ item.status===1?"待处理":item.status===2?"处理中":"已处置" }}
+            {{ item.status===1?'待处理':item.status===2?'处理中':'已处置' }}
           </td>
         </tr>
       </tbody>
@@ -90,6 +102,11 @@ export default {
         level: 3,
         status: 3
       }]
+    }
+  },
+  methods: {
+    handleEventClick(id) {
+      this.$emit('showWindowInfo', id)
     }
   }
 }
@@ -155,11 +172,11 @@ export default {
     background: #34658E;
   }
 
-  tbody>tr{
+  tbody > tr {
     height: 38px;
   }
 
-  tbody  td {
+  tbody td {
     border-top: 1px solid #41A1EB;
   }
 

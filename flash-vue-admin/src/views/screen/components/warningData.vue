@@ -81,16 +81,19 @@ export default {
         {
           name: '一级预警',
           type: 'line',
+          smooth: true,
           data: [18, 17, 11, 32, 25, 32, 10]
         },
         {
           name: '二级预警',
           type: 'line',
+          smooth: true,
           data: [30, 10, 20, 16, 40, 22, 35]
         },
         {
           name: '三级预警',
           type: 'line',
+          smooth: true,
           data: [16, 20, 15, 30, 20, 30, 7]
         }
       ]

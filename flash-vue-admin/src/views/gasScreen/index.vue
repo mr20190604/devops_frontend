@@ -35,7 +35,7 @@
             <screenNav />
           </el-col>
           <el-col :span="24">
-            <screen-map />
+            <screen-map :id="id" />
           </el-col>
           <el-col :span="24">
             <count-info />
@@ -45,7 +45,7 @@
       <el-col :span="6">
         <el-row>
           <el-col :span="24">
-            <alarm-info />
+            <alarm-info @showWindowInfo="handleShowWindowInfo" />
           </el-col>
           <el-col :span="24">
             <alarmStatistics />
@@ -89,7 +89,8 @@ export default {
       now: undefined,
       weather: '晴',
       icon: fair,
-      temperature: '12'
+      temperature: '12',
+      id: undefined
     }
   },
   created() {
@@ -105,6 +106,11 @@ export default {
       this.temperature = info.temperature
       this.icon = '/weather/' + info.weather + '.png'
     })
+  },
+  methods: {
+    handleShowWindowInfo(id) {
+      this.id = id
+    }
   }
 }
 </script>
@@ -112,7 +118,7 @@ export default {
 <style scoped>
   .gasBox {
     width: 100%;
-    height: 100%;
+    height: 1080px;
     background: url("../../assets/img/gas/背景.png");
   }
 

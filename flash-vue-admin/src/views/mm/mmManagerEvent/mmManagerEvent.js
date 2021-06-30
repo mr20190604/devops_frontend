@@ -200,13 +200,17 @@ export default {
       self.selRow = record
       self.mmManagerEventFiles = record.mmManagerEventFiles
       self.mmManagerEventFiles.forEach(item => {
-        self.fileList.push({ name: item.fileInfo.originalFileName, status: 'success', response: { data: { id: item.fileId }}})
+        self.fileList.push({
+          name: item.fileInfo.originalFileName,
+          status: 'success',
+          response: { data: { id: item.fileId }}
+        })
       })
       self.edit()
     },
     handlePreview(row) {
       this.previewVisible = true
-      mmManagerEventApi.queryFilesByEventId(row.id).then(response => {
+      mmManagerEventApi.queryFilesByEventId({ eventId: row.id }).then(response => {
         this.files = response.data
       })
       this.fileLoading = false
@@ -292,7 +296,8 @@ export default {
       }).catch(() => {
       })
     },
-    handleChangeUpload(file, fileList) {},
+    handleChangeUpload(file, fileList) {
+    },
     uploadSuccess(response, file, fileList) {
       this.fileList = fileList
       this.mmManagerEventFiles.push(

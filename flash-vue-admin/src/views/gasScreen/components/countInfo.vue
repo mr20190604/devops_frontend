@@ -1,15 +1,22 @@
 <template>
   <el-row>
     <el-col v-for="(item,index) in info" :key="index" :span="6">
-      <div class="count" :style="{'color':item.color}">{{ item.value }}</div>
+      <div class="count" :style="{'color':item.color}">
+        <ICountUp :end-val="item.value" />
+      </div>
       <p class="name">{{ item.name }}</p>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import ICountUp from 'vue-countup-v2'
+
 export default {
   name: 'CountInfo',
+  components: {
+    ICountUp
+  },
   data: function() {
     return {
       info: [{

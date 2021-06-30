@@ -5,6 +5,7 @@
     <vc-viewer
       :info-box="false"
       :selection-indicator="false"
+      :should-animate="true"
       style="overflow: hidden; position: absolute"
       @ready="ready"
       @LEFT_DOWN="mouseDown"
@@ -52,6 +53,7 @@
           :scale="item.scale"
           :show="item.show"
           :color="item.color"
+          :distance-display-condition="item.distanceDisplayCondition"
         />
       </vc-entity>
       <vc-heatmap
@@ -71,88 +73,131 @@
         :data="heatmapInfoData1"
         :type="1"
       />
-      <vc-overlay-html v-if="windowInfo.show" :position="windowInfo.position" :pixel-offset="windowInfo.offset">
+      <vc-overlay-html v-if="windowInfo.show" :position="windowInfo.position" :pixel-offset="{ x: -380, y: -380 }">
         <div class="windowInfo">
-          <p class="title">设备信息
+          <p class="title">{{ windowInfo.title }}
             <span class="close" title="关闭" @click="handleWindowInfoClose" />
           </p>
-          <ul>
-            <li :class="{selected:windowInfo.tabName==='基本信息'}" @click="handleTabNameChange('基本信息')">基本信息</li>
-            <li :class="{selected:windowInfo.tabName==='报警记录'}" @click="handleTabNameChange('报警记录')">报警记录</li>
-            <li :class="{selected:windowInfo.tabName==='溯源分析'}" @click="handleTabNameChange('溯源分析')">溯源分析</li>
-            <li :class="{selected:windowInfo.tabName==='扩散分析'}" @click="handleTabNameChange('扩散分析')">扩散分析</li>
-          </ul>
-          <div class="tab-container">
-            <div v-if="windowInfo.tabName==='基本信息'" class="basicInfo">
-              <p class="equipmentType">{{ windowInfo.equipmentType }}</p>
-              <p>设备编号:<span>FFSS2344</span></p>
-              <p>设备状态:<span>正常</span></p>
-              <p>报警地点:<span>11号楼109房间报警</span></p>
-              <p>历史报警:<span>3</span></p>
-            </div>
-            <div v-if="windowInfo.tabName==='报警记录'" class="alarmInfo">
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>处置状态:<span>已处置</span></p>
-              <p>处置人:<span>高益</span></p>
-              <p>审核状态:<span>已审核</span></p>
-              <p>审核人:<span>高益</span></p>
-              <hr>
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>处置状态:<span>已处置</span></p>
-              <p>处置人:<span>高益</span></p>
-              <p>审核状态:<span>已审核</span></p>
-              <p>审核人:<span>高益</span></p>
-              <hr>
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>处置状态:<span>已处置</span></p>
-              <p>处置人:<span>高益</span></p>
-              <p>审核状态:<span>已审核</span></p>
-              <p>审核人:<span>高益</span></p>
-              <div class="page">
-                <div class="first" title="上一页" />
-                <div class="next" title="下一页" />
+          <div v-show="windowInfo.title==='设备信息'">
+            <ul>
+              <li :class="{selected:windowInfo.tabName==='基本信息'}" @click="handleTabNameChange('基本信息')">基本信息</li>
+              <li :class="{selected:windowInfo.tabName==='报警记录'}" @click="handleTabNameChange('报警记录')">报警记录</li>
+              <li :class="{selected:windowInfo.tabName==='溯源分析'}" @click="handleTabNameChange('溯源分析')">溯源分析</li>
+              <li :class="{selected:windowInfo.tabName==='扩散分析'}" @click="handleTabNameChange('扩散分析')">扩散分析</li>
+            </ul>
+            <div class="tab-container">
+              <div v-if="windowInfo.tabName==='基本信息'" class="basicInfo">
+                <p class="equipmentType">{{ windowInfo.equipmentType }}</p>
+                <p>设备编号:<span>FFSS2344</span></p>
+                <p>设备状态:<span>正常</span></p>
+                <p>报警地点:<span>11号楼109房间报警</span></p>
+                <p>历史报警:<span>3</span></p>
+              </div>
+              <div v-if="windowInfo.tabName==='报警记录'" class="alarmInfo">
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>处置状态:<span>已处置</span></p>
+                <p>处置人:<span>高益</span></p>
+                <p>审核状态:<span>已审核</span></p>
+                <p>审核人:<span>高益</span></p>
+                <hr>
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>处置状态:<span>已处置</span></p>
+                <p>处置人:<span>高益</span></p>
+                <p>审核状态:<span>已审核</span></p>
+                <p>审核人:<span>高益</span></p>
+                <hr>
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>处置状态:<span>已处置</span></p>
+                <p>处置人:<span>高益</span></p>
+                <p>审核状态:<span>已审核</span></p>
+                <p>审核人:<span>高益</span></p>
+                <div class="page">
+                  <div class="first" title="上一页" />
+                  <div class="next" title="下一页" />
+                </div>
+              </div>
+              <div v-if="windowInfo.tabName==='溯源分析'" class="backAnalysis">
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>可能泄露的企业:<span> xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
+                <hr>
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>可能泄露的企业:<span>xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
+                <hr>
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>可能泄露的企业:<span>xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
+                <div class="page">
+                  <div class="first" title="上一页" />
+                  <div class="next" title="下一页" />
+                </div>
+              </div>
+              <div v-if="windowInfo.tabName==='扩散分析'" class="diffusionAnalysis">
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>6小时影响范围:<span>已消散，无影响</span></p>
+                <p>24小时影响范围:<span>无影响</span></p>
+                <hr>
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>6小时影响范围:<span>已消散，无影响</span></p>
+                <p>24小时影响范围:<span>无影响</span></p>
+                <hr>
+                <p>报警时间:<span>2021-03-27 11:36:00</span></p>
+                <p>报警等级:<span>一级</span></p>
+                <p>6小时影响范围:<span>已消散，无影响</span></p>
+                <p>24小时影响范围:<span>无影响</span></p>
+                <div class="page">
+                  <div class="first" title="上一页" />
+                  <div class="next" title="下一页" />
+                </div>
               </div>
             </div>
-            <div v-if="windowInfo.tabName==='溯源分析'" class="backAnalysis">
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>可能泄露的企业:<span> xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
-              <hr>
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>可能泄露的企业:<span>xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
-              <hr>
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>可能泄露的企业:<span>xxx公司-「某某雾化溶剂」，xxx公司[蚁力神一号]</span></p>
-              <div class="page">
-                <div class="first" title="上一页" />
-                <div class="next" title="下一页" />
-              </div>
-            </div>
-            <div v-if="windowInfo.tabName==='扩散分析'" class="diffusionAnalysis">
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>6小时影响范围:<span>已消散，无影响</span></p>
-              <p>24小时影响范围:<span>无影响</span></p>
-              <hr>
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>6小时影响范围:<span>已消散，无影响</span></p>
-              <p>24小时影响范围:<span>无影响</span></p>
-              <hr>
-              <p>报警时间:<span>2021-03-27 11:36:00</span></p>
-              <p>报警等级:<span>一级</span></p>
-              <p>6小时影响范围:<span>已消散，无影响</span></p>
-              <p>24小时影响范围:<span>无影响</span></p>
-              <div class="page">
-                <div class="first" title="上一页" />
-                <div class="next" title="下一页" />
-              </div>
-            </div>
+          </div>
+          <div v-show="windowInfo.title==='企业信息'" class="enterpriseInfo">
+            <p>企业名称:<span>xxx科技有限公司</span></p>
+            <p>员工人数:<span>558</span></p>
+            <p>风险等级:<span>三级</span></p>
+            <p>法人:<span>张三</span></p>
+            <p>联系方式:<span>400-265-45168</span></p>
+            <p>单位性质:<span>私企</span></p>
+            <p>应急人员:<span>张三、李四、王五</span></p>
+            <p>是否有重大危险源:<span>否</span></p>
+            <p>所属行业:<span>纺织</span></p>
+          </div>
+          <div v-show="windowInfo.title==='人员信息'" class="">
+            <p>所属企业:<span>xxx科技有限公司</span></p>
+            <p>姓名:<span>张三</span></p>
+            <p>性别:<span>男</span></p>
+            <p>职务:<span>技术部主管</span></p>
+            <p>联系电话:<span>13888888888</span></p>
+          </div>
+          <div v-show="windowInfo.title==='危险源信息'">
+            <p>危险源名称:<span>氢氧化钠</span></p>
+            <p>数量:<span>25吨</span></p>
+            <p>防护措施:<span>工作人员应作好防护，若不慎触及皮肤和眼睛，应立即用大量水冲洗干净。工作环境应具有良好的通风条件。氢氧化钠水溶液有滑腻感，溶于水时产生很高的热量，操作时要带防护目镜及橡胶手套，注意不要溅到皮肤上或眼睛里。</span></p>
+          </div>
+          <div v-show="windowInfo.title==='应急车辆信息'">
+            <p>车牌号:<span>皖A·123JS</span></p>
+            <p>驾驶员:<span>赵六</span></p>
+            <p>联系电话:<span>13777777777</span></p>
+            <p>车辆型号:<span>中型车</span></p>
+            <p>配套设备:<span>氯气检测仪</span></p>
+          </div>
+          <div v-show="windowInfo.title==='应急人员信息'">
+            <p>姓名:<span>李军</span></p>
+            <p>性别:<span>男</span></p>
+            <p>联系电话:<span>13888888888</span></p>
+            <p>特殊技能:<span>电工</span></p>
+          </div>
+          <div v-show="windowInfo.title==='应急物资库信息'">
+            <p>物资名称:<span>双氧水</span></p>
+            <p>数量:<span>20吨</span></p>
+            <p>功效:<span>双氧水又名过氧化氢，分子式是H2O2。即，一个过氧化氢分子含有两个氧原子。虽然双氧水能够分解成水(H2O)和氧气(O2)，但并不是双氧水中“含有高浓度氧气”。双氧水是公认的低毒物质，广泛应用于工业漂白、外科消毒等领域，但若使用不当，仍有可能造成危害。</span></p>
           </div>
         </div>
       </vc-overlay-html>
@@ -169,7 +214,7 @@
       <div class="toolbar">
         <div class="zoomIn" @click="handleZoomInClick" />
         <div class="zoomOut" @click="handleZoomOutClick" />
-        <div class="clean" @click="handleCleanClick" />
+<!--        <div class="clean" @click="handleCleanClick" />-->
         <div class="coverage" @click="toggleVisibleCoverage" />
       </div>
       <div class="legend">
@@ -204,10 +249,10 @@
           <el-image :src="require('../../assets/img/gis/风险评估.png')" />
           <p>风险评估</p>
         </div>
-        <div>
-          <el-image :src="require('../../assets/img/gis/地图.png')" />
-          <p>地图工具</p>
-        </div>
+<!--        <div>-->
+<!--          <el-image :src="require('../../assets/img/gis/地图.png')" />-->
+<!--          <p>地图工具</p>-->
+<!--        </div>-->
       </div>
       <el-dialog
         :visible.sync="visible"
@@ -259,8 +304,6 @@ import b3 from '../../assets/img/gis/危险源.png'
 import b4 from '../../assets/img/gis/应急车辆.png'
 import b5 from '../../assets/img/gis/应急人员.png'
 import b6 from '../../assets/img/gis/应急物资库.png'
-
-import empty from '../../assets/img/gis/empty.png'
 
 export default {
   name: 'Index',
@@ -331,7 +374,7 @@ export default {
         show: false,
         equipmentType: undefined,
         position: undefined,
-        offset: undefined,
+        title: undefined,
         tabName: '基本信息'
       },
       token: '9732120f82392988567929c7c9ff034d'
@@ -382,28 +425,6 @@ export default {
       images1.push(b5)
       images1.push(b6)
 
-      const canvasList = []
-      for (let i = 0; i < 6; i++) {
-        const canvas = document.createElement('canvas')
-        const context2D = canvas.getContext('2d')
-        canvas.style.height = '61px'
-        canvas.style.width = '40px'
-        if (i < 3) {
-          const image = new Image()
-          image.src = i === 0 ? a12 : i === 1 ? a22 : a32
-          image.onload = function() {
-            context2D.drawImage(image, 0, 0)
-          }
-        } else {
-          const image = new Image()
-          image.src = empty
-          image.onload = function() {
-            context2D.drawImage(image, 0, 0)
-          }
-        }
-        canvasList.push(canvas)
-      }
-
       // 构造监测预警测试数据
       for (let i = 0; i < 200; i++) {
         const billboard = {}
@@ -420,15 +441,13 @@ export default {
         for (let j = 0; j < 3; j++) {
           for (let k = 0; k < 4; k++) {
             if (type === j && level === k) {
+              billboard.image = images[j][k]
               if (level === 1) {
-                billboard.image = new window.Cesium.CallbackProperty((time, result) => {
-                  const seconds = new Date().getSeconds()
-                  const canvas = canvasList[type + 3 * (seconds % 2)]
-                  result = canvas.toDataURL('image/png')
-                  return result
-                })
-              } else {
-                billboard.image = images[j][k]
+                billboard.color = function() {
+                  const milliseconds = new Date().getMilliseconds()
+                  const alpha = milliseconds < 500 ? 1 : 0.1
+                  return window.Cesium.Color.WHITE.withAlpha(alpha)
+                }
               }
             }
           }
@@ -437,6 +456,9 @@ export default {
         billboard.id = i
         billboard.verticalOrigin = window.Cesium.VerticalOrigin.BOTTOM
         billboard.show = level === 1
+        billboard.distanceDisplayCondition = {
+          far: 2000
+        }
         this.billboards.push(billboard)
       }
 
@@ -452,14 +474,17 @@ export default {
         billboard.type = type
         billboard.typeName = this.coverages[type]
         for (let k = 0; k < 6; k++) {
-          if (type === k) {
+          if (type === k + 3) {
             billboard.image = images1[k]
           }
         }
-        billboard.scale = 1
+        billboard.scale = 0.5
         billboard.id = i + 200
         billboard.verticalOrigin = window.Cesium.VerticalOrigin.BOTTOM
         billboard.show = false
+        billboard.distanceDisplayCondition = {
+          far: 2000
+        }
         this.billboards.push(billboard)
       }
     },
@@ -474,22 +499,24 @@ export default {
     },
     billboardClick(e) {
       if (this.isForecast) {
-        const position = e.surfacePosition
-        const cartographic = window.Cesium.Cartographic.fromCartesian(position)
-        const minNum = -0.0001
-        const maxNum = 0.0001
-        this.heatmapInfo1.data = []
-        // 构造热力图的数据
-        for (let i = 0; i < 20; i++) {
-          const val = Math.floor(Math.random() * 100)
-          this.heatmapInfo1.data.push({
-            x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
-            y: window.Cesium.Math.toDegrees(cartographic.latitude) + Math.random() * (maxNum - minNum) + minNum,
-            value: val
-          })
-        }
-        this.heatmapInfoData1 = this.heatmapInfo1.data
-        this.heatmapInfo1.show = true
+        window.viewer.zoomTo(e.cesiumObject).then(() => {
+          const position = e.surfacePosition
+          const cartographic = window.Cesium.Cartographic.fromCartesian(position)
+          const minNum = -0.0001
+          const maxNum = 0.0001
+          this.heatmapInfo1.data = []
+          // 构造热力图的数据
+          for (let i = 0; i < 20; i++) {
+            const val = Math.floor(Math.random() * 100)
+            this.heatmapInfo1.data.push({
+              x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
+              y: window.Cesium.Math.toDegrees(cartographic.latitude) + Math.random() * (maxNum - minNum) + minNum,
+              value: val
+            })
+          }
+          this.heatmapInfoData1 = this.heatmapInfo1.data
+          this.heatmapInfo1.show = true
+        })
       } else {
         this.handleBillboardDetail(e.cesiumObject)
       }
@@ -502,21 +529,25 @@ export default {
       }
     },
     handleBillboardDetail(cesiumObject) {
+      this.windowInfo.show = false
       const id = Number(cesiumObject.id)
       const current = this.billboards.find(item => item.id === id)
       if (current.type < 3) {
-        window.viewer.flyTo(cesiumObject, {
-          duration: 1,
-          maximumHeight: 20
-        })
-        if (current.level === 1) {
-          this.windowInfo.offset = { x: -450, y: -380 }
-        } else {
-          this.windowInfo.offset = { x: -380, y: -380 }
-        }
-        this.windowInfo.position = current.position
+        this.windowInfo.title = '设备信息'
         this.windowInfo.equipmentType = current.typeName
+      } else {
+        this.windowInfo.title = current.typeName + '信息'
+      }
+      this.windowInfo.position = current.position
+      if (cesiumObject instanceof window.Cesium.Entity) {
+        window.viewer.zoomTo(cesiumObject).then(() => {
+          this.windowInfo.show = true
+        })
+      } else if (cesiumObject instanceof window.Cesium.Billboard) {
         this.windowInfo.show = true
+        const target = window.Cesium.Cartesian3.fromDegrees(current.position.lng, current.position.lat, current.position.height)
+        window.viewer.camera.lookAt(target, new window.Cesium.HeadingPitchRange(window.viewer.camera.heading, window.viewer.camera.pitch, 200))
+        window.viewer.camera.lookAtTransform(window.Cesium.Matrix4.IDENTITY)
       }
     },
     mouseDown() {
@@ -881,6 +912,16 @@ export default {
     cursor: default;
   }
 
+  .windowInfo p {
+    color: #909ABB;
+    line-height: 24px;
+  }
+
+  .windowInfo p > span {
+    color: white;
+    padding-left: 8px;
+  }
+
   .windowInfo .title {
     padding-left: 15px;
     height: 30px;
@@ -947,17 +988,6 @@ export default {
     padding: 0 10px;
   }
 
-  .tab-container p {
-    color: #909ABB;
-    line-height: 24px;
-    display: inline-block;
-  }
-
-  .tab-container p > span {
-    color: white;
-    padding-left: 8px;
-  }
-
   .tab-container hr {
     height: 1px;
     background-color: #4B5A8A;
@@ -984,12 +1014,20 @@ export default {
     margin-bottom: 8px;
   }
 
+  .alarmInfo >p{
+    display: inline-block;
+  }
+
   .alarmInfo > p:nth-of-type(2n+1) {
     width: 60%;
   }
 
   .alarmInfo > p:nth-of-type(2n) {
     width: calc(40% - 20px);
+  }
+
+  .backAnalysis >p{
+    display: inline-block;
   }
 
   .backAnalysis > p:nth-of-type(3n+1) {
@@ -1006,6 +1044,10 @@ export default {
 
   .diffusionAnalysis > p:nth-of-type(4n+1) {
     width: 60%;
+  }
+
+  .diffusionAnalysis >p{
+    display: inline-block;
   }
 
   .diffusionAnalysis > p:nth-of-type(4n+2) {
@@ -1050,4 +1092,7 @@ export default {
     background: url("../../assets/img/gis/arrows-hide.png");
   }
 
+  .windowInfo div:not(:nth-of-type(1)){
+    padding: 10px;
+  }
 </style>

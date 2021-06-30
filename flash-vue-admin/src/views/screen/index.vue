@@ -209,6 +209,11 @@ export default {
     overflow: hidden;
   }
 
+  .discharge, .realtime, .equipment{
+    background-image: url("../../assets/img/底框-turn.png");
+  }
+
+
   .map {
     height: 626px;
     background-image: url("../../assets/img/mapBox.png");
@@ -222,9 +227,13 @@ export default {
     width: calc(50% - 8px);
     float: left;
     height: 306px;
-    background-image: url("../../assets/img/小底框.png");
+    background-image: url("../../assets/img/小底框.png") ;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+  }
+
+  .monitoring{
+    background-image: url("../../assets/img/小底框-turn.png") ;
   }
 
   .warning {

@@ -21,7 +21,6 @@
           </el-col>
         </el-row>
       </el-form>
-
     </div>
     <div class="table-list">
       <div class="btnLists">
@@ -84,7 +83,7 @@
           <template slot-scope="scope">
             <el-button v-permission="['/manager/event/update']" type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)">{{ $t('button.edit') }}</el-button>
             <el-button v-permission="['/manager/event/delete']" type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)">{{ $t('button.delete') }}</el-button>
-            <!--            <el-button icon="el-icon-view" size="mini" type="text" @click.native="handlePreview(scope.row)">预览</el-button>-->
+            <el-button icon="el-icon-view" size="mini" type="text" @click.native="handlePreview(scope.row)">预览</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -104,70 +103,70 @@
     </div>
     <!-- 编辑应急事件弹框 -->
     <el-dialog
-    class="el-dialog-style common-dialog-style"
+      class="el-dialog-style common-dialog-style"
       :title="formTitle"
       :visible.sync="formVisible"
       :close="clearForm"
       width="960px"
     >
-    <div class="block">
-      <el-form ref="form" :model="mmManagerEvent" :rules="rules" label-width="80px" class="align-right has-Label-Width">
-        <el-row>
-          <el-col  :span="12">
-            <el-form-item label="事件类型：" class="formLable">
-              <dict-select v-model="mmManagerEvent.eventType" dict-name="事件类型" />
-            </el-form-item>
-          </el-col>
-          <el-col  :span="12">
-            <el-form-item label="事件名称：" class="formLable">
-              <el-input v-model="mmManagerEvent.eventName" minlength="1" placeholder="请输入事件名称" />
-            </el-form-item>
-          </el-col>
-          <el-col  :span="12">
-            <el-form-item label="事件地点：" class="formLable">
-              <el-input v-model="mmManagerEvent.eventAddress" minlength="1" placeholder="请输入事件地点" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col>
-            <el-form-item label="事件描述：" class="formLable">
-              <el-input v-model="mmManagerEvent.eventDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" minlength="1" placeholder="请输入事件描述" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-       
-        <el-row>
-          <el-col>
-            <el-form-item label="选择文件：">
-            <el-upload
-              :action="uploadUrl"
-              :headers="uploadHeaders"
-              :on-change="handleChangeUpload"
-              :on-success="uploadSuccess"
-              :on-remove="removeFile"
-              :file-list="fileList"
-              :multiple="multiple"
-              :limit="fileLimit"
-              accept=".doc,.docx,.pdf,.zip,.rar"
-            >
-              <el-button size="small" type="primary" class="set-common-btn blue-button">点击上传</el-button>
-              <div slot="tip">最多上传个数{{ fileLimit }};单个文件上限10MB;</div>
-            </el-upload>
-             </el-form-item>
-          </el-col>
+      <div class="block">
+        <el-form ref="form" :model="mmManagerEvent" :rules="rules" label-width="80px" class="align-right has-Label-Width">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="事件类型：" class="formLable">
+                <dict-select v-model="mmManagerEvent.eventType" dict-name="事件类型" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="事件名称：" class="formLable">
+                <el-input v-model="mmManagerEvent.eventName" minlength="1" placeholder="请输入事件名称" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="事件地点：" class="formLable">
+                <el-input v-model="mmManagerEvent.eventAddress" minlength="1" placeholder="请输入事件地点" />
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
-          <el-col>
-            <el-form-item class="dialog-button-list">
-            <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
-            <el-button @click.native="closeDialog" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
-            </el-form-item>
-          </el-col>
-          
-        </el-row>
-      </el-form>
-    </div>
+            <el-col>
+              <el-form-item label="事件描述：" class="formLable">
+                <el-input v-model="mmManagerEvent.eventDesc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" minlength="1" placeholder="请输入事件描述" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col>
+              <el-form-item label="选择文件：">
+                <el-upload
+                  :action="uploadUrl"
+                  :headers="uploadHeaders"
+                  :on-change="handleChangeUpload"
+                  :on-success="uploadSuccess"
+                  :on-remove="removeFile"
+                  :file-list="fileList"
+                  :multiple="multiple"
+                  :limit="fileLimit"
+                  accept=".doc,.docx,.pdf,.zip,.rar"
+                >
+                  <el-button size="small" type="primary" class="set-common-btn blue-button">点击上传</el-button>
+                  <div slot="tip">最多上传个数{{ fileLimit }};单个文件上限10MB;</div>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <el-form-item class="dialog-button-list">
+                <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
+                <el-button class="set-common-btn blank-blue-button" @click.native="closeDialog">{{ $t('button.cancel') }}</el-button>
+              </el-form-item>
+            </el-col>
+
+          </el-row>
+        </el-form>
+      </div>
     </el-dialog>
     <el-dialog
       title="预览附件"

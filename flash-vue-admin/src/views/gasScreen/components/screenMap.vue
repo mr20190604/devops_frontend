@@ -38,7 +38,7 @@
             <p>报警时间:<span>{{ infoWindow.alarmTime }}</span></p>
             <p>历史报警:<span>{{ infoWindow.alarmHistoryCount }}</span></p>
             <p>报警等级:<span
-              :style="{&quot;color&quot;:infoWindow.level===1?&quot;#F5516A&quot;:infoWindow.level===2?&quot;#FBB500&quot;:&quot;#5B8AD8&quot;}"
+              :style="{&quot;color&quot;:infoWindow.level===1?&quot;#f70c27&quot;:infoWindow.level===2?&quot;#FBB500&quot;:&quot;#5B8AD8&quot;}"
             >
               {{ infoWindow.level===1?"一":infoWindow.level===2?"二":"三" }}级
             </span></p>
@@ -88,6 +88,12 @@ import tu6 from '../../../assets/img/gas/tu6.png'
 
 export default {
   name: 'ScreenMap',
+  props: {
+    id: {
+      type: Number,
+      default: undefined
+    }
+  },
   data() {
     return {
       BMap: undefined,
@@ -95,18 +101,18 @@ export default {
       alarm: [
         {
           name: '一级预警',
-          color: '#F44E68',
+          color: '#f70c27',
           count: 3
         },
         {
           name: '二级预警',
           color: '#FBB500',
-          count: 123
+          count: 12
         },
         {
           name: '三级预警',
           color: '#5B8AD8',
-          count: 11563
+          count: 152
         }],
       center: {
         lng: 117.566797,
@@ -129,7 +135,7 @@ export default {
           title: '长江西路1号管道设备',
           name: '1号甲烷探测器',
           number: 'HGA738',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-05-21 9:23:48',
           alarmHistoryCount: 3,
           level: 1,
           images: [tu1, tu3, tu5]
@@ -140,9 +146,9 @@ export default {
           title: '长江西路1号管道设备',
           name: '2号甲烷探测器',
           number: 'HGA737',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-05-21 11:41:07',
           alarmHistoryCount: 5,
-          level: 2,
+          level: 1,
           images: [tu2, tu4, tu6]
         },
         {
@@ -152,9 +158,9 @@ export default {
           title: '长江西路1号管道设备',
           name: '5号甲烷探测器',
           number: 'HGA745',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-03-18 13:45:21',
           alarmHistoryCount: 2,
-          level: 3,
+          level: 2,
           images: [tu1, tu4, tu5]
         },
         {
@@ -163,7 +169,7 @@ export default {
           title: '长江西路1号管道设备',
           name: '1号甲烷探测器',
           number: 'HGA738',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-03-12 7:42:56',
           alarmHistoryCount: 3,
           level: 2,
           images: [tu1, tu3, tu6]
@@ -174,9 +180,9 @@ export default {
           title: '长江西路1号管道设备',
           name: '1号甲烷探测器',
           number: 'HGA738',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-03-08 4:05:14',
           alarmHistoryCount: 3,
-          level: 1,
+          level: 2,
           images: [tu2, tu3, tu5]
         },
         {
@@ -185,7 +191,7 @@ export default {
           title: '长江西路1号管道设备',
           name: '1号甲烷探测器',
           number: 'HGA738',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-05-21 8:52:21',
           alarmHistoryCount: 3,
           level: 3,
           images: [tu2, tu4, tu5]
@@ -196,9 +202,9 @@ export default {
           title: '长江西路1号管道设备',
           name: '1号甲烷探测器',
           number: 'HGA738',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-05-21 23:45:15',
           alarmHistoryCount: 3,
-          level: 1,
+          level: 3,
           images: [tu1, tu2, tu5]
         },
         {
@@ -207,9 +213,9 @@ export default {
           title: '长江西路1号管道设备',
           name: '1号甲烷探测器',
           number: 'HGA738',
-          alarmTime: '2021-06-08 16:45:21',
+          alarmTime: '2021-05-21 20:18:17',
           alarmHistoryCount: 3,
-          level: 2,
+          level: 3,
           images: [tu2, tu3, tu6]
         }]
     }
@@ -218,6 +224,13 @@ export default {
     maxLength: function() {
       const copy = JSON.parse(JSON.stringify(this.alarm))
       return String(copy.sort((a, b) => String(b.count).length - String(a.count).length)[0].count).length
+    }
+  },
+  watch: {
+    id: function(value) {
+      if (value) {
+        this.handleMarkerClick(this.data[value - 1])
+      }
     }
   },
   created() {
