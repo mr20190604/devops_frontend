@@ -38,5 +38,5 @@ export default {
         planId:planId
       }
     })
-  }
+  },
 }

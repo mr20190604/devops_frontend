@@ -30,12 +30,12 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="巡检类型:">
-              <dict-select v-model="listQuery.inspectType" dict-name="巡检类型" placeholder="请选择巡检类型" />
+              <dict-select v-model="listQuery.inspectType" dict-name="巡检类型" placeholder="请选择巡检类型"/>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="巡检形式:">
-              <dict-select v-model="listQuery.inspectForm" dict-name="巡检形式" placeholder="请选择巡检形式" />
+              <dict-select v-model="listQuery.inspectForm" dict-name="巡检形式" placeholder="请选择巡检形式"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -214,7 +214,9 @@
               @click.native="removeItem(scope.row)"
             >{{ $t('button.delete') }}
             </el-button>
-            <el-button v-if="scope.row.planFileList.length > 0" v-permission="['/law/statute/view']" type="text" size="mini" icon="el-icon-view" @click.native="previewFile(scope.row)">预览</el-button>
+            <el-button v-if="scope.row.planFileList.length > 0" v-permission="['/law/statute/view']" type="text"
+                       size="mini" icon="el-icon-view" @click.native="previewFile(scope.row)">预览
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -242,7 +244,8 @@
       @close="cancel"
     >
       <div class="block">
-        <el-form ref="form" style="width:900px" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
+        <el-form ref="form" style="width:900px" :model="form" :rules="rules" label-width="120px"
+                 class="align-right has-Label-Width">
           <el-row>
             <el-col :span="12">
               <el-form-item label="路线：">
@@ -281,12 +284,12 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="巡检类型：">
-                <dict-select v-model="form.inspectType" dict-name="巡检类型" :disabled="readonly" />
+                <dict-select v-model="form.inspectType" dict-name="巡检类型" :disabled="readonly"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="巡检形式：">
-                <dict-select v-model="form.inspectForm" dict-name="巡检形式" :disabled="readonly" />
+                <dict-select v-model="form.inspectForm" dict-name="巡检形式" :disabled="readonly"/>
               </el-form-item>
             </el-col>
 
@@ -335,7 +338,7 @@
           <el-row>
             <el-col>
               <el-form-item label="备注：">
-                <el-input v-model="form.notes" minlength="1" :disabled="readonly" type="textarea" />
+                <el-input v-model="form.notes" minlength="1" :disabled="readonly" type="textarea"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -355,7 +358,7 @@
           </el-row>
           <el-row>
             <el-col>
-              <lineList v-if="tableDisplay === 1" :path-id="pathId" />
+              <lineList v-if="tableDisplay === 1" :path-id="pathId"/>
             </el-col>
             <el-col>
               <equipmentList
@@ -381,7 +384,7 @@
     </el-dialog>
 
     <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false" class="el-dialog-style common-dialog-style">
-      <handleRecord v-if="handleDisplay" :plan-id="planId" :inspection-type="inspectionType" />
+      <handleRecord v-if="handleDisplay" :plan-id="planId" :inspection-type="inspectionType"/>
     </el-dialog>
     <el-dialog
       :title="previewTitle"
@@ -389,7 +392,7 @@
       :visible.sync="previewVisible"
       width="60%"
     >
-      <file-preview :files="files" :download-file-url="downloadUrl" />
+      <file-preview :files="files" :download-file-url="downloadUrl"/>
     </el-dialog>
   </div>
 </template>

@@ -50,9 +50,11 @@
             {{ scope.row.user.name }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
-          <template>
-            <el-button type="text" size="mini">定位</el-button>
+        <el-table-column label="操作" align="center" width="150px">
+          <template slot-scope="scope">
+            <el-button icon="el-icon-location" type="text" size="mini">定位</el-button>
+            <el-button v-if="scope.row.recordFileList.length > 0" v-permission="['/law/statute/view']" type="text"
+                       size="mini" icon="el-icon-view" @click.native="previewFile(scope.row)">预览</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -69,7 +71,15 @@
         @next-click="fetchNext"
       />
     </div>
-
+    <el-dialog
+      :title="previewTitle"
+      class="el-dialog-style common-dialog-style"
+      :visible.sync="previewVisible"
+      width="60%"
+      modal-append-to-body="true"
+    >
+      <file-preview :files="files" :download-file-url="downloadUrl"/>
+    </el-dialog>
   </div>
 </template>
 

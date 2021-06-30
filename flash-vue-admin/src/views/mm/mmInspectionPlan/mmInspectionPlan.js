@@ -1,6 +1,5 @@
 import mmInspectionPlanApi from '@/api/mm/mmInspectionPlan'
 import mmInspectionPathApi from '@/api/mm/mmInspectionPath'
-import handleRecordApi from '@/api/mm/mmInspectionHandleRecord'
 import mmInspectionPlanFileApi from '@/api/mm/mmInspectionPlanFile'
 import permission from '@/directive/permission/index.js'
 import lineList from '@/views/mm/mmInspectionPlan/lineList/index.vue'

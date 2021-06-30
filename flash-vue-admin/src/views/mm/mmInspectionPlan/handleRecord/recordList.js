@@ -1,11 +1,16 @@
 import permission from '@/directive/permission/index.js'
 import handleRecordApi from '@/api/mm/mmInspectionHandleRecord'
+import { getApiUrl } from '@/utils/utils'
 
 export default {
   directives: { permission },
   props: ['planId', 'inspectionType'],
   data() {
     return {
+      downloadUrl: '',
+      files: null,
+      previewTitle: '预览',
+      previewVisible: false,
       equipDisplay: false,
       lineDisplay: false,
       list: null,
@@ -40,6 +45,7 @@ export default {
     }
   },
   created() {
+    this.downloadUrl = getApiUrl() + '/file/download?idFile='
     if (this.inspectionType === 260) {
       this.lineDisplay = true
     } else {
@@ -60,13 +66,9 @@ export default {
         this.total = response.data.total
       })
     },
-
     handleFilter() {
       this.listQuery.page = 1
       this.getList()
-    },
-    handleClose() {
-
     },
     fetchNext() {
       this.listQuery.page = this.listQuery.page + 1
@@ -87,7 +89,6 @@ export default {
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
     },
-
     checkSel() {
       if (this.selRow && this.selRow.id) {
         return true
@@ -97,7 +98,10 @@ export default {
         type: 'warning'
       })
       return false
+    },
+    previewFile(record) {
+      this.previewVisible = true
+      this.files = record.recordFileList
     }
-
   }
 }
