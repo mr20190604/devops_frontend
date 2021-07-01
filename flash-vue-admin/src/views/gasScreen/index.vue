@@ -35,7 +35,7 @@
             <screenNav />
           </el-col>
           <el-col :span="24">
-            <screen-map :id="id" />
+            <screen-map :alarm-id="alarmId" :list="alarmList" />
           </el-col>
           <el-col :span="24">
             <count-info />
@@ -45,7 +45,7 @@
       <el-col :span="6">
         <el-row>
           <el-col :span="24">
-            <alarm-info @showWindowInfo="handleShowWindowInfo" />
+            <alarm-info :list="alarmList" @showWindowInfo="handleShowWindowInfo" />
           </el-col>
           <el-col :span="24">
             <alarmStatistics />
@@ -70,6 +70,10 @@ import screenMap from './components/screenMap'
 import screenVideo from './components/screenVideo'
 import axios from 'axios'
 import fair from '../../assets/img/太阳.png'
+import { queryAlarmList } from '../../api/screen/gasScreen'
+import tu1 from '../../assets/img/gas/tu1.png'
+import tu3 from '../../assets/img/gas/tu3.png'
+import tu5 from '../../assets/img/gas/tu5.png'
 
 export default {
   name: 'Index',
@@ -90,10 +94,32 @@ export default {
       weather: '晴',
       icon: fair,
       temperature: '12',
-      id: undefined
+      alarmId: undefined,
+      alarmList: undefined
     }
   },
   created() {
+    queryAlarmList().then(res => {
+      const list = res.data.map(item => {
+        return {
+          lng: item.longitude,
+          lat: item.latitude,
+          title: item.alarmLocation,
+          name: item.equipment.equipmentName,
+          number: item.equipment.equipmentCode,
+          alarmTime: item.alarmTime,
+          alarmHistoryCount: item.historyCount,
+          level: item.auditAlarmLevel - 227,
+          images: [tu1, tu3, tu5],
+          event: item.monitorTypeName + item.auditAlarmLevelName,
+          time: item.alarmTime,
+          status: item.isFeedback + 1,
+          alarmId: item.id
+        }
+      })
+      this.alarmList = list
+    })
+
     this.now = this.dateFormatter('YYYY-mm-dd HH:MM:SS', new Date())
     const that = this
     setInterval(function() {
@@ -108,8 +134,8 @@ export default {
     })
   },
   methods: {
-    handleShowWindowInfo(id) {
-      this.id = id
+    handleShowWindowInfo(alarmId) {
+      this.alarmId = alarmId
     }
   }
 }

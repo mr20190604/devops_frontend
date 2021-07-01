@@ -16,6 +16,7 @@
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/graphic'
+import { queryAlarmStatistical } from '../../../api/screen/gasScreen'
 
 export default {
   name: 'AlarmStatistics',
@@ -38,26 +39,12 @@ export default {
     }
   },
   created() {
-    // 构造随机数据
-    // 天数据
-    const now = new Date()
-    for (let i = 6; i < 23; i++) {
-      this.dayInfo.xData.push(this.dateFormatter('YYYY-mm-dd', now) + ' ' + i + ':00')
-      // 随机1到11次
-      this.dayInfo.seriesData.push(Math.floor((Math.random() * 10) + 1))
-    }
-
-    for (let i = 0; i < (new Date()).getDate(); i++) {
-      this.monthInfo.xData.push(this.dateFormatter('YYYY-mm-dd', new Date(now.getFullYear(), now.getMonth(), i + 1)))
-      // 随机10到110次
-      this.monthInfo.seriesData.push(Math.floor((Math.random() * 100) + 10))
-    }
-
-    for (let i = 0; i < (new Date()).getMonth() + 1; i++) {
-      this.yearInfo.xData.push(this.dateFormatter('YYYY-mm', new Date(now.getFullYear(), i)))
-      // 随机100到1100次
-      this.yearInfo.seriesData.push(Math.floor((Math.random() * 1000) + 100))
-    }
+    queryAlarmStatistical('day').then(res => {
+      res.data.forEach(item => {
+        this.dayInfo.xData.push(item.time)
+        this.dayInfo.seriesData.push(item.total)
+      })
+    })
 
     const that = this
     this.options = {
@@ -80,9 +67,9 @@ export default {
           color: 'white',
           formatter: function(value) {
             if (that.selected === 'day') {
-              return value.split(' ')[1]
+              return value.split(' ')[1].split(':')[0]
             } else if (that.selected === 'month') {
-              return Number(value.split('-')[2])
+              return Number(value.split(' ')[0].split('-')[2])
             } else if (that.selected === 'year') {
               return Number(value.split('-')[1])
             }
@@ -120,15 +107,40 @@ export default {
   methods: {
     changeTime: function(type) {
       this.selected = type
+      const that = this
       if (type === 'day') {
-        this.options.xAxis.data = this.dayInfo.xData
-        this.options.series[0].data = this.dayInfo.seriesData
+        queryAlarmStatistical('day').then(res => {
+          that.dayInfo.xData = []
+          that.dayInfo.seriesData = []
+          res.data.forEach(item => {
+            that.dayInfo.xData.push(item.time)
+            that.dayInfo.seriesData.push(item.total)
+          })
+          that.options.xAxis.data = this.dayInfo.xData
+          that.options.series[0].data = this.dayInfo.seriesData
+        })
       } else if (type === 'month') {
-        this.options.xAxis.data = this.monthInfo.xData
-        this.options.series[0].data = this.monthInfo.seriesData
+        queryAlarmStatistical('month').then(res => {
+          that.monthInfo.xData = []
+          that.monthInfo.seriesData = []
+          res.data.forEach(item => {
+            that.monthInfo.xData.push(item.time)
+            that.monthInfo.seriesData.push(item.total)
+          })
+          that.options.xAxis.data = this.monthInfo.xData
+          that.options.series[0].data = this.monthInfo.seriesData
+        })
       } else if (type === 'year') {
-        this.options.xAxis.data = this.yearInfo.xData
-        this.options.series[0].data = this.yearInfo.seriesData
+        queryAlarmStatistical('year').then(res => {
+          that.yearInfo.xData = []
+          that.yearInfo.seriesData = []
+          res.data.forEach(item => {
+            that.yearInfo.xData.push(item.time)
+            that.yearInfo.seriesData.push(item.total)
+          })
+          this.options.xAxis.data = this.yearInfo.xData
+          this.options.series[0].data = this.yearInfo.seriesData
+        })
       }
     }
   }

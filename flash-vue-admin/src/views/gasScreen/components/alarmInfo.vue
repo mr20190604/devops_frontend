@@ -19,18 +19,27 @@
           <th style="width: 50px">状态</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr v-for="(item,index) in alarmList" :key="index">
+        <tr
+          v-for="(item,index) in alarmList"
+          :key="index"
+          style="cursor: pointer"
+          @mouseover="handleMouseOver"
+          @mouseout="handleMouseOut"
+          @click="handleEventClick(item.alarmId)"
+        >
           <td
             class="event"
             :title="item.event"
-            style="cursor: pointer"
-            @click="handleEventClick(index+1)"
           >
             {{ item.event.length>12?item.event.substring(0,9)+'...':item.event }}
           </td>
-          <td class="time">
-            {{ item.time }}
+          <td
+            class="time"
+            :title="item.time"
+          >
+            {{ item.time.split(' ')[1] }}
           </td>
           <td class="level">
             <span
@@ -53,60 +62,44 @@
 <script>
 export default {
   name: 'AlarmInfo',
-  data: function() {
-    return {
-      alarmList: [{
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-05-21',
-        level: 1,
-        status: 1
-      },
-      {
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-05-21',
-        level: 1,
-        status: 2
-      },
-      {
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-03-18',
-        level: 2,
-        status: 2
-      },
-      {
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-03-12',
-        level: 2,
-        status: 2
-      },
-      {
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-03-08',
-        level: 2,
-        status: 3
-      }, {
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-05-21',
-        level: 3,
-        status: 3
-      },
-      {
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-05-21',
-        level: 3,
-        status: 3
-      },
-      {
-        event: '高新区望江西路报警,甲烷浓度过高',
-        time: '2021-05-21',
-        level: 3,
-        status: 3
-      }]
+  props: {
+    list: {
+      type: Array
     }
   },
+  data: function() {
+    return {
+      alarmList: [],
+      marginTop: 0,
+      interval: undefined
+    }
+  },
+  watch: {
+    list(list) {
+      this.alarmList = list
+    }
+  },
+  created() {
+    this.alarmList = this.list
+    this.handleMouseOut()
+  },
   methods: {
-    handleEventClick(id) {
-      this.$emit('showWindowInfo', id)
+    showWarningData() {
+      this.marginTop -= 1
+      if (this.marginTop < -18) {
+        this.alarmList.push(this.alarmList[0])
+        this.alarmList.shift()
+        this.marginTop = 0
+      }
+    },
+    handleMouseOver() {
+      clearInterval(this.interval)
+    },
+    handleMouseOut() {
+      this.interval = setInterval(this.showWarningData, 100)
+    },
+    handleEventClick(alarmId) {
+      this.$emit('showWindowInfo', alarmId)
     }
   }
 }
@@ -172,7 +165,7 @@ export default {
     background: #34658E;
   }
 
-  tbody > tr {
+  tbody tr {
     height: 38px;
   }
 

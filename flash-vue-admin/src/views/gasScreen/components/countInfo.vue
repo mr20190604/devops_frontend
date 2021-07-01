@@ -11,6 +11,7 @@
 
 <script>
 import ICountUp from 'vue-countup-v2'
+import { queryAlarmCount } from '../../../api/screen/gasScreen'
 
 export default {
   name: 'CountInfo',
@@ -39,6 +40,15 @@ export default {
         color: '#1FC1DE'
       }]
     }
+  },
+  created() {
+    const that = this
+    queryAlarmCount().then(res => {
+      that.info[0].value = res.data.todayAlarmCount
+      that.info[1].value = res.data.todayAlarmHandleCount
+      that.info[2].value = res.data.allAlarmCount
+      that.info[3].value = res.data.allAlarmHandleCount
+    })
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <div class="titleBox">
       <p class="circle" />
       <p class="title">巡检巡查</p>
-      <p class="subTitle">INSPECT</p>
+      <p class="subTitle">INSPECTION</p>
       <p class="selector" :class="{'selected':selected==='year'}" @click="changeTime('year')">年</p>
       <p class="selector" :class="{'selected':selected==='month'}" @click="changeTime('month')">月</p>
       <p class="selector" :class="{'selected':selected==='day'}" @click="changeTime('day')">日</p>

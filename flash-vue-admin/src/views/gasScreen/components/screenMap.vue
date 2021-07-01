@@ -9,8 +9,8 @@
         @ready="mapReady"
       >
         <bm-marker
-          v-for="marker in data"
-          :key="marker.lng"
+          v-for="marker in alarmList"
+          :key="marker.alarmId"
           :position="{lng: marker.lng, lat:marker.lat}"
           :icon="marker.icon"
           style="cursor: pointer;"
@@ -38,7 +38,7 @@
             <p>报警时间:<span>{{ infoWindow.alarmTime }}</span></p>
             <p>历史报警:<span>{{ infoWindow.alarmHistoryCount }}</span></p>
             <p>报警等级:<span
-              :style="{&quot;color&quot;:infoWindow.level===1?&quot;#f70c27&quot;:infoWindow.level===2?&quot;#FBB500&quot;:&quot;#5B8AD8&quot;}"
+              :style="{color:infoWindow.level===1?'#f70c27':infoWindow.level===2?'#FBB500':'#5B8AD8'}"
             >
               {{ infoWindow.level===1?"一":infoWindow.level===2?"二":"三" }}级
             </span></p>
@@ -79,19 +79,17 @@
 </template>
 
 <script>
-import tu1 from '../../../assets/img/gas/tu1.png'
-import tu2 from '../../../assets/img/gas/tu2.png'
-import tu3 from '../../../assets/img/gas/tu3.png'
-import tu4 from '../../../assets/img/gas/tu4.png'
-import tu5 from '../../../assets/img/gas/tu5.png'
-import tu6 from '../../../assets/img/gas/tu6.png'
+import { getAlarmLevelCount } from '../../../api/screen/gasScreen'
 
 export default {
   name: 'ScreenMap',
   props: {
-    id: {
+    alarmId: {
       type: Number,
       default: undefined
+    },
+    list: {
+      type: Array
     }
   },
   data() {
@@ -128,96 +126,7 @@ export default {
         level: undefined,
         images: []
       },
-      data: [
-        {
-          lng: 117.566797,
-          lat: 32.993585,
-          title: '长江西路1号管道设备',
-          name: '1号甲烷探测器',
-          number: 'HGA738',
-          alarmTime: '2021-05-21 9:23:48',
-          alarmHistoryCount: 3,
-          level: 1,
-          images: [tu1, tu3, tu5]
-        },
-        {
-          lng: 117.565333,
-          lat: 32.993426,
-          title: '长江西路1号管道设备',
-          name: '2号甲烷探测器',
-          number: 'HGA737',
-          alarmTime: '2021-05-21 11:41:07',
-          alarmHistoryCount: 5,
-          level: 1,
-          images: [tu2, tu4, tu6]
-        },
-        {
-
-          lng: 117.566915,
-          lat: 32.991689,
-          title: '长江西路1号管道设备',
-          name: '5号甲烷探测器',
-          number: 'HGA745',
-          alarmTime: '2021-03-18 13:45:21',
-          alarmHistoryCount: 2,
-          level: 2,
-          images: [tu1, tu4, tu5]
-        },
-        {
-          lng: 117.565262,
-          lat: 32.989751,
-          title: '长江西路1号管道设备',
-          name: '1号甲烷探测器',
-          number: 'HGA738',
-          alarmTime: '2021-03-12 7:42:56',
-          alarmHistoryCount: 3,
-          level: 2,
-          images: [tu1, tu3, tu6]
-        },
-        {
-          lng: 117.568065,
-          lat: 32.996352,
-          title: '长江西路1号管道设备',
-          name: '1号甲烷探测器',
-          number: 'HGA738',
-          alarmTime: '2021-03-08 4:05:14',
-          alarmHistoryCount: 3,
-          level: 2,
-          images: [tu2, tu3, tu5]
-        },
-        {
-          lng: 117.562459,
-          lat: 32.991265,
-          title: '长江西路1号管道设备',
-          name: '1号甲烷探测器',
-          number: 'HGA738',
-          alarmTime: '2021-05-21 8:52:21',
-          alarmHistoryCount: 3,
-          level: 3,
-          images: [tu2, tu4, tu5]
-        },
-        {
-          lng: 117.564459,
-          lat: 32.992365,
-          title: '长江西路1号管道设备',
-          name: '1号甲烷探测器',
-          number: 'HGA738',
-          alarmTime: '2021-05-21 23:45:15',
-          alarmHistoryCount: 3,
-          level: 3,
-          images: [tu1, tu2, tu5]
-        },
-        {
-          lng: 117.565659,
-          lat: 32.994565,
-          title: '长江西路1号管道设备',
-          name: '1号甲烷探测器',
-          number: 'HGA738',
-          alarmTime: '2021-05-21 20:18:17',
-          alarmHistoryCount: 3,
-          level: 3,
-          images: [tu2, tu3, tu6]
-        }]
+      alarmList: []
     }
   },
   computed: {
@@ -227,14 +136,24 @@ export default {
     }
   },
   watch: {
-    id: function(value) {
+    alarmId: function(value) {
       if (value) {
         this.handleMarkerClick(this.data[value - 1])
       }
+    },
+    list(list) {
+      this.alarmList = list
+      this.alarmList && this.resetMarkers()
     }
   },
   created() {
-    this.resetMarkers()
+    getAlarmLevelCount().then(res => {
+      this.alarm[0].count = res.data.one
+      this.alarm[1].count = res.data.two
+      this.alarm[2].count = res.data.three
+    })
+    this.alarmList = this.list
+    this.alarmList && this.resetMarkers()
   },
   methods: {
     mapReady({ BMap, map }) {
@@ -282,7 +201,7 @@ export default {
       this.infoWindowShow = true
     },
     resetMarkers() {
-      this.data.forEach(marker => {
+      this.alarmList.forEach(marker => {
         marker.icon = {
           url: marker.level === 1 ? '/img/gas/normal_red.png' : marker.level === 2 ? '/img/gas/normal_orange.png' : '/img/gas/normal_blue.png',
           size: {

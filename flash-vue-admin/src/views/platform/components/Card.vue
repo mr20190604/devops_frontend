@@ -175,8 +175,8 @@ export default {
     setInterval(function() {
       const time = parseInt(that.begin) * 1000
       setTimeout(function() {
-        that.$refs['animate1'].beginElement()
-        that.$refs['animate2'].beginElement()
+        that.$refs['animate1'] && that.$refs['animate1'].beginElement()
+        that.$refs['animate2'] && that.$refs['animate2'].beginElement()
       }, time)
     }, this.cycle * 1000)
   },

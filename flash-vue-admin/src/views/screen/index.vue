@@ -213,7 +213,6 @@ export default {
     background-image: url("../../assets/img/底框-turn.png");
   }
 
-
   .map {
     height: 626px;
     background-image: url("../../assets/img/mapBox.png");
