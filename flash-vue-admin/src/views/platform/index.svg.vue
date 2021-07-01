@@ -3,26 +3,45 @@
     <p class="title">{{ systemName }}</p>
     <div class="outerBox">
       <div
+        ref="innerBox"
         class="innerBox"
+        :class="{running:isRunning}"
+        :style="{marginLeft:marginLeft,width:list.length*3*380+'px'}"
         @mouseover="handleMouseover"
         @mouseout="handleMouseout"
       >
-        <template v-for="count of 2">
-          <Card
-            v-for="(item,index) in list"
-            :key="index+'_'+count"
-            class="outerRectangle"
-            :name="item.name"
-            :src="item.img"
-            :url="item.url"
-            :index="item.index"
-            :is-paused="isPaused"
-          />
+        <Card
+          v-for="(item,index) in list"
+          :key="index+'_a'"
+          class="outerRectangle"
+          :name="item.name"
+          :src="item.img"
+          :url="item.url"
+          :index="item.index"
+          :cycle="(list.length * 2 - 5) * 4"
+          :is-paused="isPaused"
+          :is-running="isRunning"
+        />
+        <template v-if="list.length>4">
+          <template v-for="count of 2">
+            <Card
+              v-for="(item,index) in list"
+              :key="index+'_'+count"
+              class="outerRectangle"
+              :name="item.name"
+              :src="item.img"
+              :url="item.url"
+              :index="list.length*count*2+item.index"
+              :cycle="(list.length * 2 - 5) * 4"
+              :is-paused="isPaused"
+              :is-running="isRunning"
+            />
+          </template>
         </template>
       </div>
     </div>
-    <div class="left" @click="handleLeftClick" />
-    <div class="right" @click="handleRightClick" />
+    <div v-if="isRunning" class="left" @click="handleLeftClick" />
+    <div v-if="isRunning" class="right" @click="handleRightClick" />
     <!-- 星星动效 -->
     <vue-particles
       color="#dedede"
@@ -56,45 +75,63 @@ export default {
   data() {
     return {
       systemName: '苍穹环境智能监测平台',
-      list: [
-        {
-          name: '大数据分析子系统',
-          img: '/img/analysis.png',
-          url: '',
-          index: 0
-        },
-        {
-          name: '数据资源系统(开发中)',
-          img: '/img/integration.png',
-          url: '',
-          index: 1
-        }, {
-          name: '数据资源辅助系统(开发中)',
-          img: '/img/checking-in.png',
-          url: '',
-          index: 2
-        }, {
-          name: '预测预警子系统',
-          img: '/img/warning.png',
-          url: '',
-          index: 3
-        }, {
-          name: '三维地理信息系统',
-          img: '/img/GIS.png',
-          url: '/3dgis',
-          index: 4
-        }
-      ],
-      isPaused: false
+      list: [],
+      isPaused: false,
+      isRunning: true,
+      marginLeft: '-180px'
     }
   },
   created() {
     const childSys = this.$store.state.user.childSys
-    childSys.forEach((item, index) => {
-      this.list[index].name = item.mmChildSysModel.sysName
-      this.list[index].url = item.mmChildSysModel.sysUrl
-      this.list[index].img = item.mmChildSysModel.sysIcon
+    if (childSys.length === 1) {
+      this.marginLeft = '580px'
+    } else if (childSys.length === 2) {
+      this.marginLeft = '380px'
+    } else if (childSys.length === 3) {
+      this.marginLeft = '200px'
+    } else if (childSys.length === 4) {
+      this.marginLeft = '10px'
+    }
+
+    this.isRunning = childSys.length > 4
+
+    this.list = childSys.map((item, index) => {
+      const result = {
+        name: item.mmChildSysModel.sysName,
+        url: item.mmChildSysModel.sysUrl,
+        img: item.mmChildSysModel.sysIcon
+      }
+
+      if (childSys.length === 1) {
+        result.index = 4
+      } else if (childSys.length === 2) {
+        result.index = 3 + index * 2
+      } else if (childSys.length === 3) {
+        result.index = 2 + index * 2
+      } else if (childSys.length === 4) {
+        result.index = 1 + index * 2
+      } else if (childSys.length === 5) {
+        result.index = index * 2
+      } else if (childSys.length > 5) {
+        result.index = index * 2
+      }
+      return result
     })
+  },
+  mounted() {
+    if (this.isRunning) {
+      const marginLeft = (this.list.length * 2 - 5) * 380 * -1 - 180
+      const E2F3E2C0085 = `@keyframes E2F3E2C0085 {
+                        0%{
+                          margin-left: -180px;
+                        }
+                        100%{
+                          margin-left: ` + marginLeft + `px;
+                        }
+                      }`
+      document.styleSheets[0].insertRule(E2F3E2C0085, 0)
+      this.$refs.innerBox.style.animation = 'E2F3E2C0085 ' + (this.list.length * 2 - 5) * 4 + 's linear 0s infinite'
+    }
   },
   methods: {
     handleLeftClick: function() {
@@ -133,9 +170,11 @@ export default {
     },
     handleMouseover() {
       this.isPaused = true
+      this.$refs.innerBox.style.animationPlayState = 'paused'
     },
     handleMouseout() {
       this.isPaused = false
+      this.$refs.innerBox.style.animationPlayState = 'running'
     }
   }
 }
@@ -149,7 +188,7 @@ export default {
     overflow: hidden;
   }
 
-  .particles{
+  .particles {
     position: absolute;
     top: 0;
     left: 0;
@@ -175,23 +214,8 @@ export default {
     overflow: hidden;
   }
 
-  @keyframes running {
-    0%{
-      margin-left: 0;
-    }
-    100%{
-      margin-left: -1900px;
-    }
-  }
-
-  .innerBox{
+  .innerBox {
     height: 100%;
-    width: 3800px;
-    animation: running 20s linear 0s infinite;
-  }
-
-  .innerBox:hover{
-    animation-play-state: paused;
   }
 
   .outerRectangle {
@@ -201,10 +225,6 @@ export default {
     margin-left: 30px;
     margin-right: 30px;
     padding: 5px;
-  }
-
-  .outerRectangle:first-child {
-    margin-left: -160px;
   }
 
   .left, .right {

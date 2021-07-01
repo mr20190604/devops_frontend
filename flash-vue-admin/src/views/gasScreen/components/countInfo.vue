@@ -25,7 +25,7 @@ export default {
         color: '#DE1F35'
       },
       {
-        name: '今日处理数',
+        name: '今日处置数',
         value: 3,
         color: '#F9BC31'
       }, {
@@ -34,7 +34,7 @@ export default {
         color: '#1FC1DE'
       },
       {
-        name: '累积处理数',
+        name: '累积处置数',
         value: 200,
         color: '#1FC1DE'
       }]

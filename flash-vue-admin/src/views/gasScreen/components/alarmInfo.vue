@@ -42,7 +42,7 @@
             </span>
           </td>
           <td class="status">
-            {{ item.status===1?'待处理':item.status===2?'处理中':'已处置' }}
+            {{ item.status===1?'待处置':item.status===2?'处置中':'已处置' }}
           </td>
         </tr>
       </tbody>

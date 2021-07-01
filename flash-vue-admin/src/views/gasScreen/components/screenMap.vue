@@ -61,7 +61,7 @@
             <el-col :key="index+'col1'" :span="11" :style="{color:item.color}">
               {{ item.name }}
             </el-col>
-            <el-col :key="index+'col2'" :span="13">
+            <el-col :key="index+'col2'" :span="12" style="text-align: center;">
               <span
                 v-for="subIndex of maxLength"
                 :key="subIndex"
