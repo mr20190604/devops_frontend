@@ -289,7 +289,7 @@ export default {
       return false
     },
     editItem(record){
-      this.selRow = record
+      this.selRow = JSON.parse(JSON.stringify(record))
       this.edit()
       this.initPersonList(record.id)
     },
