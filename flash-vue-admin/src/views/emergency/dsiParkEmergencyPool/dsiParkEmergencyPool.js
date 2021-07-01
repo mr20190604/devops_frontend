@@ -274,7 +274,7 @@ export default {
 
     },
     editItem(record){
-      this.selRow = record
+      this.selRow = JSON.parse(JSON.stringify(record))
       this.materialAdd = false
       this.edit()
       this.initMaterialList(this.selRow.id)

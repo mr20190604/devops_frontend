@@ -220,8 +220,8 @@
                         element-loading-text="Loading"
                         border fit highlight-current-row
                         @current-change="handleCurrentChange"
-                        max-height="331px"
                         style="width:100%"
+                        max-height="300px"
               >
 
                 <el-table-column label="名称" show-overflow-tooltip>
@@ -261,7 +261,7 @@
                   </template>
                 </el-table-column>
 
-                <el-table-column label="操作" align="center" width="150">
+                <el-table-column label="操作" align="center" width="170">
                   <template slot-scope="scope">
                     <el-button type="text" size="mini" icon="el-icon-edit" @click.native="viewPerson(scope.row)" >查看</el-button>
                     <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removePersonItem(scope.row)" >{{ $t('button.delete') }}</el-button>
