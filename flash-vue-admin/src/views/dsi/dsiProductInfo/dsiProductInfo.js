@@ -472,9 +472,10 @@ export default {
           message: this.$t('common.optionSuccess'),
           type: 'success'
         })
-        this.fetchData()
         ids = []
         this.materialVisible = false
+        this.listQuery.page = 1
+        this.fetchData()
       } else {
         this.closeFatherDialog()
       }
