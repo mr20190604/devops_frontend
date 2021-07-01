@@ -33,7 +33,6 @@
         :row-key="row=>row.id"
         @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange"
-        @row-click="toggleSelection"
         ref="productTable"
         height="331px"
       >

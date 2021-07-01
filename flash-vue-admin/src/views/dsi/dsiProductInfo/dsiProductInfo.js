@@ -130,7 +130,6 @@ export default {
       dsiProductInfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.total = response.data.total
-        this.$refs.productTable.clearSelection()
         this.listLoading = false
       })
       getDicts('是否').then(response => {
@@ -330,7 +329,7 @@ export default {
       this.materialVisible = true
       this.reset()
       this.fetchData1()
-      this.$refs.materialTable.clearSelection()
+      this.selection = []
       dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
         this.materialList = response.data.records
         this.listLoading = false
