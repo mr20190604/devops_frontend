@@ -1,19 +1,20 @@
 import dsiProductInfoApi from '@/api/dsi/dsiProductInfo'
 import permission from '@/directive/permission/index.js'
-import {getDicts} from "../../../api/system/dict";
-import materialInfo from '@/views/dsi/dsiMaterialBaseinfo/index.vue';
-import dsiMaterialBaseinfoApi from '@/api/dsi/dsiMaterialBaseinfo';
-import dsiProductFromMaterialApi from '@/api/dsi/dsiProductFromMaterial';
+import { getDicts } from '../../../api/system/dict'
+import materialInfo from '@/views/dsi/dsiMaterialBaseinfo/index.vue'
+import dsiMaterialBaseinfoApi from '@/api/dsi/dsiMaterialBaseinfo'
+import dsiProductFromMaterialApi from '@/api/dsi/dsiProductFromMaterial'
+
 export default {
   directives: { permission },
-  props:['enterpriseId'],
-  component:{
+  props: ['enterpriseId'],
+  component: {
     materialInfo
   },
   data() {
     return {
       formVisible: false,
-      productDetailVisible:false,
+      productDetailVisible: false,
       formTitle: '添加产品信息',
       isAdd: true,
       form: {
@@ -23,37 +24,37 @@ export default {
         isInflammableExplosive: '',
         formId: '',
         enterpriseId: this.enterpriseId,
-        isCorrosive:'',
-        isRadioactivity:'',
-        storageStandards:'',
-        productDesc:'',
-        productModel:'',
-        isPoisonHarmName:'',
-        isInflammableExplosiveName:'',
-        isCorrosiveName:'',
-        isRadioactivityName:'',
+        isCorrosive: '',
+        isRadioactivity: '',
+        storageStandards: '',
+        productDesc: '',
+        productModel: '',
+        isPoisonHarmName: '',
+        isInflammableExplosiveName: '',
+        isCorrosiveName: '',
+        isRadioactivityName: '',
         id: ''
       },
-      form1:{
+      form1: {
         id: '',
-        materialCode:'' ,
-        chemistryName:'',
+        materialCode: '',
+        chemistryName: '',
         englishName: '',
         shortName: '',
         materialType: '',
-        physicochemicalProperties:'',
+        physicochemicalProperties: '',
         healthHazards: '',
-        dangerousCharacteristic:'',
-        casCode:'',
-        isDanger: '',
+        dangerousCharacteristic: '',
+        casCode: '',
+        isDanger: ''
       },
-      productAdd:true,
-      judge_list:[],
-      productList:null,
-      //用于保存产品临时数据，最后统一提交
-      product_list:[],
+      productAdd: true,
+      judge_list: [],
+      productList: null,
+      // 用于保存产品临时数据，最后统一提交
+      product_list: [],
       materialVisible: false,
-      productVisible:false,
+      productVisible: false,
       listQuery: {
         page: 1,
         limit: 10,
@@ -62,8 +63,8 @@ export default {
         isInflammableExplosive: '',
         formId: '',
         enterpriseId: this.enterpriseId,
-        materialType:'',
-        isDanger:'',
+        materialType: '',
+        isDanger: ''
       },
       listQuery1: {
         page: 1,
@@ -71,17 +72,17 @@ export default {
         key: '',
         materialType: '',
         isDanger: '',
-        ids: '',
+        ids: ''
       },
-      materialList:[],
-      selectedList:[],
-      materList:[],
+      materialList: [],
+      selectedList: [],
+      materList: [],
       total: 0,
       list: [],
       listLoading: true,
       selRow: {},
       selection: [],
-      addVisible:false
+      addVisible: false
     }
   },
   filters: {
@@ -106,7 +107,7 @@ export default {
     }
   },
   created() {
-    this.listQuery.enterpriseId=this.enterpriseId;
+    this.listQuery.enterpriseId = this.enterpriseId
     this.init()
   },
   watch: {
@@ -115,30 +116,28 @@ export default {
         this.resetForm()
       }
     },
-    'enterpriseId':function () {
-      this.listQuery.enterpriseId=this.enterpriseId;
-      this.fetchData();
+    'enterpriseId': function() {
+      this.listQuery.enterpriseId = this.enterpriseId
+      this.fetchData()
     }
   },
   methods: {
     init() {
-      this.listQuery.enterpriseId=this.enterpriseId;
+      this.listQuery.enterpriseId = this.enterpriseId
       this.fetchData()
-
     },
     fetchData() {
       dsiProductInfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.total = response.data.total
-        this.$refs.productTable.clearSelection();
+        this.$refs.productTable.clearSelection()
         this.listLoading = false
-      });
+      })
       getDicts('是否').then(response => {
         this.judge_list = response.data
       })
     },
     search() {
-
       this.fetchData1()
     },
     reset() {
@@ -156,11 +155,11 @@ export default {
     },
     fetchNext() {
       this.listQuery.page = this.listQuery.page + 1
-      this.fetchData()
+      this.fetchData1()
     },
     fetchPrev() {
       this.listQuery.page = this.listQuery.page - 1
-      this.fetchData()
+      this.fetchData1()
     },
     fetchNext1() {
       this.listQuery1.page = this.listQuery1.page + 1
@@ -180,11 +179,11 @@ export default {
     },
     fetchPage(page) {
       this.listQuery.page = page
-      this.fetchData()
+      this.fetchData1()
     },
     changeSize(limit) {
       this.listQuery.limit = limit
-      this.fetchData()
+      this.fetchData1()
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
@@ -206,20 +205,20 @@ export default {
     resetForm1() {
       this.form1 = {
         id: undefined,
-        materialCode:undefined ,
-        chemistryName:undefined,
+        materialCode: undefined,
+        chemistryName: undefined,
         englishName: undefined,
         shortName: undefined,
         materialType: undefined,
-        physicochemicalProperties:undefined,
+        physicochemicalProperties: undefined,
         healthHazards: undefined,
-        dangerousCharacteristic:undefined,
-        casCode:undefined,
-        isDanger: undefined,
+        dangerousCharacteristic: undefined,
+        casCode: undefined,
+        isDanger: undefined
       }
     },
     add() {
-      this.resetForm();
+      this.resetForm()
       this.formTitle = '添加产品信息'
       this.formVisible = true
       this.isAdd = true
@@ -242,7 +241,7 @@ export default {
             productModel: this.form.productModel,
             storageStandards: this.form.storageStandards,
             productDesc: this.form.productDesc,
-            enterpriseId: this.enterpriseId,
+            enterpriseId: this.enterpriseId
           }
           if (this.productAdd) {
             if (formData.id) {
@@ -251,18 +250,15 @@ export default {
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
-
-                this.formVisible = false;
-                this.fetchData();
+                this.formVisible = false
+                this.fetchData()
               })
             } else {
               dsiProductInfoApi.add(formData).then(response => {
                 this.fetchData()
                 this.formVisible = false
               })
-
             }
-
           } else {
             return false
           }
@@ -283,29 +279,32 @@ export default {
       this.selRow = record
       this.edit()
     },
-    viewProductDetail(record){
+    viewProductDetail(record) {
       this.selRow = record
       this.form = this.selRow
-
       dsiProductFromMaterialApi.getList(record.id).then(response => {
         if (response.data.length) {
-          let ids = '';
-          this.formTitle = '查看产品信息';
+          let ids = ''
           for (let i = 0; i < response.data.length; i++) {
-            if (i == 0) {
-              ids = ids + response.data[i].materialId;
+            if (i === 0) {
+              ids = ids + response.data[i].materialId
             } else {
-              ids = ids + ',' + response.data[i].materialId;
+              ids = ids + ',' + response.data[i].materialId
             }
           }
-          this.listQuery1.ids=ids;
+          this.listQuery1.ids = ids
           dsiMaterialBaseinfoApi.getList(this.listQuery1).then(response => {
-            this.selectedList = response.data.records;
+            this.selectedList = response.data.records
             this.listLoading = false
-            this.total=response.data.total;
+            this.total = response.data.total
             this.formTitle = '查看产品信息'
             this.productDetailVisible = true
           })
+        } else {
+          this.selectedList = []
+          this.total = 0
+          this.formTitle = '查看产品信息'
+          this.productDetailVisible = true
         }
       })
     },
@@ -324,14 +323,14 @@ export default {
       this.selRow = record
       this.remove()
     },
-    selectMaterial(record){
+    selectMaterial(record) {
       this.isAdd = false
       this.form = record
       this.formTitle = '选择原料'
       this.materialVisible = true
-      this.reset();
+      this.reset()
       this.fetchData1()
-      this.$refs.materialTable.clearSelection();
+      this.$refs.materialTable.clearSelection()
       dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
         this.materialList = response.data.records
         this.listLoading = false
@@ -351,7 +350,7 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.$refs.productTable.clearSelection();
+            this.$refs.productTable.clearSelection()
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
@@ -396,105 +395,105 @@ export default {
       }).catch(() => {
       })
     },
-    addMaterial(){
+    addMaterial() {
       this.formTitle = '添加原料'
-      this.resetForm1();
+      this.resetForm1()
       this.addVisible = true
       this.isAdd = true
     },
-    saveMaterial(){
-        this.$refs['form1'].validate((valid) => {
-          if (valid) {
-            const formData = {
-              id: this.form1.id,
-              materialCode: this.form1.materialCode,
-              chemistryName: this.form1.chemistryName,
-              englishName: this.form1.englishName,
-              shortName: this.form1.shortName,
-              materialType: this.form1.materialType,
-              physicochemicalProperties: this.form1.physicochemicalProperties,
-              healthHazards: this.form1.healthHazards,
-              dangerousCharacteristic: this.form1.dangerousCharacteristic,
-              casCode: this.form1.casCode,
-              isDanger: this.form1.isDanger
-            }
-            if (formData.id) {
-              dsiMaterialBaseinfoApi.update(formData).then(response => {
-                this.$message({
-                  message: this.$t('common.optionSuccess'),
-                  type: 'success'
-                })
-                this.fetchData1()
-                this.addVisible = false
-              })
-            } else {
-              dsiMaterialBaseinfoApi.add(formData).then(response => {
-                this.$message({
-                  message: this.$t('common.optionSuccess'),
-                  type: 'success'
-                })
-                this.fetchData1()
-                this.addVisible = false
-              })
-            }
-          } else {
-            return false
+    saveMaterial() {
+      this.$refs['form1'].validate((valid) => {
+        if (valid) {
+          const formData = {
+            id: this.form1.id,
+            materialCode: this.form1.materialCode,
+            chemistryName: this.form1.chemistryName,
+            englishName: this.form1.englishName,
+            shortName: this.form1.shortName,
+            materialType: this.form1.materialType,
+            physicochemicalProperties: this.form1.physicochemicalProperties,
+            healthHazards: this.form1.healthHazards,
+            dangerousCharacteristic: this.form1.dangerousCharacteristic,
+            casCode: this.form1.casCode,
+            isDanger: this.form1.isDanger
           }
-        })
-      },
+          if (formData.id) {
+            dsiMaterialBaseinfoApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData1()
+              this.addVisible = false
+            })
+          } else {
+            dsiMaterialBaseinfoApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData1()
+              this.addVisible = false
+            })
+          }
+        } else {
+          return false
+        }
+      })
+    },
     fetchData1() {
       this.listLoading = true
       dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
         this.materialList = response.data.records
-        this.$refs.materialTable.clearSelection();
+        this.$refs.materialTable.clearSelection()
         this.listLoading = false
         this.total = response.data.total
       })
     },
-    saveProduct(){
-      if(this.list.length>0){
+    saveProduct() {
+      if (this.list.length > 0) {
         let ids = this.selection.map(item => {
           return item.id
         })
         if (ids === null || ids.length === 0) {
           this.$alert('请先勾选产品信息！', '提示', {
-            confirmButtonText: '确定',
-          });
+            confirmButtonText: '确定'
+          })
           return false
         }
-        for(let i=0;i<ids.length;i++) {
+        for (let i = 0; i < ids.length; i++) {
           const formMaterial = {
             id: '',
             productId: this.form.id,
             materialId: ids[i]
           }
-          dsiProductFromMaterialApi.add(formMaterial);
+          dsiProductFromMaterialApi.add(formMaterial)
         }
         this.$message({
           message: this.$t('common.optionSuccess'),
           type: 'success'
         })
-        this.fetchData();
-        ids=[];
-        this.materialVisible=false;
-      }else {
-        this.closeFatherDialog();
+        this.fetchData()
+        ids = []
+        this.materialVisible = false
+      } else {
+        this.closeFatherDialog()
       }
-      },
-  toggleSelection(row) {
+    },
+    toggleSelection(row) {
       this.$refs.productTable.toggleRowSelection(row)
     },
     closeDialog() {
-      this.formVisible = false;
-      this.selection = [];
-      this.fetchData();
-      this.$refs.productTable.clearSelection();
+      this.formVisible = false
+      this.selection = []
+      this.fetchData()
+      this.$refs.productTable.clearSelection()
     },
-    closeFatherDialog(){
-      this.$emit("closeDialog");
+    closeFatherDialog() {
+      this.$emit('closeDialog')
     },
     toggleSelection1(row) {
       this.$refs.materialTable.toggleRowSelection(row)
-    },
+    }
   }
 }

@@ -1,6 +1,6 @@
 import dsiEnterpriseBaseinfoApi from '@/api/dsi/dsiEnterpriseBaseinfo'
 import permission from '@/directive/permission/index.js'
-import {remove, getList, save, update, getDicts} from '@/api/system/dict'
+import { remove, getList, save, update, getDicts } from '@/api/system/dict'
 import district from '@/components/District/index'
 import productInfo from '@/views/dsi/dsiProductInfo/index.vue'
 import productInfo1 from '@/views/dsi/enterpriseBaseinfo/productInfo/index.vue'
@@ -8,20 +8,20 @@ import unitInfo from '@/views/dsi/enterpriseBaseinfo/unitInfo/unitInfo.vue'
 import unitInfo1 from '@/views/dsi/enterpriseBaseinfo/unitInfo1/unitInfo.vue'
 
 export default {
-  directives: {permission},
-  components:{
+  directives: { permission },
+  components: {
     productInfo,
     productInfo1,
     district,
     unitInfo,
-    unitInfo1,
+    unitInfo1
   },
   data() {
     return {
-      enterpriseId:'',
-      activeName:'first',
+      enterpriseId: '',
+      activeName: 'first',
       formVisible: false,
-      enterpriseVisible:false,
+      enterpriseVisible: false,
       formTitle: '添加数据资源一体化子系统--企业信息',
       isAdd: true,
       form: {
@@ -62,22 +62,22 @@ export default {
         legalPerson: undefined,
         riskLevel: undefined
       },
-      //经营状态下拉数据
+      // 经营状态下拉数据
       management_status: [],
-      //风险等级下拉数据
+      // 风险等级下拉数据
       risk_level: [],
-      //行政区划下拉数据
+      // 行政区划下拉数据
       district: [],
-      //所属行业下拉数据
-      industry_list:[],
+      // 所属行业下拉数据
+      industry_list: [],
       total: 0,
       list: [],
       listLoading: true,
       selRow: {},
-      selection: [],
+      selection: []
     }
   },
-  enterpriseTable:null,
+  enterpriseTable: null,
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -90,7 +90,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -108,17 +108,15 @@ export default {
       this.fetchData()
     },
     fetchData() {
-
-
       this.listLoading = true
       dsiEnterpriseBaseinfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      });
+      })
       getDicts('经营状态').then(response => {
         this.management_status = response.data
-      });
+      })
       getDicts('风险等级').then(response => {
         this.risk_level = response.data
       })
@@ -126,7 +124,6 @@ export default {
       getDicts('所属行业').then(response => {
         this.industry_list = response.data
       })
-
     },
     search() {
       this.fetchData()
@@ -196,14 +193,15 @@ export default {
     },
     add() {
       this.resetForm()
-      this.formTitle = '添加企业信息';
-      this.formVisible = true;
-      this.activeName = "first";
-      this.isAdd = true;
+      this.formTitle = '添加企业信息'
+      this.formVisible = true
+      this.activeName = 'first'
+      console.log(this.activeName)
+      this.isAdd = true
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
     save() {
       this.$refs['form'].validate((valid) => {
@@ -239,25 +237,23 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
-              this.activeName = "second";
+              this.activeName = 'second'
               // this.fetchData()
             })
           } else {
             dsiEnterpriseBaseinfoApi.add(formData).then(response => {
-              this.enterpriseId = response.data.id;
-              this.enterpriseName = response.data.enterpriseName;
+              this.enterpriseId = response.data.id
+              this.enterpriseName = response.data.enterpriseName
               if (this.enterpriseId) {
-                this.activeName = "second";
+                this.activeName = 'second'
               } else {
-                this.activeName = 'first';
+                this.activeName = 'first'
               }
             })
           }
-
         } else {
           return false
         }
-
       })
     },
 
@@ -278,10 +274,10 @@ export default {
     edit() {
       if (this.checkSel()) {
         this.isAdd = false
-        this.form = JSON.parse(JSON.stringify(this.selRow));
-        this.enterpriseId = this.form.id;
+        this.form = JSON.parse(JSON.stringify(this.selRow))
+        this.enterpriseId = this.form.id
         this.formTitle = '编辑企业信息'
-        this.activeName = "first"
+        this.activeName = 'first'
         this.formVisible = true
       }
     },
@@ -302,7 +298,7 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.$refs.enterpriseTable.clearSelection();
+            this.$refs.enterpriseTable.clearSelection()
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
@@ -338,7 +334,7 @@ export default {
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
-          this.$refs.enterpriseTable.clearSelection();
+          this.$refs.enterpriseTable.clearSelection()
           this.fetchData()
         }).catch(err => {
           this.$notify.error({
@@ -354,39 +350,33 @@ export default {
       this.isAdd = false
       this.form = row
       this.formTitle = '查看企业信息'
-      this.enterpriseId = this.form.id;
+      this.enterpriseId = this.form.id
+      this.activeName = 'first'
       this.enterpriseVisible = true
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
     },
     handleClick(activeName, oldActiveName) {
-      let self = this;
-      if (!this.enterpriseId) {
-        this.$alert('请先提交企业信息', '提示', {
-          confirmButtonText: '确定',
-          /*callback: action => {
-            this.$message({
-              type: 'info',
-              message: `action: ${ action }`
-            });
-          }*/
-        });
-
-
-        return false;
+      if (activeName !== 'first') {
+        if (!this.enterpriseId) {
+          this.$alert('请先提交企业信息', '提示', {
+            confirmButtonText: '确定'
+          })
+          return false
+        }
       }
       return true
     }, toggleSelection(row) {
       this.$refs.enterpriseTable.toggleRowSelection(row)
     },
     closeDialog() {
-      this.formVisible = false;
-      this.selection = [];
-      this.reset();
-      this.fetchData();
-      this.enterpriseId=''
-      this.$refs.enterpriseTable.clearSelection();
-    },
+      this.selection = []
+      this.reset()
+      this.fetchData()
+      this.enterpriseId = ''
+      this.formVisible = false
+      this.$refs.enterpriseTable.clearSelection()
+    }
   }
-  }
+}

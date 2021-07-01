@@ -9,6 +9,7 @@
         element-loading-text="Loading"
         border
         :row-key="row=>row.id"
+        height="331px"
         @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange"
         @row-click="toggleSelection"

@@ -35,13 +35,9 @@
         @selection-change="handleSelectionChange"
         @row-click="toggleSelection"
         ref="productTable"
-        max-height="331px"
+        height="331px"
       >
-        <el-table-column
-          type="selection"
-          width="55"
-          :reserve-selection="true"
-        />
+        <el-table-column type="index" width="55" label="序号" align="center"/>
         <el-table-column label="产品名称" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="updateText" @click="viewProductDetail(scope.row)">{{ scope.row.productName }}</span>
@@ -127,11 +123,11 @@
         @prev-click="fetchPrev"
         @next-click="fetchNext"
       />
-      <div class="align-center">
+     <!-- <div class="align-center">
         <el-button type="primary" class="set-common-btn blue-button" @click="saveProduct">{{ $t('button.submit') }}
         </el-button>
         <el-button class="set-common-btn blank-blue-button" @click="closeFatherDialog">关闭</el-button>
-      </div>
+      </div>-->
     </div>
     <!-- 添加产品信息弹框 -->
     <el-dialog
@@ -298,11 +294,6 @@
             width="55"
             :reserve-selection="true"
           />
-          <!-- <el-table-column
-             type="index"
-             width="50"
-             label="序号"
-           />-->
           <el-table-column label="原料编码" show-overflow-tooltip>
             <template slot-scope="scope">
               {{ scope.row.materialCode }}
@@ -359,7 +350,7 @@
           background
           class="outer-pagenation"
           layout="total, sizes, prev, pager, next, jumper"
-          :page-sizes="[5,10, 20, 50, 100,500]"
+          :page-sizes="[5,10]"
           :page-size="listQuery.limit"
           :total="total"
           @size-change="changeSize"
@@ -629,13 +620,13 @@
 
 <script src="./dsiProductInfo.js"></script>
 <style lang="scss" scoped>
->>> .added-material{
-  .el-dialog__body{
-    .table-list{
-      margin:20px auto;
+  > > > .added-material {
+    .el-dialog__body {
+      .table-list {
+        margin: 20px auto;
+      }
     }
   }
-}
 </style>
 
 
