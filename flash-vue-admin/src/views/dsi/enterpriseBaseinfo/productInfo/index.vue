@@ -234,9 +234,9 @@
           @next-click="fetchNext1">
         </el-pagination>
       </div>
-      <div class="align-center">
+      <!--<div class="align-center">
         <el-button type="danger" class="set-common-btn blue-button" @click.native="productDetailVisible = false">返回</el-button>
-      </div>
+      </div>-->
     </el-dialog>
   </div>
 </template>
