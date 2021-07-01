@@ -147,7 +147,7 @@ export default {
       this.listQuery.lawNature = ''
       this.listQuery.isValid = ''
       this.listQuery.publicationDate = []
-      this.listQuery.star = ''
+      this.listQuery.startTime = ''
       this.listQuery.endTime = ''
 
       this.fetchData()

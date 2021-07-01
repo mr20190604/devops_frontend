@@ -56,4 +56,4 @@
 </template>
 
 <script src="./login.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped src="./login.scss"></style>
+<!--<style rel="stylesheet/scss" lang="scss" scoped src="./login.scss"></style>-->
