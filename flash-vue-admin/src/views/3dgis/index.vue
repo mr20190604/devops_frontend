@@ -868,6 +868,7 @@ export default {
     margin-top: 10px;
   }
 
+
   .bigToolbar > div {
     display: inline-block;
     width: 80px;
