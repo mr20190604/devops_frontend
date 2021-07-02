@@ -51,6 +51,33 @@ export default {
         riskLevelName: '',
         districtName: ''
       },
+      form1: {
+        code: '',
+        enterpriseName: '',
+        enterpriseAddress: '',
+        riskLevel: '',
+        legalPerson: '',
+        registerCode: '',
+        envSafeLeader: '',
+        emergencyWorker: '',
+        emergencyTeam: '',
+        parkId: '',
+        industryId: '',
+        districtCode: '',
+        managementSituation: [],
+        employmentNo: '',
+        isDangerSource: '',
+        foreignUnit: '',
+        enterpriseOtel: '',
+        enterpriseFax: '',
+        enterpriseEmergencyTel: '',
+        enterpriseEmail: '',
+        isDel: '',
+        id: '',
+        managementSituationName: '',
+        riskLevelName: '',
+        districtName: ''
+      },
       listQuery: {
         page: 1,
         limit: 10,
@@ -348,13 +375,13 @@ export default {
     viewMaterial(row) {
       // if (this.checkSel()) {
       this.isAdd = false
-      this.form = row
+      this.form1 = row
       this.formTitle = '查看企业信息'
-      this.enterpriseId = this.form.id
+      this.enterpriseId = this.form1.id
       this.activeName = 'first'
       this.enterpriseVisible = true
-      if (this.$refs['form'] !== undefined) {
-        this.$refs['form'].resetFields()
+      if (this.$refs['form1'] !== undefined) {
+        this.$refs['form1'].resetFields()
       }
     },
     handleClick(activeName, oldActiveName) {

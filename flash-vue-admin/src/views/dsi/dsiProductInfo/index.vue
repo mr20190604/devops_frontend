@@ -76,7 +76,7 @@
               size="mini"
               icon="el-icon-plus"
               @click="selectMaterial(scope.row)"
-            >添加原料
+            >选择原料
             </el-button>
             <!-- <el-button
               class="font14"

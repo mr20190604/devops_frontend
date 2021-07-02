@@ -315,7 +315,7 @@
         <el-tabs v-model="activeName" type="card" :before-leave="handleClick">
           <el-tab-pane label="企业信息" name="first" style="visibility: visible" >
             <div class="block">
-              <el-form ref="form" :model="form" :rules="rules" label-width="98px" class="align-right has-Label-Width">
+              <el-form ref="form1" :model="form1" :rules="rules" label-width="98px" class="align-right has-Label-Width">
                 <el-row>
 
                   <el-col :span="12">
