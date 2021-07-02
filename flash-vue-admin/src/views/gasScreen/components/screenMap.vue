@@ -138,11 +138,16 @@ export default {
   watch: {
     alarmId: function(value) {
       if (value) {
-        this.handleMarkerClick(this.data[value - 1])
+        const marker = this.alarmList.find(item => item.alarmId === value)
+        marker && this.handleMarkerClick(marker)
       }
     },
     list(list) {
       this.alarmList = list
+      if (list && list.length > 0) {
+        this.center.lng = list[0].lng
+        this.center.lat = list[0].lat
+      }
       this.alarmList && this.resetMarkers()
     }
   },
@@ -153,6 +158,10 @@ export default {
       this.alarm[2].count = res.data.three
     })
     this.alarmList = this.list
+    if (this.list && this.list.length > 0) {
+      this.center.lng = this.list[0].lng
+      this.center.lat = this.list[0].lat
+    }
     this.alarmList && this.resetMarkers()
   },
   methods: {

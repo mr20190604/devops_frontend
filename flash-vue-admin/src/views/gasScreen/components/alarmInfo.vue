@@ -25,8 +25,6 @@
           v-for="(item,index) in alarmList"
           :key="index"
           style="cursor: pointer"
-          @mouseover="handleMouseOver"
-          @mouseout="handleMouseOut"
           @click="handleEventClick(item.alarmId)"
         >
           <td
@@ -69,9 +67,7 @@ export default {
   },
   data: function() {
     return {
-      alarmList: [],
-      marginTop: 0,
-      interval: undefined
+      alarmList: []
     }
   },
   watch: {
@@ -81,23 +77,8 @@ export default {
   },
   created() {
     this.alarmList = this.list
-    this.handleMouseOut()
   },
   methods: {
-    showWarningData() {
-      this.marginTop -= 1
-      if (this.marginTop < -18) {
-        this.alarmList.push(this.alarmList[0])
-        this.alarmList.shift()
-        this.marginTop = 0
-      }
-    },
-    handleMouseOver() {
-      clearInterval(this.interval)
-    },
-    handleMouseOut() {
-      this.interval = setInterval(this.showWarningData, 100)
-    },
     handleEventClick(alarmId) {
       this.$emit('showWindowInfo', alarmId)
     }

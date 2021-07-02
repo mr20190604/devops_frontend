@@ -124,7 +124,7 @@ export default {
           that.monthInfo.xData = []
           that.monthInfo.seriesData = []
           res.data.forEach(item => {
-            that.monthInfo.xData.push(item.time)
+            that.monthInfo.xData.push(this.dateFormatter('Y-m-d', new Date(item.time)))
             that.monthInfo.seriesData.push(item.total)
           })
           that.options.xAxis.data = this.monthInfo.xData
@@ -135,7 +135,9 @@ export default {
           that.yearInfo.xData = []
           that.yearInfo.seriesData = []
           res.data.forEach(item => {
-            that.yearInfo.xData.push(item.time)
+            const spliter = item.time.split(' ')[0].split('-')
+            spliter.pop()
+            that.yearInfo.xData.push(spliter.join('-'))
             that.yearInfo.seriesData.push(item.total)
           })
           this.options.xAxis.data = this.yearInfo.xData

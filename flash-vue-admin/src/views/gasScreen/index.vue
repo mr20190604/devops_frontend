@@ -100,6 +100,7 @@ export default {
   },
   created() {
     queryAlarmList().then(res => {
+      console.log(res.data)
       const list = res.data.map(item => {
         return {
           lng: item.longitude,
