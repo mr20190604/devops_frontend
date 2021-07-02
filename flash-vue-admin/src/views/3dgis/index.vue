@@ -850,10 +850,10 @@ export default {
   }
 
   .bigToolbar {
-    width: 500px;
+    width: 250px;
     position: absolute;
     bottom: 0;
-    left: calc(50% - 250px);
+    left: calc(50% - 125px);
     text-align: center;
     color: white;
     font-weight: bold;
