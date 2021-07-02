@@ -58,7 +58,7 @@
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
-      class="common-dialog-style height700"
+      class="common-dialog-style height400"
       width="960px">
       <div class="block">
         <el-form ref="form" :model="form" :rules="rules" label-width="104px" class="align-right has-Label-Width">
@@ -105,7 +105,7 @@
             </el-col>
           </el-row>
           <el-row style="border:1px solid #f3f5fb;padding-top:15px">
-            <el-scrollbar style="height:310px">
+            <el-scrollbar>
               <el-form-item
                 class="risk-material-item"
                 v-for="(rec, index) in form.details"

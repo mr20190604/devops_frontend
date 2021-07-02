@@ -72,11 +72,11 @@
     </div>
     <!-- 添加风险单元弹框 -->
     <el-dialog
-      class="common-dialog-style height700"
+      class="common-dialog-style height500"
       :title="formTitle"
       :visible.sync="formVisible"
       :modal="false"
-      width="960px" height="642px">
+      width="960px">
       <div class="block">
         <el-form ref="form" :model="form" :rules="rules" label-width="104px" class="align-right has-Label-Width">
           <el-row>
@@ -177,11 +177,11 @@
       </div>
     </el-dialog>
     <el-dialog
-      class="common-dialog-style height700"
+      class="common-dialog-style height500"
       :title="formTitle"
       :visible.sync="unitVisible"
       :modal="false"
-      width="960px" height="642px">
+      width="960px" >
       <div class="block">
         <el-form ref="form" :model="form" :rules="rules" label-width="104px" class="align-right has-Label-Width">
           <el-row>
