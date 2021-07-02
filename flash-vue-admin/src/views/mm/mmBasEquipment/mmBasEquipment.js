@@ -19,7 +19,7 @@ import 'echarts/lib/component/visualMap'
 import 'echarts/lib/component/dataset'
 import 'echarts/map/js/world'
 
-import {getInfo} from '@/api/user.js'
+import { getInfo } from '@/api/user.js'
 
 export default {
   directives: { permission },
@@ -34,75 +34,75 @@ export default {
       formTitle: '添加设备基本信息',
       isAdd: true,
       form: {
-        equipmentName:'',
-        equipmentCode:'',
-        pointLocation:'',
-        parentId:'',
-        equipmentType:'',
-        districtCode:'',
-        equipmentStatus1:'',
-        equipmentRunStatus:'',
-        manageEnterprise:'',
-        baseinfo:'',
-        specifications:'',
-        accessDevice:'',
-        channel:'',
-        manufacturer:'',
-        modelNumber:'',
-        accuracy:'',
-        sensitivity:'',
-        powerModel:'',
-        supplyVoltage:'',
-        transmissionType:'',
-        transmissionTransmission:'',
-        transmissionFrequency:'',
-        underVoltageProtect:'',
-        overhaulStrategy:'',
-        overhaulCycle:'',
-        isLeaf:'',
-        sysFlag:'',
-        notes:'',
-        examinePerson:'',
-        examineOpinion:'',
-        examineDate:'',
-        registDate:'',
-        isEncrypt:'',
-        productDate:'',
-        isDel:'',
-        monitorStation:'',
-        isDisplay:'',
-        rfid:'',
-        qrCode:'',
-        terminalId:'',
-        extenParam:'',
-        commands:'',
-        installBatch:'',
+        equipmentName: '',
+        equipmentCode: '',
+        pointLocation: '',
+        parentId: '',
+        equipmentType: '',
+        districtCode: '',
+        equipmentStatus1: '',
+        equipmentRunStatus: '',
+        manageEnterprise: '',
+        baseinfo: '',
+        specifications: '',
+        accessDevice: '',
+        channel: '',
+        manufacturer: '',
+        modelNumber: '',
+        accuracy: '',
+        sensitivity: '',
+        powerModel: '',
+        supplyVoltage: '',
+        transmissionType: '',
+        transmissionTransmission: '',
+        transmissionFrequency: '',
+        underVoltageProtect: '',
+        overhaulStrategy: '',
+        overhaulCycle: '',
+        isLeaf: '',
+        sysFlag: '',
+        notes: '',
+        examinePerson: '',
+        examineOpinion: '',
+        examineDate: '',
+        registDate: '',
+        isEncrypt: '',
+        productDate: '',
+        isDel: '',
+        monitorStation: '',
+        isDisplay: '',
+        rfid: '',
+        qrCode: '',
+        terminalId: '',
+        extenParam: '',
+        commands: '',
+        installBatch: '',
         id: '',
-        equipmentTypeName:'',
-        equipmentStatus1Name:'',
-        realValue:'',
-        reportTime:'',
-        dataStatus:'',
-        equipmentInstallInfo:''
+        equipmentTypeName: '',
+        equipmentStatus1Name: '',
+        realValue: '',
+        reportTime: '',
+        dataStatus: '',
+        equipmentInstallInfo: ''
       },
       listQuery: {
         page: 1,
         limit: 20,
         id: undefined,
-        equipmentCode:'',
-        equipmentType:'',
-        equipmentStatus1:'',
-        startTime:'',
-        endTime:'',
-        personId:'',
+        equipmentCode: '',
+        equipmentType: '',
+        equipmentStatus1: '',
+        startTime: '',
+        endTime: '',
+        personId: ''
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selRow: {},
-      yData:[4,3,5,3,6,6.5,7,6,8.1,5,7,7.3,7,6,7,5,6,6.7],
-      xData:[],
-      lineData:{
+      yData: [4, 3, 5, 3, 6, 6.5, 7, 6, 8.1, 5, 7, 7.3, 7, 6, 7, 5, 6, 6.7],
+      xData: [],
+      lineData: {
         // title: {
         //   // text: '设备监测曲线',
         //   left: '1%'
@@ -118,36 +118,36 @@ export default {
         xAxis: {
           type: 'category',
           // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-          data:[]
+          data: []
         },
         yAxis: {
           type: 'value',
-          min:1,
-          max:10
+          min: 1,
+          max: 10
         },
         visualMap: {
           // top: 100,
           // right:1,
-          x:'center',
-          y:'top',
-          orient:"horizontal",
+          x: 'center',
+          y: 'top',
+          orient: 'horizontal',
           pieces: [{
-            label:'正常',
+            label: '正常',
             gt: 0,
             lte: 8,
             color: '#1939ce'
           }, {
-            label:'三级报警',
+            label: '三级报警',
             gt: 8,
             lte: 9,
             color: '#FBDB0F'
           }, {
-            label:'二级报警',
+            label: '二级报警',
             gt: 9,
             lte: 10,
             color: '#FC7D02'
-          },{
-            label:'一级报警',
+          }, {
+            label: '一级报警',
             gt: 10,
             color: '#fc1f0d'
           }],
@@ -167,7 +167,7 @@ export default {
         },
         series: [{
           // data: [150, 230, 224, 218, 135, 147, 260],
-          data:[],
+          data: [],
           type: 'line',
           markLine: {
             silent: true,
@@ -185,28 +185,28 @@ export default {
 
         }]
       },
-      timer:null,
-      //阈值查询
-      thresholdTitle:'阈值查询',
-      thresholdVisible:false,
-      thresholdForm:{
-        mmThresholdManagers:null,
-        equipmentId:'',
-        firstUpperLimit:'',
-        firstLowerLimit:'',
-        secondUpperLimit:'',
-        secondLowerLimit:'',
-        thirdUpperLimit:'',
-        thirdLowerLimit:'',
-        equipmentType:'',
-        dictId:'',
-        auditOpinion:'',
-        auditPerson:'',
-        isDel:''
+      timer: null,
+      // 阈值查询
+      thresholdTitle: '阈值查询',
+      thresholdVisible: false,
+      thresholdForm: {
+        mmThresholdManagers: null,
+        equipmentId: '',
+        firstUpperLimit: '',
+        firstLowerLimit: '',
+        secondUpperLimit: '',
+        secondLowerLimit: '',
+        thirdUpperLimit: '',
+        thirdLowerLimit: '',
+        equipmentType: '',
+        dictId: '',
+        auditOpinion: '',
+        auditPerson: '',
+        isDel: ''
       },
-      //设备编码集合
-      equipCodeList:[],
-      equipCode:''
+      // 设备编码集合
+      equipCodeList: [],
+      equipCode: ''
     }
   },
   filters: {
@@ -221,7 +221,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -236,14 +236,14 @@ export default {
   },
   methods: {
     init() {
-      getInfo().then(response =>{
+      getInfo().then(response => {
         this.listQuery.personId = response.data.userId
         this.fetchData()
       })
     },
     fetchData() {
       this.listLoading = true
-        mmBasEquipmentApi.getList(this.listQuery).then(response => {
+      mmBasEquipmentApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -256,7 +256,7 @@ export default {
       this.listQuery.id = ''
       this.listQuery.equipmentCode = ''
       this.listQuery.equipmentType = ''
-      this.listQuery.equipmentStatus1= ''
+      this.listQuery.equipmentStatus1 = ''
       this.listQuery.startTime = ''
       this.listQuery.endTime = ''
       this.fetchData()
@@ -289,49 +289,49 @@ export default {
     },
     resetForm() {
       this.form = {
-        equipmentName:'',
-        equipmentCode:'',
-        pointLocation:'',
-        parentId:'',
-        equipmentType:'',
-        districtCode:'',
-        equipmentStatus1:'',
-        equipmentRunStatus:'',
-        manageEnterprise:'',
-        baseinfo:'',
-        specifications:'',
-        accessDevice:'',
-        channel:'',
-        manufacturer:'',
-        modelNumber:'',
-        accuracy:'',
-        sensitivity:'',
-        powerModel:'',
-        supplyVoltage:'',
-        transmissionType:'',
-        transmissionTransmission:'',
-        transmissionFrequency:'',
-        underVoltageProtect:'',
-        overhaulStrategy:'',
-        overhaulCycle:'',
-        isLeaf:'',
-        sysFlag:'',
-        notes:'',
-        examinePerson:'',
-        examineOpinion:'',
-        examineDate:'',
-        registDate:'',
-        isEncrypt:'',
-        productDate:'',
-        isDel:'',
-        monitorStation:'',
-        isDisplay:'',
-        rfid:'',
-        qrCode:'',
-        terminalId:'',
-        extenParam:'',
-        commands:'',
-        installBatch:'',
+        equipmentName: '',
+        equipmentCode: '',
+        pointLocation: '',
+        parentId: '',
+        equipmentType: '',
+        districtCode: '',
+        equipmentStatus1: '',
+        equipmentRunStatus: '',
+        manageEnterprise: '',
+        baseinfo: '',
+        specifications: '',
+        accessDevice: '',
+        channel: '',
+        manufacturer: '',
+        modelNumber: '',
+        accuracy: '',
+        sensitivity: '',
+        powerModel: '',
+        supplyVoltage: '',
+        transmissionType: '',
+        transmissionTransmission: '',
+        transmissionFrequency: '',
+        underVoltageProtect: '',
+        overhaulStrategy: '',
+        overhaulCycle: '',
+        isLeaf: '',
+        sysFlag: '',
+        notes: '',
+        examinePerson: '',
+        examineOpinion: '',
+        examineDate: '',
+        registDate: '',
+        isEncrypt: '',
+        productDate: '',
+        isDel: '',
+        monitorStation: '',
+        isDisplay: '',
+        rfid: '',
+        qrCode: '',
+        terminalId: '',
+        extenParam: '',
+        commands: '',
+        installBatch: '',
         id: ''
       }
     },
@@ -340,79 +340,79 @@ export default {
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                equipmentName:this.form.equipmentName,
-                equipmentCode:this.form.equipmentCode,
-                pointLocation:this.form.pointLocation,
-                parentId:this.form.parentId,
-                equipmentType:this.form.equipmentType,
-                districtCode:this.form.districtCode,
-                equipmentStatus1:this.form.equipmentStatus1,
-                equipmentRunStatus:this.form.equipmentRunStatus,
-                manageEnterprise:this.form.manageEnterprise,
-                baseinfo:this.form.baseinfo,
-                specifications:this.form.specifications,
-                accessDevice:this.form.accessDevice,
-                channel:this.form.channel,
-                manufacturer:this.form.manufacturer,
-                modelNumber:this.form.modelNumber,
-                accuracy:this.form.accuracy,
-                sensitivity:this.form.sensitivity,
-                powerModel:this.form.powerModel,
-                supplyVoltage:this.form.supplyVoltage,
-                transmissionType:this.form.transmissionType,
-                transmissionTransmission:this.form.transmissionTransmission,
-                transmissionFrequency:this.form.transmissionFrequency,
-                underVoltageProtect:this.form.underVoltageProtect,
-                overhaulStrategy:this.form.overhaulStrategy,
-                overhaulCycle:this.form.overhaulCycle,
-                isLeaf:this.form.isLeaf,
-                sysFlag:this.form.sysFlag,
-                notes:this.form.notes,
-                examinePerson:this.form.examinePerson,
-                examineOpinion:this.form.examineOpinion,
-                examineDate:this.form.examineDate,
-                registDate:this.form.registDate,
-                isEncrypt:this.form.isEncrypt,
-                productDate:this.form.productDate,
-                isDel:this.form.isDel,
-                monitorStation:this.form.monitorStation,
-                isDisplay:this.form.isDisplay,
-                rfid:this.form.rfid,
-                qrCode:this.form.qrCode,
-                terminalId:this.form.terminalId,
-                extenParam:this.form.extenParam,
-                commands:this.form.commands,
-                installBatch:this.form.installBatch,
-            }
-            if(formData.id){
-                mmBasEquipmentApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                mmBasEquipmentApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            equipmentName: this.form.equipmentName,
+            equipmentCode: this.form.equipmentCode,
+            pointLocation: this.form.pointLocation,
+            parentId: this.form.parentId,
+            equipmentType: this.form.equipmentType,
+            districtCode: this.form.districtCode,
+            equipmentStatus1: this.form.equipmentStatus1,
+            equipmentRunStatus: this.form.equipmentRunStatus,
+            manageEnterprise: this.form.manageEnterprise,
+            baseinfo: this.form.baseinfo,
+            specifications: this.form.specifications,
+            accessDevice: this.form.accessDevice,
+            channel: this.form.channel,
+            manufacturer: this.form.manufacturer,
+            modelNumber: this.form.modelNumber,
+            accuracy: this.form.accuracy,
+            sensitivity: this.form.sensitivity,
+            powerModel: this.form.powerModel,
+            supplyVoltage: this.form.supplyVoltage,
+            transmissionType: this.form.transmissionType,
+            transmissionTransmission: this.form.transmissionTransmission,
+            transmissionFrequency: this.form.transmissionFrequency,
+            underVoltageProtect: this.form.underVoltageProtect,
+            overhaulStrategy: this.form.overhaulStrategy,
+            overhaulCycle: this.form.overhaulCycle,
+            isLeaf: this.form.isLeaf,
+            sysFlag: this.form.sysFlag,
+            notes: this.form.notes,
+            examinePerson: this.form.examinePerson,
+            examineOpinion: this.form.examineOpinion,
+            examineDate: this.form.examineDate,
+            registDate: this.form.registDate,
+            isEncrypt: this.form.isEncrypt,
+            productDate: this.form.productDate,
+            isDel: this.form.isDel,
+            monitorStation: this.form.monitorStation,
+            isDisplay: this.form.isDisplay,
+            rfid: this.form.rfid,
+            qrCode: this.form.qrCode,
+            terminalId: this.form.terminalId,
+            extenParam: this.form.extenParam,
+            commands: this.form.commands,
+            installBatch: this.form.installBatch
+          }
+          if (formData.id) {
+            mmBasEquipmentApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            mmBasEquipmentApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -428,7 +428,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -439,13 +439,13 @@ export default {
         this.formTitle = '编辑设备基本信息'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -457,13 +457,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            mmBasEquipmentApi.remove(id).then(response => {
+          mmBasEquipmentApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -472,50 +472,49 @@ export default {
         }).catch(() => {
         })
       }
-    },viewCurve(row) {
+    }, viewCurve(row) {
       this.formTitle = '监测曲线'
       this.formVisible = true
 
-      let a = this.getHour()+':'+this.getMinitu()
-      let second = this.getSecond()
+      const a = this.getHour() + ':' + this.getMinitu()
+      const second = this.getSecond()
 
       for (let i = 0; i < this.yData.length; i++) {
-        let temp = second-(this.yData.length -i);
-        this.xData.push(a+':'+temp)
+        const temp = second - (this.yData.length - i)
+        this.xData.push(a + ':' + temp)
       }
       this.lineData.series[0].data = this.yData
       this.lineData.xAxis.data = this.xData
-      this.timer = setInterval(this.pushData,1000*3)
-
-    },getHour(){
-      let time = new Date()
+      this.timer = setInterval(this.pushData, 1000 * 3)
+    }, getHour() {
+      const time = new Date()
       return time.getHours()
     },
-    getMinitu(){
-      let time = new Date()
+    getMinitu() {
+      const time = new Date()
       return time.getMinutes()
-      },
-    getSecond(){
-      let time = new Date()
+    },
+    getSecond() {
+      const time = new Date()
       return time.getSeconds()
-      }, getDateTime() {
-      let time = new Date()
-      let hours = time.getHours()
-      let minutes = time.getMinutes()
-      let second = time.getSeconds()
-      return hours+':'+minutes+':'+second
-    },pushData() {
-      let timeStr = this.getDateTime()
-      let value = Math.random()*4+4
+    }, getDateTime() {
+      const time = new Date()
+      const hours = time.getHours()
+      const minutes = time.getMinutes()
+      const second = time.getSeconds()
+      return hours + ':' + minutes + ':' + second
+    }, pushData() {
+      const timeStr = this.getDateTime()
+      const value = Math.random() * 4 + 4
 
       this.lineData.xAxis.data.push(timeStr)
       this.lineData.series[0].data.push(value)
       this.$refs.myEchart.resize()
-    },closeTimer() {
+    }, closeTimer() {
       this.timer = null
-      let arr = []
-      let tem = []
-      for (let i = 0; i < this.yData.length ; i++) {
+      const arr = []
+      const tem = []
+      for (let i = 0; i < this.yData.length; i++) {
         if (i <= 17) {
           arr.push(this.yData[i])
         }
@@ -524,21 +523,21 @@ export default {
       this.yData = arr
       this.lineData.xAxis.data = []
       this.lineData.series[0].data = []
-    },toggleSelection(row) {
+    }, toggleSelection(row) {
       this.$refs.equipmentTable.toggleRowSelection(row)
-    },thresholdView(record) {
+    }, thresholdView(record) {
       this.thresholdVisible = true
       this.equipCode = record.equipmentCode
-      thresholdManager.queryByEquipmentId(record.id).then(response =>{
+      thresholdManager.queryByEquipmentId(record.id).then(response => {
         if (response.data.length > 0) {
           this.thresholdForm = response.data[0]
         } else {
           this.resetThresholdForm()
         }
       })
-    },cancleThreshold() {
+    }, cancleThreshold() {
       this.thresholdVisible = false
-    },resetThresholdForm() {
+    }, resetThresholdForm() {
       this.thresholdForm.equipmentId = ''
       this.thresholdForm.firstUpperLimit = ''
       this.thresholdForm.firstLowerLimit = ''

@@ -53,7 +53,6 @@ export default {
     fetchData() {
       this.listLoading = true
       getList(this.listQuery).then(response => {
-        console.log(response.data);
         this.list = response.data
         this.listLoading = false
       }).catch(() => {
@@ -138,7 +137,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -153,11 +152,11 @@ export default {
           details.push({ 'key': arr[0], 'value': arr[1] })
         })
         this.form = { name: this.selRow.name, id: this.selRow.id, details: details, detail: this.selRow.detail }
-        console.log(this.form);
+        console.log(this.form)
         this.formVisible = true
       }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },

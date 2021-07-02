@@ -9,16 +9,17 @@ export default {
       formVisible: false,
       formTitle: '添加消息模板',
       isAdd: true,
+      rules: {},
       form: {
-        code:'',
-        title:'',
-        content:'',
-        type:'',
-        idMessageSender:'',
-        remoteTplCode:'',
+        code: '',
+        title: '',
+        content: '',
+        type: '',
+        idMessageSender: '',
+        remoteTplCode: '',
         id: ''
       },
-      sendList:[],
+      sendList: [],
       listQuery: {
         page: 1,
         limit: 10,
@@ -99,12 +100,12 @@ export default {
     },
     resetForm() {
       this.form = {
-        code:'',
-        title:'',
-        content:'',
-        type:0,
-        idMessageSender:'',
-        remoteTplCode:'',
+        code: '',
+        title: '',
+        content: '',
+        type: 0,
+        idMessageSender: '',
+        remoteTplCode: '',
         id: ''
       }
     },
@@ -118,12 +119,12 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           save({
-            code:this.form.code,
-            title:this.form.title,
-            content:this.form.content,
-            type:this.form.type,
-            remoteTplCode:this.form.remoteTplCode,
-            idMessageSender:this.form.idMessageSender,
+            code: this.form.code,
+            title: this.form.title,
+            content: this.form.content,
+            type: this.form.type,
+            remoteTplCode: this.form.remoteTplCode,
+            idMessageSender: this.form.idMessageSender,
             id: this.form.id
           }).then(response => {
             this.$message({
@@ -148,8 +149,8 @@ export default {
       })
       return false
     },
-    editItem(record){
-      this.selRow= Object.assign({},record);
+    editItem(record) {
+      this.selRow = Object.assign({}, record)
       this.edit()
     },
     edit() {
@@ -160,7 +161,7 @@ export default {
         this.formVisible = true
       }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },

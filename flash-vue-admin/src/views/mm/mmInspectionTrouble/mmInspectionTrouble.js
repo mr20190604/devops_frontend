@@ -1,80 +1,80 @@
 import mmInspectionTroubleApi from '@/api/mm/mmInspectionTrouble'
 import permission from '@/directive/permission/index.js'
 import TroubleProcess from '@/views/mm/mmInspectionTrouble/troubleProcess/troubleProcess.vue'
-import {getInfo} from '@/api/user.js'
+import { getInfo } from '@/api/user.js'
 
 export default {
   directives: { permission },
-  components: {TroubleProcess},
+  components: { TroubleProcess },
   data() {
     return {
       formVisible: false,
       formTitle: '添加巡检巡查_隐患管理',
       isAdd: true,
       form: {
-        planId:'',
-        pipelineId:'',
-        equipmentId:'',
-        address:'',
-        troubleInfo:'',
-        troubleType:'',
-        troubleSource:'',
-        troubleLevel:'',
-        reportPerson:'',
-        reportTime:'',
-        reportPersonCellphone:'',
-        auditStatus:'',
-        notes:'',
-        isDel:'',
+        planId: '',
+        pipelineId: '',
+        equipmentId: '',
+        address: '',
+        troubleInfo: '',
+        troubleType: '',
+        troubleSource: '',
+        troubleLevel: '',
+        reportPerson: '',
+        reportTime: '',
+        reportPersonCellphone: '',
+        auditStatus: '',
+        notes: '',
+        isDel: '',
         id: '',
-        auditResult:'',
-        troubleTypeName:'',
-        troubleSourceName:'',
-        troubleLevelName:'',
-        reportUser:'',
-        auditTime:'',
+        auditResult: '',
+        troubleTypeName: '',
+        troubleSourceName: '',
+        troubleLevelName: '',
+        reportUser: '',
+        auditTime: ''
       },
       listQuery: {
-        troubleType:undefined,
-        troubleSource:undefined,
-        reportName:undefined,
-        troubleLevel:undefined,
-        auditStatus:undefined,
+        troubleType: undefined,
+        troubleSource: undefined,
+        reportName: undefined,
+        troubleLevel: undefined,
+        auditStatus: undefined,
         page: 1,
         limit: 20,
         id: undefined,
-        personId:undefined
+        personId: undefined
       },
-      check_list:[
+      check_list: [
         {
-          value:0,
-          label:'待审核'
-
-       },
-        {
-          value:1,
-          label:'已审核'
-        }
-      ],
-      check_result_list:[
-        {
-          value:0,
-          label:'不通过'
+          value: 0,
+          label: '待审核'
 
         },
         {
-          value:1,
-          label:'通过'
+          value: 1,
+          label: '已审核'
+        }
+      ],
+      check_result_list: [
+        {
+          value: 0,
+          label: '不通过'
+
+        },
+        {
+          value: 1,
+          label: '通过'
         }
       ],
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selRow: {},
-      trouble_list:null,
+      trouble_list: null,
       trouble_handle_list: null,
-      processTitle:'隐患流程跟踪',
-      processVisiable:false,
+      processTitle: '隐患流程跟踪',
+      processVisiable: false
     }
   },
   filters: {
@@ -89,7 +89,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -104,25 +104,25 @@ export default {
   },
   methods: {
     init() {
-      getInfo().then(response =>{
+      getInfo().then(response => {
         this.listQuery.personId = response.data.userId
         this.fetchData()
       })
     },
     fetchData() {
       this.listLoading = true
-        mmInspectionTroubleApi.getList(this.listQuery).then(response => {
+      mmInspectionTroubleApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-          this.clearSelection();
+        this.clearSelection()
       })
     },
     search() {
       this.fetchData()
     },
     reset() {
-      for(let key in this.listQuery) {
+      for (const key in this.listQuery) {
         if (key != 'limit' && key != 'page' && key != 'personId') {
           this.listQuery[key] = ''
         }
@@ -157,20 +157,20 @@ export default {
     },
     resetForm() {
       this.form = {
-        planId:'',
-        pipelineId:'',
-        equipmentId:'',
-        adress:'',
-        troubleInfo:'',
-        troubleType:'',
-        troubleSource:'',
-        troubleLevel:'',
-        reportPerson:'',
-        reportTime:'',
-        reportPersonCellphone:'',
-        auditStatus:'',
-        notes:'',
-        isDel:'',
+        planId: '',
+        pipelineId: '',
+        equipmentId: '',
+        adress: '',
+        troubleInfo: '',
+        troubleType: '',
+        troubleSource: '',
+        troubleLevel: '',
+        reportPerson: '',
+        reportTime: '',
+        reportPersonCellphone: '',
+        auditStatus: '',
+        notes: '',
+        isDel: '',
         id: ''
       }
     },
@@ -179,51 +179,51 @@ export default {
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                planId:this.form.planId,
-                pipelineId:this.form.pipelineId,
-                equipmentId:this.form.equipmentId,
-                address:this.form.address,
-                troubleInfo:this.form.troubleInfo,
-                troubleType:this.form.troubleType,
-                troubleSource:this.form.troubleSource,
-                troubleLevel:this.form.troubleLevel,
-                reportPerson:this.form.reportPerson,
-                reportTime:this.form.reportTime,
-                reportPersonCellphone:this.form.reportPersonCellphone,
-                auditStatus:1,
-                auditResult:this.form.auditResult,
-                notes:this.form.notes,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                mmInspectionTroubleApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                mmInspectionTroubleApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            planId: this.form.planId,
+            pipelineId: this.form.pipelineId,
+            equipmentId: this.form.equipmentId,
+            address: this.form.address,
+            troubleInfo: this.form.troubleInfo,
+            troubleType: this.form.troubleType,
+            troubleSource: this.form.troubleSource,
+            troubleLevel: this.form.troubleLevel,
+            reportPerson: this.form.reportPerson,
+            reportTime: this.form.reportTime,
+            reportPersonCellphone: this.form.reportPersonCellphone,
+            auditStatus: 1,
+            auditResult: this.form.auditResult,
+            notes: this.form.notes,
+            isDel: this.form.isDel
+          }
+          if (formData.id) {
+            mmInspectionTroubleApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            mmInspectionTroubleApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -239,7 +239,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       if (record.auditStatus == 1) {
         this.$message({
           message: this.$t('不允许重复审核'),
@@ -247,7 +247,7 @@ export default {
         })
         return
       }
-        this.selRow = record
+      this.selRow = record
 
       this.edit()
     },
@@ -258,13 +258,13 @@ export default {
         this.formTitle = '隐患上报信息'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -276,13 +276,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            mmInspectionTroubleApi.remove(id).then(response => {
+          mmInspectionTroubleApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -291,23 +291,22 @@ export default {
         }).catch(() => {
         })
       }
-    },handleSelectionChange(selection) {
+    }, handleSelectionChange(selection) {
       this.selection = selection
-    },toggleSelection(row) {
+    }, toggleSelection(row) {
       this.$refs.troubleTable.toggleRowSelection(row)
-    },clearSelection() {
-      this.$refs.troubleTable.clearSelection();
+    }, clearSelection() {
+      this.$refs.troubleTable.clearSelection()
     }, getRowKey(row) {
-      return row.id;
-    },openProcess(record) {
-      this.processVisiable = true;
-      mmInspectionTroubleApi.queryById(record.id).then(response =>{
+      return row.id
+    }, openProcess(record) {
+      this.processVisiable = true
+      mmInspectionTroubleApi.queryById(record.id).then(response => {
         this.trouble_list = response.data
       })
-      mmInspectionTroubleApi.queryHandleList(record.id).then(response =>{
+      mmInspectionTroubleApi.queryHandleList(record.id).then(response => {
         this.trouble_handle_list = response.data
       })
-
     }
 
   }

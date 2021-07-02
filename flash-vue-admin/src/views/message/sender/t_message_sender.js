@@ -8,16 +8,17 @@ export default {
       formVisible: false,
       formTitle: '添加消息发送者',
       isAdd: true,
+      rules: {},
       form: {
-        name:'',
-        className:'',
+        name: '',
+        className: '',
         id: ''
       },
       listQuery: {
         page: 1,
         limit: 10,
-        name:undefined,
-        className:undefined
+        name: undefined,
+        className: undefined
       },
       total: 0,
       list: null,
@@ -57,8 +58,8 @@ export default {
     reset() {
       this.listQuery.id = ''
       this.listQuery.page = 1
-      this.listQuery.name=''
-      this.listQuery.className=''
+      this.listQuery.name = ''
+      this.listQuery.className = ''
       this.fetchData()
     },
     handleFilter() {
@@ -89,8 +90,8 @@ export default {
     },
     resetForm() {
       this.form = {
-        name:'',
-        className:'',
+        name: '',
+        className: '',
         id: ''
       }
     },
@@ -104,8 +105,8 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           save({
-            name:this.form.name,
-            className:this.form.className,
+            name: this.form.name,
+            className: this.form.className,
             id: this.form.id
           }).then(response => {
             this.$message({
@@ -130,8 +131,8 @@ export default {
       })
       return false
     },
-    editItem(record){
-      this.selRow= Object.assign({},record);
+    editItem(record) {
+      this.selRow = Object.assign({}, record)
       this.edit()
     },
     edit() {
@@ -142,7 +143,7 @@ export default {
         this.formVisible = true
       }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -155,17 +156,16 @@ export default {
           type: 'warning'
         }).then(() => {
           remove(id).then(response => {
-              console.log(response)
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              this.fetchData()
-
+            console.log(response)
+            this.$message({
+              message: this.$t('common.optionSuccess'),
+              type: 'success'
+            })
+            this.fetchData()
           }).catch(err => {
             this.$notify.error({
               title: '错误',
-              message:err,
+              message: err
             })
           })
         })

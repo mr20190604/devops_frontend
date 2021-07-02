@@ -82,7 +82,13 @@ export default {
     }
   },
   created() {
-    const childSys = this.$store.state.user.childSys
+    const childSys = JSON.parse(JSON.stringify(this.$store.state.user.childSys))
+
+    if (this.$store.state.user.name === '管理员') {
+      childSys[2].mmChildSysModel.sysName = '苍穹监测系统'
+      childSys.splice(3, 1)
+    }
+
     if (childSys.length === 1) {
       this.marginLeft = '580px'
     } else if (childSys.length === 2) {

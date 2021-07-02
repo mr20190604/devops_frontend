@@ -5,73 +5,72 @@ import dsiEnterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
 import { remove, getList, save, update, getDicts } from '@/api/system/dict'
 import district from '@/components/District/index'
 
-
 export default {
   directives: { permission },
-  constant:[dsiParkEmergency,dsiEnterprise],
-  components:{district},
+  constant: [dsiParkEmergency, dsiEnterprise],
+  components: { district },
   data() {
     return {
       formVisible: false,
       formTitle: '添加数据资源',
       isAdd: true,
       form: {
-        code:'',
-        repositoriesName:'',
-        personName:'',
-        personTel:'',
-        enterpriseId:'',
-        enterpriseName:'',
-        address:'',
-        longitude:'',
-        latitude:'',
-        isDel:'',
+        code: '',
+        repositoriesName: '',
+        personName: '',
+        personTel: '',
+        enterpriseId: '',
+        enterpriseName: '',
+        address: '',
+        longitude: '',
+        latitude: '',
+        isDel: '',
         id: ''
       },
       materialVisible: false,
       materialTitle: '添加数据资源',
-      materialForm:{
-        code:'',
-        materialName:'',
-        materialType:'',
-        materialTypeName:'',
-        materialNum:'',
-        chUnitId:'',
-        chUnitIdName:'',
-        validityTerm:'',
-        poolId:'',
-        isDel:'',
-        id:''
+      materialForm: {
+        code: '',
+        materialName: '',
+        materialType: '',
+        materialTypeName: '',
+        materialNum: '',
+        chUnitId: '',
+        chUnitIdName: '',
+        validityTerm: '',
+        poolId: '',
+        isDel: '',
+        id: ''
       },
-      materialList:null,
-      //用于保存应急物资临时数据，最后统一提交
-      material_list:[],
-      materialLoading:true,
-      //所属企业下拉
-      enterprise_list:[],
-      //应急物资下拉类型数据
-      material_type:[],
-      //应急物资数量单位下拉类型
-      material_num_unit:[],
-      //应急资源新增、修改判定字段
-      materialAdd:true,
+      materialList: null,
+      // 用于保存应急物资临时数据，最后统一提交
+      material_list: [],
+      materialLoading: true,
+      // 所属企业下拉
+      enterprise_list: [],
+      // 应急物资下拉类型数据
+      material_type: [],
+      // 应急物资数量单位下拉类型
+      material_num_unit: [],
+      // 应急资源新增、修改判定字段
+      materialAdd: true,
       listQuery: {
         page: 1,
         limit: 10,
         districtCode: undefined,
         id: undefined,
-        repositoriesName:undefined,
-        personName:undefined,
-        address:undefined,
-        enterpriseId:undefined
+        repositoriesName: undefined,
+        personName: undefined,
+        address: undefined,
+        enterpriseId: undefined
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selRow: {},
-      materialRow:{},
-      selectMonth:null,
-      selection:[],
+      materialRow: {},
+      selectMonth: null,
+      selection: []
     }
   },
   filters: {
@@ -86,7 +85,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -104,33 +103,29 @@ export default {
       this.fetchData()
     },
     fetchData() {
-
-      dsiEnterprise.queryAll().then(response =>{
+      dsiEnterprise.queryAll().then(response => {
         this.enterprise_list = response.data
       })
       this.listLoading = true
-        dsiParkEmergencyPoolApi.getList(this.listQuery).then(response => {
+      dsiParkEmergencyPoolApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
-          this.enterprise_list.forEach(item =>{
-            this.list.forEach(index =>{
-              if (item.id == index.enterpriseId) {
-                index.enterpriseName = item.enterpriseName
-              }
-            })
+        this.enterprise_list.forEach(item => {
+          this.list.forEach(index => {
+            if (item.id == index.enterpriseId) {
+              index.enterpriseName = item.enterpriseName
+            }
           })
+        })
         this.listLoading = false
         this.total = response.data.total
       })
 
-
-
-      getDicts('应急物资类型').then(response =>{
+      getDicts('应急物资类型').then(response => {
         this.material_type = response.data
       })
-      getDicts('应急物资数量单位').then(response =>{
+      getDicts('应急物资数量单位').then(response => {
         this.material_num_unit = response.data
       })
-
     },
     search() {
       this.fetchData()
@@ -173,15 +168,15 @@ export default {
     },
     resetForm() {
       this.form = {
-        code:'',
-        repositoriesName:'',
-        personName:'',
-        personTel:'',
-        enterpriseId:'',
-        address:'',
-        longitude:'',
-        latitude:'',
-        isDel:'',
+        code: '',
+        repositoriesName: '',
+        personName: '',
+        personTel: '',
+        enterpriseId: '',
+        address: '',
+        longitude: '',
+        latitude: '',
+        isDel: '',
         id: ''
       }
     },
@@ -193,57 +188,56 @@ export default {
       this.formVisible = true
       this.isAdd = true
 
-
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                code:this.form.code,
-                repositoriesName:this.form.repositoriesName,
-                personName:this.form.personName,
-                personTel:this.form.personTel,
-                enterpriseId:this.form.enterpriseId,
-                address:this.form.address,
-                longitude:this.form.longitude,
-                latitude:this.form.latitude,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                dsiParkEmergencyPoolApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.$refs.poolTable.clearSelection()
-                    this.resetForm()
-                    this.fetchData()
+          const formData = {
+            id: this.form.id,
+            code: this.form.code,
+            repositoriesName: this.form.repositoriesName,
+            personName: this.form.personName,
+            personTel: this.form.personTel,
+            enterpriseId: this.form.enterpriseId,
+            address: this.form.address,
+            longitude: this.form.longitude,
+            latitude: this.form.latitude,
+            isDel: this.form.isDel
+          }
+          if (formData.id) {
+            dsiParkEmergencyPoolApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.$refs.poolTable.clearSelection()
+              this.resetForm()
+              this.fetchData()
 
-                    this.formVisible = false
-                })
-            }else{
-                dsiParkEmergencyPoolApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                  var poolId = response.data.id
-                  this.material_list.forEach(item =>{
-                    item.poolId = poolId
-                    dsiParkEmergency.add(item).then()
-                  })
-                    this.material_list = [];
-                    this.$refs.poolTable.clearSelection()
-                    this.resetForm()
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+              this.formVisible = false
+            })
+          } else {
+            dsiParkEmergencyPoolApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              var poolId = response.data.id
+              this.material_list.forEach(item => {
+                item.poolId = poolId
+                dsiParkEmergency.add(item).then()
+              })
+              this.material_list = []
+              this.$refs.poolTable.clearSelection()
+              this.resetForm()
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -258,9 +252,8 @@ export default {
         type: 'warning'
       })
       return false
-    },cancle() {
+    }, cancle() {
       if (this.materialVisible) {
-
         this.initMaterialList(this.form.id)
         this.materialVisible = false
       } else {
@@ -269,11 +262,8 @@ export default {
         this.reset()
         this.$refs.poolTable.clearSelection()
       }
-
-
-
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = JSON.parse(JSON.stringify(record))
       this.materialAdd = false
       this.edit()
@@ -286,13 +276,13 @@ export default {
         this.formTitle = '编辑应急资源库'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -304,14 +294,14 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiParkEmergencyPoolApi.remove(id).then(response => {
+          dsiParkEmergencyPoolApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-              this.$refs.poolTable.clearSelection()
-              this.fetchData()
-          }).catch( err=> {
+            this.$refs.poolTable.clearSelection()
+            this.fetchData()
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -320,18 +310,18 @@ export default {
         }).catch(() => {
         })
       }
-    }, initMaterialList(id){
+    }, initMaterialList(id) {
       this.materialLoading = true
       if (id) {
-        dsiParkEmergency.listForPoolId(id).then(response =>{
+        dsiParkEmergency.listForPoolId(id).then(response => {
           this.materialList = response.data
-          this.materialList.forEach(item =>{
-            this.material_type.forEach(index =>{
+          this.materialList.forEach(item => {
+            this.material_type.forEach(index => {
               if (item.materialType == index.id) {
                 item.materialTypeName = index.name
               }
             })
-            this.material_num_unit.forEach(index =>{
+            this.material_num_unit.forEach(index => {
               if (item.chUnitId == index.id) {
                 item.chUnitIdName = index.name
               }
@@ -339,13 +329,13 @@ export default {
           })
         })
       } else {
-        this.material_list.forEach(item =>{
-          this.material_type.forEach(index =>{
+        this.material_list.forEach(item => {
+          this.material_type.forEach(index => {
             if (item.materialType == index.id) {
               item.materialTypeName = index.name
             }
           })
-          this.material_num_unit.forEach(index =>{
+          this.material_num_unit.forEach(index => {
             if (item.chUnitId == index.id) {
               item.chUnitIdName = index.name
             }
@@ -353,31 +343,28 @@ export default {
         })
         this.materialList = this.material_list
       }
-
-    },resetMaterialForm(){
+    }, resetMaterialForm() {
       this.materialForm = {
-        code:'',
-        materialName:'',
-        materialType:'',
-        materialNum:'',
-        chUnitId:'',
-        validityTerm:'',
-        poolId:'',
-        isDel:'',
-        id:''
+        code: '',
+        materialName: '',
+        materialType: '',
+        materialNum: '',
+        chUnitId: '',
+        validityTerm: '',
+        poolId: '',
+        isDel: '',
+        id: ''
       }
     }, addMaterial() {
       this.resetMaterialForm()
       this.materialVisible = true
       this.materialTitle = '添加应急物资信息'
-
-    },editMaterialItem(record) {
+    }, editMaterialItem(record) {
       this.resetMaterialForm()
       this.materialVisible = true
       this.materialTitle = '编辑应急物资信息'
       this.materialForm = JSON.parse(JSON.stringify(record))
-
-    },saveMaterial(){
+    }, saveMaterial() {
       this.$refs['materialForm'].validate((valid) => {
         if (valid) {
           const formData = {
@@ -389,12 +376,12 @@ export default {
             validityTerm: this.materialForm.validityTerm,
             poolId: this.form.id,
             materialTypeName: null,
-            chUnitIdName:null
+            chUnitIdName: null
           }
           if (this.materialAdd) {
-            var arr = [];
-            this.material_list.forEach(item =>{
-              if(item.materialName != formData.materialName) {
+            var arr = []
+            this.material_list.forEach(item => {
+              if (item.materialName != formData.materialName) {
                 arr.push(item)
               }
             })
@@ -405,47 +392,40 @@ export default {
             this.materialList = this.material_list
           } else {
             if (formData.id) {
-              dsiParkEmergency.update(formData).then(response =>{
+              dsiParkEmergency.update(formData).then(response => {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
                 this.initMaterialList(this.form.id)
-
               })
             } else {
-              dsiParkEmergency.add(formData).then(response =>{
+              dsiParkEmergency.add(formData).then(response => {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
                 this.initMaterialList(this.form.id)
               })
-
-
             }
           }
-        }
-        else {
+        } else {
           return false
         }
 
         this.materialVisible = false
-
       })
-
-    },removeMaterial(record){
+    }, removeMaterial(record) {
       if (!record.id) {
-        var arr = [];
+        var arr = []
         var index = this.material_list.indexOf(record)
-        for(var i = 0;i < this.material_list.length;i++) {
+        for (var i = 0; i < this.material_list.length; i++) {
           if (index != i) {
             arr.push(this.material_list[i])
           }
         }
-      this.material_list = arr;
+        this.material_list = arr
         this.initMaterialList(this.form.id)
-
       } else {
         if (this.checkSel()) {
           var id = record.id
@@ -460,7 +440,7 @@ export default {
                 type: 'success'
               })
               this.initMaterialList(this.form.id)
-            }).catch( err=> {
+            }).catch(err => {
               this.$notify.error({
                 title: '错误',
                 message: err
@@ -470,17 +450,15 @@ export default {
           })
         }
       }
-
-
     }, initData(data) {
-      //获取当前时间
-      var now   = new Date();
-      var monthn = now.getMonth()+1;
-      var yearn  = now.getFullYear();
-      this.selectMonth = yearn+"-"+monthn
-    },toggleSelection(row) {
+      // 获取当前时间
+      var now = new Date()
+      var monthn = now.getMonth() + 1
+      var yearn = now.getFullYear()
+      this.selectMonth = yearn + '-' + monthn
+    }, toggleSelection(row) {
       this.$refs.poolTable.toggleRowSelection(row)
-    },handleSelectionChange(selection) {
+    }, handleSelectionChange(selection) {
       this.selection = selection
     },
     batchDelete() {
@@ -490,22 +468,22 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-          var arr = [];
-          this.selection.forEach(item =>{
+          var arr = []
+          this.selection.forEach(item => {
             arr.push(item.id)
           })
 
           const format = {
-            ids:arr
+            ids: arr
           }
-          dsiParkEmergencyPoolApi.removeBatch(format).then(response =>{
+          dsiParkEmergencyPoolApi.removeBatch(format).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.$refs.poolTable.clearSelection();
-            this.fetchData();
-          }).catch(err =>{
+            this.$refs.poolTable.clearSelection()
+            this.fetchData()
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -513,7 +491,6 @@ export default {
           })
         }).catch(() => {
         })
-
       } else {
         this.$message({
           message: this.$t('请选择要删除的行'),

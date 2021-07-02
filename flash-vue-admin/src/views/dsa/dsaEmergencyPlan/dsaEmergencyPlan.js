@@ -65,7 +65,7 @@ export default {
         id: undefined
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selection: [],
       selRow: {},

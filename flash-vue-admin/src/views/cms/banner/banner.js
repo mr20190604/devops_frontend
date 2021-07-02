@@ -66,10 +66,9 @@ export default {
       this.listLoading = true
       getList(this.listQuery).then(response => {
         this.list = response.data
-        for (var index in this.list) {
-          let item = this.list[index]
+        for (const index in this.list) {
+          const item = this.list[index]
           item.img = getApiUrl() + '/file/getImgStream?idFile=' + item.idFile
-          console.log(item)
         }
 
         this.listLoading = false
@@ -137,7 +136,7 @@ export default {
       })
       return false
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },

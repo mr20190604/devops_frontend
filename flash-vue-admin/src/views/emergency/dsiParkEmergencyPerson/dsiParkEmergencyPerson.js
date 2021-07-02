@@ -1,62 +1,58 @@
 import dsiParkEmergencyPersonApi from '@/api/emergency/dsiParkEmergencyPerson'
 import permission from '@/directive/permission/index.js'
 import district from '@/components/District/index'
-import {remove, getList, save, update, getDicts} from '@/api/system/dict'
+import { remove, getList, save, update, getDicts } from '@/api/system/dict'
 import dsiEnterprise from '@/api/dsi/dsiEnterpriseBaseinfo.js'
-
-
-
-
 
 export default {
   directives: { permission },
-  constant:[dsiEnterprise],
-  component:{district},
+  constant: [dsiEnterprise],
+  component: { district },
   data() {
     return {
       formVisible: false,
       formTitle: '添加数据资源一体化子系统-园区应急资源库-应急人员信息',
       isAdd: true,
       form: {
-        code:'',
-        name:'',
-        gender:'',
-        educationName:'',
-        professionalName:'',
-        postName:'',
-        majorSpecialty:'',
-        districtCode:'',
-        isExpert:'',
-        tel:'',
-        address:'',
-        remark:'',
-        isDel:'',
+        code: '',
+        name: '',
+        gender: '',
+        educationName: '',
+        professionalName: '',
+        postName: '',
+        majorSpecialty: '',
+        districtCode: '',
+        isExpert: '',
+        tel: '',
+        address: '',
+        remark: '',
+        isDel: '',
         id: '',
-        workPlace:'',
-        districtName:'',
-        genderName:'',
-        isExpertName:'',
-        emergencyContact:'',
-        emergencyTel:''
+        workPlace: '',
+        districtName: '',
+        genderName: '',
+        isExpertName: '',
+        emergencyContact: '',
+        emergencyTel: ''
       },
-      //是否专家
-      isExpert:[],
-      //性别
-      sex:[],
+      // 是否专家
+      isExpert: [],
+      // 性别
+      sex: [],
       listQuery: {
         page: 1,
         limit: 10,
         id: undefined,
-        name:'',
-        districtCode:'',
-        workPlace:'',
-        isExpert:''
+        name: '',
+        districtCode: '',
+        workPlace: '',
+        isExpert: ''
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selRow: {},
-      selection:[]
+      selection: []
     }
   },
   filters: {
@@ -71,7 +67,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -90,17 +86,17 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-        dsiParkEmergencyPersonApi.getList(this.listQuery).then(response => {
+      dsiParkEmergencyPersonApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      });
-      getDicts("是否").then(response=>{
-        this.isExpert=response.data
-      });
-      getDicts("性别").then(response=>{
-        this.sex=response.data
-      });
+      })
+      getDicts('是否').then(response => {
+        this.isExpert = response.data
+      })
+      getDicts('性别').then(response => {
+        this.sex = response.data
+      })
     },
     search() {
       this.fetchData()
@@ -141,19 +137,19 @@ export default {
     },
     resetForm() {
       this.form = {
-        code:'',
-        name:'',
-        gender:'',
-        educationName:'',
-        professionalName:'',
-        postName:'',
-        majorSpecialty:'',
-        districtCode:'',
-        isExpert:'',
-        tel:'',
-        address:'',
-        remark:'',
-        isDel:'',
+        code: '',
+        name: '',
+        gender: '',
+        educationName: '',
+        professionalName: '',
+        postName: '',
+        majorSpecialty: '',
+        districtCode: '',
+        isExpert: '',
+        tel: '',
+        address: '',
+        remark: '',
+        isDel: '',
         id: ''
       }
     },
@@ -163,63 +159,62 @@ export default {
       this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+      // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                code:this.form.code,
-                name:this.form.name,
-                gender:this.form.gender,
-                educationName:this.form.educationName,
-                professionalName:this.form.professionalName,
-                postName:this.form.postName,
-                majorSpecialty:this.form.majorSpecialty,
-                districtCode:this.form.districtCode,
-                isExpert:this.form.isExpert,
-                tel:this.form.tel,
-                address:this.form.address,
-                remark:this.form.remark,
-                isDel:this.form.isDel,
-                workPlace: this.form.workPlace,
-                emergencyContact:this.form.emergencyContact,
-                emergencyTel:this.form.emergencyTel
-            }
-            if(formData.id){
-                dsiParkEmergencyPersonApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.$refs.personTable.clearSelection();
-                    this.reset()
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                dsiParkEmergencyPersonApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.$refs.personTable.clearSelection();
-                    this.reset()
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            code: this.form.code,
+            name: this.form.name,
+            gender: this.form.gender,
+            educationName: this.form.educationName,
+            professionalName: this.form.professionalName,
+            postName: this.form.postName,
+            majorSpecialty: this.form.majorSpecialty,
+            districtCode: this.form.districtCode,
+            isExpert: this.form.isExpert,
+            tel: this.form.tel,
+            address: this.form.address,
+            remark: this.form.remark,
+            isDel: this.form.isDel,
+            workPlace: this.form.workPlace,
+            emergencyContact: this.form.emergencyContact,
+            emergencyTel: this.form.emergencyTel
+          }
+          if (formData.id) {
+            dsiParkEmergencyPersonApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.$refs.personTable.clearSelection()
+              this.reset()
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            dsiParkEmergencyPersonApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.$refs.personTable.clearSelection()
+              this.reset()
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
       })
-    },cancle() {
-
-      this.$refs.personTable.clearSelection();
+    }, cancle() {
+      this.$refs.personTable.clearSelection()
       this.reset()
       this.fetchData()
       this.formVisible = false
@@ -234,7 +229,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = JSON.parse(JSON.stringify(record))
       this.edit()
     },
@@ -245,13 +240,13 @@ export default {
         this.formTitle = '编辑应急人员'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
-        //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+        // 如果表单初始化有特殊处理需求,可以在resetForm中处理
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -263,14 +258,14 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            dsiParkEmergencyPersonApi.remove(id).then(response => {
+          dsiParkEmergencyPersonApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-              this.$refs.personTable.clearSelection();
-              this.fetchData()
-          }).catch( err=> {
+            this.$refs.personTable.clearSelection()
+            this.fetchData()
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -279,33 +274,33 @@ export default {
         }).catch(() => {
         })
       }
-    },toggleSelection(row) {
+    }, toggleSelection(row) {
       this.$refs.personTable.toggleRowSelection(row)
-    },handleSelectionChange(val) {
-      this.selection = val;
-    },batchDelete() {
+    }, handleSelectionChange(val) {
+      this.selection = val
+    }, batchDelete() {
       if (this.selection.length > 0) {
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-          let arr = [];
-          this.selection.forEach(item =>{
+          const arr = []
+          this.selection.forEach(item => {
             arr.push(item.id)
           })
 
           const format = {
-            ids:arr
+            ids: arr
           }
-          dsiParkEmergencyPersonApi.removeBatch(format).then(response =>{
+          dsiParkEmergencyPersonApi.removeBatch(format).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.$refs.personTable.clearSelection();
-            this.fetchData();
-          }).catch(err =>{
+            this.$refs.personTable.clearSelection()
+            this.fetchData()
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -313,7 +308,6 @@ export default {
           })
         }).catch(() => {
         })
-
       } else {
         this.$message({
           message: this.$t('请选择要删除的行'),
@@ -321,7 +315,6 @@ export default {
         })
       }
     }
-
 
   }
 }
