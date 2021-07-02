@@ -495,6 +495,9 @@ export default {
     this.resetMarkers()
     this.handleMouseOut()
   },
+  beforeDestroy() {
+    this.interval && clearInterval(this.interval)
+  },
   methods: {
     mapReady({ BMap, map }) {
       this.map = map

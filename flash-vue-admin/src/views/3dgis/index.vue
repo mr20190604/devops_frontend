@@ -214,7 +214,7 @@
       <div class="toolbar">
         <div class="zoomIn" @click="handleZoomInClick" />
         <div class="zoomOut" @click="handleZoomOutClick" />
-<!--        <div class="clean" @click="handleCleanClick" />-->
+        <!--        <div class="clean" @click="handleCleanClick" />-->
         <div class="coverage" @click="toggleVisibleCoverage" />
       </div>
       <div class="legend">
@@ -249,10 +249,10 @@
           <el-image :src="require('../../assets/img/gis/风险评估.png')" />
           <p>风险评估</p>
         </div>
-<!--        <div>-->
-<!--          <el-image :src="require('../../assets/img/gis/地图.png')" />-->
-<!--          <p>地图工具</p>-->
-<!--        </div>-->
+        <!--        <div>-->
+        <!--          <el-image :src="require('../../assets/img/gis/地图.png')" />-->
+        <!--          <p>地图工具</p>-->
+        <!--        </div>-->
       </div>
       <el-dialog
         :visible.sync="visible"
@@ -379,6 +379,10 @@ export default {
       },
       token: '9732120f82392988567929c7c9ff034d'
     }
+  },
+  beforeDestroy() {
+    delete window.Cesium
+    delete window.viewer
   },
   methods: {
     ready({ Cesium, viewer }) {

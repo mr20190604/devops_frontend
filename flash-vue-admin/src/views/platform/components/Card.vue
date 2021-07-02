@@ -138,7 +138,8 @@ export default {
       target: [],
       keyTimes: undefined,
       dur: '20s',
-      begin: '0s'
+      begin: '0s',
+      interval: undefined
     }
   },
   watch: {
@@ -170,9 +171,12 @@ export default {
       this.target.push(this.source[this.index])
     }
   },
+  beforeDestroy() {
+    this.interval && clearInterval(this.interval)
+  },
   mounted() {
     const that = this
-    setInterval(function() {
+    this.interval = setInterval(function() {
       const time = parseInt(that.begin) * 1000
       setTimeout(function() {
         that.$refs['animate1'] && that.$refs['animate1'].beginElement()
