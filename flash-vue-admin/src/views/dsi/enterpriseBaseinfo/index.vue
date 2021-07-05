@@ -313,19 +313,19 @@
                @close="closeDialog">
       <template v-if="enterpriseVisible">
         <el-tabs v-model="activeName" type="card" :before-leave="handleClick">
-          <el-tab-pane label="企业信息" name="first" style="visibility: visible" >
+          <el-tab-pane label="企业信息" name="first" style="visibility: visible">
             <div class="block">
               <el-form ref="form1" :model="form1" :rules="rules" label-width="98px" class="align-right has-Label-Width">
                 <el-row>
 
                   <el-col :span="12">
                     <el-form-item label="企业名称：">
-                      <el-input v-model="form.enterpriseName" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.enterpriseName" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="所属行业：">
-                      <el-select v-model="form.industryId" minlength=1 :disabled="true">
+                      <el-select v-model="form1.industryId" minlength=1 :disabled="true">
                         <el-option
                           v-for="item in industry_list"
                           :key="item.id"
@@ -337,24 +337,24 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="行政区划：">
-                      <district v-model="form.districtCode" placeholder="请选择所在地区" :disabled="true"/>
+                      <district v-model="form1.districtCode" placeholder="请选择所在地区" :disabled="true"/>
                     </el-form-item>
                   </el-col>
 
                   <el-col :span="12">
                     <el-form-item label="单位性质：">
-                      <el-input v-model="form.enterpriseNature" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.enterpriseNature" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="企业地址：">
-                      <el-input v-model="form.enterpriseAddress" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.enterpriseAddress" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
 
                   <el-col :span="12">
                     <el-form-item label="经营状态：">
-                      <el-select v-model="form.managementSituation" minlength=1 :disabled="true">
+                      <el-select v-model="form1.managementSituation" minlength=1 :disabled="true">
                         <el-option
                           v-for="item in management_status"
                           :key="item.id"
@@ -367,13 +367,13 @@
 
                   <el-col :span="12">
                     <el-form-item label="从业人数：">
-                      <el-input v-model="form.employmentNo" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.employmentNo" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
 
                   <el-col :span="12">
                     <el-form-item label="风险等级：">
-                      <el-select v-model="form.riskLevel" minlength=1 :disabled="true">
+                      <el-select v-model="form1.riskLevel" minlength=1 :disabled="true">
                         <el-option
                           v-for="item in risk_level"
                           :key="item.id"
@@ -385,37 +385,37 @@
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="法人：">
-                      <el-input v-model="form.legalPerson" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.legalPerson" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="注册登记号：">
-                      <el-input v-model="form.registerCode" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.registerCode" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="安全负责人：">
-                      <el-input v-model="form.envSafeLeader" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.envSafeLeader" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="企业电话：">
-                      <el-input v-model="form.enterpriseOtel" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.enterpriseOtel" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="企业传真：">
-                      <el-input v-model="form.enterpriseFax" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.enterpriseFax" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="企业应急电话：">
-                      <el-input v-model="form.enterpriseEmergencyTel" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.enterpriseEmergencyTel" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="12">
                     <el-form-item label="企业邮箱：">
-                      <el-input v-model="form.enterpriseEmail" minlength=1 :readonly="true"></el-input>
+                      <el-input v-model="form1.enterpriseEmail" minlength=1 :readonly="true"></el-input>
                     </el-form-item>
 
                   </el-col>
