@@ -182,7 +182,7 @@ export default {
     add() {
       this.resetForm()
       this.fileList = []
-      this.formTitle = '添加',
+      this.formTitle = '新增应急预案',
       this.formVisible = true
       this.isAdd = true
 
@@ -286,7 +286,7 @@ export default {
             })
           }
         })
-        this.formTitle = '编辑'
+        this.formTitle = '修改应急预案'
         this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {

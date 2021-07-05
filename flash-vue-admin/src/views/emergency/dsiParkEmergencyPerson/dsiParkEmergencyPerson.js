@@ -155,7 +155,7 @@ export default {
     },
     add() {
       this.resetForm()
-      this.formTitle = '添加应急人员',
+      this.formTitle = '新增应急人员',
       this.formVisible = true
       this.isAdd = true
 
@@ -237,7 +237,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑应急人员'
+        this.formTitle = '修改人员信息'
         this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {

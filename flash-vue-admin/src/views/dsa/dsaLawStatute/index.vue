@@ -110,7 +110,7 @@
             {{ scope.row.timeName }}
           </template>
         </el-table-column>
-        <el-table-column label="公布日期" show-overflow-tooltip>
+        <el-table-column label="公布日期" sortable show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.publicationDate }}
           </template>

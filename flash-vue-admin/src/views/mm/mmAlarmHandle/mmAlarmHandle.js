@@ -554,7 +554,7 @@ export default {
           })
         } else {
           this.form = this.selRow
-          this.disposeTitle = '报警处置'
+          this.disposeTitle = '现场处置'
           this.disposeVisible = true
         }
       }
@@ -737,6 +737,7 @@ export default {
     openCurve(record) {
       this.clearEchart()
       this.echartVisiable = true
+      this.formTitle = '监测曲线'
       this.modelTime = ''
       this.initModelData(record)
     }, clearEchart() {
