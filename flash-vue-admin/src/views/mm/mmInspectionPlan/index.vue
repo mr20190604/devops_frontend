@@ -118,6 +118,7 @@
         fit
         highlight-current-row
         @current-change="handleCurrentChange"
+        :default-sort = "{prop: 'startDate', order: 'descending'}"
       >
         <el-table-column label="巡检负责人" :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -129,12 +130,12 @@
             {{ scope.row.path.pathName }}
           </template>
         </el-table-column>
-        <el-table-column label="计划开始日期">
+        <el-table-column label="计划开始日期" sortable prop="startDate">
           <template slot-scope="scope">
             {{ scope.row.startTime }}
           </template>
         </el-table-column>
-        <el-table-column label="计划完成日期">
+        <el-table-column label="计划完成日期" sortable prop="endDate">
           <template slot-scope="scope">
             {{ scope.row.endTime }}
           </template>
