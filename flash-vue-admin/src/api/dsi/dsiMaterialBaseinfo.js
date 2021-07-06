@@ -48,5 +48,11 @@ export default {
         ids: ids
       }
     })
+  },
+  queryAll: function() {
+    return request({
+      url: '/material/baseinfo/queryAll',
+      method: 'get'
+    })
   }
 }
