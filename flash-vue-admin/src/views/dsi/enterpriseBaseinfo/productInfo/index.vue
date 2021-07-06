@@ -139,14 +139,14 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="存储标准：">
-                <el-input v-model="form.storageStandards" style="width: 71%" />
+                <el-input v-model="form.storageStandards" type="textarea" style="width: 71%" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="产品说明：">
-                <el-input v-model="form.productDesc" type="textarea"/>
+                <el-input v-model="form.productDesc" type="textarea" style="width: 71%"/>
               </el-form-item>
             </el-col>
           </el-row>

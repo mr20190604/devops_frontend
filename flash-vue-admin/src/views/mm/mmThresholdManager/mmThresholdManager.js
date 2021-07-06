@@ -1,30 +1,29 @@
 import mmThresholdManagerApi from '@/api/mm/mmThresholdManager'
 import permission from '@/directive/permission/index.js'
 import mmBasEquipment from '@/api/mm/mmBasEquipment'
-import {getDicts} from "../../../api/system/dict";
-
+import { getDicts } from '../../../api/system/dict'
 
 export default {
-  directives: {permission},
+  directives: { permission },
   data() {
     return {
       formVisible: false,
-      thresholdVisible:false,
+      thresholdVisible: false,
       formTitle: '添加',
       isAdd: true,
-      thresholdRules:{
-        equipmentType:[{required:true,message:"请选择设备类型",trigger:'blur'}],
-        equipmentCode:[{required:true,message:"请选择设备编号",trigger:'blur'}],
-        firstUpperLimit:[{required:true,message:"请输入一级阈值",trigger:'blur'}],
-        firstLowerLimit:[{required:true,message:"请输入一级阈值",trigger:'blur'}],
+      thresholdRules: {
+        equipmentType: [{ required: true, message: '请选择设备类型', trigger: 'blur' }],
+        equipmentCode: [{ required: true, message: '请选择设备编号', trigger: 'blur' }],
+        firstUpperLimit: [{ required: true, message: '请输入一级阈值', trigger: 'blur' }],
+        firstLowerLimit: [{ required: true, message: '请输入一级阈值', trigger: 'blur' }]
       },
-      examineRules:{
-        isAudit:[{required:true,message:"请选择评审结果",trigger:'blur'}],
-        auditOpinion:[{required:true,message:"请输入评审意见",trigger:'blur'}],
+      examineRules: {
+        isAudit: [{ required: true, message: '请选择评审结果', trigger: 'blur' }],
+        auditOpinion: [{ required: true, message: '请输入评审意见', trigger: 'blur' }]
       },
-      thresholdForm:{
-        isAudit:'',
-        auditOpinion: '',
+      thresholdForm: {
+        isAudit: '',
+        auditOpinion: ''
       },
       form: {
         equipmentId: '',
@@ -45,8 +44,8 @@ export default {
         dictIdName: '',
         auditTime: '',
         auditUser: '',
-        equipmentCode:'',
-        isAudit:'',
+        equipmentCode: '',
+        isAudit: ''
       },
       listQuery: {
         page: 1,
@@ -62,11 +61,11 @@ export default {
       equipment_code: [],
       total: 0,
       list: [],
-      thresholdList:[],
+      thresholdList: [],
       listLoading: true,
       selRow: {},
       equipmentCodeList: [],
-      selection: [],
+      selection: []
     }
   },
   filters: {
@@ -105,8 +104,8 @@ export default {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
-      });
-      getDicts("设备类型").then(response => {
+      })
+      getDicts('设备类型').then(response => {
         this.equipment_type = response.data
       })
     },
@@ -166,13 +165,13 @@ export default {
         auditPerson: '',
         isDel: '',
         id: '',
-        equipmentCode:'',
+        equipmentCode: ''
       }
     },
     add() {
       this.formTitle = '添加',
         this.formVisible = true
-      this.resetForm();
+      this.resetForm()
       this.isAdd = true
 
       if (this.$refs['form'] !== undefined) {
@@ -196,14 +195,14 @@ export default {
             dictId: this.form.dictId,
             auditOpinion: this.form.auditOpinion,
             auditPerson: this.form.auditPerson,
-            isDel: this.form.isDel,
+            isDel: this.form.isDel
           }
-          if(!formData.dictId){
-            formData.dictId=252
+          if (!formData.dictId) {
+            formData.dictId = 252
           }
           if (formData.id) {
-            formData.equipmentId=this.selRow.equipmentId
-            console.log(formData);
+            formData.equipmentId = this.selRow.equipmentId
+            console.log(formData)
             mmThresholdManagerApi.update(formData).then(response => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
@@ -213,23 +212,23 @@ export default {
               this.formVisible = false
             })
           } else {
-           mmThresholdManagerApi.getByEquipmentCode(this.form.equipmentCode).then(response=>{
-             if(response.data.length>0){
-               this.$alert('不能为一个设备重复添加阈值', '提示', {
-                 confirmButtonText: '确定',
-               });
-               return false
-             }else {
-               mmThresholdManagerApi.add(formData).then(response => {
-                 this.$message({
-                   message: this.$t('common.optionSuccess'),
-                   type: 'success'
-                 })
-                 this.fetchData()
-                 this.formVisible = false
-               })
-             }
-           })
+            mmThresholdManagerApi.getByEquipmentCode(this.form.equipmentCode).then(response => {
+              if (response.data.length > 0) {
+                this.$alert('不能为一个设备重复添加阈值', '提示', {
+                  confirmButtonText: '确定'
+                })
+                return false
+              } else {
+                mmThresholdManagerApi.add(formData).then(response => {
+                  this.$message({
+                    message: this.$t('common.optionSuccess'),
+                    type: 'success'
+                  })
+                  this.fetchData()
+                  this.formVisible = false
+                })
+              }
+            })
 
           }
         } else {
@@ -255,13 +254,13 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        if(this.selRow.dictIdName=='已审核'){
+        if (this.selRow.dictIdName == '已审核') {
           this.$alert('不允许修改已审核设备！', '提示', {
-            confirmButtonText: '确定',
-          });
-          return false;
+            confirmButtonText: '确定'
+          })
+          return false
         }
-        this.form.equipmentCode=this.form.mmBasEquipment.equipmentCode
+        this.form.equipmentCode = this.form.mmBasEquipment.equipmentCode
         this.formTitle = '编辑'
         this.formVisible = true
 
@@ -277,11 +276,11 @@ export default {
     },
     remove() {
       if (this.checkSel()) {
-        if(this.selRow.dictIdName=='已审核'){
+        if (this.selRow.dictIdName == '已审核') {
           this.$alert('不允许删除已审核设备！', '提示', {
-            confirmButtonText: '确定',
-          });
-          return false;
+            confirmButtonText: '确定'
+          })
+          return false
         }
         var id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
@@ -294,7 +293,7 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.$refs.thresholdTable.clearSelection();
+            this.$refs.thresholdTable.clearSelection()
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
@@ -307,8 +306,8 @@ export default {
       }
     },
     selectEquipment(val) {
-      this.form.equipmentCode = '';
-      this.equipment_code = [];
+      this.form.equipmentCode = ''
+      this.equipment_code = []
       mmBasEquipment.queryAll(val).then(response => {
         this.equipment_code = response.data
       })
@@ -319,7 +318,7 @@ export default {
     handleSelectionChange(selection) {
       this.selection = selection
     },
-    examine(){
+    examine() {
       if (this.selection.length === 0) {
         this.$message({
           message: this.$t('common.mustSelectOne'),
@@ -327,31 +326,31 @@ export default {
         })
         return false
       }
-      let flag=true
+      let flag = true
       this.selection.map(item => {
-        if(item.dictIdName=='已审核'||item.dictIdName=='审核未通过'){
-          flag=false;
+        if (item.dictIdName == '已审核' || item.dictIdName == '审核未通过') {
+          flag = false
         }
       })
-      if(!flag){
+      if (!flag) {
         this.$message({
           message: this.$t('不允许重复审核'),
           type: 'warning'
         })
-        this.selection=[];
-        this.$refs.thresholdTable.clearSelection();
+        this.selection = []
+        this.$refs.thresholdTable.clearSelection()
         return false
       }
-      this.formTitle='阈值批量审核';
-      this.thresholdList=this.selection;
-      this.thresholdVisible=true;
+      this.formTitle = '阈值批量审核'
+      this.thresholdList = this.selection
+      this.thresholdVisible = true
     },
-    saveThreshold(){
-      this.$refs['thresholdForm'].validate((valid) =>{
-        if(valid){
-          this.selection.map((item,index) => {
-            item.auditOpinion=this.thresholdForm.auditOpinion;
-            item.isAudit=this.thresholdForm.isAudit;
+    saveThreshold() {
+      this.$refs['thresholdForm'].validate((valid) => {
+        if (valid) {
+          this.selection.map((item, index) => {
+            item.auditOpinion = this.thresholdForm.auditOpinion
+            item.isAudit = this.thresholdForm.isAudit
             const formData = {
               id: item.id,
               equipmentId: item.equipmentId,
@@ -366,26 +365,25 @@ export default {
               auditOpinion: item.auditOpinion,
               auditPerson: item.auditPerson,
               isDel: item.isDel,
-              isAudit:item.isAudit,
+              isAudit: item.isAudit
             }
-            mmThresholdManagerApi.examineThreshold(formData).then(()=>{
-              if(index==this.selection.length-1){
+            mmThresholdManagerApi.examineThreshold(formData).then(() => {
+              if (index == this.selection.length - 1) {
                 this.$message({
                   message: this.$t('common.optionSuccess'),
                   type: 'success'
                 })
                 this.thresholdVisible = false
-                this.selection=[];
-                this.$refs.thresholdTable.clearSelection();
+                this.selection = []
+                this.$refs.thresholdTable.clearSelection()
                 this.fetchData()
               }
-            });
+            })
           })
-        }else {
+        } else {
           return false
         }
       })
-
 
     }
   }

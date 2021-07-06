@@ -2,6 +2,7 @@ import dsiEnterpriseRiskUnitApi from '@/api/dsi/dsiEnterpriseRiskUnit'
 import permission from '@/directive/permission/index.js'
 import { remove, getList, save, update, getDicts } from '@/api/system/dict'
 import dsiEnterpriseRiskMaterial from '../../../../api/dsi/dsiEnterpriseRiskMaterial'
+import dsiMaterialBaseinfoApi from '../../../../api/dsi/dsiMaterialBaseinfo'
 
 export default {
   directives: { permission },
@@ -25,12 +26,7 @@ export default {
         riskTypeName: '',
         detail: ''
       },
-      /* form1:{
-         materialId:'',
-         riskUnitId:'',
-         currentStock:'',
-         criticalQuantity:''
-       },*/
+      materialList: [],
       isDangerSource: [],
       risk_type: [],
       listQuery: {
@@ -91,10 +87,12 @@ export default {
       this.fetchData()
     },
     fetchData() {
+      dsiMaterialBaseinfoApi.queryAll().then(response => {
+        this.materialList = response.data
+      })
       this.listLoading = true
       this.listQuery.enterpriseId = this.enterpriseId
       dsiEnterpriseRiskUnitApi.addUnit(this.listQuery).then(response => {
-        console.log(response.data.records)
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -259,9 +257,7 @@ export default {
     },
     editItem(record) {
       this.selRow = record
-      //this.materialAdd = false
       this.edit()
-      // this.initEmerMaterialList(this.selRow.id)
     },
     edit() {
       if (this.checkSel()) {
@@ -272,10 +268,9 @@ export default {
         if (this.selRow.detail) {
           detail.forEach(function(val) {
             let arr = val.split(',')
-            details.push({ 'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2] })
+            details.push({ 'materialId':  parseInt(arr[0]), 'currentStock': arr[1], 'criticalQuantity': arr[2] })
           })
         }
-
         this.form = this.selRow
         this.form.details = details
         this.formVisible = true
