@@ -199,7 +199,7 @@ export default {
       this.personList = null
       this.person_id_list = []
       this.personAdd = true
-      this.formTitle = '添加应急队伍',
+      this.formTitle = '新增应急队伍',
       this.formVisible = true
       this.isAdd = true
       this.personLoading = false
@@ -295,7 +295,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑应急队伍'
+        this.formTitle = '修改应急队伍信息'
         this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {

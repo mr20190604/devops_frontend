@@ -316,7 +316,7 @@ export default {
             })
           }
         })
-        this.formTitle = '编辑应急车辆'
+        this.formTitle = '修改车辆信息'
         this.formVisible = true
 
         if(this.$refs['form'] !== undefined) {

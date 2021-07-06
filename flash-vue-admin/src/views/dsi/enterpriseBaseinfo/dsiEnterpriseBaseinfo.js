@@ -144,7 +144,7 @@ export default {
       getDicts('经营状态').then(response => {
         this.management_status = response.data
       })
-      getDicts('风险等级').then(response => {
+      getDicts('企业风险等级').then(response => {
         this.risk_level = response.data
       })
 
