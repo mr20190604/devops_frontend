@@ -73,6 +73,29 @@
         :data="heatmapInfoData1"
         :type="1"
       />
+      <vc-handler-draw-point
+        ref="handlerPoint"
+        point-color="red"
+      />
+      <vc-handler-draw-polyline
+        ref="handlerLine"
+        point-color="red"
+      />
+      <vc-handler-draw-polygon
+        ref="handlerPolygon"
+        point-color="red"
+      />
+      <vc-measure-distance
+        ref="measureDistance"
+        :remove-last-position="false"
+      />
+      <vc-measure-area
+        ref="measureArea"
+        :remove-last-position="false"
+      />
+      <vc-measure-height
+        ref="measureHeight"
+      />
       <vc-overlay-html v-if="windowInfo.show" :position="windowInfo.position" :pixel-offset="{ x: -380, y: -380 }">
         <div class="windowInfo">
           <p class="title">{{ windowInfo.title }}
@@ -214,7 +237,7 @@
       <div class="toolbar">
         <div class="zoomIn" @click="handleZoomInClick" />
         <div class="zoomOut" @click="handleZoomOutClick" />
-        <!--        <div class="clean" @click="handleCleanClick" />-->
+        <div class="clean" @click="handleCleanClick" />
         <div class="coverage" @click="toggleVisibleCoverage" />
       </div>
       <div class="legend">
@@ -249,10 +272,20 @@
           <el-image :src="require('../../assets/img/gis/风险评估.png')" />
           <p>风险评估</p>
         </div>
-        <!--        <div>-->
-        <!--          <el-image :src="require('../../assets/img/gis/地图.png')" />-->
-        <!--          <p>地图工具</p>-->
-        <!--        </div>-->
+        <div @mouseover="mapToolsDisplay='block'" @mouseout="mapToolsDisplay='none'">
+          <el-image :src="require('../../assets/img/gis/地图.png')" />
+          <p>地图工具</p>
+          <div class="mapTools" :style="{display:mapToolsDisplay}">
+            <ul>
+              <li @click="handleDrawPoint">绘制点</li>
+              <li @click="handleDrawLine">绘制线</li>
+              <li @click="handleDrawSurface">绘制面</li>
+              <li @click="handleMeasuringDistance">测量距离</li>
+              <li @click="handleMeasuringArea">测量面积</li>
+              <li @click="handleMeasuringHeight">测量高度</li>
+            </ul>
+          </div>
+        </div>
       </div>
       <el-dialog
         :visible.sync="visible"
@@ -377,6 +410,7 @@ export default {
         title: undefined,
         tabName: '基本信息'
       },
+      mapToolsDisplay: 'none',
       token: '9732120f82392988567929c7c9ff034d'
     }
   },
@@ -448,8 +482,8 @@ export default {
               billboard.image = images[j][k]
               if (level === 1) {
                 billboard.color = function() {
-                  const milliseconds = new Date().getMilliseconds()
-                  const alpha = milliseconds < 500 ? 1 : 0.1
+                  const seconds = new Date().getSeconds()
+                  const alpha = seconds % 2 === 1 ? 1 : 0.1
                   return window.Cesium.Color.WHITE.withAlpha(alpha)
                 }
               }
@@ -586,7 +620,13 @@ export default {
       window.viewer.camera.zoomOut(50)
     },
     handleCleanClick() {
-
+      this.$refs.handlerPoint.clear()
+      this.$refs.handlerLine.clear()
+      this.$refs.handlerPolygon.clear()
+      this.$refs.measureDistance.clear()
+      this.$refs.measureArea.clear()
+      this.$refs.measureHeight.clear()
+      this.setMapToolsDefault()
     },
     handleCheckAllChange(val) {
       this.selectedCoverages = val ? this.coverages : []
@@ -653,6 +693,39 @@ export default {
     handleWindowInfoClose() {
       this.windowInfo.show = false
       this.windowInfo.tabName = '基本信息'
+    },
+    handleDrawPoint() {
+      this.handleCleanClick()
+      this.$refs.handlerPoint.drawing = true
+    },
+    handleDrawLine() {
+      this.handleCleanClick()
+      this.$refs.handlerLine.drawing = true
+    },
+    handleDrawSurface() {
+      this.handleCleanClick()
+      this.$refs.handlerPolygon.drawing = true
+    },
+    handleMeasuringDistance() {
+      this.handleCleanClick()
+      this.$refs.measureDistance.measuring = true
+    },
+    handleMeasuringArea() {
+      this.handleCleanClick()
+      this.$refs.measureArea.measuring = true
+    },
+    handleMeasuringHeight() {
+      this.handleCleanClick()
+      this.$refs.measureHeight.measuring = true
+    },
+    setMapToolsDefault() {
+      this.mapToolsDisplay = 'none'
+      this.$refs.handlerPoint.clear()
+      this.$refs.handlerLine.clear()
+      this.$refs.handlerPolygon.clear()
+      this.$refs.measureDistance.clear()
+      this.$refs.measureArea.clear()
+      this.$refs.measureHeight.clear()
     }
   }
 }
@@ -850,10 +923,10 @@ export default {
   }
 
   .bigToolbar {
-    width: 250px;
+    width: 500px;
     position: absolute;
     bottom: 0;
-    left: calc(50% - 125px);
+    left: calc(50% - 250px);
     text-align: center;
     color: white;
     font-weight: bold;
@@ -867,7 +940,6 @@ export default {
     width: 40px;
     margin-top: 10px;
   }
-
 
   .bigToolbar > div {
     display: inline-block;
@@ -892,6 +964,23 @@ export default {
 
   .bigToolbar p {
     margin: 5px;
+  }
+
+  .mapTools{
+    position: absolute;
+    bottom: 90px;
+    color:#333333;
+    background: rgba(255,255,255,0.8);
+    border-radius: 3px;
+  }
+  .mapTools ul{
+    list-style: none;
+  }
+
+  .mapTools li{
+    margin: 0 16px;
+    padding: 3px 0;
+    line-height: 1.5em;
   }
 
   .el-checkbox {
