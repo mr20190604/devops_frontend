@@ -354,7 +354,7 @@ export default {
       },
       coverages: ['激光雷达', '傅立叶仪', '质谱仪', '企业', '人员', '危险源', '应急车辆', '应急人员', '应急物资库'],
       selectedCoverages: ['激光雷达', '傅立叶仪', '质谱仪'],
-      selectAll: true,
+      selectAll: false,
       isIndeterminate: false,
       visible: false,
       billboards: [],
@@ -411,7 +411,8 @@ export default {
         tabName: '基本信息'
       },
       mapToolsDisplay: 'none',
-      token: '9732120f82392988567929c7c9ff034d'
+      token: '9732120f82392988567929c7c9ff034d',
+      riskInterval: undefined
     }
   },
   beforeDestroy() {
@@ -516,7 +517,7 @@ export default {
         this.billboards.push(billboard)
       }
 
-      // 构造应急资源试数据
+      // 构造应急资源测试数据
       for (let i = 0; i < 100; i++) {
         const billboard = {}
         billboard.position = {
@@ -657,7 +658,10 @@ export default {
       this.visible = !this.visible
     },
     handleCloseDialog() {
-
+      console.log(this.selectedCoverages)
+      this.billboards.forEach(item => {
+        item.show = this.selectedCoverages.indexOf(item.typeName) > -1
+      })
     },
     handleAlarmClick() {
       const infos = this.coverages.filter((item, index) => index < 3)
@@ -690,18 +694,21 @@ export default {
       }
       this.heatmapInfoData = this.heatmapInfo.data
       this.heatmapInfo.show = true
+      const that = this
+      this.riskInterval = setInterval(function() {
+        that.handleRiskClick()
+      }, 2500)
     },
     setDefault() {
       this.billboards.forEach(item => {
         item.show = false
       })
-      this.selectedCoverages = []
-      this.handleCheckedCoveragesChange([])
-      this.isIndeterminate = false
       this.heatmapInfo.show = false
       this.heatmapInfo1.show = false
       this.windowInfo.show = false
       this.isForecast = false
+      this.riskInterval && clearInterval(this.riskInterval)
+      this.riskInterval = undefined
     },
     handleTabNameChange(tabName) {
       this.windowInfo.tabName = tabName
@@ -948,7 +955,7 @@ export default {
     font-weight: bold;
     font-size: 12px;
     pointer-events: auto;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(30, 48, 73, 0.8);
   }
 
   .bigToolbar .el-image {
@@ -961,7 +968,7 @@ export default {
     display: inline-block;
     width: 80px;
     height: 80px;
-    margin: 10px;
+    margin: 10px 30px;
     border-radius: 5px;
     cursor: pointer;
   }
@@ -985,10 +992,11 @@ export default {
   .mapTools{
     position: absolute;
     bottom: 90px;
-    color:#333333;
-    background: rgba(255,255,255,0.8);
+    color:#eeeeee;
+    background: rgba(30, 48, 73, 0.8);
     border-radius: 3px;
   }
+
   .mapTools ul{
     list-style: none;
   }
