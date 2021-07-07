@@ -10,12 +10,16 @@
                    v-permission="['/riskUnit/delete']">批量删除
         </el-button>
       </div>
-      <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+      <el-table v-loading="listLoading"
+                :data="list"
+                element-loading-text="Loading"
+                border
                 :row-key="row=>row.id"
-                height="331"
+                max-height="340px"
                 @selection-change="handleSelectionChange"
                 @current-change="handleCurrentChange"
-                ref="unitTable" @row-click="toggleSelection">
+                ref="unitTable"
+                @row-click="toggleSelection">
         <el-table-column type="selection" width="55" :reserve-selection="true"/>
         <el-table-column type="index" width="55" label="序号" align="center"/>
         <el-table-column label="风险单元名称" show-overflow-tooltip>
