@@ -16,6 +16,7 @@
                 @selection-change="handleSelectionChange"
                 @current-change="handleCurrentChange"
                 ref="unitTable" @row-click="toggleSelection">
+        <el-table-column type="selection" width="55" :reserve-selection="true"/>
         <el-table-column type="index" width="55" label="序号" align="center"/>
         <el-table-column label="风险单元名称" show-overflow-tooltip>
           <template slot-scope="scope">
@@ -33,9 +34,10 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="风险物质" show-overflow-tooltip>
+        <el-table-column label="重大危险源" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.detail}}
+            <template v-if="scope.row.isDangerSource==69">是</template>
+            <template v-if="scope.row.isDangerSource==70">否</template>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -123,33 +125,38 @@
           </el-row>
 
           <el-row style="border:1px solid #f3f5fb;padding-top:15px;padding-bottom:10px;">
-
             <el-scrollbar class="material-scrollbar">
               <el-form-item
                 class="risk-material-item"
-
                 v-for="(rec, index) in form.details"
                 :label="'风险物质' + (index+1)+'：'"
                 :key="index"
                 :prop="'details.' + index + '.criticalQuantity'"
                 :rules="{                required: false, message: '不能为空', trigger: 'blur'                }"
               >
-
                 <el-col :span="4">
                   <el-form-item>
-                    <el-input class="el-input-style" v-model="rec.materialId" minlength=1 @input="onInput()"></el-input>
+                    <el-select class="el-input-style" filterable placeholder="请选择" v-model="rec.materialId" minlength=1
+                               @input="onInput()">
+                      <el-option
+                        v-for="item in materialList"
+                        :key="item.id"
+                        :label="item.shortName"
+                        :value="item.id"
+                      />
+                    </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="7">
                   <el-form-item label="现存量：" label-width="80px">
                     <el-input class="el-input-style" v-model="rec.currentStock" @input="onInput()" minlength=1
-                              oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
+                              type="number"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="临界量：" label-width="80px" style="margin-left: 40px">
                     <el-input class="el-input-style" v-model="rec.criticalQuantity " @input="onInput()"
-                              oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1></el-input>
+                              type="number" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="3" style="text-align: center">
@@ -181,7 +188,7 @@
       :title="formTitle"
       :visible.sync="unitVisible"
       :modal="false"
-      width="960px" >
+      width="960px">
       <div class="block">
         <el-form ref="form" :model="form" :rules="rules" label-width="104px" class="align-right has-Label-Width">
           <el-row>
@@ -242,7 +249,15 @@
 
                 <el-col :span="4">
                   <el-form-item>
-                    <el-input class="el-input-style" v-model="rec.materialId" minlength=1 @input="onInput()"></el-input>
+                    <el-select class="el-input-style" filterable placeholder="请选择" v-model="rec.materialId" minlength=1
+                               @input="onInput()">
+                      <el-option
+                        v-for="item in materialList"
+                        :key="item.id"
+                        :label="item.shortName"
+                        :value="item.id"
+                      />
+                    </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="7">

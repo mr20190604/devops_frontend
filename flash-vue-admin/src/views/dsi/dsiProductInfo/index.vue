@@ -35,7 +35,9 @@
         @selection-change="handleSelectionChange"
         ref="productTable"
         height="331px"
+        @row-click="toggleSelection"
       >
+        <el-table-column type="selection" width="55" :reserve-selection="true"/>
         <el-table-column type="index" width="55" label="序号" align="center"/>
         <el-table-column label="产品名称" show-overflow-tooltip>
           <template slot-scope="scope">
@@ -200,14 +202,14 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="存储标准：">
-                <el-input v-model="form.storageStandards" style="width: 71%"/>
+                <el-input v-model="form.storageStandards" type="textarea" style="width: 71%"/>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="产品说明：">
-                <el-input v-model="form.productDesc" type="textarea"/>
+                <el-input v-model="form.productDesc" type="textarea" style="width: 71%"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -512,14 +514,14 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="存储标准：">
-                <el-input v-model="form.storageStandards" style="width: 71%"/>
+                <el-input v-model="form.storageStandards" type="textarea" style="width: 71%"/>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="产品说明：">
-                <el-input v-model="form.productDesc" type="textarea"/>
+                <el-input v-model="form.productDesc" type="textarea" style="width: 71%"/>
               </el-form-item>
             </el-col>
           </el-row>

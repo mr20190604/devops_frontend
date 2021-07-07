@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+
 export default {
   getList: function(params) {
     return request({
@@ -39,14 +40,19 @@ export default {
       }
     })
   },
-  getSelected:function(ids){
+  getSelected: function(ids) {
     return request({
-      url:'/material/baseinfo/getSelected',
+      url: '/material/baseinfo/getSelected',
       method: 'get',
       params: {
         ids: ids
       }
     })
+  },
+  queryAll: function() {
+    return request({
+      url: '/material/baseinfo/queryAll',
+      method: 'get'
+    })
   }
-
 }

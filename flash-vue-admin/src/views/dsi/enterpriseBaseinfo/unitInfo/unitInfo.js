@@ -2,6 +2,7 @@ import dsiEnterpriseRiskUnitApi from '@/api/dsi/dsiEnterpriseRiskUnit'
 import permission from '@/directive/permission/index.js'
 import { remove, getList, save, update, getDicts } from '@/api/system/dict'
 import dsiEnterpriseRiskMaterial from '../../../../api/dsi/dsiEnterpriseRiskMaterial'
+import dsiMaterialBaseinfoApi from '../../../../api/dsi/dsiMaterialBaseinfo'
 
 export default {
   directives: { permission },
@@ -26,12 +27,7 @@ export default {
         riskTypeName: '',
         detail: ''
       },
-      /* form1:{
-         materialId:'',
-         riskUnitId:'',
-         currentStock:'',
-         criticalQuantity:''
-       },*/
+      materialList: [],
       isDangerSource: [],
       risk_type: [],
       listQuery: {
@@ -61,7 +57,7 @@ export default {
   // enterpriseRiskUnitTable:null,
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -92,6 +88,9 @@ export default {
       this.fetchData()
     },
     fetchData() {
+      dsiMaterialBaseinfoApi.queryAll().then(response => {
+        this.materialList = response.data
+      })
       this.listLoading = true
       this.listQuery.enterpriseId = this.enterpriseId
       dsiEnterpriseRiskUnitApi.addUnit(this.listQuery).then(response => {
@@ -283,7 +282,7 @@ export default {
         if (this.selRow.detail) {
           detail.forEach(function(val) {
             let arr = val.split(',')
-            details.push({ 'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2] })
+            details.push({ 'materialId': parseInt(arr[0]), 'currentStock': arr[1], 'criticalQuantity': arr[2] })
           })
         }
         this.form = JSON.parse(JSON.stringify(this.selRow))
@@ -321,7 +320,6 @@ export default {
       }
     },
     addDetail() {
-
       let details = this.form.details
       details.push({
         materialId: '',
@@ -333,26 +331,13 @@ export default {
     },
     removeDetail(detail) {
       this.form.details.splice(this.form.details.findIndex(item => item.materialId === detail.materialId), 1)
-      console.log(this.form.details)
-      //let details = [];
-      /*if(this.form.details.length<=1){
-        return
-      }*/
-      /* this.form.details.forEach(function(val, index) {
-         if (detail.materialId !== val.materialId) {
-           details.push(val)
-         }
-       })
-       this.form.details = details*/
       this.$forceUpdate()
     },
     removeBatch() {
       let ids = this.selection.map(item => {
         return item.id
       })
-
       ids = ids.join(',')
-
       if (ids === null || ids.length === 0) {
         this.$message({
           message: this.$t('common.mustSelectOne'),
@@ -386,10 +371,10 @@ export default {
     },
     closeFatherDialog() {
       this.$emit('closeDialog')
-      //this.$parent.closeDialog();
     },
     toggleSelection(row) {
       this.$refs.unitTable.toggleRowSelection(row)
     }
+
   }
 }

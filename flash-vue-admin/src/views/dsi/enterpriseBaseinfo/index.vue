@@ -309,8 +309,7 @@
     <el-dialog class="el-dialog-style common-dialog-style height750"
                :title="formTitle"
                :visible.sync="enterpriseVisible"
-               width="960px"
-               @close="closeDialog">
+               width="960px">
       <template v-if="enterpriseVisible">
         <el-tabs v-model="activeName" type="card" :before-leave="handleClick">
           <el-tab-pane label="企业信息" name="first" style="visibility: visible">
