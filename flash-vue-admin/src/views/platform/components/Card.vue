@@ -6,7 +6,7 @@
       @click="handleClick()"
     >
       <path
-        id="outline"
+        class="outline"
         fill="none"
         stroke="#34fff8"
         stroke-width="1"
@@ -25,7 +25,7 @@
         />
       </path>
       <path
-        id="inline"
+        class="inline"
         fill="none"
         stroke="#34fff8"
         stroke-width="1"

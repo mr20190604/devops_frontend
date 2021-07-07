@@ -31,14 +31,14 @@
         @readyPromise="buildingsReadyPromise"
       />
       <vc-collection-primitive-billboard
-        :billboards="billboards.filter(item=>!item.level||item.level!==1)"
+        :billboards="billboards.filter(billboard=>!billboard.level||billboard.level!==1)"
         @mouseover="billboardMouseover"
         @mousemove="billboardMousemove"
         @mouseout="billboardMouseout"
         @click="billboardCollectionClick"
       />
       <vc-entity
-        v-for="item in billboards.filter(item=>item.level&&item.level===1)"
+        v-for="item in billboards.filter(billboard=>billboard.level&&billboard.level===1)"
         :id="String(item.id)"
         :key="item.id"
         :position="item.position"
@@ -293,6 +293,7 @@
         title="选择图层"
         width="20%"
         top="35vh"
+        :close-on-click-modal="false"
         @close="handleCloseDialog"
       >
         <el-checkbox
@@ -647,7 +648,7 @@ export default {
     },
     handleCheckAllChange(val) {
       this.selectedCoverages = val ? this.coverages : []
-      this.isIndeterminate = false
+      this.handleCheckedCoveragesChange(this.selectedCoverages)
     },
     handleCheckedCoveragesChange(value) {
       const checkedCount = value.length
@@ -658,7 +659,6 @@ export default {
       this.visible = !this.visible
     },
     handleCloseDialog() {
-      console.log(this.selectedCoverages)
       this.billboards.forEach(item => {
         item.show = this.selectedCoverages.indexOf(item.typeName) > -1
       })
