@@ -426,6 +426,22 @@ export default {
       window.viewer._container.style.cursor = 'grab'
       // 开启调试深度
       // window.viewer.scene.globe.depthTestAgainstTerrain = true
+
+      let start = Date.now()
+      const duration = 3000
+
+      function rotate() {
+        const a = 2 * Math.PI
+        const now = Date.now()
+        const n = (now - start) / duration
+        start = now
+        viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -a * n)
+      }
+      viewer.clock.onTick.addEventListener(rotate)
+      setTimeout(function() {
+        viewer.clock.onTick.removeEventListener(rotate)
+        window.viewer.flyTo(window.buildings)
+      }, duration)
     },
     buildingsReadyPromise(buildings) {
       // 贴地
@@ -434,9 +450,9 @@ export default {
       const offset = window.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0)
       const translation = window.Cesium.Cartesian3.subtract(offset, surface, new window.Cesium.Cartesian3())
       buildings.modelMatrix = window.Cesium.Matrix4.fromTranslation(translation)
+      window.buildings = buildings
       // 初始化测试数据
       this.initTestData()
-      window.viewer.flyTo(buildings)
     },
     initTestData() {
       const images = [[], [], []]
