@@ -16,14 +16,16 @@
     .el-table {
       // height: 442px;
       // height: 50px;
-      // overflow-y: auto;
-    
+       overflow-y: auto;
+      max-height: 80%;
+
       thead {
         th {
           background: #eeeff2;
           color: #333333;
-          font-size: 12px;
+          font-size: 14px;
           border-right: none;
+          height: 45px;
           font-weight: bold;
           padding:6px 0;
           .cell{
@@ -35,9 +37,9 @@
   
       td {
         color: #333;
-        font-size: 12px;
+        font-size: 14px;
         border-right: none;
-        height: 30px;
+        height: 45px;
         padding: 0;
       }
       tr{
@@ -454,6 +456,10 @@
     }
   }
 }
+
+/*.el-table {
+  max-height: 80%;
+}*/
 // 字体
 
 @font-face {
