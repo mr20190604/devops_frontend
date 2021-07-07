@@ -37,7 +37,8 @@
            </router-link>
         </li>
         <li>
-          <a target="_blank" title="GIS" href="http://ali201.9-heng.com:8088/GIS/#id=wzt85l&p=%E7%9B%91%E6%B5%8B%E6%8A%A5%E8%AD%A6_1">
+          <!--<a target="_blank" title="GIS" href="http://ali201.9-heng.com:8088/GIS/#id=wzt85l&p=%E7%9B%91%E6%B5%8B%E6%8A%A5%E8%AD%A6_1">-->
+          <a target="_blank" title="GIS" href="/#/3dgis">
             <img src="@/assets/img/head-link-gis.png" alt="">
             <i>三维GIS</i>
           </a>
