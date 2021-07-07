@@ -33,9 +33,10 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="风险物质" width="500px" show-overflow-tooltip align="center">
+        <el-table-column label="是否危险源" show-overflow-tooltip align="center">
           <template slot-scope="scope">
-            {{scope.row.detail}}
+            <template v-if="scope.row.isDangerSource==69">是</template>
+            <template v-if="scope.row.isDangerSource==70">否</template>
           </template>
         </el-table-column>
 
