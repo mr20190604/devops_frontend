@@ -33,9 +33,10 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="风险物质" width="500px" show-overflow-tooltip align="center">
+        <el-table-column label="是否危险源" show-overflow-tooltip align="center">
           <template slot-scope="scope">
-            {{scope.row.detail}}
+            <template v-if="scope.row.isDangerSource==69">是</template>
+            <template v-if="scope.row.isDangerSource==70">否</template>
           </template>
         </el-table-column>
 
@@ -66,12 +67,12 @@
 
             <el-col :span="12">
               <el-form-item label="风险单元名称：">
-                <el-input v-model="form.riskName" minlength=1 readonly="true"></el-input>
+                <el-input v-model="form.riskName" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="重大危险源：">
-                <el-select v-model="form.isDangerSource" minlength=1 placeholder="请选择是否" disabled="true">
+                <el-select v-model="form.isDangerSource" minlength=1 placeholder="请选择是否">
                   <el-option
                     v-for="item in isDangerSource"
                     :key="item.id"
@@ -83,7 +84,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="风险类型：">
-                <el-select v-model="form.riskType" minlength=1 disabled="true">
+                <el-select v-model="form.riskType" minlength=1>
                   <el-option
                     v-for="item in risk_type"
                     :key="item.id"
@@ -95,12 +96,12 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="负责人：">
-                <el-input v-model="form.headPerson" minlength=1 readonly="true"></el-input>
+                <el-input v-model="form.headPerson" minlength=1></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="联系电话：">
-                <el-input v-model="form.personTel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')" readonly="true"></el-input>
+                <el-input v-model="form.personTel" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -117,7 +118,7 @@
                 <el-col :span="4">
                   <el-form-item>
                     <el-select class="el-input-style" filterable placeholder="请选择" v-model="rec.materialId" minlength=1
-                               @input="onInput()" disabled="true">
+                               @input="onInput()">
                       <el-option
                         v-for="item in materialList"
                         :key="item.id"
@@ -130,13 +131,13 @@
                 <el-col :span="7">
                   <el-form-item label="现存量：" label-width="80px">
                     <el-input class="el-input-style" v-model="rec.currentStock" @input="onInput()" minlength=1
-                              oninput="value=value.replace(/[^0-9.]/g,'')" readonly="true"></el-input>
+                              oninput="value=value.replace(/[^0-9.]/g,'')"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="临界量：" label-width="80px" style="margin-left: 40px">
                     <el-input class="el-input-style" v-model="rec.criticalQuantity " @input="onInput()"
-                              oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1 readonly="true"></el-input>
+                              oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
 

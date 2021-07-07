@@ -66,10 +66,12 @@
         .el-submenu{
           
           .el-submenu__title{
+            font-size: 16px;
             background: #1c273a !important;
           }
           ul{
             .el-menu-item{
+              font-size: 16px;
               width: 100%;
               height: 46px;
               line-height: 46px;
@@ -88,8 +90,9 @@
           .nest-menu{
            .router-link-active{
             .el-menu-item{
+              font-size: 16px;
               background:#2e3a4d !important;
-              color: #fff !important;
+              color: #409EFF !important;
               position: relative;
               &::before{
                 position: absolute;
@@ -106,6 +109,7 @@
           }
         }
         .submenu-title-noDropdown{
+          font-size: 16px;
           background: #1c273a !important;
         }
     }

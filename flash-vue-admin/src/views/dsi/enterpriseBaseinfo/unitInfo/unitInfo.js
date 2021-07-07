@@ -85,6 +85,7 @@ export default {
   methods: {
     init() {
       this.listQuery.enterpriseId = this.enterpriseId
+      this.selection = []
       this.fetchData()
     },
     fetchData() {
@@ -95,6 +96,7 @@ export default {
       this.listQuery.enterpriseId = this.enterpriseId
       dsiEnterpriseRiskUnitApi.addUnit(this.listQuery).then(response => {
         this.list = response.data.records
+        this.$refs.unitTable.clearSelection()
         this.listLoading = false
         this.total = response.data.total
       })
@@ -266,7 +268,7 @@ export default {
       if (this.selRow.detail) {
         detail.forEach(function(val) {
           let arr = val.split(',')
-          details.push({ 'materialId': arr[0], 'currentStock': arr[1], 'criticalQuantity': arr[2] })
+          details.push({ 'materialId': parseInt(arr[0]), 'currentStock': arr[1], 'criticalQuantity': arr[2] })
         })
       }
       this.form = JSON.parse(JSON.stringify(this.selRow))
