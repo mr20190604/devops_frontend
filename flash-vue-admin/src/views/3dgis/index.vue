@@ -30,15 +30,8 @@
         url="./models/buildings/tileset.json"
         @readyPromise="buildingsReadyPromise"
       />
-      <vc-collection-primitive-billboard
-        :billboards="billboards.filter(billboard=>!billboard.level||billboard.level!==1)"
-        @mouseover="billboardMouseover"
-        @mousemove="billboardMousemove"
-        @mouseout="billboardMouseout"
-        @click="billboardCollectionClick"
-      />
       <vc-entity
-        v-for="item in billboards.filter(billboard=>billboard.level&&billboard.level===1)"
+        v-for="item in billboards"
         :id="String(item.id)"
         :key="item.id"
         :position="item.position"
@@ -202,7 +195,8 @@
           <div v-show="windowInfo.title==='危险源信息'">
             <p>危险源名称:<span>氢氧化钠</span></p>
             <p>数量:<span>25吨</span></p>
-            <p>防护措施:<span>工作人员应作好防护，若不慎触及皮肤和眼睛，应立即用大量水冲洗干净。工作环境应具有良好的通风条件。氢氧化钠水溶液有滑腻感，溶于水时产生很高的热量，操作时要带防护目镜及橡胶手套，注意不要溅到皮肤上或眼睛里。</span></p>
+            <p>防护措施:<span>工作人员应作好防护，若不慎触及皮肤和眼睛，应立即用大量水冲洗干净。工作环境应具有良好的通风条件。氢氧化钠水溶液有滑腻感，溶于水时产生很高的热量，操作时要带防护目镜及橡胶手套，注意不要溅到皮肤上或眼睛里。</span>
+            </p>
           </div>
           <div v-show="windowInfo.title==='应急车辆信息'">
             <p>车牌号:<span>皖A·123JS</span></p>
@@ -220,7 +214,8 @@
           <div v-show="windowInfo.title==='应急物资库信息'">
             <p>物资名称:<span>双氧水</span></p>
             <p>数量:<span>20吨</span></p>
-            <p>功效:<span>双氧水又名过氧化氢，分子式是H2O2。即，一个过氧化氢分子含有两个氧原子。虽然双氧水能够分解成水(H2O)和氧气(O2)，但并不是双氧水中“含有高浓度氧气”。双氧水是公认的低毒物质，广泛应用于工业漂白、外科消毒等领域，但若使用不当，仍有可能造成危害。</span></p>
+            <p>功效:<span>双氧水又名过氧化氢，分子式是H2O2。即，一个过氧化氢分子含有两个氧原子。虽然双氧水能够分解成水(H2O)和氧气(O2)，但并不是双氧水中“含有高浓度氧气”。双氧水是公认的低毒物质，广泛应用于工业漂白、外科消毒等领域，但若使用不当，仍有可能造成危害。</span>
+            </p>
           </div>
         </div>
       </vc-overlay-html>
@@ -294,7 +289,6 @@
         width="20%"
         top="35vh"
         :close-on-click-modal="false"
-        @close="handleCloseDialog"
       >
         <el-checkbox
           v-model="selectAll"
@@ -439,6 +433,7 @@ export default {
         start = now
         viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -a * n)
       }
+
       viewer.clock.onTick.addEventListener(rotate)
       setTimeout(function() {
         viewer.clock.onTick.removeEventListener(rotate)
@@ -654,14 +649,14 @@ export default {
       const checkedCount = value.length
       this.selectAll = checkedCount === this.coverages.length
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.coverages.length
+
+      // 修改显示图层
+      this.billboards.forEach(item => {
+        item.show = value.indexOf(item.typeName) > -1
+      })
     },
     toggleVisibleCoverage() {
       this.visible = !this.visible
-    },
-    handleCloseDialog() {
-      this.billboards.forEach(item => {
-        item.show = this.selectedCoverages.indexOf(item.typeName) > -1
-      })
     },
     handleAlarmClick() {
       const infos = this.coverages.filter((item, index) => index < 3)
@@ -989,19 +984,19 @@ export default {
     margin: 5px;
   }
 
-  .mapTools{
+  .mapTools {
     position: absolute;
     bottom: 90px;
-    color:#eeeeee;
+    color: #eeeeee;
     background: rgba(30, 48, 73, 0.8);
     border-radius: 3px;
   }
 
-  .mapTools ul{
+  .mapTools ul {
     list-style: none;
   }
 
-  .mapTools li{
+  .mapTools li {
     margin: 0 16px;
     padding: 3px 0;
     line-height: 1.5em;
@@ -1132,7 +1127,7 @@ export default {
     margin-bottom: 8px;
   }
 
-  .alarmInfo >p{
+  .alarmInfo > p {
     display: inline-block;
   }
 
@@ -1144,7 +1139,7 @@ export default {
     width: calc(40% - 20px);
   }
 
-  .backAnalysis >p{
+  .backAnalysis > p {
     display: inline-block;
   }
 
@@ -1164,7 +1159,7 @@ export default {
     width: 60%;
   }
 
-  .diffusionAnalysis >p{
+  .diffusionAnalysis > p {
     display: inline-block;
   }
 
@@ -1210,7 +1205,7 @@ export default {
     background: url("../../assets/img/gis/arrows-hide.png");
   }
 
-  .windowInfo div:not(:nth-of-type(1)){
+  .windowInfo div:not(:nth-of-type(1)) {
     padding: 10px;
   }
 </style>
