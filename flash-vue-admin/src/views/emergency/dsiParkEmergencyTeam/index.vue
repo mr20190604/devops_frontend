@@ -76,7 +76,8 @@
         />
         <el-table-column label="队伍名称" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.name }}
+            <span class="updateText" @click="viewInfo(scope.row)">{{ scope.row.name }}</span>
+
           </template>
         </el-table-column>
         <el-table-column label="所属企业" show-overflow-tooltip>
@@ -154,12 +155,12 @@
                     </el-col>-->
             <el-col :span="12">
               <el-form-item label="队伍名称：">
-                <el-input v-model="form.name" minlength="1" placeholder="请输入队伍名称" />
+                <el-input v-model="form.name" :disabled="editFlag" minlength="1" placeholder="请输入队伍名称" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="所属企业：">
-                <el-select v-model="form.belongingUnit" minlength="1">
+                <el-select v-model="form.belongingUnit" :disabled="editFlag" minlength="1">
                   <el-option
                     v-for="item in enterprise_list"
                     :key="item.id"
@@ -171,50 +172,50 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="负责人：">
-                <el-input v-model="form.personContact" placeholder="请输入负责人" minlength="1" />
+                <el-input v-model="form.personContact" :disabled="editFlag" placeholder="请输入负责人" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="联系电话：">
-                <el-input v-model="form.personTel" placeholder="请输入联系电话" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.personTel" :disabled="editFlag" placeholder="请输入联系电话" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="队伍性质：">
-                <el-input v-model="form.teamNature" placeholder="请输入队伍性质" minlength="1" />
+                <el-input v-model="form.teamNature" :disabled="editFlag" placeholder="请输入队伍性质" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="队伍人数：">
-                <el-input v-model="form.personNumber" placeholder="请输入人数" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.personNumber" :disabled="editFlag" placeholder="请输入人数" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="地址：">
-                <el-input v-model="form.address" placeholder="请输入地址" minlength="1" />
+                <el-input v-model="form.address" :disabled="editFlag" placeholder="请输入地址" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="抢险设备：">
-                <el-input v-model="form.teamEquipment" placeholder="请输入抢险设备" minlength="1" />
+                <el-input v-model="form.teamEquipment"  :disabled="editFlag" placeholder="请输入抢险设备" minlength="1" />
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
               <el-form-item label="经度：">
-                <el-input v-model="form.longitude" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" placeholder="请输入经度" />
+                <el-input v-model="form.longitude" :disabled="editFlag" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" placeholder="请输入经度" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="纬度：">
-                <el-input v-model="form.latitude" placeholder="请输入维度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.latitude" :disabled="editFlag" placeholder="请输入维度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
 
           </el-row>
 
           <el-form-item align="right" class="marginTop10">
-            <el-button type="primary" class="set-common-btn blank-blue-button width92" @click.native="choosePerson">选择应急人员</el-button>
+            <el-button type="primary" class="set-common-btn blank-blue-button width92" v-if="editFlag == false" @click.native="choosePerson">选择应急人员</el-button>
           </el-form-item>
            <div class="table-list" style="padding:0">
             <el-table
@@ -269,13 +270,13 @@
               <el-table-column label="操作" align="center" width="170">
                 <template slot-scope="scope">
                   <el-button type="text" size="mini" icon="el-icon-edit" @click.native="viewPerson(scope.row)">查看</el-button>
-                  <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removePersonItem(scope.row)">{{ $t('button.delete') }}</el-button>
+                  <el-button type="text" size="mini" icon="el-icon-delete" v-if="editFlag == false" @click.native="removePersonItem(scope.row)">{{ $t('button.delete') }}</el-button>
                 </template>
               </el-table-column>
             </el-table>
            </div>
 
-          <el-form-item class="marginT10 dialog-button-list">
+          <el-form-item class="marginT10 dialog-button-list" v-if="editFlag == false">
             <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
             <el-button class="set-common-btn blank-blue-button" @click.native="cancle">{{ $t('button.cancel') }}</el-button>
           </el-form-item>

@@ -57,7 +57,8 @@ export default {
         screenStatus: '',
         relieveTime: '',
         screenStatusName: '',
-        mmAlarmScreenInfos: ''
+        mmAlarmScreenInfos: '',
+        alarmLocation:'',
       },
       disposeForm: {
         alarmId: '',
@@ -541,23 +542,38 @@ export default {
       this.disposeForm.handleStatus = ''
       this.disposeForm.fileId = ''
     }, dispose() {
-      if (this.checkSel()) {
-        if (this.selRow.screenStatus != 258) {
+
+      if (this.selection.length < 1) {
+        this.$message({
+          message: this.$t('请选择数据'),
+          type: 'warning'
+        })
+        return
+      }
+      if (this.selection.length > 1) {
+        this.$message({
+          message: this.$t('只能处置单条数据'),
+          type: 'warning'
+        })
+        return
+      }
+
+
+      if (this.selection[0].screenStatus != 258) {
           this.$message({
             message: '请等待排查完成后进行处置',
             type: 'warning'
           })
-        } else if (this.selRow.isFeedback != 0) {
+        } else if (this.selection[0].isFeedback != 0) {
           this.$message({
             message: '请选择待处置的报警',
             type: 'warning'
           })
         } else {
-          this.form = this.selRow
+          this.form = this.selection[0]
           this.disposeTitle = '现场处置'
           this.disposeVisible = true
         }
-      }
     }, addDispose() {
       this.$refs['disposeForm'].validate((valid) => {
         if (valid) {
@@ -660,26 +676,39 @@ export default {
         this.genEventVisible = true
       }
     }, openAccept() {
-      if (this.checkSel()) {
-        if (this.selRow.screenStatus == 257) {
+      if (this.selection.length < 1) {
+        this.$message({
+          message: this.$t('请选择数据'),
+          type: 'warning'
+        })
+        return
+      }
+      if (this.selection.length > 1) {
+        this.$message({
+          message: this.$t('只能对单条数据进行排查'),
+          type: 'warning'
+        })
+        return
+      }
+
+        if (this.selection[0].screenStatus == 257) {
           this.$message({
             message: '正在排查中，请勿重复排查',
             type: 'warning'
           })
           return
         }
-        if (this.selRow.screenStatus == 258) {
+        if (this.selection[0].screenStatus == 258) {
           this.$message({
             message: '排查已完成，请勿重复排查',
             type: 'warning'
           })
           return
         }
-        this.form = this.selRow
+        this.form = this.selection[0]
         this.acceptTitle = '现场排查'
         this.acceptVisible = true
         this.initAcceptPerson()
-      }
     }, msgSend() {
       this.$refs['acceptForm'].validate((valid) => {
         if (valid) {

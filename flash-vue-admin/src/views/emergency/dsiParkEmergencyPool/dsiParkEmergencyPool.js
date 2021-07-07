@@ -72,6 +72,7 @@ export default {
       materialRow:{},
       selectMonth:null,
       selection:[],
+      editFlag:false,
     }
   },
   filters: {
@@ -187,6 +188,7 @@ export default {
     },
     add() {
       this.resetForm()
+      this.editFlag = false;
       this.materialList = null
       this.materialAdd = true
       this.formTitle = '新增应急资源库',
@@ -281,6 +283,7 @@ export default {
     },
     edit() {
       if (this.checkSel()) {
+        this.editFlag = false;
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '修改应急资源库'
@@ -520,6 +523,18 @@ export default {
           type: 'warning'
         })
       }
+    },
+    viewInfo(record) {
+      this.initMaterialList(record.id)
+      this.isAdd = false
+      this.form = JSON.parse(JSON.stringify(record))
+      this.formTitle = '查看应急资源库'
+      this.formVisible = true
+      this.editFlag = true;
+      if(this.$refs['form'] !== undefined) {
+        this.$refs['form'].resetFields()
+      }
+
     }
 
   }

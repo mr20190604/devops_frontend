@@ -81,7 +81,10 @@
           </el-table-column>
           <el-table-column label="车辆名称" show-overflow-tooltip>
                 <template slot-scope="scope">
+                  <span class="updateText" @click="viewInfo(scope.row)">
                     {{scope.row.vehicleName}}
+                  </span>
+
                 </template>
             </el-table-column>
             <el-table-column label="归属企业" show-overflow-tooltip>
@@ -165,12 +168,12 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="车辆名称："  >
-                                <el-input v-model="form.vehicleName" minlength=1 placeholder="请输入车辆名称"></el-input>
+                                <el-input v-model="form.vehicleName" :disabled="editFlag" minlength=1 placeholder="请输入车辆名称"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="归属企业："  >
-                                <el-select v-model="form.enterpriseId" minlength=1>
+                                <el-select v-model="form.enterpriseId" :disabled="editFlag" minlength=1>
                                   <el-option
                                     v-for="item in enterprise_list"
                                     :key="item.id"
@@ -182,17 +185,17 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="车牌号："  >
-                                <el-input v-model="form.vehicleLicense" minlength=1 placeholder="请输入车牌号"></el-input>
+                                <el-input v-model="form.vehicleLicense" :disabled="editFlag" minlength=1 placeholder="请输入车牌号"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="车辆编号："  >
-                                <el-input v-model="form.vehicleCode" minlength=1 placeholder="请输入车牌编号"></el-input>
+                                <el-input v-model="form.vehicleCode" :disabled="editFlag" minlength=1 placeholder="请输入车牌编号"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="车辆类别："  >
-                                <el-select v-model="form.vehicleType" minlength=1>
+                                <el-select v-model="form.vehicleType" :disabled="editFlag" minlength=1>
                                   <el-option
                                     v-for="item in vehicleType_list"
                                     :key="item.id"
@@ -204,43 +207,43 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="车辆型号："  >
-                                <el-input v-model="form.vehicleModel" minlength=1 placeholder="请输入车辆型号"></el-input>
+                                <el-input v-model="form.vehicleModel" :disabled="editFlag" minlength=1 placeholder="请输入车辆型号"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="行政区划："  >
-                                <district v-model="form.districtCode" minlength=1></district>
+                                <district v-model="form.districtCode" :disabled="editFlag" minlength=1></district>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="负责人：" >
-                                <el-input v-model="form.vehicleResponsible" minlength=1 placeholder="请输入负责人"></el-input>
+                                <el-input v-model="form.vehicleResponsible" :disabled="editFlag" minlength=1 placeholder="请输入负责人"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="联系电话："  >
-                                <el-input v-model="form.personTel" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1 placeholder="请输入联系电话"></el-input>
+                                <el-input v-model="form.personTel" :disabled="editFlag" oninput="value=value.replace(/[^0-9.]/g,'')" minlength=1 placeholder="请输入联系电话"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="生产厂家："  >
-                                <el-input v-model="form.manufacturer" minlength=1 placeholder="请输入生产厂家"></el-input>
+                                <el-input v-model="form.manufacturer" :disabled="editFlag" minlength=1 placeholder="请输入生产厂家"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="经度："  >
-                                <el-input v-model="form.longitude" oninput="value=value.replace(/[^0-9.]/g,'')" placeholder="请输入经度" minlength=1></el-input>
+                                <el-input v-model="form.longitude" :disabled="editFlag" oninput="value=value.replace(/[^0-9.]/g,'')" placeholder="请输入经度" minlength=1></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="纬度："  >
-                                <el-input v-model="form.latitude" oninput="value=value.replace(/[^0-9.]/g,'')" placeholder="请输入纬度" minlength=1></el-input>
+                                <el-input v-model="form.latitude" :disabled="editFlag" oninput="value=value.replace(/[^0-9.]/g,'')" placeholder="请输入纬度" minlength=1></el-input>
                             </el-form-item>
                         </el-col>
                          </el-row>
                          <el-row>
-                      <el-col>
-                        <el-form-item label="选择文件：">
+                      <el-col v-if="editFlag == false">
+                        <el-form-item label="选择文件：" >
                           <el-upload
                             :action="uploadUrl"
                             :headers="uploadHeaders"
@@ -258,7 +261,7 @@
                       </el-col>
 
                     </el-row>
-                    <el-form-item id="myself" class="dialog-button-list marginT10">
+                    <el-form-item id="myself" class="dialog-button-list marginT10" v-if="editFlag == false">
                         <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
                         <el-button @click.native="formVisible=false" class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
                     </el-form-item>

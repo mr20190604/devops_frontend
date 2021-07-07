@@ -74,8 +74,10 @@
           label="序号"
         />
         <el-table-column label="资源库名称" show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{ scope.row.repositoriesName }}
+          <template slot-scope="scope" >
+            <span class="updateText" @click="viewInfo(scope.row)" >
+              {{ scope.row.repositoriesName }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="所属企业" show-overflow-tooltip>
@@ -147,12 +149,12 @@
                     </el-col>-->
             <el-col :span="12">
               <el-form-item label="资源库名称：">
-                <el-input v-model="form.repositoriesName" placeholder="请输入资源库名称" minlength="1" />
+                <el-input v-model="form.repositoriesName"  :disabled="editFlag" placeholder="请输入资源库名称" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="所属企业：">
-                <el-select v-model="form.enterpriseId" minlength="1">
+                <el-select v-model="form.enterpriseId" minlength="1" :disabled="editFlag">
                   <el-option
                     v-for="item in enterprise_list"
                     :key="item.id"
@@ -164,35 +166,35 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="负责人：">
-                <el-input v-model="form.personName" placeholder="请输入负责人姓名" minlength="1" />
+                <el-input v-model="form.personName" :disabled="editFlag" placeholder="请输入负责人姓名" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="联系电话：">
-                <el-input v-model="form.personTel" placeholder="请输入联系电话" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.personTel" :disabled="editFlag" placeholder="请输入联系电话" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
               <el-form-item label="经度：">
-                <el-input v-model="form.longitude" placeholder="请输入经度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.longitude" :disabled="editFlag" placeholder="请输入经度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="纬度：">
-                <el-input v-model="form.latitude" placeholder="请输入纬度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.latitude" :disabled="editFlag" placeholder="请输入纬度" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="地址：">
-                <el-input v-model="form.address" placeholder="请输入地址" minlength="1" />
+                <el-input v-model="form.address" :disabled="editFlag" placeholder="请输入地址" minlength="1" />
               </el-form-item>
             </el-col>
 
           </el-row>
 
           <el-form-item align="right">
-            <el-button type="primary" align="center" class="set-common-btn blank-blue-button" @click="addMaterial">添加新物资</el-button>
+            <el-button type="primary" align="center" class="set-common-btn blank-blue-button" v-if="editFlag == false" @click="addMaterial">添加新物资</el-button>
           </el-form-item>
           <div class="table-list">
             <el-table
@@ -238,17 +240,17 @@
               <!--</el-table-column>-->
               <!--</template>-->
 
-              <el-table-column label="操作" align="center" width="170">
+              <el-table-column label="操作" align="center" v-if="editFlag == false" width="170">
                 <template slot-scope="scope">
-                  <el-button type="text" icon="el-icon-edit" @click.native="editMaterialItem(scope.row)">{{ $t('button.edit') }}</el-button>
-                  <el-button type="text" icon="el-icon-delete" @click.native="removeMaterial(scope.row)">{{ $t('button.delete') }}</el-button>
+                  <el-button type="text" icon="el-icon-edit"  @click.native="editMaterialItem(scope.row)">{{ $t('button.edit') }}</el-button>
+                  <el-button type="text" icon="el-icon-delete"  @click.native="removeMaterial(scope.row)">{{ $t('button.delete') }}</el-button>
                 </template>
               </el-table-column>
             </el-table>
           </div>
           <el-form-item class="marginT10 align-center">
-            <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
-            <el-button class="set-common-btn blank-blue-button" @click.native="cancle">{{ $t('button.cancel') }}</el-button>
+            <el-button type="primary" class="set-common-btn blue-button" v-if="editFlag == false" @click="save">{{ $t('button.submit') }}</el-button>
+            <el-button class="set-common-btn blank-blue-button" v-if="editFlag == false" @click.native="cancle">{{ $t('button.cancel') }}</el-button>
           </el-form-item>
         </el-form>
       </div>

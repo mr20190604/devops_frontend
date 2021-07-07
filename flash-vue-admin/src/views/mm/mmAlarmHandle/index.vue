@@ -90,7 +90,7 @@
           <el-button  class="set-common-btn blue-button" @click.native="openAccept" v-permission="['/mmAlarmHandle/screen']">现场排查</el-button>
            <el-button  class="set-common-btn blank-blue-button" @click.native="dispose()" v-permission="['/mmAlarmHandle/handle']">现场处置</el-button>
       </div>
-        <el-table :data="list" ref="alarmTable" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+        <el-table :data="list" ref="alarmTable" v-loading="listLoading" element-loading-text="Loading" border fit
                   @current-change="handleCurrentChange" :row-key="getRowKey"
                   @selection-change="handleSelectionChange"
                   @row-click="toggleSelection"
@@ -126,7 +126,7 @@
             </el-table-column>
           <el-table-column label="报警位置" show-overflow-tooltip>
             <template slot-scope="scope">
-              <template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].installLocation}}</template>
+              <template >{{scope.row.alarmLocation}}</template>
             </template>
           </el-table-column>
 
@@ -141,17 +141,17 @@
             </template>
           </el-table-column>
 
-            <el-table-column label="报警时间" sortable show-overflow-tooltip>
+            <el-table-column label="报警时间" sortable width="160px">
                 <template slot-scope="scope">
                     {{scope.row.alarmTime}}
                 </template>
             </el-table-column>
-          <el-table-column label="排查状态"  show-overflow-tooltip>
+          <el-table-column label="排查状态"  show-overflow-tooltip style="width: 100px" align="center">
             <template slot-scope="scope">
             {{scope.row.screenStatusName}}
             </template>
           </el-table-column>
-          <el-table-column label="排查结果"  show-overflow-tooltip>
+          <el-table-column label="排查结果"  show-overflow-tooltip style="width: 100px" align="center">
             <template slot-scope="scope">
                   <template  v-if="scope.row.screenResult === 0 ">误报</template>
                   <template  v-if="scope.row.screenResult === 1 ">确认报警</template>
@@ -164,7 +164,7 @@
               <template  v-if="scope.row.isFeedback === 2">已处置</template>
             </template>
           </el-table-column>
-          <el-table-column label="解除状态"  show-overflow-tooltip>
+          <el-table-column label="解除状态"  show-overflow-tooltip style="width: 100px" align="center">
             <template slot-scope="scope" >
               <template  v-if="scope.row.isRelieve === 0 ">未解除</template>
               <template  v-if="scope.row.isRelieve === 1 ">已解除</template>

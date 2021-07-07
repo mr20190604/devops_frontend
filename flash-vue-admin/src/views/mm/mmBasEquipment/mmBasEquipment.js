@@ -79,7 +79,7 @@ export default {
         installBatch: '',
         id: '',
         equipmentTypeName: '',
-        equipmentStatus1Name: '',
+        equipmentStatusName: '',
         realValue: '',
         reportTime: '',
         dataStatus: '',

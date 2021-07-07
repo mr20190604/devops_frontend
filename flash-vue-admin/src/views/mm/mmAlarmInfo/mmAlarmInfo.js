@@ -57,7 +57,9 @@ export default {
         monitorTypeName:'',
         auditUser:'',
         screenStatus:'',
-        relieveTime:''
+        relieveTime:'',
+        alarmLocation:'',
+        equipmentName:'',
       },
       disposeForm:{
         alarmId:'',
@@ -128,6 +130,7 @@ export default {
         auditStatus:undefined,
         isRelieve:undefined,
         personId:undefined,
+
       },
       total: 0,
       list: null,
@@ -345,7 +348,7 @@ export default {
         this.listLoading = false
         this.total = response.data.total
       });
-      getDicts("报警类型").then(response=>{
+      getDicts("设备类型").then(response=>{
         this.alarm_type=response.data;
       });
       getDicts("报警等级").then(response=>{
@@ -423,9 +426,22 @@ export default {
       }
     },
     add() {
+      if (this.selection.length < 1) {
+        this.$message({
+          message: this.$t('请选择数据'),
+          type: 'warning'
+        })
+        return
+      }
+      if (this.selection.length > 1) {
+        this.$message({
+          message: this.$t('只能审核单条数据'),
+          type: 'warning'
+        })
+        return
+      }
 
-      if (this.checkSel()) {
-        if(this.selRow.isAudit == 1) {
+        if(this.selection[0].isAudit == 1) {
           this.$message({
             message: this.$t('不允许重复审核'),
             type: 'warning'
@@ -435,14 +451,14 @@ export default {
           this.formTitle = '报警审核'
           this.formVisible = true
           this.isAdd = true
-          this.form = this.selRow
+          this.form =  JSON.parse(JSON.stringify(this.selection[0]))
+          this.form.equipmentName = this.selection[0].equipment.equipmentName
 
           if(this.$refs['form'] !== undefined) {
             this.$refs['form'].resetFields()
           }
           //如果表单初始化有特殊处理需求,可以在resetForm中处理
         }
-      }
 
           },
     save() {
@@ -686,8 +702,24 @@ export default {
         this.genEventVisible = true;
       }
     },openAccept() {
-      if(this.checkSel()) {
-        if (this.selRow.isAudit < 1) {
+
+      if (this.selection.length < 1) {
+        this.$message({
+          message: this.$t('请选择数据'),
+          type: 'warning'
+        })
+        return
+      }
+      if (this.selection.length > 1) {
+        this.$message({
+          message: this.$t('只能对单条数据进行通知'),
+          type: 'warning'
+        })
+        return
+      }
+
+
+        if (this.selection[0].isAudit < 1) {
           this.$message({
             message: '请先进行审核',
             type: 'warning'
@@ -699,12 +731,11 @@ export default {
           this.acceptForm.noticeContent = ''
           this.initAcceptPerson()
         }
-      }
     },msgSend() {
       this.$refs['acceptForm'].validate((valid) => {
         if (valid) {
           const formData = {
-            alarmId:this.selRow.id,
+            alarmId:this.selection[0].id,
             content:this.acceptForm.noticeContent,
             receives:this.value
           }

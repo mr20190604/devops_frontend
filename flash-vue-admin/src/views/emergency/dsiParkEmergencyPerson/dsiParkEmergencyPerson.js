@@ -52,7 +52,8 @@ export default {
       list: [],
       listLoading: true,
       selRow: {},
-      selection: []
+      selection: [],
+      editFlag:false,
     }
   },
   filters: {
@@ -155,6 +156,7 @@ export default {
     },
     add() {
       this.resetForm()
+      this.editFlag = false;
       this.formTitle = '新增应急人员',
       this.formVisible = true
       this.isAdd = true
@@ -235,6 +237,8 @@ export default {
     },
     edit() {
       if (this.checkSel()) {
+        this.editFlag = false;
+
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '修改人员信息'
@@ -314,6 +318,16 @@ export default {
           type: 'warning'
         })
       }
+    },
+    viewInfo(record) {
+      this.form = JSON.parse(JSON.stringify(record));
+      this.formTitle = '查看应急人员'
+      this.formVisible = true
+      this.editFlag = true;
+      if (this.$refs['form'] !== undefined) {
+        this.$refs['form'].resetFields()
+      }
+
     }
 
   }
