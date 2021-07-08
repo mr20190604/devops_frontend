@@ -21,7 +21,7 @@ export default {
     return {
       previewTitle: '预览',
       downloadUrl: '',
-      files: null,
+      files: [],
       previewVisible: false,
       equipBtnDisplay: true,
       fileBtnDisplay: true,
@@ -108,7 +108,7 @@ export default {
         endTime: undefined
       },
       total: 0,
-      list: null,
+      list: [],
       selRow: {}
     }
   },
