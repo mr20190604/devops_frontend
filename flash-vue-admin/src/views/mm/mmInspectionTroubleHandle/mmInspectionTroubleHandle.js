@@ -5,45 +5,45 @@ import TroubleProcess from '@/views/mm/mmInspectionTrouble/troubleProcess/troubl
 
 export default {
   directives: { permission },
-  components: {TroubleProcess},
+  components: { TroubleProcess },
   data() {
     return {
       formVisible: false,
       formTitle: '添加巡检巡查_巡检隐患处置表',
       isAdd: true,
       form: {
-        troubleId:'',
-        distributeStatus:'',
-        handleStatus:'',
-        handleTime:'',
-        repairPersonCellphone:'',
-        repairPerson:'',
-        repairStatus:'',
-        repairTime:'',
-        notes:'',
-        isDel:'',
+        troubleId: '',
+        distributeStatus: '',
+        handleStatus: '',
+        handleTime: '',
+        repairPersonCellphone: '',
+        repairPerson: '',
+        repairStatus: '',
+        repairTime: '',
+        notes: '',
+        isDel: '',
         id: '',
-        inspectionTrouble:'',
-        repairUser:'',
+        inspectionTrouble: '',
+        repairUser: ''
       },
       listQuery: {
         page: 1,
         limit: 20,
         id: undefined,
-        troubleType:'',
-        troubleSource:'',
-        troubleLevel:'',
+        troubleType: '',
+        troubleSource: '',
+        troubleLevel: ''
       },
       total: 0,
       list: [],
       listLoading: true,
       selRow: {},
-      selection:[],
-      repair_person:[],
-      processTitle:'隐患流程跟踪',
-      processVisible:false,
-      trouble_list:[],
-      trouble_handle_list: [],
+      selection: [],
+      repair_person: [],
+      processTitle: '隐患流程跟踪',
+      processVisible: false,
+      trouble_list: [],
+      trouble_handle_list: []
     }
   },
   filters: {
@@ -73,12 +73,12 @@ export default {
   },
   methods: {
     init() {
-      this.initAcceptPerson();
+      this.initAcceptPerson()
       this.fetchData()
     },
     fetchData() {
       this.listLoading = true
-        mmInspectionTroubleHandleApi.getList(this.listQuery).then(response => {
+      mmInspectionTroubleHandleApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -88,12 +88,12 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.troubleType = '';
-      this.listQuery.troubleSource = '';
-      this.listQuery.troubleLevel = '';
-      this.listQuery.repairPerson = '';
-      this.listQuery.distributeStatus = '';
-      this.listQuery.handleStatus = '';
+      this.listQuery.troubleType = ''
+      this.listQuery.troubleSource = ''
+      this.listQuery.troubleLevel = ''
+      this.listQuery.repairPerson = ''
+      this.listQuery.distributeStatus = ''
+      this.listQuery.handleStatus = ''
       this.fetchData()
     },
     handleFilter() {
@@ -126,69 +126,69 @@ export default {
       this.selection = selection
     },
     toggleSelection(row) {
-      this.$refs.handleTable.clearSelection();
+      this.$refs.handleTable.clearSelection()
       this.$refs.handleTable.toggleRowSelection(row)
     },
     resetForm() {
       this.form = {
-        troubleId:'',
-        distributeStatus:'',
-        handleStatus:'',
-        handleTime:'',
-        repairPersonCellphone:'',
-        repairPerson:'',
-        repairStatus:'',
-        repairTime:'',
-        notes:'',
-        isDel:'',
+        troubleId: '',
+        distributeStatus: '',
+        handleStatus: '',
+        handleTime: '',
+        repairPersonCellphone: '',
+        repairPerson: '',
+        repairStatus: '',
+        repairTime: '',
+        notes: '',
+        isDel: '',
         id: ''
       }
     },
     add() {
       this.formTitle = '添加巡检巡查_巡检隐患处置表',
-      this.formVisible = true
+        this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                troubleId:this.form.troubleId,
-                distributeStatus:this.form.distributeStatus,
-                handleStatus:this.form.handleStatus,
-                handleTime:this.form.handleTime,
-                repairPersonCellphone:this.form.repairPersonCellphone,
-                repairPerson:this.form.repairPerson,
-                repairStatus:this.form.repairStatus,
-                repairTime:this.form.repairTime,
-                notes:this.form.notes,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                mmInspectionTroubleHandleApi.update(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }else{
-                mmInspectionTroubleHandleApi.add(formData).then(response => {
-                    this.$message({
-                        message: this.$t('common.optionSuccess'),
-                        type: 'success'
-                    })
-                    this.fetchData()
-                    this.formVisible = false
-                })
-            }
+          const formData = {
+            id: this.form.id,
+            troubleId: this.form.troubleId,
+            distributeStatus: this.form.distributeStatus,
+            handleStatus: this.form.handleStatus,
+            handleTime: this.form.handleTime,
+            repairPersonCellphone: this.form.repairPersonCellphone,
+            repairPerson: this.form.repairPerson,
+            repairStatus: this.form.repairStatus,
+            repairTime: this.form.repairTime,
+            notes: this.form.notes,
+            isDel: this.form.isDel
+          }
+          if (formData.id) {
+            mmInspectionTroubleHandleApi.update(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          } else {
+            mmInspectionTroubleHandleApi.add(formData).then(response => {
+              this.$message({
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
+              this.fetchData()
+              this.formVisible = false
+            })
+          }
         } else {
           return false
         }
@@ -204,7 +204,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -215,13 +215,13 @@ export default {
         this.formTitle = '编辑巡检巡查_巡检隐患处置表'
         this.formVisible = true
 
-        if(this.$refs['form'] !== undefined) {
+        if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
         //如果表单初始化有特殊处理需求,可以在resetForm中处理
-              }
+      }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
@@ -233,13 +233,13 @@ export default {
           cancelButtonText: this.$t('button.cancel'),
           type: 'warning'
         }).then(() => {
-            mmInspectionTroubleHandleApi.remove(id).then(response => {
+          mmInspectionTroubleHandleApi.remove(id).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
             this.fetchData()
-          }).catch( err=> {
+          }).catch(err => {
             this.$notify.error({
               title: '错误',
               message: err
@@ -250,11 +250,11 @@ export default {
       }
     },
     openAccept() {
-      this.resetForm();
+      this.resetForm()
       if (this.checkSel()) {
         this.isAdd = false
         console.log(this.selRow)
-        if(this.selRow.distributeStatus==291){
+        if (this.selRow.distributeStatus == 291) {
           this.$message({
             message: this.$t('不允许重复分配！'),
             type: 'warning'
@@ -268,46 +268,46 @@ export default {
       }
     },
     initAcceptPerson() {
-      this.repair_person = [];
+      this.repair_person = []
       mmInspectionTroubleHandleApi.getAcceptPerson().then(response => {
-        this.repair_person = response.data;
+        this.repair_person = response.data
       })
     },
     getTelephone(val) {
-      this.repair_person.map(item=>{
-        if(item.id==val){
-          this.form.repairPersonCellphone=item.phone;
-          return;
+      this.repair_person.map(item => {
+        if (item.id == val) {
+          this.form.repairPersonCellphone = item.phone
+          return
         }
       })
     },
-    saveOption(){
-      this.$refs['form'].validate((valid)=>{
-        if(valid){
-          this.selection.map((item,index)=>{
-            item.repairPerson=this.form.repairPerson;
-            item.repairPersonCellphone=this.form.repairPersonCellphone;
-            const formData={
-              id:item.id,
-              troubleId:item.troubleId,
-              distributeStatus:291,
-              handleStatus:item.handleStatus,
-              handleTime:item.handleTime,
-              repairPersonCellphone:item.repairPersonCellphone,
-              repairPerson:item.repairPerson,
-              repairStatus:item.repairStatus,
-              repairTime:item.repairTime,
-              notes:item.notes,
-              isDel:item.isDel,
+    saveOption() {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          this.selection.map((item, index) => {
+            item.repairPerson = this.form.repairPerson
+            item.repairPersonCellphone = this.form.repairPersonCellphone
+            const formData = {
+              id: item.id,
+              troubleId: item.troubleId,
+              distributeStatus: 291,
+              handleStatus: item.handleStatus,
+              handleTime: item.handleTime,
+              repairPersonCellphone: item.repairPersonCellphone,
+              repairPerson: item.repairPerson,
+              repairStatus: item.repairStatus,
+              repairTime: item.repairTime,
+              notes: item.notes,
+              isDel: item.isDel
             }
             mmInspectionTroubleHandleApi.update(formData).then(() => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
-              this.fetchData();
-              this.selection=[];
-              this.$refs.handleTable.clearSelection();
+              this.fetchData()
+              this.selection = []
+              this.$refs.handleTable.clearSelection()
               this.formVisible = false
             })
           })
@@ -315,11 +315,11 @@ export default {
       })
     },
     openProcess(record) {
-      this.processVisible = true;
-      mmInspectionTroubleApi.queryById(record.troubleId).then(response =>{
+      this.processVisible = true
+      mmInspectionTroubleApi.queryById(record.troubleId).then(response => {
         this.trouble_list = response.data
       })
-      mmInspectionTroubleApi.queryHandleList(record.troubleId).then(response =>{
+      mmInspectionTroubleApi.queryHandleList(record.troubleId).then(response => {
         this.trouble_handle_list = response.data
       })
 
