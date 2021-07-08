@@ -288,7 +288,7 @@
           @selection-change="handleSelectionChange"
           @row-click="toggleSelection1"
           ref="materialTable"
-          max-height="418px"
+          height="418px"
         >
           <el-table-column
             type="selection"
@@ -546,11 +546,11 @@
           @click.native="deleteMaterial()"
         >删除原料
         </el-button>
-        <div class="table-list" style="margin-bottom: 5px;height: 250px">
+        <div class="table-list" style="height: 280px">
           <el-table
             v-loading="listLoading"
             :data="terminalList"
-            max-height="235px"
+            height="250px"
             element-loading-text="Loading"
             border
             :row-key="row=>row.id"
@@ -612,18 +612,18 @@
             </el-table-column>
 
           </el-table>
+          <el-pagination
+            style="position: relative"
+            background
+            class="position-pagination"
+            layout="total, sizes, prev, pager, next, jumper"
+            :current-page="currentPage"
+            :page-size="pageSize"
+            :page-sizes="[5,10,20,50]"
+            :total="totalNum"
+            @size-change="changeSize1"
+            @current-change="fetchPage1"/>
         </div>
-        <el-pagination
-          style="position: relative"
-          background
-          class="position-pagination"
-          layout="total, sizes, prev, pager, next, jumper"
-          :current-page="currentPage"
-          :page-size="pageSize"
-          :page-sizes="[5,10,20,50]"
-          :total="totalNum"
-          @size-change="changeSize1"
-          @current-change="fetchPage1"/>
       </div>
       <div class="align-center">
         <el-button v-if="isEdit" type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}
