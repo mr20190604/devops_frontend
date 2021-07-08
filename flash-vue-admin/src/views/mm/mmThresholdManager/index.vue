@@ -170,42 +170,35 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="一级阈值上限：" prop="firstUpperLimit">
-                <el-input v-model="form.firstUpperLimit" minlength=1
-                          oninput="value=value.replace(/[^(\-|\+)?\d+(\.\d+)]/g,'')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="一级阈值下限：" prop="firstLowerLimit">
-                <el-input v-model="form.firstLowerLimit" minlength=1
-                          oninput="value=value.replace(/[^(\-|\+)?\d+(\.\d+)]/g,'')"></el-input>
+                <el-input v-model="form.firstLowerLimit" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="二级阈值上限：">
-                <el-input v-model="form.secondUpperLimit" minlength=1
-                          oninput="value=value.replace(/[^(\-|\+)?\d+(\.\d+)]/g,'')"></el-input>
+              <el-form-item label="一级阈值上限：" prop="firstUpperLimit">
+                <el-input v-model="form.firstUpperLimit" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="二级阈值下限：">
-                <el-input v-model="form.secondLowerLimit" minlength=1
-                          oninput="value=value.replace(/[^(\-|\+)?\d+(\.\d+)]/g,'')"></el-input>
+                <el-input v-model="form.secondLowerLimit" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="三级阈值上限：">
-                <el-input v-model="form.thirdUpperLimit" minlength=1
-                          oninput="value=value.replace(/[^(\-|\+)?\d+(\.\d+)]/g,'')"></el-input>
+              <el-form-item label="二级阈值上限：">
+                <el-input v-model="form.secondUpperLimit" type="number"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="三级阈值下限：">
-                <el-input v-model="form.thirdLowerLimit" minlength=1
-                          oninput="value=value.replace(/[^(\-|\+)?\d+(\.\d+)]/g,'')"></el-input>
+                <el-input v-model="form.thirdLowerLimit" type="number"></el-input>
               </el-form-item>
             </el-col>
-
+            <el-col :span="12">
+              <el-form-item label="三级阈值上限：">
+                <el-input v-model="form.thirdUpperLimit" type="number"></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-form-item class="dialog-button-list">
             <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}

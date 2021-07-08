@@ -17,6 +17,7 @@ export default {
       productDetailVisible: false,
       formTitle: '添加产品信息',
       isAdd: true,
+      isEdit: true,
       form: {
         productCode: '',
         productName: '',
@@ -66,7 +67,20 @@ export default {
         materialType: '',
         isDanger: ''
       },
+      currentPage: 1, // 当前页数
+      pageSize: 5,
+      total: 0,
+      totalNum: 0,
+      totalNum1: 0,
       listQuery1: {
+        page: 1,
+        limit: 10,
+        key: '',
+        materialType: '',
+        isDanger: '',
+        ids: ''
+      },
+      listQuery2: {
         page: 1,
         limit: 10,
         key: '',
@@ -77,11 +91,12 @@ export default {
       materialList: [],
       selectedList: [],
       materList: [],
-      total: 0,
+      terminalList: [],
       list: [],
       listLoading: true,
       selRow: {},
       selection: [],
+      materialSelection: [],
       addVisible: false
     }
   },
@@ -127,8 +142,11 @@ export default {
       this.fetchData()
     },
     fetchData() {
+      this.list = []
       dsiProductInfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
+        this.selection = []
+        this.$refs.productTable.clearSelection()
         this.total = response.data.total
         this.listLoading = false
       })
@@ -154,34 +172,41 @@ export default {
     },
     fetchNext() {
       this.listQuery.page = this.listQuery.page + 1
-      this.fetchData1()
+      this.fetchData()
     },
     fetchPrev() {
       this.listQuery.page = this.listQuery.page - 1
-      this.fetchData1()
-    },
-    fetchNext1() {
-      this.listQuery1.page = this.listQuery1.page + 1
-      this.viewProductDetail(this.selRow)
-    },
-    fetchPrev1() {
-      this.listQuery1.page = this.listQuery1.page - 1
-      this.viewProductDetail(this.selRow)
+      this.fetchData()
     },
     fetchPage1(page) {
-      this.listQuery1.page = page
-      this.viewProductDetail(this.selRow)
+      this.terminalList = this.selectedList.slice((page - 1) * this.pageSize, page * this.pageSize)
     },
     changeSize1(limit) {
-      this.listQuery1.limit = limit
-      this.viewProductDetail(this.selRow)
+      this.pageSize = limit
+      this.fetchPage1(1)
     },
     fetchPage(page) {
       this.listQuery.page = page
-      this.fetchData1()
+      this.fetchData()
     },
     changeSize(limit) {
       this.listQuery.limit = limit
+      this.fetchData()
+    },
+    fetchPage2(page) {
+      this.listQuery2.page = page
+      this.fetchData1()
+    },
+    changeSize2(limit) {
+      this.listQuery2.limit = limit
+      this.fetchData1()
+    },
+    fetchNext2() {
+      this.listQuery2.page = this.listQuery2.page + 1
+      this.fetchData1()
+    },
+    fetchPrev2() {
+      this.listQuery2.page = this.listQuery2.page - 1
       this.fetchData1()
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
@@ -200,6 +225,8 @@ export default {
         enterpriseId: undefined,
         id: undefined
       }
+      this.selectedList = []
+      this.terminalList = []
     },
     resetForm1() {
       this.form1 = {
@@ -219,7 +246,9 @@ export default {
     add() {
       this.resetForm()
       this.formTitle = '添加产品信息'
-      this.formVisible = true
+      this.isEdit = true
+      this.productDetailVisible = true
+      this.selection = []
       this.isAdd = true
       if (this.$refs['form']) {
         this.$refs['form'].resetFields()
@@ -244,18 +273,62 @@ export default {
           }
           if (this.productAdd) {
             if (formData.id) {
-              dsiProductInfoApi.update(formData).then(response => {
-                this.$message({
-                  message: this.$t('common.optionSuccess'),
-                  type: 'success'
+              let productMaterialList = []
+              dsiProductInfoApi.update(formData).then(() => {
+                this.selectedList.forEach(item => {
+                  const product = {
+                    productId: formData.id,
+                    materialId: item.id
+                  }
+                  productMaterialList.push(product)
                 })
-                this.formVisible = false
-                this.fetchData()
+                dsiProductFromMaterialApi.deleteList(formData.id).then(() => {
+                  if (productMaterialList.length > 0) {
+                    dsiProductFromMaterialApi.addList(productMaterialList).then(() => {
+                      this.$message({
+                        message: this.$t('common.optionSuccess'),
+                        type: 'success'
+                      })
+                      this.fetchData()
+                      this.productDetailVisible = false
+                    })
+                  } else {
+                    this.$message({
+                      message: this.$t('common.optionSuccess'),
+                      type: 'success'
+                    })
+                    this.fetchData()
+                    this.productDetailVisible = false
+                  }
+                })
               })
             } else {
+              let productMaterialList = []
               dsiProductInfoApi.add(formData).then(response => {
-                this.fetchData()
-                this.formVisible = false
+                this.selectedList.forEach(item => {
+                  const product = {
+                    productId: response.data.id,
+                    materialId: item.id
+                  }
+                  productMaterialList.push(product)
+                })
+                if (productMaterialList.length > 0) {
+                  dsiProductFromMaterialApi.addList(productMaterialList).then(() => {
+                    this.$message({
+                      message: this.$t('common.optionSuccess'),
+                      type: 'success'
+                    })
+                    this.fetchData()
+                    this.productDetailVisible = false
+                  })
+                } else {
+                  this.$message({
+                    message: this.$t('common.optionSuccess'),
+                    type: 'success'
+                  })
+                  this.fetchData()
+                  this.productDetailVisible = false
+                }
               })
             }
           } else {
@@ -280,8 +353,20 @@ export default {
     },
     viewProductDetail(record) {
       this.selRow = record
+      this.isEdit = false
       this.form = this.selRow
-      dsiProductFromMaterialApi.getList(record.id).then(response => {
+      this.formTitle = '查看产品信息'
+      this.productDetail()
+    },
+    editProductDetail(record) {
+      this.selRow = record
+      this.isEdit = true
+      this.form = this.selRow
+      this.formTitle = '编辑产品信息'
+      this.productDetail()
+    },
+    productDetail() {
+      dsiProductFromMaterialApi.getList(this.selRow.id).then(response => {
         if (response.data.length) {
           let ids = ''
           for (let i = 0; i < response.data.length; i++) {
@@ -295,15 +380,15 @@ export default {
           dsiMaterialBaseinfoApi.getList(this.listQuery1).then(response => {
             this.selectedList = response.data.records
             this.listLoading = false
-            this.total = response.data.total
-            this.formTitle = '查看产品信息'
+            this.totalNum = response.data.total
             this.productDetailVisible = true
+            this.fetchPage1(1)
           })
         } else {
           this.selectedList = []
           this.total = 0
-          this.formTitle = '查看产品信息'
           this.productDetailVisible = true
+          this.fetchPage1(1)
         }
       })
     },
@@ -322,19 +407,19 @@ export default {
       this.selRow = record
       this.remove()
     },
-    selectMaterial(record) {
+    selectMaterial() {
       this.isAdd = false
-      this.form = record
       this.formTitle = '选择原料'
       this.materialVisible = true
       this.reset()
-      this.fetchData1()
       this.selection = []
-      dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
-        this.materialList = response.data.records
-        this.listLoading = false
-        this.total = response.data.total
-      })
+      this.listQuery2.page = 1
+      this.fetchData1()
+      // dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
+      //   this.materialList = response.data.records
+      //   this.listLoading = false
+      //   this.total = response.data.total
+      // })
     },
     remove() {
       if (this.checkSel()) {
@@ -442,11 +527,13 @@ export default {
     },
     fetchData1() {
       this.listLoading = true
-      dsiMaterialBaseinfoApi.getList(this.listQuery).then(response => {
+      console.log(this.listQuery2.page)
+      dsiMaterialBaseinfoApi.getList(this.listQuery2).then(response => {
         this.materialList = response.data.records
+        this.selection = []
         this.$refs.materialTable.clearSelection()
         this.listLoading = false
-        this.total = response.data.total
+        this.totalNum1 = response.data.total
       })
     },
     saveProduct() {
@@ -460,25 +547,42 @@ export default {
           })
           return false
         }
-        for (let i = 0; i < ids.length; i++) {
-          const formMaterial = {
-            id: '',
-            productId: this.form.id,
-            materialId: ids[i]
-          }
-          dsiProductFromMaterialApi.add(formMaterial)
-        }
         this.$message({
           message: this.$t('common.optionSuccess'),
           type: 'success'
         })
-        ids = []
+        this.selectedList.map(item => {
+          this.selection.map((se, index) => {
+            if (item.id === se.id) {
+              this.selection.splice(index, 1)
+            }
+          })
+        })
+        this.selectedList = this.selectedList.concat(this.selection)
+        this.totalNum = this.selectedList.length
+        this.fetchPage1(1)
         this.materialVisible = false
-        this.listQuery.page = 1
         this.fetchData()
       } else {
         this.closeFatherDialog()
       }
+    },
+    deleteMaterial() {
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
+        confirmButtonText: this.$t('button.submit'),
+        cancelButtonText: this.$t('button.cancel'),
+        type: 'warning'
+      }).then(() => {
+        this.selection.forEach(item => {
+          this.selectedList.forEach((se, index) => {
+            if (item.id === se.id) {
+              this.selectedList.splice(index, 1)
+            }
+          })
+        })
+        this.totalNum = this.selectedList.length
+        this.fetchPage1(1)
+      })
     },
     toggleSelection(row) {
       this.$refs.productTable.toggleRowSelection(row)
@@ -494,6 +598,12 @@ export default {
     },
     toggleSelection1(row) {
       this.$refs.materialTable.toggleRowSelection(row)
+    },
+    toggleSelection2(row) {
+      this.$refs.selectedMaterialTable.toggleRowSelection(row)
     }
+    // handleSelectionChange(selection) {
+    //   this.materialSelection = selection
+    // }
   }
 }

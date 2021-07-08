@@ -167,22 +167,22 @@
               width="50"
               label="序号"
             />
-            <el-table-column label="原料编码" show-overflow-tooltip>
+            <el-table-column label="原料编号" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{ scope.row.materialCode }}
               </template>
             </el-table-column>
-            <el-table-column label="化学名称" show-overflow-tooltip>
+            <el-table-column label="化学名" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{ scope.row.chemistryName }}
               </template>
             </el-table-column>
-            <el-table-column label="英文名称" show-overflow-tooltip>
+            <el-table-column label="英文名" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{ scope.row.englishName }}
               </template>
             </el-table-column>
-            <el-table-column label="中文别名" show-overflow-tooltip>
+            <el-table-column label="中文名" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{ scope.row.shortName }}
               </template>
@@ -212,7 +212,7 @@
                 {{ scope.row.casCode }}
               </template>
             </el-table-column>
-            <el-table-column label="是否危化品" show-overflow-tooltip>
+            <el-table-column label="是否危化品" show-overflow-tooltip width="100px">
               <template slot-scope="scope">
                 {{ scope.row.isDangerName }}
               </template>

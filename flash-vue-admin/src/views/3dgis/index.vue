@@ -27,7 +27,7 @@
         />
       </vc-layer-imagery>
       <vc-primitive-tileset
-        url="./models/buildings/tileset.json"
+        :url="modelUrl"
         @readyPromise="buildingsReadyPromise"
       />
       <vc-entity
@@ -312,6 +312,7 @@
 <script>
 import 'vue-cesium/lib/vc-navigation.css'
 import 'vue-cesium/lib/style.css'
+import settings from '../../settings'
 
 import a11 from '../../assets/img/gis/傅立叶仪绿.png'
 import a12 from '../../assets/img/gis/傅立叶仪红.png'
@@ -338,6 +339,7 @@ export default {
   data: function() {
     return {
       search: undefined,
+      modelUrl: settings.modelsServer + '/buildings/tileset.json',
       compassOptions: {
         enableCompass: true,
         enableZoomControl: false,
@@ -1000,6 +1002,11 @@ export default {
     margin: 0 16px;
     padding: 3px 0;
     line-height: 1.5em;
+  }
+
+  >>> .vc-html-bubble{
+    font-style: normal;
+    font-size: 12px;
   }
 
   .el-checkbox {

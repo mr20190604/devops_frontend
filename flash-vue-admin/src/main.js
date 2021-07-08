@@ -1,23 +1,18 @@
 import Vue from 'vue'
-
+import settings from './settings'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
-
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
 import ECharts from 'vue-echarts/components/ECharts.vue'
 import '@/styles/index.scss' // global css
-
 import BaiduMap from './lib/vue-baidu-map/components/index'
 Vue.use(BaiduMap, { ak: 'zNbp0kmxc8CmeWwkzHjA3boFq9nUVgIg' })
-
 import App from './App'
 import store from './store'
 import router from './router'
 import i18n from './lang' // Internationalization
 import '@/icons' // icon
 import '@/permission' // permission control
-
 // 全局引用公共样式
 import '@/styles/commonStyle.scss'
 /**
@@ -57,7 +52,8 @@ Vue.prototype.dateFormatter = dateFormatter
 
 import VueCesium from 'vue-cesium'
 Vue.use(VueCesium, {
-  cesiumPath: './cesium/Cesium/Cesium.js',
+  cesiumPath: settings.cesuimServer + '/Cesium/Cesium.js',
+
   accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NGM2YmU1Mi1mYzdmLTRkMzEtOGVlZi1jZjllNDA3MzRhNTYiLCJpZCI6NDUyMzksImlhdCI6MTYxNDg0NTMyM30.O7rZhPAtjVnto7BeVXbaQ4qbm5wAHMMpWaDp7-5DH1s'
 })
 

@@ -52,7 +52,7 @@
                </el-col>
              </el-row>
           </el-form>
-          
+
         </div>
 
 <div class="table-list">
@@ -87,7 +87,7 @@
 
                 </template>
             </el-table-column>
-            <el-table-column label="归属企业" show-overflow-tooltip>
+            <el-table-column label="所属企业" show-overflow-tooltip>
                 <template slot-scope="scope">
                     {{scope.row.enterpriseName}}
                 </template>

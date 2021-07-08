@@ -14,5 +14,10 @@ module.exports = {
    */
   sidebarLogo: true,
 
-  tagsView: true
+  tagsView: true,
+
+  cesuimServer: 'http://47.92.230.201:8088/cesium/cesium',
+
+  modelsServer: 'http://47.92.230.201:8088/cesium/models/'
+
 }
