@@ -40,7 +40,8 @@
             <el-row class="hasmarginBottom">
               <el-col :span="5">
                 <el-form-item label="审核结果：">
-                  <el-select v-model="listQuery.auditStatus"  placeholder="--请选择--">
+                  <el-select v-model="listQuery.auditStatus"  style="width: 100%"
+                             :size="size"  placeholder="--请选择--">
                     <el-option
                       v-for="item in audit_list"
                       :key="item.value"
@@ -100,7 +101,7 @@
           <el-button type="danger" class="set-common-btn blue-button" @click.native="openAccept()" v-permission="['/mmAlarmInfo/notice']">通知</el-button>
           <!--<el-button type="danger" class="set-common-btn blank-blue-button" @click.native="openGenEvent()" v-permission="['/mmAlarmInfo/saveEventAndFiles']">生成事件</el-button>-->
       </div>
-        <el-table :data="list" ref="alarmTable" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
+        <el-table :data="list" ref="alarmTable" v-loading="listLoading" element-loading-text="Loading" border fit
                   @current-change="handleCurrentChange" :row-key="getRowKey"
                   @selection-change="handleSelectionChange"
                   @row-click="toggleSelection"
@@ -143,7 +144,7 @@
             </el-table-column>
           <el-table-column label="报警位置" show-overflow-tooltip>
             <template slot-scope="scope">
-              <template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].installLocation}}</template>
+              <template >{{scope.row.alarmLocation}}</template>
             </template>
           </el-table-column>
 
@@ -158,24 +159,24 @@
             </template>
           </el-table-column>
 
-            <el-table-column label="报警时间" sortable show-overflow-tooltip>
+            <el-table-column label="报警时间" sortable width="160px" >
                 <template slot-scope="scope">
                     {{scope.row.alarmTime}}
                 </template>
             </el-table-column>
-          <el-table-column label="审核状态"  show-overflow-tooltip>
+          <el-table-column label="审核状态"  show-overflow-tooltip style="width: 100px" align="center">
             <template slot-scope="scope">
               <template  v-if="scope.row.isAudit === 0">未审核</template>
               <template  v-if="scope.row.isAudit === 1">已审核</template>
             </template>
           </el-table-column>
-          <el-table-column label="审核结果"  show-overflow-tooltip>
+          <el-table-column label="审核结果"  show-overflow-tooltip style="width: 100px" align="center">
             <template slot-scope="scope">
               <template  v-if="scope.row.auditStatus === 0">误报</template>
               <template  v-if="scope.row.auditStatus === 1">确认报警</template>
             </template>
           </el-table-column>
-          <el-table-column label="解除状态"  show-overflow-tooltip>
+          <el-table-column label="解除状态"  show-overflow-tooltip style="width: 100px" align="center">
             <template slot-scope="scope">
               <template  v-if="scope.row.isRelieve === 0 ">未解除</template>
               <template  v-if="scope.row.isRelieve === 1 ">已解除</template>
@@ -265,7 +266,7 @@
 
                   <el-col :span="12">
                     <el-form-item label="报警设备："  >
-                      <el-input v-model="form.equipmentId" minlength=1></el-input>
+                      <el-input v-model="form.equipmentName" minlength=1></el-input>
                     </el-form-item>
                   </el-col>
 
@@ -525,7 +526,7 @@
   // width: 196px;
   border-radius: 0 4px 4px 0;
   li{
-    // padding: 0 20px;
+    /*padding: 0 20px;*/
     width: 64px;
     text-align: center;
     font-size: 12px;
@@ -550,7 +551,7 @@
       
     }
   }
-  
+
 }
 </style>
 

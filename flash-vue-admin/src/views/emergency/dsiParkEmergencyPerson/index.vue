@@ -68,7 +68,9 @@
         />
         <el-table-column label="姓名" show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.name }}
+            <span class="updateText" @click="viewInfo(scope.row)">
+              {{ scope.row.name }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="性别" show-overflow-tooltip>
@@ -157,13 +159,13 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="人员名称：">
-                <el-input v-model="form.name" minlength="1" />
+                <el-input v-model="form.name" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
               <el-form-item label="现工作单位：">
-                <el-input v-model="form.workPlace" minlength="1" />
+                <el-input v-model="form.workPlace" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
 
@@ -171,7 +173,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="性别：">
-                <el-select v-model="form.gender" minlength="1">
+                <el-select v-model="form.gender" :disabled="editFlag" minlength="1">
                   <el-option
                     v-for="item in sex"
                     :key="item.id"
@@ -183,20 +185,20 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="行政区划：">
-                <district v-model="form.districtCode" />
+                <district :disabled="editFlag" v-model="form.districtCode"  />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="联系电话：">
-                <el-input v-model="form.tel" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.tel" :disabled="editFlag" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
               <el-form-item label="地址：">
-                <el-input v-model="form.address" minlength="1" />
+                <el-input v-model="form.address" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
 
@@ -204,46 +206,46 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="职称：">
-                <el-input v-model="form.professionalName" minlength="1" />
+                <el-input v-model="form.professionalName" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
               <el-form-item label="学历：">
-                <el-input v-model="form.educationName" minlength="1" />
+                <el-input v-model="form.educationName" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="紧急联系人：">
-                <el-input v-model="form.emergencyContact" minlength="1" />
+                <el-input v-model="form.emergencyContact" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
               <el-form-item label="紧急联系方式：">
-                <el-input v-model="form.emergencyTel" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
+                <el-input v-model="form.emergencyTel" :disabled="editFlag" oninput="value=value.replace(/[^0-9.]/g,'')" minlength="1" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="职务：">
-                <el-input v-model="form.postName" minlength="1" />
+                <el-input v-model="form.postName" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
 
             <el-col :span="12">
               <el-form-item label="专业特长：">
-                <el-input v-model="form.majorSpecialty" minlength="1" />
+                <el-input v-model="form.majorSpecialty" :disabled="editFlag" minlength="1" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="是否专家：">
-                <el-select v-model="form.isExpert" minlength="1">
+                <el-select v-model="form.isExpert" :disabled="editFlag" minlength="1">
                   <el-option
                     v-for="item in isExpert"
                     :key="item.id"
@@ -255,7 +257,7 @@
             </el-col>
 
           </el-row>
-          <el-form-item id="myself" class="dialog-button-list">
+          <el-form-item id="myself" class="dialog-button-list" v-if="editFlag == false">
             <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
             <el-button class="set-common-btn blank-blue-button" @click.native="cancle">{{ $t('button.cancel') }}</el-button>
           </el-form-item>

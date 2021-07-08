@@ -77,7 +77,8 @@ export default {
       viewVisible:false,
       fileLoading:true,
       files:null,
-      fileAccept:'.jpg,.png,.jpeg,.gif,.bmp'
+      fileAccept:'.jpg,.png,.jpeg,.gif,.bmp',
+      editFlag:false,
 
     }
   },
@@ -197,6 +198,7 @@ export default {
     },
     add() {
       this.resetForm()
+      this.editFlag = false;
       this.formTitle = '添加应急车辆',
       this.formVisible = true
       this.isAdd = true
@@ -294,6 +296,7 @@ export default {
     },
     edit() {
       if (this.checkSel()) {
+        this.editFlag = false;
         this.isAdd = false
         this.form = JSON.parse(JSON.stringify(this.selRow));
 
@@ -482,6 +485,17 @@ export default {
     ,removeFileItem(param) {
       fileDelete.deleteFile(param).then()
     },
+    viewInfo(record) {
+      this.form = JSON.parse(JSON.stringify(record));
+      this.formTitle = '查看应急车辆'
+      this.formVisible = true
+      this.editFlag = true;
+      if (this.$refs['form'] !== undefined) {
+        this.$refs['form'].resetFields()
+      }
+
+    }
+
 
 
   }

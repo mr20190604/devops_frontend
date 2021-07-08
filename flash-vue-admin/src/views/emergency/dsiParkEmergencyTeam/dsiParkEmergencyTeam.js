@@ -86,7 +86,8 @@ export default {
       listLoading: true,
       selRow: {},
       personSelRow: {},
-      multipleSelection: []
+      multipleSelection: [],
+      editFlag:false,
     }
   },
   filters: {
@@ -196,6 +197,7 @@ export default {
     },
     add() {
       this.resetForm()
+      this.editFlag = false;
       this.personList = null
       this.person_id_list = []
       this.personAdd = true
@@ -293,6 +295,7 @@ export default {
     edit() {
       this.personAdd = false
       if (this.checkSel()) {
+        this.editFlag = false;
         this.isAdd = false
         this.form = this.selRow
         this.formTitle = '修改应急队伍信息'
@@ -477,7 +480,20 @@ export default {
           type: 'warning'
         })
       }
+    },
+  viewInfo(record) {
+    this.initPersonList(record.id)
+    this.personAdd = false
+    this.isAdd = false
+    this.form = JSON.parse(JSON.stringify(record));
+    this.formTitle = '查看应急队伍'
+    this.formVisible = true
+    this.editFlag = true;
+    if (this.$refs['form'] !== undefined) {
+      this.$refs['form'].resetFields()
     }
+
+  }
 
   }
 }

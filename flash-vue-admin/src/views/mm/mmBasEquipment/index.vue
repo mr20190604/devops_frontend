@@ -63,7 +63,7 @@
 
             <el-table-column label="设备状态" show-overflow-tooltip>
                 <template slot-scope="scope">
-                    {{scope.row.equipmentStatus1Name}}
+                    {{scope.row.equipmentStatusName}}
                 </template>
             </el-table-column>
 
