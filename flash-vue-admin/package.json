@@ -15,7 +15,10 @@
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@riophae/vue-treeselect": "^0.4.0",
+    "@turf/isobands": "^6.4.0",
+    "@turf/rhumb-destination": "^6.4.0",
     "axios": "0.18.0",
     "bmaplib.curveline": "^1.0.0",
     "bmaplib.heatmap": "^1.0.4",

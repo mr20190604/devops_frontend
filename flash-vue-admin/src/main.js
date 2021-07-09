@@ -50,10 +50,9 @@ Vue.use(VueParticles)
 import dateFormatter from './utils/dateFormat'
 Vue.prototype.dateFormatter = dateFormatter
 
-import VueCesium from 'vue-cesium'
+import VueCesium from './lib/vue-cesium/src/index'
 Vue.use(VueCesium, {
   cesiumPath: settings.cesuimServer + '/Cesium/Cesium.js',
-
   accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NGM2YmU1Mi1mYzdmLTRkMzEtOGVlZi1jZjllNDA3MzRhNTYiLCJpZCI6NDUyMzksImlhdCI6MTYxNDg0NTMyM30.O7rZhPAtjVnto7BeVXbaQ4qbm5wAHMMpWaDp7-5DH1s'
 })
 

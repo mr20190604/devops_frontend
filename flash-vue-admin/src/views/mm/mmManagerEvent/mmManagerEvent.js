@@ -200,11 +200,13 @@ export default {
       self.selRow = record
       self.mmManagerEventFiles = record.mmManagerEventFiles
       self.mmManagerEventFiles.forEach(item => {
-        self.fileList.push({
-          name: item.fileInfo.originalFileName,
-          status: 'success',
-          response: { data: { id: item.fileId }}
-        })
+        if (item.fileInfo) {
+          self.fileList.push({
+            name: item.fileInfo.originalFileName,
+            status: 'success',
+            response: { data: { id: item.fileId }}
+          })
+        }
       })
       self.edit()
     },

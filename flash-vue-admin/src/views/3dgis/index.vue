@@ -57,15 +57,6 @@
         :max="heatmapInfo.max"
         :data="heatmapInfoData"
       />
-      <vc-heatmap
-        :show="heatmapInfo1.show"
-        :bounds="heatmapInfo1.bounds"
-        :options="heatmapInfo1.options"
-        :min="heatmapInfo1.min"
-        :max="heatmapInfo1.max"
-        :data="heatmapInfoData1"
-        :type="1"
-      />
       <vc-handler-draw-point
         ref="handlerPoint"
         point-color="red"
@@ -361,16 +352,13 @@ export default {
         options: {
           backgroundColor: 'rgba(0,0,0,0)',
           gradient: {
-            '0.9': 'red',
-            '0.8': 'orange',
-            '0.7': 'yellow',
-            '0.6': 'blue',
-            '0.5': 'green'
+            '0.8': 'red',
+            '0.5': 'yellow',
+            '0.3': 'green'
           },
-          radius: 40,
           maxOpacity: 0.5,
           minOpacity: 0,
-          blur: 0.75
+          blur: 0.85
         },
         min: 0,
         max: 100,
@@ -378,28 +366,6 @@ export default {
         show: false
       },
       heatmapInfoData: [],
-      heatmapInfo1: {
-        bounds: { west: 120.74386, south: 30.77158, east: 120.74758, north: 30.77673 },
-        options: {
-          backgroundColor: 'rgba(0,0,0,0)',
-          gradient: {
-            '0.9': 'red',
-            '0.8': 'orange',
-            '0.7': 'yellow',
-            '0.6': 'blue',
-            '0.5': 'green'
-          },
-          radius: 10,
-          maxOpacity: 0.5,
-          minOpacity: 0,
-          blur: 0.75
-        },
-        min: 0,
-        max: 100,
-        data: [],
-        show: false
-      },
-      heatmapInfoData1: [],
       windowInfo: {
         show: false,
         equipmentType: undefined,
@@ -412,10 +378,6 @@ export default {
       riskInterval: undefined
     }
   },
-  beforeDestroy() {
-    delete window.Cesium
-    delete window.viewer
-  },
   methods: {
     ready({ Cesium, viewer }) {
       window.Cesium = Cesium
@@ -427,7 +389,6 @@ export default {
 
       let start = Date.now()
       const duration = 3000
-
       function rotate() {
         const a = 2 * Math.PI
         const now = Date.now()
@@ -435,7 +396,6 @@ export default {
         start = now
         viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -a * n)
       }
-
       viewer.clock.onTick.addEventListener(rotate)
       setTimeout(function() {
         viewer.clock.onTick.removeEventListener(rotate)
@@ -552,33 +512,26 @@ export default {
     },
     billboardClick(e) {
       if (this.isForecast) {
-        window.viewer.zoomTo(e.cesiumObject).then(() => {
+        window.viewer.flyTo(e.cesiumObject).then(() => {
           const position = e.surfacePosition
           const cartographic = window.Cesium.Cartographic.fromCartesian(position)
           const minNum = -0.0001
           const maxNum = 0.0001
-          this.heatmapInfo1.data = []
+          this.heatmapInfo.data = []
           // 构造热力图的数据
           for (let i = 0; i < 20; i++) {
             const val = Math.floor(Math.random() * 100)
-            this.heatmapInfo1.data.push({
+            this.heatmapInfo.data.push({
               x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
               y: window.Cesium.Math.toDegrees(cartographic.latitude) + Math.random() * (maxNum - minNum) + minNum,
               value: val
             })
           }
-          this.heatmapInfoData1 = this.heatmapInfo1.data
-          this.heatmapInfo1.show = true
+          this.heatmapInfoData = this.heatmapInfo1.data
+          this.heatmapInfo.show = true
         })
       } else {
         this.handleBillboardDetail(e.cesiumObject)
-      }
-    },
-    billboardCollectionClick(e) {
-      if (e.cesiumObject instanceof window.Cesium.Billboard) {
-        this.handleBillboardDetail(e.cesiumObject)
-      } else if (e.cesiumObject instanceof window.Cesium.BillboardCollection) {
-        this.handleBillboardDetail(e.pickedFeature.primitive)
       }
     },
     handleBillboardDetail(cesiumObject) {
@@ -592,16 +545,8 @@ export default {
         this.windowInfo.title = current.typeName + '信息'
       }
       this.windowInfo.position = current.position
-      if (cesiumObject instanceof window.Cesium.Entity) {
-        window.viewer.zoomTo(cesiumObject).then(() => {
-          this.windowInfo.show = true
-        })
-      } else if (cesiumObject instanceof window.Cesium.Billboard) {
-        this.windowInfo.show = true
-        const target = window.Cesium.Cartesian3.fromDegrees(current.position.lng, current.position.lat, current.position.height)
-        window.viewer.camera.lookAt(target, new window.Cesium.HeadingPitchRange(window.viewer.camera.heading, window.viewer.camera.pitch, 200))
-        window.viewer.camera.lookAtTransform(window.Cesium.Matrix4.IDENTITY)
-      }
+      this.windowInfo.show = true
+      window.viewer.flyTo(cesiumObject)
     },
     mouseDown() {
       window.viewer._container.style.cursor = 'grabbing'
@@ -678,34 +623,61 @@ export default {
       }
     },
     handleRiskClick() {
-      this.setDefault()
+      const cartographic = window.Cesium.Cartographic.fromCartesian(window.buildings.boundingSphere.center)
+      const destination = window.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 1500)
+      window.viewer.camera.flyTo({
+        destination: destination,
+        orientation: -90
+      })
+
+      const that = this
+      that.setDefault(true)
+      that.generateHeatmapInfoData()
+      that.riskInterval = setInterval(function() {
+        if (that.heatmapInfo.data[0].radius === 150) {
+          that.riskInterval && clearInterval(that.riskInterval)
+        }
+        that.heatmapInfo.data.forEach(item => {
+          item.radius += 1
+        })
+        that.heatmapInfoData = that.heatmapInfo.data
+      }, 500)
+    },
+    generateHeatmapInfoData() {
       // 构造热力图的数据
       this.heatmapInfo.data = []
-      for (let i = 0; i < 100; i++) {
-        const val = Math.floor(Math.random() * 100)
-        this.heatmapInfo.data.push({
-          x: this.heatmapInfo.bounds.west + Math.random() * (this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west),
-          y: this.heatmapInfo.bounds.south + Math.random() * (this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south),
-          value: val
-        })
+      const deltaX = this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west
+      const deltaY = this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south
+      const count = 10
+
+      for (let i = 0; i < count; i++) {
+        const x = this.heatmapInfo.bounds.west + deltaX / count * (i + 1)
+        for (let j = 0; j < count; j++) {
+          const y = this.heatmapInfo.bounds.south + deltaY / count * (j + 1)
+          const val = Math.floor(Math.random() * 50)
+          this.heatmapInfo.data.push({
+            x: x,
+            y: y,
+            value: val,
+            radius: 10
+          })
+        }
       }
       this.heatmapInfoData = this.heatmapInfo.data
       this.heatmapInfo.show = true
-      const that = this
-      this.riskInterval = setInterval(function() {
-        that.handleRiskClick()
-      }, 2500)
     },
-    setDefault() {
+    setDefault(isRisk) {
       this.billboards.forEach(item => {
         item.show = false
       })
       this.heatmapInfo.show = false
-      this.heatmapInfo1.show = false
       this.windowInfo.show = false
       this.isForecast = false
       this.riskInterval && clearInterval(this.riskInterval)
       this.riskInterval = undefined
+      if (!isRisk) {
+        window.viewer.flyTo(window.buildings)
+      }
     },
     handleTabNameChange(tabName) {
       this.windowInfo.tabName = tabName
