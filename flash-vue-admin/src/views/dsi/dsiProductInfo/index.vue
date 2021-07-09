@@ -546,7 +546,7 @@
           @click.native="deleteMaterial()"
         >删除原料
         </el-button>
-        <div class="table-list" style="height: 280px">
+        <div class="table-list" style="height: 300px">
           <el-table
             v-loading="listLoading"
             :data="terminalList"
