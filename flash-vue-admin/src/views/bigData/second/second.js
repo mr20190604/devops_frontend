@@ -19,9 +19,9 @@ export default {
       ],
       deviceMonitorTypes:{
         jw:[
-          {value:1, label:'甲烷浓度（CH4）',unit:'VOL%'},
+          {value:1, label:'甲烷浓度（CH4）',unit:'VOL%'}/*,
           {value:2, label:'空气温度',unit:'℃'},
-          {value:3, label:'空气湿度',unit:'%'}
+          {value:3, label:'空气湿度',unit:'%'}*/
         ],
         gl:[
           {value:1,label:'甲醇（CH3OH）',unit:'ug/m³'},
@@ -184,6 +184,8 @@ export default {
             });
         }*/
         if(response.success) {
+          response.data.seriesData.splice(response.data.titles.findIndex(item => item ==='空气温度' || item ==='空气湿度'),1);
+          response.data.titles.splice(response.data.titles.findIndex(item => item ==='空气温度' || item ==='空气湿度'),1);
           if(response.data.titles) {
             response.data.titles.forEach(item=>{
               self.barData.legend.data.push(item);

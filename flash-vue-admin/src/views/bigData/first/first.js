@@ -19,9 +19,9 @@ export default {
       ],
       deviceMonitorTypes:{
         jw:[
-          {value:1, label:'甲烷浓度（CH4）',unit:'VOL%'},
-          {value:2, label:'空气温度',unit:'℃'},
-          {value:3, label:'空气湿度',unit:'%'}
+          {value:1, label:'甲烷浓度（CH4）',unit:'VOL%'}
+          // {value:2, label:'空气温度',unit:'℃'},
+          // {value:3, label:'空气湿度',unit:'%'}
         ],
         gl:[
           {value:1,label:'甲醇（CH3OH）',unit:'ug/m³'},
@@ -55,7 +55,8 @@ export default {
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          // formatter: '{a} <br/>{b} : {c} ({d}%)'
+          formatter: '{b} : {c} ({d}%)'
         },
         legend: {
           type: 'scroll',
@@ -155,6 +156,7 @@ export default {
             });
         }
         if(response.success) {
+          response.data.splice(response.data.findIndex(item => item.name === '空气温度' || item.name === '空气湿度'), 1);
           self.pieData.series[0].data = response.data;
           self.$refs.firstChart.clear();
           self.$refs.firstChart.mergeOptions(self.pieData) ;

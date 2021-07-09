@@ -24,9 +24,14 @@ export default {
   },
   data() {
     return {
-      title: '数据资源一体化子系统',
+      title: '苍穹环境智能监测平台',
       logo: '/img/logo.png'
     }
+  },
+  mounted() {
+    const childSys = this.$store.state.user.childSys;
+    const child = childSys.find(item => item.selected);
+    this.title = child.mmChildSysModel.sysName;
   }
 }
 </script>
