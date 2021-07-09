@@ -116,76 +116,77 @@
     </div>
     <!--弹框页面,包括添加和修改页面-->
     <el-dialog
-      class="dialogTitleBackground dialogTitle"
+      class="el-dialog-style common-dialog-style"
       :title="formTitle"
       @close="closeDialog"
       :visible.sync="formVisible"
-      width="60%">
+      width="960px">
 
       <template v-if="formVisible">
         <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height:600px">
           <el-tab-pane label="设备基本信息" name="first" style="visibility: visible">
-            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+             <div class="block">
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="设备名称">
+                  <el-form-item label="设备名称：">
                     <el-input v-model="form.equipmentName" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="设备编码">
+                  <el-form-item label="设备编码：">
                     <el-input v-model="form.equipmentCode" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="设备类型">
+                  <el-form-item label="设备类型：">
                     <dict-select v-model="form.equipmentType" minlength=1 dict-name="设备类型"></dict-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="行政区划">
+                  <el-form-item label="行政区划：">
                     <district v-model="form.districtCode" minlength=1></district>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="管理单位">
+                  <el-form-item label="管理单位：">
                     <el-input v-model="form.manageEnterprise" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="基本信息">
+                  <el-form-item label="基本信息：">
                     <el-input v-model="form.baseinfo" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="技术指标">
+                  <el-form-item label="技术指标：">
                     <el-input v-model="form.specifications" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="接入设备">
+                  <el-form-item label="接入设备：">
                     <el-input v-model="form.accessDevice" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="传输通道">
+                  <el-form-item label="传输通道：">
                     <el-input v-model="form.channel" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="厂商">
+                  <el-form-item label="厂商：">
                     <el-input v-model="form.manufacturer" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="传输频率">
+                  <el-form-item label="传输频率：">
                     <el-input v-model="form.transmissionFrequency"
                               oninput="value=value.replace(/[^0-9]/g,'')"
                               minlength=1  maxlength=5></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="是否叶子节点">
+                  <el-form-item label="是否叶子节点：">
                     <template>
                       <el-select v-model="form.isLeaf" placeholder="请选择">
                         <el-option
@@ -198,18 +199,21 @@
                     </template>
                   </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                  <el-form-item label="备注">
-                    <el-input v-model="form.notes" minlength=1></el-input>
+                </el-row>
+                <el-row>
+                <el-col>
+                  <el-form-item label="备注：">
+                    <el-input v-model="form.notes" minlength=1 type="textarea"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item id="myself">
-                <el-button type="primary" @click="save">{{ $t('button.submit') }}</el-button>
-                <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+              <el-form-item id="myself" class="dialog-button-list">
+                <el-button type="primary" @click="save"  class="set-common-btn blue-button">{{ $t('button.submit') }}</el-button>
+                <el-button @click.native="formVisible = false"  class="set-common-btn blank-blue-button">{{ $t('button.cancel') }}</el-button>
               </el-form-item>
 
             </el-form>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="设备安装信息" name="second" id="second"  style="height: 550px">
             <install :equipmentId="equipmentId" :isAdd="isAdd" @closeDialog="closeDialog"></install>
