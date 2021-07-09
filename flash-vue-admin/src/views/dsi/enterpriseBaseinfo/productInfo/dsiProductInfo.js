@@ -394,7 +394,6 @@ export default {
     viewProductDetail(record) {
       this.selRow = record
       this.form = this.selRow
-
       dsiProductFromMaterialApi.getList(record.id).then(response => {
         if (response.data.length) {
           let ids = ''

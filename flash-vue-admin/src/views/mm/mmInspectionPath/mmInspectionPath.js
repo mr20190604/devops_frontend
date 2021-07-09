@@ -6,46 +6,46 @@ import againInfo from '@/views/mm/mmInspectionPath/againInfo/pipelineInfo.vue'
 
 export default {
   directives: { permission },
-  components:{
+  components: {
     pipelineInfo,
-    againInfo,
+    againInfo
   },
   data() {
     return {
       formVisible: false,
-      pipelineVisible:false,
-      againVisible:false,
+      pipelineVisible: false,
+      againVisible: false,
       formTitle: '添加巡检巡查_线路管理',
       isAdd: true,
-      isAddLine:true,
+      isAddLine: true,
       form: {
-        pathName:'',
-        pathStatus:'',
-        notes:'',
-        isDel:'',
+        pathName: '',
+        pathStatus: '',
+        notes: '',
+        isDel: '',
         id: '',
-        auditUser:'',
-        detail:'',
+        auditUser: '',
+        detail: ''
       },
       listQuery: {
         page: 1,
         limit: 20,
         id: undefined,
-        pathName:undefined,
-        createTime:'',
-        startTime:'',
-        endTime:'',
+        pathName: undefined,
+        createTime: '',
+        startTime: '',
+        endTime: ''
       },
       total: 0,
       list: [],
       listLoading: true,
       selRow: {},
-      selection:[],
-      lineMessage:'',
-      pipeline:'',
-      selectedList:[],
-      receiveData:'',
-      people_list:[],
+      selection: [],
+      lineMessage: '',
+      pipeline: '',
+      selectedList: [],
+      receiveData: '',
+      people_list: [],
 
       editableTabsValue: '2',
       editableTabs: [],
@@ -82,12 +82,12 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true;
-      if(this.listQuery.createTime){
-        this.listQuery.startTime=this.listQuery.createTime[0];
-        this.listQuery.endTime=this.listQuery.createTime[1];
+      this.listLoading = true
+      if (this.listQuery.createTime) {
+        this.listQuery.startTime = this.listQuery.createTime[0]
+        this.listQuery.endTime = this.listQuery.createTime[1]
       }
-        mmInspectionPathApi.getList(this.listQuery).then(response => {
+      mmInspectionPathApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
         this.total = response.data.total
@@ -97,11 +97,11 @@ export default {
       this.fetchData()
     },
     reset() {
-      this.listQuery.pathStatus =undefined ;
-      this.listQuery.pathName=undefined;
-      this.listQuery.createTime='';
-      this.listQuery.startTime='';
-      this.listQuery.endTime='';
+      this.listQuery.pathStatus = undefined
+      this.listQuery.pathName = undefined
+      this.listQuery.createTime = ''
+      this.listQuery.startTime = ''
+      this.listQuery.endTime = ''
       this.fetchData()
     },
     handleFilter() {
@@ -136,87 +136,87 @@ export default {
     },
     resetForm() {
       this.form = {
-        pathName:'',
-        pathStatus:'',
-        notes:'',
-        isDel:'',
+        pathName: '',
+        pathStatus: '',
+        notes: '',
+        isDel: '',
         id: '',
-        detail: '',
-      };
-      this.lineMessage='';
+        detail: ''
+      }
+      this.lineMessage = ''
     },
     add() {
-      this.resetForm();
+      this.resetForm()
       this.formTitle = '添加路线',
-      this.formVisible = true
+        this.formVisible = true
       this.isAdd = true
 
-      if(this.$refs['form'] !== undefined) {
+      if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
       //如果表单初始化有特殊处理需求,可以在resetForm中处理
-          },
+    },
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-            const formData = {
-                id:this.form.id,
-                pathName:this.form.pathName,
-                pathStatus:this.form.pathStatus,
-                notes:this.form.notes,
-                isDel:this.form.isDel,
-            }
-            if(formData.id){
-                mmInspectionPathApi.update(formData).then(() => {
-                  let pathId=formData.id;
-                  let formList=[];
-                  this.selectedList.map(item=>{
-                    const  formData1={
-                      pathId:pathId,
-                      pipelineId:item.id,
-                    };
-                    formList.push(formData1);
-                  });
-                  mmPathRelationPepelineApi.addAll(formList).then(()=>{
-                    this.selectedList=[];
-                    this.form.detail='';
-                    this.$message({
-                      message: this.$t('common.optionSuccess'),
-                      type: 'success'
-                    });
-                    this.selection=[];
-                    this.$refs.lineTable.clearSelection();
-                    this.fetchData();
-                    this.formVisible = false
-                  })
+          const formData = {
+            id: this.form.id,
+            pathName: this.form.pathName,
+            pathStatus: this.form.pathStatus,
+            notes: this.form.notes,
+            isDel: this.form.isDel
+          }
+          if (formData.id) {
+            mmInspectionPathApi.update(formData).then(() => {
+              let pathId = formData.id
+              let formList = []
+              this.selectedList.map(item => {
+                const formData1 = {
+                  pathId: pathId,
+                  pipelineId: item.id
+                }
+                formList.push(formData1)
+              })
+              mmPathRelationPepelineApi.addAll(formList).then(() => {
+                this.selectedList = []
+                this.form.detail = ''
+                this.$message({
+                  message: this.$t('common.optionSuccess'),
+                  type: 'success'
                 })
-            }else{
-              console.log(this.selectedList);
-                mmInspectionPathApi.add(formData).then(response => {
-                  let pathId=response.data.id;
-                  let formList=[];
-                  this.selectedList.map(item=>{
-                    const  formData1={
-                      pathId:pathId,
-                      pipelineId:item.id,
-                    };
-                    formList.push(formData1);
-                  });
-                  mmPathRelationPepelineApi.addAll(formList).then(()=>{
-                    this.selectedList=[];
-                    this.form.detail='';
-                    this.$message({
-                      message: this.$t('common.optionSuccess'),
-                      type: 'success'
-                    });
-                    this.selection=[];
-                    this.$refs.lineTable.clearSelection();
-                    this.fetchData();
-                    this.formVisible = false
-                  })
+                this.selection = []
+                this.$refs.lineTable.clearSelection()
+                this.fetchData()
+                this.formVisible = false
+              })
+            })
+          } else {
+            console.log(this.selectedList)
+            mmInspectionPathApi.add(formData).then(response => {
+              let pathId = response.data.id
+              let formList = []
+              this.selectedList.map(item => {
+                const formData1 = {
+                  pathId: pathId,
+                  pipelineId: item.id
+                }
+                formList.push(formData1)
+              })
+              mmPathRelationPepelineApi.addAll(formList).then(() => {
+                this.selectedList = []
+                this.form.detail = ''
+                this.$message({
+                  message: this.$t('common.optionSuccess'),
+                  type: 'success'
+                })
+                this.selection = []
+                this.$refs.lineTable.clearSelection()
+                this.fetchData()
+                this.formVisible = false
+              })
 
-                })
-            }
+            })
+          }
         } else {
           return false
         }
@@ -232,7 +232,7 @@ export default {
       })
       return false
     },
-    editItem(record){
+    editItem(record) {
       this.selRow = record
       this.edit()
     },
@@ -240,24 +240,22 @@ export default {
       if (this.checkSel()) {
         let id = this.selRow.id
         mmInspectionPathApi.queryPlan(id).then(response => {
-
           if (response.data.length > 0) {
             this.$message({
               message: this.$t('绑定路线信息，不能被修改！'),
               type: 'warning'
             })
-            this.$refs.lineTable.clearSelection();
-            this.selection = [];
+            this.$refs.lineTable.clearSelection()
+            this.selection = []
             return
           }
-
-          mmPathRelationPepelineApi.getList(id).then(response=>{
-            this.selectedList=[]
-            response.data.map(item=>{
+          mmPathRelationPepelineApi.getList(id).then(response => {
+            this.selectedList = []
+            response.data.map(item => {
               this.selectedList.push(item.pipeline)
             })
             this.isAdd = false
-            this.form = JSON.parse(JSON.stringify(this.selRow));
+            this.form = JSON.parse(JSON.stringify(this.selRow))
             this.formTitle = '编辑巡检巡查_线路管理'
             this.formVisible = true
             if (this.$refs['form'] !== undefined) {
@@ -265,29 +263,27 @@ export default {
             }
           })
 
-
-
         })
       }
     },
-    removeItem(record){
+    removeItem(record) {
       this.selRow = record
       this.remove()
     },
     remove() {
       if (this.checkSel()) {
         let id = this.selRow.id
-        mmInspectionPathApi.queryPlan(id).then(response=>{
+        mmInspectionPathApi.queryPlan(id).then(response => {
 
-         if(response.data.length>0){
-           this.$message({
-             message: this.$t('绑定路线信息，不能被删除！'),
-             type: 'warning'
-           })
-           this.$refs.lineTable.clearSelection();
-           this.selection=[];
-           return
-         }
+          if (response.data.length > 0) {
+            this.$message({
+              message: this.$t('绑定路线信息，不能被删除！'),
+              type: 'warning'
+            })
+            this.$refs.lineTable.clearSelection()
+            this.selection = []
+            return
+          }
 
           this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
             confirmButtonText: this.$t('button.submit'),
@@ -299,10 +295,10 @@ export default {
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
               })
-              this.$refs.lineTable.clearSelection();
-              this.selection=[];
+              this.$refs.lineTable.clearSelection()
+              this.selection = []
               this.fetchData()
-            }).catch( err=> {
+            }).catch(err => {
               this.$notify.error({
                 title: '错误',
                 message: err
@@ -310,23 +306,23 @@ export default {
             })
           }).catch(() => {
           })
-        });
+        })
 
       }
     },
-    addLine(){
-      if(this.selectedList.length>0){
-        this.pipeline=this.selectedList[this.selectedList.length-1];
-        this.receiveData='';
-        this.againVisible=true;
-      }else{
-        this.pipelineVisible=true;
+    addLine() {
+      if (this.selectedList.length > 0) {
+        this.pipeline = this.selectedList[this.selectedList.length - 1]
+        this.receiveData = ''
+        this.againVisible = true
+      } else {
+        this.pipelineVisible = true
       }
     },
     toggleSelection(row) {
       this.$refs.lineTable.toggleRowSelection(row)
     },
-    openLine(){
+    openLine() {
       console.log(this.selection)
       if (this.selection.length === 0) {
         this.$message({
@@ -335,43 +331,43 @@ export default {
         })
         return false
       }
-     /* let flag=true;
-      this.selection.map(item=>{
-        if(item.pathStatus==17){
-          flag=false;
-        }
-      });
-      if(!flag){
-        this.$message({
-          message: this.$t('不允许重复启用'),
-          type: 'warning'
-        })
-        this.selection=[];
-        this.$refs.lineTable.clearSelection();
-        return false
-      }*/
+      /* let flag=true;
+       this.selection.map(item=>{
+         if(item.pathStatus==17){
+           flag=false;
+         }
+       });
+       if(!flag){
+         this.$message({
+           message: this.$t('不允许重复启用'),
+           type: 'warning'
+         })
+         this.selection=[];
+         this.$refs.lineTable.clearSelection();
+         return false
+       }*/
 
-      this.selection.map((item,index)=>{
-        item.pathStatus=17;
-        const formData={
-          id:item.id,
-          pathName:item.pathName,
-          pathStatus:item.pathStatus,
-        };
-        mmInspectionPathApi.update(formData).then(()=>{
-          if(index==this.selection.length-1){
+      this.selection.map((item, index) => {
+        item.pathStatus = 17
+        const formData = {
+          id: item.id,
+          pathName: item.pathName,
+          pathStatus: item.pathStatus
+        }
+        mmInspectionPathApi.update(formData).then(() => {
+          if (index == this.selection.length - 1) {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.selection=[];
-            this.$refs.lineTable.clearSelection();
+            this.selection = []
+            this.$refs.lineTable.clearSelection()
             this.fetchData()
           }
-        });
-      });
+        })
+      })
     },
-    closeLine(){
+    closeLine() {
       if (this.selection.length === 0) {
         this.$message({
           message: this.$t('common.mustSelectOne'),
@@ -379,73 +375,73 @@ export default {
         })
         return false
       }
-     /* let flag=true;
-      this.selection.map(item=>{
-        if(item.pathStatus==18){
-          flag=false;
-        }
-      });
-      if(!flag){
-        this.$message({
-          message: this.$t('不允许重复禁用'),
-          type: 'warning'
-        })
-        this.selection=[];
-        this.$refs.lineTable.clearSelection();
-        return false
-      }*/
+      /* let flag=true;
+       this.selection.map(item=>{
+         if(item.pathStatus==18){
+           flag=false;
+         }
+       });
+       if(!flag){
+         this.$message({
+           message: this.$t('不允许重复禁用'),
+           type: 'warning'
+         })
+         this.selection=[];
+         this.$refs.lineTable.clearSelection();
+         return false
+       }*/
 
-      this.selection.map((item,index)=>{
-        item.pathStatus=18;
-        const formData={
-          id:item.id,
-          pathName:item.pathName,
-          pathStatus:item.pathStatus,
-        };
-        mmInspectionPathApi.update(formData).then(()=>{
-          if(index==this.selection.length-1){
+      this.selection.map((item, index) => {
+        item.pathStatus = 18
+        const formData = {
+          id: item.id,
+          pathName: item.pathName,
+          pathStatus: item.pathStatus
+        }
+        mmInspectionPathApi.update(formData).then(() => {
+          if (index == this.selection.length - 1) {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
-            this.selection=[];
-            this.$refs.lineTable.clearSelection();
+            this.selection = []
+            this.$refs.lineTable.clearSelection()
             this.fetchData()
             this.fetchData()
           }
-        });
-      });
+        })
+      })
     },
-    closePipeline(){
-      this.pipelineVisible=false;
+    closePipeline() {
+      this.pipelineVisible = false
     },
-    closeAgain(){
-      this.againVisible=false;
+    closeAgain() {
+      this.againVisible = false
     },
-    setLineMessage(data){
-      data.map((item,index)=>{
-        if(index==data.length-1){
-          this.receiveData=item;
-          this.selectedList.push(item);
-          if(this.form.detail==''){
-            this.form.detail+=item.pipelineCode;
-          }else {
-            this.form.detail=this.form.detail+'→'+item.pipelineCode;
+    setLineMessage(data) {
+      data.map((item, index) => {
+        if (index == data.length - 1) {
+          this.receiveData = item
+          this.selectedList.push(item)
+          if (this.form.detail == '') {
+            this.form.detail += item.pipelineCode
+          } else {
+            this.form.detail = this.form.detail + '→' + item.pipelineCode
           }
         }
       })
     },
-    closeDialog(){
-      this.formVisible=false;
-      this.selectedList=[];
+    closeDialog() {
+      this.formVisible = false
+      this.selectedList = []
     },
     removeTab(targetName) {
-      let index = parseInt(targetName);
-      this.selectedList.splice(index, this.selectedList.length-index);
-      let tabs = this.editableTabs;
-      let activeName = this.editableTabsValue;
-      this.editableTabsValue = activeName;
-      this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-    },
+      let index = parseInt(targetName)
+      this.selectedList.splice(index, this.selectedList.length - index)
+      let tabs = this.editableTabs
+      let activeName = this.editableTabsValue
+      this.editableTabsValue = activeName
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+    }
   }
 }
