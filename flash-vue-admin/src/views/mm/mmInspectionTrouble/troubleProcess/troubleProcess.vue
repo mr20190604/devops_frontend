@@ -15,7 +15,7 @@
           </div>
           <div>
             <div class="table-list">
-              <el-table v-loading="false" :data="trouble_list" max-height="120px" element-loading-text="Loading" border>
+              <el-table v-loading="false" :data="troubleList" max-height="120px" element-loading-text="Loading" border>
                 <el-table-column label="上报人" width="80px" align="center">
                   <template slot-scope="scope">
                     <template v-if="scope.row.reportUser != null">{{ scope.row.reportUser.name }}</template>
@@ -58,9 +58,9 @@
           <div slot="header" class="clearfix">
             <span>隐患审核</span>
           </div>
-          <div v-if="trouble_list[0].auditTime != null">
+          <div v-if="troubleList[0].auditTime != null">
             <div class="table-list">
-              <el-table v-loading="false" :data="trouble_list" max-height="120px" element-loading-text="Loading" border>
+              <el-table v-loading="false" :data="troubleList" max-height="120px" element-loading-text="Loading" border>
                 <el-table-column label="审核人" width="80px" align="center">
                   <template slot-scope="scope">
                     <template v-if="scope.row.auditUser != null">{{ scope.row.auditUser.name }}</template>
@@ -95,13 +95,13 @@
           <div slot="header" class="clearfix">
             <span>隐患处置</span>
           </div>
-          <div v-if="trouble_handle_list.length > 0">
-            <div v-if="trouble_handle_list[0].handleStatus > 1">
+          <div v-if="troubleHandleList.length > 0">
+            <div v-if="troubleHandleList[0].handleStatus > 1">
               <div class="table-list">
-                <el-table v-loading="false" :data="trouble_handle_list[0].mmInspectionTroubleHandleRecords" max-height="200px" element-loading-text="Loading" border>
+                <el-table v-loading="false" :data="troubleHandleList[0].mmInspectionTroubleHandleRecords" max-height="200px" element-loading-text="Loading" border>
                   <el-table-column label="处置人" width="80px" align="center">
                     <template slot-scope="scope">
-                      <template v-if="trouble_handle_list[0].repairUser != null">{{ trouble_handle_list[0].repairUser.name }}</template>
+                      <template v-if="troubleHandleList[0].repairUser != null">{{ troubleHandleList[0].repairUser.name }}</template>
                     </template>
                   </el-table-column>
                   <el-table-column label="处置时间" width="180px" align="center">
@@ -155,11 +155,11 @@ export default {
   props: {
     troubleList: {
       type: Array,
-      default: ''
+      default: () =>[]
     },
     troubleHandleList: {
       type: Array,
-      default: ''
+      default:() =>[]
     }
 
   },
@@ -175,7 +175,8 @@ export default {
     }
   },
   created() {
-    this.downloadUrl = getApiUrl() + '/file/download?idFile='
+
+    this.downloadUrl = getApiUrl() + '/file/download?idFile=';
   },
   methods: {
     previewFile(record) {
@@ -185,22 +186,22 @@ export default {
     },
     troubleReportTime() {
       this.calculateStepCount()
-      return this.trouble_list[0].reportTime ? this.trouble_list[0].reportTime : ''
+      return this.troubleList[0].reportTime ? this.troubleList[0].reportTime : ''
     },
     troubleAuditTime() {
-      return this.trouble_list[0].auditTime ? this.trouble_list[0].auditTime : ''
+      return this.troubleList[0].auditTime ? this.troubleList[0].auditTime : ''
     }, troubleHandleTime() {
-      if (this.trouble_handle_list) {
-        if (this.trouble_handle_list.length > 0) {
-          if (this.trouble_handle_list[0].handleStatus == 3) {
-            return this.trouble_handle_list[0].handleTime
+      if (this.troubleHandleList) {
+        if (this.troubleHandleList.length > 0) {
+          if (this.troubleHandleList[0].handleStatus == 3) {
+            return this.troubleHandleList[0].handleTime
           }
         }
       }
       return ''
     }, calculateStepCount() {
       let index = 1
-      if (this.trouble_list[0].auditTime) {
+      if (this.troubleList[0].auditTime) {
         this.auditStatus = 1
         index = 2
       } else {
@@ -208,9 +209,9 @@ export default {
       }
       let flag = false
 
-      if (this.trouble_handle_list) {
-        if (this.trouble_handle_list.length > 0) {
-          if (this.trouble_handle_list[0].handleStatus > 1) {
+      if (this.troubleHandleList) {
+        if (this.troubleHandleList.length > 0) {
+          if (this.troubleHandleList[0].handleStatus > 1) {
             flag = true
             index = 3
           }

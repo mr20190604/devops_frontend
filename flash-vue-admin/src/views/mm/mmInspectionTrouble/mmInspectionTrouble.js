@@ -32,7 +32,8 @@ export default {
         troubleSourceName: '',
         troubleLevelName: '',
         reportUser: '',
-        auditTime: ''
+        auditTime: '',
+        systems:'',
       },
       listQuery: {
         troubleType: undefined,
@@ -71,8 +72,8 @@ export default {
       list: [],
       listLoading: true,
       selRow: {},
-      trouble_list: null,
-      trouble_handle_list: null,
+      trouble_list: [],
+      trouble_handle_list: [],
       processTitle: '隐患流程跟踪',
       processVisiable: false
     }
@@ -203,7 +204,8 @@ export default {
             auditStatus: 1,
             auditResult: this.form.auditResult,
             notes: this.form.notes,
-            isDel: this.form.isDel
+            isDel: this.form.isDel,
+            systems:this.form.systems
           }
           if (formData.id) {
             mmInspectionTroubleApi.update(formData).then(response => {
@@ -300,13 +302,23 @@ export default {
     }, getRowKey(row) {
       return row.id
     }, openProcess(record) {
+      // mmInspectionTroubleApi.queryById(record.id).then(response => {
+      //   this.trouble_list = response.data
+      //   mmInspectionTroubleApi.queryHandleList(record.id).then(response => {
+      //     this.trouble_handle_list = response.data
+      //     this.processVisiable = true
+      //   })
+      // })
+
+        mmInspectionTroubleApi.queryById(record.id).then(response => {
+          this.trouble_list = response.data
+        })
+
+        mmInspectionTroubleApi.queryHandleList(record.id).then(response => {
+          this.trouble_handle_list = response.data
+        })
       this.processVisiable = true
-      mmInspectionTroubleApi.queryById(record.id).then(response => {
-        this.trouble_list = response.data
-      })
-      mmInspectionTroubleApi.queryHandleList(record.id).then(response => {
-        this.trouble_handle_list = response.data
-      })
+
     }
 
   }
