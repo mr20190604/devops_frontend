@@ -49,13 +49,15 @@
           :distance-display-condition="item.distanceDisplayCondition"
         />
       </vc-entity>
-      <vc-heatmap
-        :show="heatmapInfo.show"
-        :bounds="heatmapInfo.bounds"
-        :options="heatmapInfo.options"
-        :min="heatmapInfo.min"
-        :max="heatmapInfo.max"
-        :data="heatmapInfoData"
+      <vc-kriging-map
+        v-if="krigingInfo.show"
+        :breaks="krigingInfo.breaks"
+        :values="krigingInfoValues"
+        :lngs="krigingInfoLngs"
+        :canvas-alpha="0.5"
+        :lats="krigingInfoLats"
+        :colors="krigingInfo.colors"
+        :clip-coords="krigingInfoClipCoords"
       />
       <vc-handler-draw-point
         ref="handlerPoint"
@@ -348,24 +350,17 @@ export default {
       billboards: [],
       isForecast: false,
       heatmapInfo: {
-        bounds: { west: 120.74386, south: 30.77158, east: 120.74758, north: 30.77673 },
-        options: {
-          backgroundColor: 'rgba(0,0,0,0)',
-          gradient: {
-            '0.8': 'red',
-            '0.5': 'yellow',
-            '0.3': 'green'
-          },
-          maxOpacity: 0.5,
-          minOpacity: 0,
-          blur: 0.85
-        },
-        min: 0,
-        max: 100,
-        data: [],
-        show: false
+        bounds: { west: 120.74386, south: 30.77158, east: 120.74758, north: 30.77673 }
       },
-      heatmapInfoData: [],
+      krigingInfo: {
+        show: false,
+        breaks: [0, 40, 60, 80, 100],
+        colors: ['#00CEB5', '#2E8CEE', '#EC9C29', 'rgba(255,0,0,0.3)'] // #CD4D54
+      },
+      krigingInfoValues: [],
+      krigingInfoLngs: [],
+      krigingInfoLats: [],
+      krigingInfoClipCoords: [],
       windowInfo: {
         show: false,
         equipmentType: undefined,
@@ -513,22 +508,19 @@ export default {
     billboardClick(e) {
       if (this.isForecast) {
         window.viewer.flyTo(e.cesiumObject).then(() => {
-          const position = e.surfacePosition
-          const cartographic = window.Cesium.Cartographic.fromCartesian(position)
-          const minNum = -0.0001
-          const maxNum = 0.0001
-          this.heatmapInfo.data = []
+          // const position = e.surfacePosition
+          // const cartographic = window.Cesium.Cartographic.fromCartesian(position)
+          // const minNum = -0.0001
+          // const maxNum = 0.0001
           // 构造热力图的数据
-          for (let i = 0; i < 20; i++) {
-            const val = Math.floor(Math.random() * 100)
-            this.heatmapInfo.data.push({
-              x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
-              y: window.Cesium.Math.toDegrees(cartographic.latitude) + Math.random() * (maxNum - minNum) + minNum,
-              value: val
-            })
-          }
-          this.heatmapInfoData = this.heatmapInfo1.data
-          this.heatmapInfo.show = true
+          // for (let i = 0; i < 20; i++) {
+          //   const val = Math.floor(Math.random() * 100)
+          //   push({
+          //     x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
+          //     y: window.Cesium.Math.toDegrees(cartographic.latitude) + Math.random() * (maxNum - minNum) + minNum,
+          //     value: val
+          //   })
+          // }
         })
       } else {
         this.handleBillboardDetail(e.cesiumObject)
@@ -553,6 +545,9 @@ export default {
     },
     mouseUp() {
       window.viewer._container.style.cursor = 'grab'
+    },
+    handleViewerMoveEnd() {
+
     },
     handleResourceClick() {
       this.setDefault()
@@ -623,55 +618,55 @@ export default {
       }
     },
     handleRiskClick() {
+      this.setDefault(true)
       const cartographic = window.Cesium.Cartographic.fromCartesian(window.buildings.boundingSphere.center)
       const destination = window.Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 1500)
+      const that = this
       window.viewer.camera.flyTo({
         destination: destination,
-        orientation: -90
-      })
-
-      const that = this
-      that.setDefault(true)
-      that.generateHeatmapInfoData()
-      that.riskInterval = setInterval(function() {
-        if (that.heatmapInfo.data[0].radius === 150) {
-          that.riskInterval && clearInterval(that.riskInterval)
-        }
-        that.heatmapInfo.data.forEach(item => {
-          item.radius += 1
-        })
-        that.heatmapInfoData = that.heatmapInfo.data
-      }, 500)
-    },
-    generateHeatmapInfoData() {
-      // 构造热力图的数据
-      this.heatmapInfo.data = []
-      const deltaX = this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west
-      const deltaY = this.heatmapInfo.bounds.north - this.heatmapInfo.bounds.south
-      const count = 10
-
-      for (let i = 0; i < count; i++) {
-        const x = this.heatmapInfo.bounds.west + deltaX / count * (i + 1)
-        for (let j = 0; j < count; j++) {
-          const y = this.heatmapInfo.bounds.south + deltaY / count * (j + 1)
-          const val = Math.floor(Math.random() * 50)
-          this.heatmapInfo.data.push({
-            x: x,
-            y: y,
-            value: val,
-            radius: 10
+        orientation: -90,
+        complete: function() {
+          that.krigingInfoLngs = []
+          that.krigingInfoLats = []
+          that.krigingInfoValues = []
+          that.setKrigingInfoClipCoords()
+          that.billboards.filter(item => item.type < 3).forEach(item => {
+            that.krigingInfoLngs.push(item.position.lng)
+            that.krigingInfoLats.push(item.position.lat)
+            let n = 0
+            if (item.level === 0) {
+              n = Math.floor(Math.random() * 50)
+            } else if (item.level === 1) {
+              n = Math.floor(Math.random() * 20) + 80
+            } else if (item.level === 2) {
+              n = Math.floor(Math.random() * 20) + 60
+            } else {
+              n = Math.floor(Math.random() * 20) + 40
+            }
+            that.krigingInfoValues.push(n)
           })
+          that.krigingInfo.show = true
         }
-      }
-      this.heatmapInfoData = this.heatmapInfo.data
-      this.heatmapInfo.show = true
+      })
+    },
+    setKrigingInfoClipCoords() {
+      let pick = new window.Cesium.Cartesian2(0, window.innerHeight)
+      let cartesian = window.viewer.scene.globe.pick(window.viewer.camera.getPickRay(pick), window.viewer.scene)
+      let cartographic = window.Cesium.Cartographic.fromCartesian(cartesian)
+      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.longitude))
+      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.latitude))
+      pick = new window.Cesium.Cartesian2(window.innerWidth, 0)
+      cartesian = window.viewer.scene.globe.pick(window.viewer.camera.getPickRay(pick), window.viewer.scene)
+      cartographic = window.Cesium.Cartographic.fromCartesian(cartesian)
+      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.longitude))
+      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.latitude))
     },
     setDefault(isRisk) {
       this.billboards.forEach(item => {
         item.show = false
       })
-      this.heatmapInfo.show = false
       this.windowInfo.show = false
+      this.krigingInfo.show = false
       this.isForecast = false
       this.riskInterval && clearInterval(this.riskInterval)
       this.riskInterval = undefined

@@ -43,12 +43,12 @@
             <i>三维GIS</i>
           </a>
         </li>
-        <li>
-          <router-link tag="a" to="/screen">
-            <img src="@/assets/img/head-link-back.png" alt="">
-            <i>返回大屏</i>
-          </router-link>
-        </li>
+<!--        <li>-->
+<!--          <router-link tag="a" to="/screen">-->
+<!--            <img src="@/assets/img/head-link-back.png" alt="">-->
+<!--            <i>返回大屏</i>-->
+<!--          </router-link>-->
+<!--        </li>-->
       </ul>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">

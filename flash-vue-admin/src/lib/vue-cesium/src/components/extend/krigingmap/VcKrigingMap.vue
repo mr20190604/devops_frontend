@@ -1,6 +1,6 @@
 <template>
   <i :class="$options.name" style="display: none !important">
-    <vc-datasource-geojson :data="data" :options="datasourceOptions" :show="show" ref="geojsonDatasource" @ready="ready"></vc-datasource-geojson>
+    <vc-datasource-geojson ref="geojsonDatasource" :data="data" :options="datasourceOptions" :show="show" @ready="ready" />
   </i>
 </template>
 <script>
@@ -10,16 +10,7 @@ import { featureCollection, point } from '@turf/helpers'
 import isobands from '@turf/isobands'
 // import area from '@turf/area'
 export default {
-  name: 'vc-kriging-map',
-  data () {
-    return {
-      coordinates: { west: 0, south: 0, east: 0, north: 0 },
-      data: {},
-      datasourceOptions: {
-        clampToGround: true
-      }
-    }
-  },
+  name: 'VcKrigingMap',
   mixins: [cmp],
   props: {
     values: Array,
@@ -65,13 +56,20 @@ export default {
     },
     cell: Number
   },
+  data() {
+    return {
+      coordinates: { west: 0, south: 0, east: 0, north: 0 },
+      data: {},
+      datasourceOptions: {
+        clampToGround: true
+      }
+    }
+  },
   methods: {
-    async createCesiumObject () {
+    async createCesiumObject() {
       const { values, lngs, lats, krigingModel, krigingSigma2, breaks, clipCoords, krigingAlpha } = this
       const variogram = kriging.train(values, lngs, lats, krigingModel, krigingSigma2, krigingAlpha)
-
       let coordinates = []
-
       if (clipCoords instanceof Array) {
         if (clipCoords.length > 0 && clipCoords[0][0]) {
           // 传的是 geojson 面
@@ -129,10 +127,10 @@ export default {
       this.data = isobandsResult
       return this.$refs.geojsonDatasource
     },
-    ready ({ cesiumObject }) {
+    ready({ cesiumObject }) {
       this.setPolygonColor(cesiumObject)
     },
-    setPolygonColor (cesiumObject) {
+    setPolygonColor(cesiumObject) {
       const { breaks, colors, canvasAlpha } = this
       cesiumObject.entities.values.reduce((pre, cur) => {
         const value = cur.properties.getValue(Cesium.JulianDate.now).value
@@ -145,7 +143,7 @@ export default {
 
       return cesiumObject
     },
-    gridFeatureCollection (grid, xlim, ylim) {
+    gridFeatureCollection(grid, xlim, ylim) {
       // var range = grid.zlim[1] - grid.zlim[0]
       let i, j, x, y, z
       const n = grid.data.length // 列数
@@ -165,10 +163,10 @@ export default {
       }
       return pointArray
     },
-    async mount () {
+    async mount() {
       return true
     },
-    async unmount () {
+    async unmount() {
       return true
     }
   }

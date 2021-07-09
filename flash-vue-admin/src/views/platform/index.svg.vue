@@ -88,6 +88,7 @@ export default {
       childSys[2].mmChildSysModel.sysName = '苍穹监测系统'
       childSys.splice(3, 1)
     }
+    this.$store.commit('user/SET_CHILDSYS', childSys)
 
     if (childSys.length === 1) {
       this.marginLeft = '580px'

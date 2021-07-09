@@ -186,6 +186,11 @@ export default {
   },
   methods: {
     handleClick: function() {
+      this.$store.state.user.childSys.forEach(item => {
+        item.selected = false
+      })
+      const selected = this.$store.state.user.childSys.find(item => item.mmChildSysModel.sysUrl === this.url)
+      selected.selected = true
       this.url && this.$router.push(this.url)
     }
   }

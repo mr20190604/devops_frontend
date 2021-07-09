@@ -8,7 +8,7 @@
         <img class="icon" :src="icon" alt="天气图标">
         <span class="weather">{{ weather }}</span>
         <span class="temperature">{{ temperature }}℃</span>
-        <el-link href="/#/enterpriseBaseinfo" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>
+<!--        <el-link href="/#/enterpriseBaseinfo" type="primary" style="float: right;margin-right: 50px;">进入系统</el-link>-->
       </p>
     </div>
     <div class="content">
