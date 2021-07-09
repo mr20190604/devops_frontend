@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div>
+    <div >
       <el-steps :active="stepCount" align-center>
         <el-step title="监测报警" :description="assignmentAlarmTime()"><i  class="step01" slot="icon"></i></el-step>
         <el-step title="报警审核" :description="assignmentAuditTime()"><i v-if="auditStatus == 1" class="step02" slot="icon"></i><i v-else-if="auditStatus == 0" class="step07" slot="icon"></i></el-step>
-        <el-step title="报警排查" :description="assignmentScreenTime()"><i v-if="screenStatus == 1" class="step03" slot="icon"></i><i v-else-if="screenStatus == 0" class="step08" slot="icon"></i></el-step>
-        <el-step title="报警处置" :description="assignmentHandleTime()"><i v-if="handleStatus == 1" class="step04" slot="icon"></i><i v-else-if="handleStatus == 0" class="step09" slot="icon"></i></el-step>
+        <el-step title="报警排查" :description="assignmentScreenTime()" :status="screenTitleStype"  ><i v-if="screenStatus == 1" class="step03" slot="icon"></i><i v-else-if="screenStatus == 0" class="step08" slot="icon"></i></el-step>
+        <el-step title="报警处置" :description="assignmentHandleTime()" :status="handleTitleStyle" ><i v-if="handleStatus == 1" class="step04" slot="icon"></i><i v-else-if="handleStatus == 0" class="step09" slot="icon"></i></el-step>
         <el-step title="报警解除" :description="assignmentRelieveTime()"><i v-if="relieveStatus == 1" class="step05" slot="icon"></i><i v-else-if="relieveStatus == 0" class="step10" slot="icon"></i></el-step>
       </el-steps>
     </div>
@@ -28,7 +28,7 @@
             </el-table-column>
             <el-table-column label="报警位置" show-overflow-tooltip>
               <template slot-scope="scope">
-                <template v-if="scope.row.equipment.equipmentInstallInfos != null">{{scope.row.equipment.equipmentInstallInfos[0].installLocation}}</template>
+                <template >{{scope.row.alarmLocation}}</template>
               </template>
             </el-table-column>
             <el-table-column label="报警时间" show-overflow-tooltip>
@@ -267,7 +267,9 @@
             auditStatus:0,
             screenStatus:0,
             handleStatus:0,
-            relieveStatus:0
+            relieveStatus:0,
+            screenTitleStype:'',
+            handleTitleStyle:'',
           }
         },
 
@@ -314,7 +316,7 @@
         assignmentRelieveTime() {
           return this.checkList[0].relieveTime ? this.checkList[0].relieveTime:''
         },calculateStepCount() {
-          let index = 1
+          let index = 1;
           if (this.checkList[0].isAudit == 1) {
             this.auditStatus = 1;
             index = 2
@@ -323,24 +325,38 @@
           }
           if (this.checkList[0].screenStatus == 258) {
             this.screenStatus = 1;
-            index = 3
+            index = 3;
+            this.screenTitleStype = '';
           } else {
             this.screenStatus = 0;
+            this.screenTitleStype = 'wait';
           }
 
           if (this.checkList[0].isFeedback > 0) {
             this.handleStatus = 1;
             index = 4
+            this.handleTitleStyle = '';
           } else {
             this.handleStatus = 0;
+            this.handleTitleStyle = 'wait';
           }
+
           if (this.checkList[0].isRelieve == 1) {
             this.relieveStatus = 1;
             index = 5
           } else {
             this.relieveStatus = 0;
           }
+          console.log('index',index);
+          console.log('isRelieve',this.checkList[0].isRelieve);
+
           this.stepCount = index
+        },
+        showPoint(index) {
+          if (index == 5) {
+            this.handleStatus == 0
+          }
+
         }
       }
     }
@@ -442,6 +458,11 @@
     .el-step__title.is-finish{
       color: #285edf;
     }
+
+ >>> .el-step.is-center .el-step__description {
+  padding-left: 10%;
+  padding-right: 10%;
+}
 
 </style>
 
