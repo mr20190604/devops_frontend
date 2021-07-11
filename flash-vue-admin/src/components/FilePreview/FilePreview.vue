@@ -163,5 +163,6 @@ export default {
     border: none;
     background: none;
     cursor: pointer;
+    outline: none;
   }
 </style>

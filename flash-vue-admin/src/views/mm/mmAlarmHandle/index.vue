@@ -367,10 +367,10 @@
 
 <script src="./mmAlarmHandle.js"></script>
 <style lang="scss" scoped>
-*{
-  margin: 0;
-  padding: 0;
-}
+/**{*/
+  /*margin: 0;*/
+  /*padding: 0;*/
+/*}*/
 .common-dialog-style.chart-dialog-style .block .el-form .el-row .el-col:nth-of-type(even){
   display: initial;
 }

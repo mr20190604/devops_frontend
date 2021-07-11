@@ -503,10 +503,10 @@
 
 <script src="./mmAlarmInfo.js"></script>
 <style lang="scss" scoped>
-*{
-  margin: 0;
-  padding: 0;
-}
+/**{*/
+  /*margin: 0;*/
+  /*padding: 0;*/
+/*}*/
  .send-dialog-style{
    >>> .el-dialog__body{
      padding-left:33px;
