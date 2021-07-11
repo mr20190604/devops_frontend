@@ -191,10 +191,16 @@ export default {
               self.barData.legend.data.push(item);
             });
           }
+          let date = this.processDate(this.tabPosition);
+          //去除x轴的日期或者时间对应的位置
+          response.data.xdata.splice(response.data.xdata.findIndex(item=> item === date)+1,response.data.xdata.length - response.data.xdata.findIndex(item=> item === date));
           self.barData.xAxis.data = response.data.xdata;
 
           self.barData.series = [];
+
           for(let i = 0; i < self.barData.legend.data.length; i++) {
+            //去除数据到当前日期或者时间的位置
+            response.data.seriesData[i].splice(response.data.xdata.length, response.data.seriesData[i].length - response.data.xdata.length);
             self.barData.series.push(
               {
                 name: self.barData.legend.data[i],
@@ -220,6 +226,37 @@ export default {
       self.value = '';
       self.tabPosition = 'currentToday';
       self.search();
+    },
+    processDate(tabPosition) {
+      let myDate = new Date();
+      let year = myDate.getFullYear();
+      let month = (myDate.getMonth()+1) < 10 ? '0' + (myDate.getMonth() + 1) : myDate.getMonth();
+      let day = myDate.getDate() < 10 ?  '0' + myDate.getDate() : myDate.getDate();
+      let hours = myDate.getHours() < 10 ? '0'+myDate.getHours() : myDate.getHours();
+      switch (tabPosition) {
+        case 'currentToday':
+          return hours + ':00';
+        case 'currentWeek':
+          return year + '-' + month + '-' + day;
+        case 'currentMonth':
+          return year + '-' + month + '-' + day;
+        default:
+          return null;
+      }
+      // myDate.getYear();        // 获取当前年份(2位)
+      // myDate.getFullYear();    // 获取完整的年份(4位,1970-????)
+      // myDate.getMonth();       // 获取当前月份(0-11,0代表1月)
+      // myDate.getDate();        // 获取当前日(1-31)
+      // myDate.getDay();         // 获取当前星期X(0-6,0代表星期天)
+      // myDate.getTime();        // 获取当前时间(从1970.1.1开始的毫秒数)
+      // myDate.getHours();       // 获取当前小时数(0-23)
+      // myDate.getMinutes();     // 获取当前分钟数(0-59)
+      // myDate.getSeconds();     // 获取当前秒数(0-59)
+      // myDate.getMilliseconds();    // 获取当前毫秒数(0-999)
+      // myDate.toLocaleDateString();     // 获取当前日期
+      // var mytime=myDate.toLocaleTimeString();     // 获取当前时间
+      // myDate.toLocaleString( );        // 获取日期与时间
+
     }
   }
 }

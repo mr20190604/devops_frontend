@@ -169,6 +169,7 @@
       </div>
     </el-dialog>
     <el-dialog
+     class="el-dialog-style common-dialog-style"
       title="预览附件"
       :visible.sync="previewVisible"
       width="60%"

@@ -185,10 +185,15 @@ export default {
               self.lineData.legend.data.push(item);
             });
           }
+          let date = this.processDate(this.tabPosition);
+          //去除x轴的日期或者时间对应的位置
+          response.data.xdata.splice(response.data.xdata.findIndex(item=> item === date)+1,response.data.xdata.length - response.data.xdata.findIndex(item=> item === date));
           self.lineData.xAxis.data = response.data.xdata;
 
           self.lineData.series = [];
           for(let i = 0; i < self.lineData.legend.data.length; i++) {
+            //去除数据到当前日期或者时间的位置
+            response.data.seriesData[i].splice(response.data.xdata.length, response.data.seriesData[i].length - response.data.xdata.length);
             self.lineData.series.push(
               {
                 name: self.lineData.legend.data[i],
@@ -212,6 +217,23 @@ export default {
       self.featuresFactorVal = '';
       self.tabPosition = 'currentToday';
       self.search();
+    },
+    processDate(tabPosition) {
+      let myDate = new Date();
+      let year = myDate.getFullYear();
+      let month = (myDate.getMonth()+1) < 10 ? '0' + (myDate.getMonth() + 1) : myDate.getMonth();
+      let day = myDate.getDate() < 10 ?  '0' + myDate.getDate() : myDate.getDate();
+      let hours = myDate.getHours() < 10 ? '0'+myDate.getHours() : myDate.getHours();
+      switch (tabPosition) {
+        case 'currentToday':
+          return hours + ':00';
+        case 'currentWeek':
+          return year + '-' + month + '-' + day;
+        case 'currentMonth':
+          return year + '-' + month + '-' + day;
+        default:
+          return null;
+      }
     }
   }
 }
