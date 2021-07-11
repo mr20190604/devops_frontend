@@ -9,8 +9,8 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item label="设备编号：">
-                    <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号"></el-input>
+                  <el-form-item label="设备编码：">
+                    <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编码"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -132,11 +132,10 @@
                 :title="formTitle"
                 :visible.sync="formVisible"
                 width="50%"
-
                 @close="closeTimer"
         >
           <div align="center">
-            <v-chart :options="lineData" ref="myEchart"/>
+            <v-chart :options="lineData" style="width: 90%" ref="myEchart"/>
           </div>
         </el-dialog>
     </div>

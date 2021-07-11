@@ -196,6 +196,7 @@ export default {
           bottom: '10%'
         },
         xAxis: {
+          name:'时间',
           type: 'category',
           data:[].map(function (str) {
             return str.replace(' ','\n')
@@ -203,6 +204,7 @@ export default {
 
         },
         yAxis: {
+          name:'监测值',
           type: 'value',
           min:1,
           max:10
@@ -950,6 +952,7 @@ export default {
 
     },searchData(){
       if (this.modelTime.length > 0) {
+        this.dateCur = 4
         this.clearEchart()
 
         let startDate = new Date(this.modelTime[0]);
@@ -993,6 +996,7 @@ export default {
       }
 
     },resetModel () {
+      this.dateCur = 0;
       this.modelTime = [];
       this.initModelData(this.selRow)
     },

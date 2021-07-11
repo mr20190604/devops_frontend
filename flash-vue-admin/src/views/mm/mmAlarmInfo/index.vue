@@ -460,7 +460,7 @@
           <el-form  :inline="true" style="width:900px">
             <el-form-item>
                <ul class="date-ul-change">
-                <li @click="day()" :class="dateCur==0?'isFocus':'isNotFocus'">今日</li>
+                <li @click="day()" :class="dateCur==0?'isFocus':''">今日</li>
                 <li @click="OneWeeks()"  :class="dateCur==1?'isFocus':''">本周</li>
                 <li @click="month()"  :class="dateCur==2?'isFocus':''">本月</li>
               </ul>
@@ -479,7 +479,7 @@
               </el-date-picker>
             </el-form-item>
             <el-button type="primary" class="set-common-btn blue-button" @click.native="searchData">{{ $t('button.search') }}</el-button>
-            <el-button  class="set-common-btn blank-blue-button" @click.native="resetModel">{{ $t('button.reset') }}</el-button>
+            <el-button  class="set-common-btn blank-blue-button " @click.native="resetModel">{{ $t('button.reset') }}</el-button>
 
           </el-form>
 

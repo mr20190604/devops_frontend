@@ -327,6 +327,8 @@
                   
                   <el-form-item label="">
                      <el-date-picker
+                       el-date-picker
+                       :picker-options="pickerOptions"
                     v-model="modelTime"
                     size="mini"
                     type="datetimerange"
