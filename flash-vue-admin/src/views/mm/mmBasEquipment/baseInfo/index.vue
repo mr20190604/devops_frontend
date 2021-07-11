@@ -148,6 +148,8 @@
                     <district v-model="form.districtCode" minlength=1></district>
                   </el-form-item>
                 </el-col>
+              </el-row>
+              <el-row>
                 <el-col :span="12">
                   <el-form-item label="管理单位：">
                     <el-input v-model="form.manageEnterprise" minlength=1></el-input>
@@ -178,13 +180,7 @@
                     <el-input v-model="form.manufacturer" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                  <el-form-item label="传输频率：">
-                    <el-input v-model="form.transmissionFrequency"
-                              oninput="value=value.replace(/[^0-9]/g,'')"
-                              minlength=1  maxlength=5></el-input>
-                  </el-form-item>
-                </el-col>
+                
                 <el-col :span="12">
                   <el-form-item label="是否叶子节点：">
                     <template>
@@ -197,6 +193,13 @@
                         </el-option>
                       </el-select>
                     </template>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="传输频率：">
+                    <el-input v-model="form.transmissionFrequency"
+                              oninput="value=value.replace(/[^0-9]/g,'')"
+                              minlength=1  maxlength=5></el-input>
                   </el-form-item>
                 </el-col>
                 </el-row>
