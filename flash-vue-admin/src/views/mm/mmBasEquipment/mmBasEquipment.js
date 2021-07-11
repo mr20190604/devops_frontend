@@ -116,11 +116,14 @@ export default {
           bottom: '10%'
         },
         xAxis: {
+          name:'时间',
           type: 'category',
           // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
           data: []
+
         },
         yAxis: {
+          name:'监测值',
           type: 'value',
           min: 1,
           max: 10

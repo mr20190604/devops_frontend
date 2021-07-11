@@ -171,6 +171,7 @@ export default {
           trigger: 'axis'
         },
         grid: {
+          name:'时间',
           left: '5%',
           right: '15%',
           bottom: '10%'
@@ -181,6 +182,7 @@ export default {
           data: []
         },
         yAxis: {
+          name:'监测值',
           type: 'value',
           min: 1,
           max: 10
@@ -979,6 +981,7 @@ export default {
       }
     }, searchData() {
       if (this.modelTime.length > 0) {
+        this.dateCur = 4
         this.clearEchart()
         const startDate = new Date(this.modelTime[0])
         const endDate = new Date(this.modelTime[1])
@@ -1018,6 +1021,7 @@ export default {
         }
       }
     }, resetModel() {
+      this.dateCur = 0
       this.modelTime = []
       this.initModelData(this.selRow)
     }

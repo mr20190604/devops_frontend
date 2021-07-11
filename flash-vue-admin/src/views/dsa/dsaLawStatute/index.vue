@@ -247,6 +247,7 @@
       class="el-dialog-style common-dialog-style"
       :visible.sync="previewVisible"
       width="60%"
+      append-to-body
     >
       <file-preview :files="files" :download-file-url="downloadUrl" />
       <!--<el-row style="width: 100%;height: 600px;margin-top: 10px;">-->
