@@ -81,7 +81,15 @@ export default {
         personContact: undefined
 
       },
+      personQuery:{
+        page: 1,
+        limit: 10,
+        name: undefined,
+        ids:'',
+        teamId:undefined
+      },
       total: 0,
+      personTotal:0,
       list: [],
       listLoading: true,
       selRow: {},
@@ -170,6 +178,7 @@ export default {
       this.fetchData()
     },
     changeSize(limit) {
+
       this.listQuery.limit = limit
       this.fetchData()
     },
@@ -387,20 +396,57 @@ export default {
     }, choosePerson() {
       this.personVisible = true
       this.personTitle = '选择应急人员'
+      this.initPersonParam();
       var teamId = this.form.id
+
       if (this.personAdd) {
-        const permission = this.person_id_list.join(',')
-        person.queryNotInIds(permission).then(response => {
-          this.person_data = response.data
-        })
+        // var permission = this.person_id_list.join(',')
+        this.personQuery.ids  = this.person_id_list.join(',');
+        // person.queryNotInIds(permission).then(response => {
+        //   this.person_data = response.data
+        // })
+
+       this.fetchPersonData();
+
       } else {
-        person.queryListData(teamId).then(response => {
-          this.person_data = response.data
-        })
+        // person.queryListData(teamId).then(response => {
+        //   this.person_data = response.data
+        // })
+        this.personQuery.teamId = teamId;
+        this.fetchPersonData();
+
       }
 
       this.personForm.ids = []
-    }, addPerson() {
+    },fetchPersonData() {
+      person.getList(this.personQuery).then(response => {
+        this.person_data = response.data.records;
+        this.personLoading = false
+        this.personTotal = response.data.total;
+      })
+    },initPersonParam() {
+      this.personQuery.teamId = undefined;
+      this.personQuery.ids = '';
+      this.personQuery.page = 1;
+      this.personQuery.limit = 10
+    },
+    personFetchNext() {
+      this.personQuery.page = this.personQuery.page + 1
+      this.fetchPersonData()
+    },
+    personFetchPrev() {
+      this.personQuery.page = this.personQuery.page - 1
+      this.fetchPersonData()
+    },
+    personFetchPage(page) {
+      this.personQuery.page = page
+      this.fetchPersonData()
+    },
+    personChangeSize(limit) {
+      this.personQuery.limit = limit
+      this.fetchPersonData()
+    },
+    addPerson() {
       var teamId = this.form.id
       if (teamId) {
         // 如果存在teamid则为修改，此时提交直接保存数据到后台数据库，不进行临时保存

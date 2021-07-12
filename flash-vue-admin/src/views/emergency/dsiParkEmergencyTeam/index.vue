@@ -274,7 +274,8 @@
                 </template>
               </el-table-column>
             </el-table>
-           </div>
+
+        </div>
 
           <el-form-item class="marginT10 dialog-button-list" v-if="editFlag == false">
             <el-button type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}</el-button>
@@ -290,6 +291,7 @@
       :visible.sync="personVisible"
       width="960px"
       onclose="cancle"
+      style="overflow-y: hidden;height: auto"
     >
       <div class="block">
         <el-form>
@@ -301,7 +303,7 @@
               element-loading-text="Loading"
               border
               fit
-              max-height="331px"
+              max-height="500px"
               @selection-change="handleSelectionChange"
               @row-click="personToggleSelection"
             >
@@ -334,7 +336,7 @@
                   {{ scope.row.majorSpecialty }}
                 </template>
               </el-table-column>
-              <el-table-column label="是否专家" show-overflow-tooltip>
+              <el-table-column label="是否专家" align="center" show-overflow-tooltip>
                 <template slot-scope="scope">
                   {{ scope.row.isExpertName }}
                 </template>
@@ -347,6 +349,19 @@
               </el-table-column>
             </el-table>
           </div>
+          <el-pagination
+            background
+            class="position-pagination"
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-sizes="[10, 20, 50, 100,500]"
+            :page-size="personQuery.limit"
+            :total="personTotal"
+          @size-change="personChangeSize"
+          @current-change="personFetchPage"
+          @prev-click="personFetchPrev"
+          @next-click="personFetchNext"
+          />
+
 
           <el-form-item align="center" class="marginT10">
             <el-button type="primary" class="set-common-btn blue-button" @click="addPerson">{{ $t('button.submit') }}</el-button>
