@@ -315,14 +315,13 @@ export default {
       })
     },
     openProcess(record) {
-      this.processVisible = true
       mmInspectionTroubleApi.queryById(record.troubleId).then(response => {
         this.trouble_list = response.data
       })
       mmInspectionTroubleApi.queryHandleList(record.troubleId).then(response => {
         this.trouble_handle_list = response.data
       })
-
+      this.processVisible = true
     }
   }
 }

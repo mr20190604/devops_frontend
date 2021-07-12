@@ -194,7 +194,7 @@
       width="960px"
     >
       <div class="marginT26">
-        <troubleProcess :trouble_list="trouble_list" :trouble_handle_list="trouble_handle_list"></troubleProcess>
+        <troubleProcess :troubleList="trouble_list" :troubleHandleList="trouble_handle_list"></troubleProcess>
       </div>
     </el-dialog>
 
