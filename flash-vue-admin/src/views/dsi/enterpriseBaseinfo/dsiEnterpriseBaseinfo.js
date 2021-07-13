@@ -136,6 +136,9 @@ export default {
     },
     fetchData() {
       this.listLoading = true
+      if (this.listQuery.districtCode === '') {
+        this.listQuery.districtCode = undefined
+      }
       dsiEnterpriseBaseinfoApi.getList(this.listQuery).then(response => {
         this.list = response.data.records
         this.listLoading = false
@@ -223,7 +226,6 @@ export default {
       this.formTitle = '添加企业信息'
       this.formVisible = true
       this.activeName = 'first'
-      console.log(this.activeName)
       this.isAdd = true
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
@@ -398,9 +400,11 @@ export default {
       this.$refs.enterpriseTable.toggleRowSelection(row)
     },
     closeDialog() {
-      this.selection = []
-      this.reset()
-      this.fetchData()
+      if (this.enterpriseId) {
+        this.selection = []
+        this.reset()
+        this.fetchData()
+      }
       this.enterpriseId = ''
       this.formVisible = false
       this.$refs.enterpriseTable.clearSelection()

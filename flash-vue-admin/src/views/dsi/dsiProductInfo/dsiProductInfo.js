@@ -537,35 +537,31 @@ export default {
       })
     },
     saveProduct() {
-      if (this.list.length > 0) {
-        let ids = this.selection.map(item => {
-          return item.id
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+      if (ids === null || ids.length === 0) {
+        this.$alert('请先勾选产品信息！', '提示', {
+          confirmButtonText: '确定'
         })
-        if (ids === null || ids.length === 0) {
-          this.$alert('请先勾选产品信息！', '提示', {
-            confirmButtonText: '确定'
-          })
-          return false
-        }
-        this.$message({
-          message: this.$t('common.optionSuccess'),
-          type: 'success'
-        })
-        this.selectedList.map(item => {
-          this.selection.map((se, index) => {
-            if (item.id === se.id) {
-              this.selection.splice(index, 1)
-            }
-          })
-        })
-        this.selectedList = this.selectedList.concat(this.selection)
-        this.totalNum = this.selectedList.length
-        this.fetchPage1(1)
-        this.materialVisible = false
-        this.fetchData()
-      } else {
-        this.closeFatherDialog()
+        return false
       }
+      this.$message({
+        message: this.$t('common.optionSuccess'),
+        type: 'success'
+      })
+      this.selectedList.map(item => {
+        this.selection.map((se, index) => {
+          if (item.id === se.id) {
+            this.selection.splice(index, 1)
+          }
+        })
+      })
+      this.selectedList = this.selectedList.concat(this.selection)
+      this.totalNum = this.selectedList.length
+      this.fetchPage1(1)
+      this.materialVisible = false
+      this.fetchData()
     },
     deleteMaterial() {
       this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {

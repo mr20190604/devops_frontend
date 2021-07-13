@@ -16,6 +16,7 @@
 <script>
 import { LOAD_ROOT_OPTIONS, LOAD_CHILDREN_OPTIONS } from '@riophae/vue-treeselect'
 import mmBasDistrictApi from '@/api/mm/mmBasDistrict'
+import app from '@/store/modules/app.js'
 
 export default {
   name: 'District',
@@ -26,7 +27,7 @@ export default {
     },
     parentCode: {
       type: String,
-      default: '000000'
+      default: app.state.code
     },
     value: {
       type: String,

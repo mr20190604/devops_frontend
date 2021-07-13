@@ -7,7 +7,8 @@ const state = {
   },
   device: 'desktop',
   language: Cookies.get('language') || 'zh',
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
+  code: '340300'
 }
 
 const mutations = {
@@ -44,9 +45,9 @@ const actions = {
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
   },
-  setLanguage({ commit },language) {
-    commit('SET_LANGUAGE',language)
-  },
+  setLanguage({ commit }, language) {
+    commit('SET_LANGUAGE', language)
+  }
 }
 
 export default {
