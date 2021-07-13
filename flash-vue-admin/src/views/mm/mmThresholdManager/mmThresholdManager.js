@@ -254,7 +254,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        if (this.selRow.dictIdName == '已审核') {
+        if (this.selRow.dictIdName === '审核通过') {
           this.$alert('不允许修改已审核设备！', '提示', {
             confirmButtonText: '确定'
           })
@@ -276,7 +276,7 @@ export default {
     },
     remove() {
       if (this.checkSel()) {
-        if (this.selRow.dictIdName == '已审核') {
+        if (this.selRow.dictIdName === '审核通过') {
           this.$alert('不允许删除已审核设备！', '提示', {
             confirmButtonText: '确定'
           })
@@ -328,7 +328,7 @@ export default {
       }
       let flag = true
       this.selection.map(item => {
-        if (item.dictIdName == '已审核' || item.dictIdName == '审核未通过') {
+        if (item.dictIdName === '审核通过') {
           flag = false
         }
       })
@@ -343,6 +343,8 @@ export default {
       }
       this.formTitle = '阈值批量审核'
       this.thresholdList = this.selection
+      this.thresholdForm.isAudit = ''
+      this.thresholdForm.auditOpinion = ''
       this.thresholdVisible = true
     },
     saveThreshold() {
@@ -350,7 +352,7 @@ export default {
         if (valid) {
           this.selection.map((item, index) => {
             item.auditOpinion = this.thresholdForm.auditOpinion
-            item.isAudit = this.thresholdForm.isAudit
+            item.dictId = this.thresholdForm.isAudit
             const formData = {
               id: item.id,
               equipmentId: item.equipmentId,
@@ -361,11 +363,10 @@ export default {
               thirdUpperLimit: item.thirdUpperLimit,
               thirdLowerLimit: item.thirdLowerLimit,
               equipmentType: item.equipmentType,
-              dictId: 253,
+              dictId: item.dictId,
               auditOpinion: item.auditOpinion,
               auditPerson: item.auditPerson,
-              isDel: item.isDel,
-              isAudit: item.isAudit
+              isDel: item.isDel
             }
             mmThresholdManagerApi.examineThreshold(formData).then(() => {
               if (index == this.selection.length - 1) {

@@ -82,12 +82,12 @@
             {{scope.row.dictIdName}}
           </template>
         </el-table-column>
-        <el-table-column label="审核结果" show-overflow-tooltip>
+        <!--<el-table-column label="审核结果" show-overflow-tooltip>
           <template slot-scope="scope">
             <template v-if="scope.row.isAudit === 1">通过</template>
             <template v-if="scope.row.isAudit === 0">不通过</template>
           </template>
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column label="审核意见" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.auditOpinion}}
@@ -294,8 +294,8 @@
             <el-col>
               <el-form-item label="审核结果：" prop="isAudit">
                 <el-select v-model="thresholdForm.isAudit" minlength=1>
-                  <el-option key="1" label="通过" value="1"></el-option>
-                  <el-option key="0" label="不通过" value="0"></el-option>
+                  <el-option key="1" label="通过" value="253"></el-option>
+                  <el-option key="0" label="不通过" value="254"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
