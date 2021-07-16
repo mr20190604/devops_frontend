@@ -256,7 +256,7 @@
           <el-form :model="handleForm">
             <el-row>
               <el-col :span="12">
-                <el-form-item  label="出质人：">
+                <el-form-item  label="处置人：">
                   <el-select v-model="handleForm.handlePerson" @change="changeHandlePerson">
                     <el-option
                       v-for="item in handlePerson"

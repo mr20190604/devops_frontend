@@ -572,6 +572,11 @@ export default {
             type: 'warning'
           })
         } else {
+
+        for(let x in this.disposeForm) {
+          this.disposeForm[x] = null;
+        }
+
           this.form = this.selection[0]
           this.disposeTitle = '现场处置'
           this.disposeVisible = true
@@ -707,6 +712,11 @@ export default {
           })
           return
         }
+
+        for(let x in this.screenForm) {
+          this.screenForm[x] = null;
+        }
+
         this.form = this.selection[0]
         this.acceptTitle = '现场排查'
         this.acceptVisible = true

@@ -73,6 +73,7 @@ export default {
       selectMonth:null,
       selection:[],
       editFlag:false,
+      indexLength:-1,
     }
   },
   filters: {
@@ -370,14 +371,17 @@ export default {
         id:''
       }
     }, addMaterial() {
-      this.resetMaterialForm()
-      this.materialVisible = true
-      this.materialTitle = '新增应急物资信息'
+      this.resetMaterialForm();
+      this.materialVisible = true;
+      this.materialTitle = '新增应急物资信息';
+      this.indexLength = -1;
+
 
     },editMaterialItem(record) {
-      this.resetMaterialForm()
-      this.materialVisible = true
-      this.materialTitle = '修改应急物资信息'
+      this.resetMaterialForm();
+      this.materialVisible = true;
+      this.materialTitle = '修改应急物资信息';
+      this.indexLength = this.material_list.indexOf(record);
       this.materialForm = JSON.parse(JSON.stringify(record))
 
     },saveMaterial(){
@@ -396,16 +400,28 @@ export default {
           }
           if (this.materialAdd) {
             var arr = [];
-            this.material_list.forEach(item =>{
-              if(item.materialName != formData.materialName) {
-                arr.push(item)
+            for(var i = 0;i < this.material_list.length;i ++) {
+              if (i != this.indexLength) {
+                arr.push(this.material_list[i]);
               }
-            })
+            }
+
+            // this.material_list.forEach(item =>{
+            //   if(item.materialName != formData.materialName) {
+            //     arr.push(item)
+            //   }
+            // })
             this.material_list = arr
             this.material_list.push(formData)
+            // if (this.indexLength > 0) {
+            //   this.material_list[this.indexLength] = formData
+            //
+            // } else {
+            //   this.material_list.push(formData)
+            // }
             this.material_list.remove
             this.initMaterialList(this.form.id)
-            this.materialList = this.material_list
+            // this.materialList = this.material_list
           } else {
             if (formData.id) {
               dsiParkEmergency.update(formData).then(response =>{
