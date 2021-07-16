@@ -16,7 +16,7 @@
           </el-col>
         </el-row>
       </el-form>
-      
+
     </div>
 
 <div class="table-list">
@@ -84,9 +84,9 @@
               <el-select v-model="form.type" placeholder="请选择">
                 <el-option
                   v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.num"
+                  :label="item.name"
+                  :value="item.num">
                 </el-option>
               </el-select>
             </el-form-item>

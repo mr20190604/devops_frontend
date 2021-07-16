@@ -527,7 +527,6 @@ export default {
     },
     fetchData1() {
       this.listLoading = true
-      console.log(this.listQuery2.page)
       dsiMaterialBaseinfoApi.getList(this.listQuery2).then(response => {
         this.materialList = response.data.records
         this.selection = []

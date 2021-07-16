@@ -3,6 +3,7 @@ import { getToken } from '@/utils/auth'
 import { Loading } from 'element-ui'
 import { getApiUrl } from '@/utils/utils'
 import permission from '@/directive/permission/index.js'
+import { getDicts } from '@/api/system/dict'
 
 export default {
   directives: { permission },
@@ -18,13 +19,7 @@ export default {
       formTitle: '添加banner',
       deptList: [],
       isAdd: true,
-      options: [
-        { label: '首页', value: 'index' },
-        { label: '新闻', value: 'news' },
-        { label: '产品', value: 'product' },
-        { label: '解决方案', value: 'solution' },
-        { label: '案例', value: 'case' }
-      ],
+      options: [],
       form: {
         id: '',
         title: '',
@@ -72,6 +67,9 @@ export default {
         }
 
         this.listLoading = false
+      })
+      getDicts('banner管理').then(response => {
+        this.options = response.data
       })
     },
     search() {
