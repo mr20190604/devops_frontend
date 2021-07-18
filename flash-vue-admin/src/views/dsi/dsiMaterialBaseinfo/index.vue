@@ -170,7 +170,6 @@
       class="common-dialog-style height700"
       :title="formTitle"
       :visible.sync="formVisible"
-      :modal="false"
       width="960px"
     >
       <div class="block">
