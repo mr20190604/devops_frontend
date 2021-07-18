@@ -2,7 +2,7 @@
   <div class="app-container">
 
     <!--列表-->
-    <div class="table-list">
+    <div class="table-list paddingRightZero">
       <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
         <el-table-column label="管线编号" show-overflow-tooltip>
           <template slot-scope="scope">

@@ -161,12 +161,13 @@
         @prev-click="fetchPrev"
         @next-click="fetchNext"
       />
-    
-    <el-dialog :title="formTitle" :visible.sync="formVisible" width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <!-- 添加化工原料信息弹框 -->
+    <el-dialog :title="formTitle"  class="el-dialog-style common-dialog-style" :visible.sync="formVisible" width="960px">
+      <div class="block">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="原料编码">
+            <el-form-item label="原料编码：">
               <el-input
                 v-model="form.materialCode"
                 minlength="1"
@@ -175,7 +176,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="化学名称">
+            <el-form-item label="化学名称：">
               <el-input
                 v-model="form.chemistryName"
                 minlength="1"
@@ -184,7 +185,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="英文名称">
+            <el-form-item label="英文名称：">
               <el-input
                 v-model="form.englishName"
                 minlength="1"
@@ -193,7 +194,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="中文别名">
+            <el-form-item label="中文别名：">
               <el-input
                 v-model="form.shortName"
                 minlength="1"
@@ -202,12 +203,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="原料类别">
+            <el-form-item label="原料类别：">
               <dict-select v-model="form.materialType" dict-name="原料类别" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="理化性质">
+            <el-form-item label="理化性质：">
               <el-input
                 v-model="form.physicochemicalProperties"
                 minlength="1"
@@ -216,7 +217,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="健康危害">
+            <el-form-item label="健康危害：">
               <el-input
                 v-model="form.healthHazards"
                 minlength="1"
@@ -225,7 +226,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="危险特性">
+            <el-form-item label="危险特性：">
               <el-input
                 v-model="form.dangerousCharacteristic"
                 minlength="1"
@@ -234,7 +235,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="CAS编号">
+            <el-form-item label="CAS编号：">
               <el-input
                 v-model="form.casCode"
                 minlength="1"
@@ -243,7 +244,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否中间产品">
+            <el-form-item label="是否中间产品：">
               <dict-select
                 v-model="form.isOriginal"
                 dict-name="是否"
@@ -252,15 +253,16 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item id="myself">
-          <el-button type="primary" @click="save">{{
+        <el-form-item id="myself" class="dialog-button-list">
+          <el-button type="primary" @click="save" class="set-common-btn blue-button">{{
             $t("button.submit")
           }}</el-button>
-          <el-button @click.native="formVisible = false">{{
+          <el-button @click.native="formVisible = false" class="set-common-btn blank-blue-button">{{
             $t("button.cancel")
           }}</el-button>
         </el-form-item>
       </el-form>
+      </div>
     </el-dialog>
   </div>
 </template>
