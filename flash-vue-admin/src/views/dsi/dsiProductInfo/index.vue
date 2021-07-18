@@ -386,7 +386,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="原料编号：">
-                <el-input v-model="form1.materialCode" minlength="1" placeholder="请输入原料编码"/>
+                <el-input v-model="form1.materialCode" minlength="1" placeholder="请输入原料编号"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
