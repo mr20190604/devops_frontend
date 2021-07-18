@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       formVisible: false,
-      formTitle: '添加化工原料信息',
+      formTitle: '添加危化品',
       isAdd: true,
       form: {
         materialCode: '',
@@ -19,7 +19,7 @@ export default {
         dangerousCharacteristic: '',
         casCode: '',
         isDanger: '',
-        isDangerName:'',
+        isDangerName: '',
         id: ''
       },
       listQuery: {
@@ -134,7 +134,7 @@ export default {
       }
     },
     add() {
-      this.formTitle = '添加化工原料信息'
+      this.formTitle = '添加危化品'
       this.formVisible = true
       this.isAdd = true
 
@@ -146,7 +146,6 @@ export default {
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          console.log(this.form.id);
           const formData = {
             id: this.form.id,
             materialCode: this.form.materialCode,
@@ -202,7 +201,7 @@ export default {
       if (this.checkSel()) {
         this.isAdd = false
         this.form = this.selRow
-        this.formTitle = '编辑化工原料信息'
+        this.formTitle = '编辑危化品'
         this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {
@@ -263,6 +262,7 @@ export default {
             message: this.$t('common.optionSuccess'),
             type: 'success'
           })
+          this.$refs.materialTable.clearSelection()
           this.fetchData()
         }).catch(err => {
           this.$notify.error({
@@ -272,8 +272,8 @@ export default {
         })
       }).catch(() => {
       })
-    }
-    ,toggleSelection(row) {
+    },
+    toggleSelection(row) {
       this.$refs.materialTable.toggleRowSelection(row)
     }
   }
