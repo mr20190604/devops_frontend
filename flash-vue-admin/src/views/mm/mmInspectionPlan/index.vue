@@ -116,7 +116,6 @@
         element-loading-text="Loading"
         border
         fit
-        highlight-current-row
         @current-change="handleCurrentChange"
         :default-sort = "{prop: 'startDate', order: 'descending'}"
       >
@@ -384,12 +383,12 @@
       </div>
     </el-dialog>
 
-    <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false" class="el-dialog-style common-dialog-style">
+    <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false" append-to-body="true" class="el-dialog-style common-dialog-style" title="处置记录">
       <handleRecord v-if="handleDisplay" :plan-id="planId" :inspection-type="inspectionType"/>
     </el-dialog>
     <el-dialog
       :title="previewTitle"
-      class="el-dialog-style common-dialog-style"
+      class="el-dialog-style common-dialog-style" append-to-body="true"
       :visible.sync="previewVisible"
       width="60%"
     >
@@ -399,4 +398,3 @@
 </template>
 
 <script src="./mmInspectionPlan.js"></script>
-
