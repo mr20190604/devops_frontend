@@ -123,13 +123,12 @@ export default {
       this.selRow = currentRow
     },
     handleSelectionChange(selection) {
-      /*if (selection.length > 1) {
+      this.selection = selection
+      if (selection.length > 1) {
         this.$refs.handleTable.clearSelection()
         this.$refs.handleTable.toggleRowSelection(selection.pop())
       }
-      console.log(this.selection)*/
-      console.log(selection)
-      this.selection = selection
+      console.log(this.selection)
     },
     toggleSelection(row) {
       this.$refs.handleTable.clearSelection()
