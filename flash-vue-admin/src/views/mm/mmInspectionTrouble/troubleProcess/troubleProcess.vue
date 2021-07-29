@@ -16,7 +16,7 @@
           <div>
             <div class="table-list">
               <el-table v-loading="false" :data="troubleList" max-height="120px" element-loading-text="Loading" border>
-                <el-table-column label="上报人" width="80px" align="center">
+                <el-table-column label="上报人" width="80px" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     <template v-if="scope.row.reportUser != null">{{ scope.row.reportUser.name }}</template>
                   </template>
@@ -38,7 +38,7 @@
                   </template>
                 </el-table-column>
 
-                <el-table-column label="隐患位置">
+                <el-table-column label="隐患位置" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{ scope.row.address }}
                   </template>
@@ -61,7 +61,7 @@
           <div v-if="troubleList[0].auditTime != null">
             <div class="table-list">
               <el-table v-loading="false" :data="troubleList" max-height="120px" element-loading-text="Loading" border>
-                <el-table-column label="审核人" width="80px" align="center">
+                <el-table-column label="审核人" width="80px" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     <template v-if="scope.row.auditUser != null">{{ scope.row.auditUser.name }}</template>
                   </template>
@@ -82,7 +82,7 @@
                     {{ scope.row.troubleLevelName }}
                   </template>
                 </el-table-column>
-                <el-table-column label="备注">
+                <el-table-column label="备注" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{ scope.row.notes }}
                   </template>
@@ -99,7 +99,7 @@
             <div v-if="troubleHandleList[0].handleStatus > 1">
               <div class="table-list">
                 <el-table v-loading="false" :data="troubleHandleList[0].mmInspectionTroubleHandleRecords" max-height="200px" element-loading-text="Loading" border>
-                  <el-table-column label="处置人" width="80px" align="center">
+                  <el-table-column label="处置人" width="80px" align="center" show-overflow-tooltip>
                     <template slot-scope="scope">
                       <template v-if="troubleHandleList[0].repairUser != null">{{ troubleHandleList[0].repairUser.name }}</template>
                     </template>
@@ -112,11 +112,11 @@
                   <el-table-column label="处置结果" width="80px" align="center">
                     <template slot-scope="scope">
                       <template v-if="scope.row.handleStatus == 293">待维修</template>
-                      <template v-if="scope.row.handleStatus == 294">处置未完成</template>
-                      <template v-if="scope.row.handleStatus == 295">处置完成</template>
+                      <template v-if="scope.row.handleStatus == 294">继续处置</template>
+                      <template v-if="scope.row.handleStatus == 295">完成</template>
                     </template>
                   </el-table-column>
-                  <el-table-column label="备注">
+                  <el-table-column label="备注" show-overflow-tooltip>
                     <template slot-scope="scope">
                       {{ scope.row.notes }}
                     </template>

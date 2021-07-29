@@ -57,7 +57,7 @@
                    v-permission="['/inspection/trouble/handle/add']">分配
         </el-button>
       </div>
-      <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border :row-key="row=>row.id"
+      <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row :row-key="row=>row.id"
                 @current-change="handleCurrentChange"
                 @selection-change="handleSelectionChange"
                 @row-click="toggleSelection"
