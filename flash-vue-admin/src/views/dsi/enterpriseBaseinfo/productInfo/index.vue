@@ -152,10 +152,11 @@
           </el-row>
         </el-form>
 
-        <div class="table-list" style="margin-bottom: 5px;height: 330px">
+        <div class="table-list" style="height: 300px">
           <el-table
             v-loading="listLoading"
             :data="selectedList"
+            height="250px"
             element-loading-text="Loading"
             border
             fit
