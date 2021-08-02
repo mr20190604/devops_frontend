@@ -117,7 +117,7 @@
         border
         fit
         @current-change="handleCurrentChange"
-        :default-sort = "{prop: 'startDate', order: 'descending'}"
+        :default-sort="{prop: 'startDate', order: 'descending'}"
       >
         <el-table-column label="巡检负责人" :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -326,7 +326,8 @@
                   :file-list="fileList"
                   :multiple="multiple"
                 >
-                  <el-button v-if="fileBtnDisplay" size="small" type="primary"  class="set-common-btn blue-button">选择文件</el-button>
+                  <el-button v-if="fileBtnDisplay" size="small" type="primary" class="set-common-btn blue-button">选择文件
+                  </el-button>
                   <div v-if="fileBtnDisplay" slot="tip">总上传大小50M，单个文件最大10M,
                     <template>允许的文件类型为</template>
                     <span style="color: red">{{ fileAccept }}</span></div>
@@ -383,15 +384,15 @@
       </div>
     </el-dialog>
 
-    <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false" append-to-body="true" class="el-dialog-style common-dialog-style" title="处置记录">
+    <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false" :append-to-body="true"
+               class="el-dialog-style common-dialog-style" title="处置记录">
       <handleRecord v-if="handleDisplay" :plan-id="planId" :inspection-type="inspectionType"/>
     </el-dialog>
     <el-dialog
       :title="previewTitle"
-      class="el-dialog-style common-dialog-style" append-to-body="true"
+      class="el-dialog-style common-dialog-style" :append-to-body="true"
       :visible.sync="previewVisible"
-      width="60%"
-    >
+      width="60%">
       <file-preview :files="files" :download-file-url="downloadUrl"/>
     </el-dialog>
   </div>
