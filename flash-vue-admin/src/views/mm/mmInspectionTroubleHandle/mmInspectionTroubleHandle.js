@@ -124,6 +124,11 @@ export default {
     },
     handleSelectionChange(selection) {
       this.selection = selection
+      if (selection.length > 1) {
+        this.$refs.handleTable.clearSelection()
+        this.$refs.handleTable.toggleRowSelection(selection.pop())
+      }
+      console.log(this.selection)
     },
     toggleSelection(row) {
       this.$refs.handleTable.clearSelection()
@@ -131,28 +136,17 @@ export default {
     },
     resetForm() {
       this.form = {
-        troubleId: '',
-        distributeStatus: '',
-        handleStatus: '',
-        handleTime: '',
         repairPersonCellphone: '',
-        repairPerson: '',
-        repairStatus: '',
-        repairTime: '',
-        notes: '',
-        isDel: '',
-        id: ''
+        repairPerson: ''
       }
     },
     add() {
-      this.formTitle = '添加巡检巡查_巡检隐患处置表',
-        this.formVisible = true
+      this.formTitle = '添加巡检巡查_巡检隐患处置表'
+      this.formVisible = true
       this.isAdd = true
-
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-      //如果表单初始化有特殊处理需求,可以在resetForm中处理
     },
     save() {
       this.$refs['form'].validate((valid) => {
@@ -195,7 +189,7 @@ export default {
       })
     },
     checkSel() {
-      if (this.selRow && this.selRow.id) {
+      if (this.selection.length > 0) {
         return true
       }
       this.$message({
@@ -251,17 +245,17 @@ export default {
     },
     openAccept() {
       this.resetForm()
+      console.log(this.selection)
       if (this.checkSel()) {
         this.isAdd = false
-        console.log(this.selRow)
-        if (this.selRow.distributeStatus == 291) {
+        if (this.selection[0].distributeStatus === 291) {
           this.$message({
             message: this.$t('不允许重复分配！'),
             type: 'warning'
           })
           return
         }
-        this.form = this.selRow
+        this.form = this.selection[0]
         this.formTitle = '分配人员'
         this.formVisible = true
         this.initAcceptPerson()
@@ -269,6 +263,7 @@ export default {
     },
     initAcceptPerson() {
       this.repair_person = []
+      this.resetForm()
       mmInspectionTroubleHandleApi.getAcceptPerson().then(response => {
         this.repair_person = response.data
       })

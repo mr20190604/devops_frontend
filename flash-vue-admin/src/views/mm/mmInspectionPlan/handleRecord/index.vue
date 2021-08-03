@@ -76,7 +76,7 @@
       class="el-dialog-style common-dialog-style"
       :visible.sync="previewVisible"
       width="60%"
-      modal-append-to-body="true"
+      append-to-body="true"
     >
       <file-preview :files="files" :download-file-url="downloadUrl"/>
     </el-dialog>

@@ -49,6 +49,9 @@
               .cell{
                 display: flex;
                 justify-content: center;
+                .el-button{
+                  font-size: 14px !important;
+                }
               }
             }
           }
@@ -258,6 +261,9 @@
 .marginT26{
   margin-top: 26px;
 }
+.paddingB10{
+  padding-bottom: 10px;
+}
 .item-content-margiN-zero{
   .el-form-item__content{
     margin-left: 0 !important;
@@ -466,3 +472,25 @@
   font-family: Digital;
   src: url('../assets/font/digitalinternet13sg.ttf');
 }
+
+// google
+/*修改滚动条样式*/
+div::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+div::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+div::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+div::-webkit-scrollbar-thumb:hover{
+  background: #333;
+}
+// div::-webkit-scrollbar-corner{
+//   background: #179a16;
+// }

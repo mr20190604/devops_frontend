@@ -360,10 +360,11 @@
           @current-change="personFetchPage"
           @prev-click="personFetchPrev"
           @next-click="personFetchNext"
+          style="width:716px;right:130px"
           />
 
 
-          <el-form-item align="center" class="marginT10">
+          <el-form-item align="center" class="marginT10 paddingB10">
             <el-button type="primary" class="set-common-btn blue-button" @click="addPerson">{{ $t('button.submit') }}</el-button>
             <el-button class="set-common-btn blank-blue-button" @click.native="personVisible = false">{{ $t('button.cancel') }}</el-button>
           </el-form-item>

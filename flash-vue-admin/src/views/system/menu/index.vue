@@ -89,14 +89,7 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col v-show="form.ismenu" :span="12">
-            <el-form-item label="是否隐藏：">
-              <el-radio-group v-model="form.hidden">
-                <el-radio :label="true">是</el-radio>
-                <el-radio :label="false">否</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
+          
           <el-col :span="12">
             <el-form-item label="菜单编号：" prop="code">
               <el-input v-model="form.code" />
@@ -107,7 +100,19 @@
               <treeselect v-model="form.pcode" :options="treeData" placeholder="请选择父菜单/顶级菜单目录无需选择" />
             </el-form-item>
           </el-col>
-
+           <el-col :span="12">
+            <el-form-item label="排序：" prop="num">
+              <el-input v-model="form.num" type="number" />
+            </el-form-item>
+          </el-col>
+<el-col v-show="form.ismenu" :span="12">
+            <el-form-item label="是否隐藏：">
+              <el-radio-group v-model="form.hidden">
+                <el-radio :label="true">是</el-radio>
+                <el-radio :label="false">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
           <el-col v-show="form.ismenu===1" :span="12">
             <el-form-item label="组件：">
               <el-input v-model="form.component" @focus="componentTips" />
@@ -136,11 +141,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="12">
-            <el-form-item label="排序：" prop="num">
-              <el-input v-model="form.num" type="number" />
-            </el-form-item>
-          </el-col>
+         
 
         </el-row>
         <el-form-item class="dialog-button-list">

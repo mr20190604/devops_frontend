@@ -51,7 +51,7 @@
           {{scope.row.pName}}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="248">
+      <el-table-column label="操作" align="center" width="268">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/role/edit']">{{ $t('button.edit') }}</el-button>
           <el-button type="text" size="mini" icon="el-icon-delete" @click.native="removeItem(scope.row)" v-permission="['/role/remove']">{{ $t('button.delete') }}</el-button>

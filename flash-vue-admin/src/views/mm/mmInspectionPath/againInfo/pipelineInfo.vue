@@ -43,7 +43,7 @@
     </div>
     <div class="dialog-button-list align-center marginT10">
       <el-button v-if="list.length>0" type="primary" class="set-common-btn blue-button" @click="saveLine" style="width: 100px">添加管线</el-button>
-      <el-button v-if="list.length==0" type="danger" class="set-common-btn blue-button" @click="closePipeline">返回</el-button>
+      <el-button v-if="list.length==0" type="primary" class="set-common-btn blue-button" @click="closePipeline">返回</el-button>
     </div>
   </div>
 </template>

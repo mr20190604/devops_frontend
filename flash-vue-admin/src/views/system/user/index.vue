@@ -111,7 +111,7 @@
           <el-switch v-model="scope.row.status==1" @change="changeUserStatus(scope.row)"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="350px" align="center">
+      <el-table-column label="操作" width="370px" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="mini" icon="el-icon-edit" @click.native="editItem(scope.row)" v-permission="['/mgr/edit']">
             {{$t('button.edit') }}

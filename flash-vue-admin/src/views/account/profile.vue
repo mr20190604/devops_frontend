@@ -1,88 +1,121 @@
 <template>
-  <div class="app-container">
-    <div class="user">
-      <strong>{{ user.name }}</strong><br>
-      <small>{{ user.dept }} &nbsp;&nbsp; {{ user.roles }}</small>
-    </div>
+  <div class="app-container user-container">
     <el-row class="user-content" style="">
       <el-col :span="6" class="profile">
-        <img class="user-avatar" src="/head_large.png"><br>
-        <p><span class="title"><i class="el-icon-phone"></i>&nbsp;&nbsp;{{ user.phone }}</span></p>
-        <p><span class="title"><i class="el-icon-message"></i>&nbsp;&nbsp;{{ user.email }}</span></p>
-        <p><span class="title"><i class="el-icon-open"></i>&nbsp;&nbsp;{{ user.status == '1'?'启用' : '禁用' }}</span></p>
-        <p><span class="title"><i class="el-icon-location-outline"></i>&nbsp;合肥市高新区</span></p>
+        <img class="user-avatar" src="/head_large.png" /><br />
+        <div class="user">
+          <strong>{{ user.name }}</strong>
+          <small>{{ user.dept }} &nbsp;&nbsp; {{ user.roles }}</small>
+        </div>
+        <p>
+          <span class="title"
+            ><i class="el-icon-phone"></i>&nbsp;&nbsp;{{ user.phone }}</span
+          >
+        </p>
+        <p>
+          <span class="title"
+            ><i class="el-icon-message"></i>&nbsp;&nbsp;{{ user.email }}</span
+          >
+        </p>
+        <p>
+          <span class="title"
+            ><i class="el-icon-open"></i>&nbsp;&nbsp;{{
+              user.status == "1" ? "启用" : "禁用"
+            }}</span
+          >
+        </p>
+        <p>
+          <span class="title"
+            ><i class="el-icon-location-outline"></i>&nbsp;合肥市高新区</span
+          >
+        </p>
       </el-col>
-      <el-col :span="18" style="padding-left:10px;">
+      <el-col :span="18" class="change-content">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="个人资料" name="profile">
-            <el-form  label-width="80px">
+          <el-tab-pane label="个人资料" name="profile" class="tab-profile">
+            <el-form label-width="80px">
               <h4>基本信息</h4>
-              <el-form-item label="名称">
+              <el-form-item label="名称：">
                 <span>{{ user.name }}</span>
               </el-form-item>
-              <el-form-item label="性别">
-                <span> {{ user.sex = 1 ? '男' : '女' }}</span>
+              <el-form-item label="性别：">
+                <span> {{ (user.sex = 1 ? "男" : "女") }}</span>
               </el-form-item>
-              <el-form-item label="生日">
+              <el-form-item label="生日：">
                 <span> {{ user.birthday }}</span>
               </el-form-item>
               <h4>联系信息</h4>
-              <el-form-item label="手机">
+              <el-form-item label="手机：">
                 <span>{{ user.phone }}</span>
               </el-form-item>
-              <el-form-item label="邮箱">
+              <el-form-item label="邮箱：">
                 <span> {{ user.email }}</span>
               </el-form-item>
-              <el-form-item label="地址">
+              <el-form-item label="地址：">
                 <span> 合肥市高新区</span>
               </el-form-item>
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="最近活动" name="timeline">
-            <el-timeline :reverse="reverse" style="margin-top:15px;padding-left:2px;">
+            <el-timeline
+              :reverse="reverse"
+              style="margin-top: 15px; padding-left: 2px"
+            >
               <el-timeline-item
                 v-for="(activity, index) in activities"
                 :key="index"
-                :timestamp="activity.createTime">
-                {{activity.logname}}
+                :timestamp="activity.createTime"
+              >
+                {{ activity.logname }}
               </el-timeline-item>
             </el-timeline>
           </el-tab-pane>
-          <el-tab-pane label="修改密码" name="updatePwd">
-
-            <el-form ref="form" :model="form"   label-position="left" label-width="80px" >
-
+          <el-tab-pane label="修改密码" name="updatePwd"  class="tab-pwd">
+            <div class="block">
+            <el-form
+              ref="form"
+              :model="form"
+             label-width="70px" class="has-Label-Width"
+            >
               <el-row>
                 <el-col :span="24">
-                  <el-form-item label="原密码">
-                    <el-input type="password" v-model="form.oldPassword"  ></el-input>
+                  <el-form-item label="原密码：">
+                    <el-input
+                      type="password"
+                      v-model="form.oldPassword"
+                    ></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                  <el-form-item label="新密码" prop="password">
-                    <el-input type="password" v-model="form.password"  minlength=5  ></el-input>
+                  <el-form-item label="新密码：" prop="password">
+                    <el-input
+                      type="password"
+                      v-model="form.password"
+                      minlength="5"
+                    ></el-input>
                   </el-form-item>
                 </el-col>
 
-
                 <el-col :span="24">
-                  <el-form-item label="重复密码">
-                    <el-input type="password" v-model="form.rePassword"  ></el-input>
+                  <el-form-item label="重复密码：">
+                    <el-input
+                      type="password"
+                      v-model="form.rePassword"
+                    ></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-form-item>
-                <el-button type="primary" @click="updatePwd">{{ $t('button.submit') }}</el-button>
+                <el-button type="primary" @click="updatePwd" class="set-common-btn blue-button">{{
+                  $t("button.submit")
+                }}</el-button>
               </el-form-item>
             </el-form>
+            </div>
           </el-tab-pane>
         </el-tabs>
-
-
       </el-col>
     </el-row>
-
-
   </div>
 </template>
 
@@ -90,9 +123,91 @@
 
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-  .el-form-item{
-    margin-bottom:15px;
+.el-form-item {
+  margin-bottom: 15px;
+}
+
+.user-container {
+  .user-content {
+    box-shadow: 2px 2px 4px #edecec;
+    min-height: 500px;
+    .profile {
+      background: #edecec;
+      height: 500px;
+      width: 220px;
+      .user {
+        text-align: center;
+        margin-bottom: 20px;
+        strong {
+          color: #409eff;
+          font-size: 18px;
+          font-weight: normal;
+          display: block;
+          margin-bottom: 4px;
+        }
+        small {
+          color: #9e9e9e;
+        }
+      }
+      img {
+        width: 50%;
+        margin: 30px auto 0;
+        display: block;
+        border-radius: 50%;
+      }
+      p {
+        padding: 0 15px;
+        line-height: 34px;
+      }
+    }
+    .change-content {
+      padding-left: 20px;
+      >>> .el-tabs {
+        .el-tabs__header {
+          .el-tabs__nav {
+            .el-tabs__item {
+              font-size: 18px;
+            }
+          }
+        }
+        .el-tabs__content {
+          .el-tab-pane {
+            &.tab-profile {
+              .el-form {
+                h4 {
+                  font-size: 16px;
+                  margin: 20px 0;
+                }
+                .el-form-item{
+                  margin-bottom: 0;
+                  .el-form-item__label{
+                    line-height: 30px;
+                  }
+                  .el-from-content{
+                    line-height: 30px;
+                    margin-bottom: 16px;
+                  }
+                }
+              }
+            }
+            &.tab-pwd{
+              .block{
+                background: none;
+              }
+              .el-form{
+                .el-form-item{
+                  margin-bottom: 14px;
+                  .el-form-item__label{
+                    text-align: right;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
+}
 </style>
 
