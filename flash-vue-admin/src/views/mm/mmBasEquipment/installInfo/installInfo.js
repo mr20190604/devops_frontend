@@ -2,28 +2,29 @@ import mmEquipmentInstallInfoApi from '@/api/mm/mmEquipmentInstallInfo'
 import permission from '@/directive/permission/index.js'
 
 export default {
-  directives: {permission},
-  props:['equipmentId','isAdd'],
+  directives: { permission },
+  props: ['equipmentId'],
   data() {
     return {
       form: {
-        equipmentId:'',
-        constructionEnterprise:'',
-        installMode:'',
-        installLocation:'',
-        installDate:'',
-        installDescribe:'',
-        longitude:'',
-        latitude:'',
-        euipmentMode:'',
-        isDel:'',
-        facilitiesId:'',
-        equipmentUnit:'',
-        upFrequency:'',
-        upFrequencyType:'',
+        equipmentId: '',
+        constructionEnterprise: '',
+        installMode: '',
+        installLocation: '',
+        installDate: '',
+        installDescribe: '',
+        longitude: '',
+        latitude: '',
+        euipmentMode: '',
+        facilitiesId: '',
+        facilitiesType: '',
+        equipmentUnit: '',
+        upFrequency: '',
+        upFrequencyType: '',
         id: ''
       },
-      options: [{
+      facilitiesList: [],
+      upFrequencyTypeList: [{
         value: 1,
         label: '秒'
       }, {
@@ -33,10 +34,26 @@ export default {
         value: 3,
         label: '小时'
       }, {
-          value: 4,
-          label: '天'
-        }
-      ],
+        value: 4,
+        label: '天'
+      }],
+      euipmentModeList: [{
+        value: 1,
+        label: '固定'
+      }, {
+        value: 2,
+        label: '移动'
+      }],
+      facilitiesTypeList: [{
+        value: 'line',
+        label: '管线'
+      }, {
+        value: 'well',
+        label: '窨井'
+      }, {
+        value: 'building',
+        label: '建筑物'
+      }]
     }
   },
   filters: {
@@ -45,12 +62,11 @@ export default {
         published: 'success',
         draft: 'gray',
         deleted: 'danger'
-      };
+      }
       return statusMap[status]
     }
   },
   computed: {
-
     //表单验证
     rules() {
       return {
@@ -62,19 +78,29 @@ export default {
     }
   },
   created() {
-    //是编辑操作时给当前表单赋值
-    if(!this.isAdd){
-      mmEquipmentInstallInfoApi.getEquipInstall({'equipmentId':this.equipmentId}).then(response =>{
-        console.log(response);
-        if(response.data != null){
-          this.form = response.data;
+    let equipmentId = this.equipmentId;
+    if('' !== equipmentId){
+      mmEquipmentInstallInfoApi.getEquipInstall({ 'equipmentId': equipmentId }).then(response => {
+        if (response.data != null) {
+          this.form = response.data
+          this.listFacilitiesId(this.form.facilitiesType)
         }
-
-      });
+      })
     }
+
 
   },
   methods: {
+    changeFacilitiesType(event) {
+      this.form.facilitiesId = ''
+      this.facilitiesList = []
+      this.listFacilitiesId(event)
+    },
+    listFacilitiesId(facilitiesType) {
+      mmEquipmentInstallInfoApi.listFacilities({ 'facilitiesType': facilitiesType }).then(response => {
+        this.facilitiesList = response.data
+      })
+    },
     resetForm() {
       this.form = {
         equipmentId: '',
@@ -86,8 +112,8 @@ export default {
         longitude: '',
         latitude: '',
         euipmentMode: '',
-        isDel: '',
         facilitiesId: '',
+        facilitiesType: '',
         equipmentUnit: '',
         upFrequency: '',
         upFrequencyType: '',
@@ -110,16 +136,17 @@ export default {
             euipmentMode: this.form.euipmentMode,
             isDel: this.form.isDel,
             facilitiesId: this.form.facilitiesId,
+            facilitiesType: this.form.facilitiesType,
             equipmentUnit: this.form.equipmentUnit,
             upFrequency: this.form.upFrequency,
-            upFrequencyType: this.form.upFrequencyType,
-          };
+            upFrequencyType: this.form.upFrequencyType
+          }
           if (formData.id) {
             mmEquipmentInstallInfoApi.update(formData).then(response => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
-              });
+              })
 
             })
           } else {
@@ -127,19 +154,15 @@ export default {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
-              });
+              })
             })
           }
         } else {
           return false
         }
-      });
-      this.closeFatherDialog();
-    },
-    closeFatherDialog(){
-      this.$emit("closeDialog");
+        this.resetForm();
+      })
     }
-
 
   }
 }

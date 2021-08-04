@@ -38,4 +38,11 @@ export default {
       params
     })
   },
+  listFacilities: function (params) {
+    return request({
+      url: '/equipment/install/info/listFacilities',
+      method: 'get',
+      params
+    })
+  },
 }
