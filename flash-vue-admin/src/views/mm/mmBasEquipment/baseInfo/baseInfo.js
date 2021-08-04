@@ -1,11 +1,13 @@
 import mmBasEquipmentApi from '@/api/mm/mmBasEquipment'
 import permission from '@/directive/permission/index.js'
 import install from '@/views/mm/mmBasEquipment/installInfo/index.vue'
+import replace from '@/views/mm/mmBasEquipment/replace/replace.vue'
 
 export default {
   directives: {permission},
   components: {
-    install
+    install,
+    replace
   },
   data() {
     return {
@@ -78,6 +80,9 @@ export default {
       listLoading: true,
       selRow: {},
       selection:[],
+      //更换流程参数属性
+      replaceVisiable:false,
+      replaceTitle:'',
     }
   },
   filters: {
@@ -398,6 +403,12 @@ export default {
       this.fetchData();
       this.equipmentId = '';
     },
+    //开启设备更替弹框页面
+    openReplace(record) {
+      this.replaceTitle = '设备更换';
+      this.replaceVisiable = true;
+      this.form = JSON.parse(JSON.stringify(record));
+    }
 
 
   }

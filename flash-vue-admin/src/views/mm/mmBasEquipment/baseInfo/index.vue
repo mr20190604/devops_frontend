@@ -86,6 +86,14 @@
             type="text"
             size="mini"
             icon="el-icon-edit"
+            @click.native="openReplace(scope.row)"
+          >更换
+          </el-button>
+          <el-button
+            v-permission="['/bas/equipment/update']"
+            type="text"
+            size="mini"
+            icon="el-icon-edit"
             @click.native="editItem(scope.row)"
           >{{ $t('button.edit') }}
           </el-button>
@@ -223,7 +231,9 @@
           </el-tab-pane>
         </el-tabs>
       </template>
-
+    </el-dialog>
+    <el-dialog :title="replaceTitle" :visible="replaceVisiable" @close="replaceVisiable = false"  class="el-dialog-style common-dialog-style">
+    <replace :old-info="form"></replace>
     </el-dialog>
   </div>
 </template>

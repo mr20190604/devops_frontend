@@ -48,5 +48,12 @@ export default {
         ids: ids
       }
     })
+  },
+  getSysList:function () {
+    return request({
+      url:'/child/sys/model/getSysList',
+      method:'get',
+      params:{}
+    })
   }
 }
