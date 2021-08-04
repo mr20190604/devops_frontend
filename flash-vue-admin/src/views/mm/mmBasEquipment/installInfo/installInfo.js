@@ -77,7 +77,7 @@ export default {
     }
     if(undefined !== this.btnShow){
       // true 表示按钮显示
-      //this.btnDisplay = this.btnShow;
+      this.btnDisplay = this.btnShow;
     }
 
     let equipmentId = this.equipmentId

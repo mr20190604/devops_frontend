@@ -232,7 +232,7 @@
         </el-tabs>
       </template>
     </el-dialog>
-    <el-dialog :title="replaceTitle" :visible="replaceVisiable" @close="replaceVisiable = false"  class="el-dialog-style common-dialog-style">
+    <el-dialog :title="replaceTitle" :visible="replaceVisiable" @close="replaceVisiable = false" width="90%"   class="el-dialog-style common-dialog-style">
     <replace :old-info="form"></replace>
     </el-dialog>
   </div>
