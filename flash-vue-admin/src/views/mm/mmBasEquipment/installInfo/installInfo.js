@@ -3,9 +3,11 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props: ['equipmentId'],
+  props: ['equipmentId','isReadonly','btnShow'],
   data() {
     return {
+      readonly:false,
+      btnDisplay:true,
       form: {
         equipmentId: '',
         constructionEnterprise: '',
@@ -44,16 +46,7 @@ export default {
         value: 2,
         label: '移动'
       }],
-      facilitiesTypeList: [{
-        value: 'line',
-        label: '管线'
-      }, {
-        value: 'well',
-        label: '窨井'
-      }, {
-        value: 'building',
-        label: '建筑物'
-      }]
+      facilitiesTypeList: []
     }
   },
   filters: {
@@ -78,8 +71,17 @@ export default {
     }
   },
   created() {
-    let equipmentId = this.equipmentId;
-    if('' !== equipmentId){
+    if(undefined !== this.isReadonly){
+      // true 表示只读
+      this.readonly = this.isReadonly;
+    }
+    if(undefined !== this.btnShow){
+      // true 表示按钮显示
+      //this.btnDisplay = this.btnShow;
+    }
+
+    let equipmentId = this.equipmentId
+    if ('' !== equipmentId) {
       mmEquipmentInstallInfoApi.getEquipInstall({ 'equipmentId': equipmentId }).then(response => {
         if (response.data != null) {
           this.form = response.data
@@ -87,7 +89,9 @@ export default {
         }
       })
     }
-
+    mmEquipmentInstallInfoApi.listFacilitiesType().then(response => {
+      this.facilitiesTypeList = response.data
+    })
 
   },
   methods: {
@@ -160,7 +164,7 @@ export default {
         } else {
           return false
         }
-        this.resetForm();
+        this.resetForm()
       })
     }
 

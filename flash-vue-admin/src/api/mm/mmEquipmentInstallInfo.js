@@ -45,4 +45,10 @@ export default {
       params
     })
   },
+  listFacilitiesType: function () {
+    return request({
+      url: '/equipment/install/info/listFacilitiesType',
+      method: 'get'
+    })
+  },
 }
