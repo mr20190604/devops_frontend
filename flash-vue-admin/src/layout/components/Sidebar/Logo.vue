@@ -29,61 +29,67 @@ export default {
     }
   },
   mounted() {
-    const childSys = this.$store.state.user.childSys;
-    const child = childSys.find(item => item.selected);
-    this.title = child.mmChildSysModel.sysName;
+    const childSys = this.$store.state.user.childSys
+    const child = childSys.find(item => item.selected)
+    if (child) {
+      this.title = child.mmChildSysModel.sysName
+    } else {
+      this.title = ''
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.sidebarLogoFade-enter-active {
-  transition: opacity 1.5s;
-}
+  .sidebarLogoFade-enter-active {
+    transition: opacity 1.5s;
+  }
 
-.sidebarLogoFade-enter,
-.sidebarLogoFade-leave-to {
-  opacity: 0;
-}
+  .sidebarLogoFade-enter,
+  .sidebarLogoFade-leave-to {
+    opacity: 0;
+  }
 
-.sidebar-logo-container {
-  position: relative;
-  width: 100%;
-  // height: 50px;
-  // line-height: 50px;
-  background: #1c273a;
-  text-align: center;
-  overflow: hidden;
- padding: 30px 0 18px;
+  .sidebar-logo-container {
+    position: relative;
+    width: 100%;
+    // height: 50px;
+    // line-height: 50px;
+    background: #1c273a;
+    text-align: center;
+    overflow: hidden;
+    padding: 30px 0 18px;
 
-a{
- &.sidebar-logo-link {
-    display: flex !important;
-    align-items: center;
-    height: 100%;
-    justify-content: center;
-    .sidebar-logo {
-      width:20px;
-      height: 20px;
-      vertical-align: middle;
-      margin-right: 7px;
+    a {
+      &.sidebar-logo-link {
+        display: flex !important;
+        align-items: center;
+        height: 100%;
+        justify-content: center;
+
+        .sidebar-logo {
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+          margin-right: 7px;
+        }
+
+        .sidebar-title {
+          background: linear-gradient(to right, #429ced, #69e5d0);
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          margin: 0;
+          font-size: 16px;
+          vertical-align: middle;
+        }
+      }
     }
 
-    .sidebar-title {
-      background: linear-gradient(to right, #429ced, #69e5d0);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-      margin: 0;
-      font-size: 16px;
-      vertical-align: middle;
+    &.collapse {
+      .sidebar-logo {
+        margin-right: 0px;
+      }
     }
   }
-}
-  &.collapse {
-    .sidebar-logo {
-      margin-right: 0px;
-    }
-  }
-}
 </style>

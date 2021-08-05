@@ -188,7 +188,7 @@
                     <el-input v-model="form.manufacturer" minlength=1></el-input>
                   </el-form-item>
                 </el-col>
-                
+
                 <el-col :span="12">
                   <el-form-item label="是否叶子节点：">
                     <template>
@@ -228,6 +228,9 @@
           </el-tab-pane>
           <el-tab-pane label="设备安装信息" name="second" id="second"  style="height: 550px">
             <install :equipmentId="equipmentId" :isAdd="isAdd" @closeDialog="closeDialog"></install>
+          </el-tab-pane>
+          <el-tab-pane label="设备监测类型" name="third" id="third"  style="height: 550px">
+            <monitoring :equipmentId="equipmentId" :isAdd="isAdd" @closeDialog="closeDialog"></monitoring>
           </el-tab-pane>
         </el-tabs>
       </template>

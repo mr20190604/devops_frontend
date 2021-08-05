@@ -1,17 +1,20 @@
 import mmBasEquipmentApi from '@/api/mm/mmBasEquipment'
 import permission from '@/directive/permission/index.js'
 import install from '@/views/mm/mmBasEquipment/installInfo/index.vue'
+import monitoring from '@/views/mm/mmBasEquipment/mmEquipmentMonitors/index.vue'
 import replace from '@/views/mm/mmBasEquipment/replace/replace.vue'
 
 export default {
-  directives: {permission},
+  directives: { permission },
   components: {
     install,
+    monitoring
     replace
   },
   data() {
     return {
       equipmentId: '',
+      equipmentType: '',
       formVisible: false,
       formTitle: '添加设备信息',
       isAdd: true,
@@ -91,7 +94,7 @@ export default {
         published: 'success',
         draft: 'gray',
         deleted: 'danger'
-      };
+      }
       return statusMap[status]
     }
   },
@@ -115,42 +118,42 @@ export default {
       this.fetchData()
     },
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = true
       mmBasEquipmentApi.getList(this.listQuery).then(response => {
-        this.list = response.data.records;
-        this.listLoading = false;
+        this.list = response.data.records
+        this.listLoading = false
         this.total = response.data.total
-      });
+      })
     },
     search() {
       this.fetchData()
     },
     reset() {
-      this.listQuery.equipmentType = '';
-      this.listQuery.equipmentCode = '';
+      this.listQuery.equipmentType = ''
+      this.listQuery.equipmentCode = ''
       this.fetchData()
     },
     handleFilter() {
-      this.listQuery.page = 1;
+      this.listQuery.page = 1
       this.getList()
     },
     handleClose() {
 
     },
     fetchNext() {
-      this.listQuery.page = this.listQuery.page + 1;
+      this.listQuery.page = this.listQuery.page + 1
       this.fetchData()
     },
     fetchPrev() {
-      this.listQuery.page = this.listQuery.page - 1;
+      this.listQuery.page = this.listQuery.page - 1
       this.fetchData()
     },
     fetchPage(page) {
-      this.listQuery.page = page;
+      this.listQuery.page = page
       this.fetchData()
     },
     changeSize(limit) {
-      this.listQuery.limit = limit;
+      this.listQuery.limit = limit
       this.fetchData()
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
@@ -209,11 +212,11 @@ export default {
       }
     },
     add() {
-      this.formTitle = '添加设备信息';
-      this.formVisible = true;
-      this.isAdd = true;
-      this.form.isLeaf=0;
-      this.activeName = 'first';
+      this.formTitle = '添加设备信息'
+      this.formVisible = true
+      this.isAdd = true
+      this.form.isLeaf = 0
+      this.activeName = 'first'
 
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
@@ -267,28 +270,29 @@ export default {
             terminalId: this.form.terminalId,
             extenParam: this.form.extenParam,
             commands: this.form.commands,
-            installBatch: this.form.installBatch,
-          };
+            installBatch: this.form.installBatch
+          }
           if (formData.id) {
             mmBasEquipmentApi.update(formData).then(response => {
               this.$message({
                 message: this.$t('common.optionSuccess'),
                 type: 'success'
-              });
-              this.activeName = "second";
+              })
+              this.activeName = 'second'
             })
           } else {
             mmBasEquipmentApi.add(formData).then(response => {
-              this.equipmentId = response.data.id;
+              this.equipmentId = response.data.id
+              this.equipmentType = response.data.equipmentType
               if (this.equipmentId) {
-                this.activeName = "second";
+                this.activeName = 'second'
               } else {
-                this.activeName = 'first';
+                this.activeName = 'first'
               }
               this.$message({
-                   message: this.$t('common.optionSuccess'),
-                   type: 'success'
-               });
+                message: this.$t('common.optionSuccess'),
+                type: 'success'
+              })
             })
           }
         } else {
@@ -303,21 +307,22 @@ export default {
       this.$message({
         message: this.$t('common.mustSelectOne'),
         type: 'warning'
-      });
+      })
       return false
     },
     editItem(record) {
-      this.selRow = record;
-      this.activeName = 'first';
+      this.selRow = record
+      this.activeName = 'first'
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
-        this.isAdd = false;
-        this.form = this.selRow;
-        this.equipmentId = this.form.id;
-        this.formTitle = '编辑设备信息';
-        this.formVisible = true;
+        this.isAdd = false
+        this.form = this.selRow
+        this.equipmentId = this.form.id
+        this.equipmentType = this.form.equipmentType
+        this.formTitle = '编辑设备信息'
+        this.formVisible = true
 
         if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
@@ -325,12 +330,12 @@ export default {
       }
     },
     removeItem(record) {
-      this.selRow = record;
+      this.selRow = record
       this.remove()
     },
     remove() {
       if (this.checkSel()) {
-        let id = this.selRow.id;
+        let id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
@@ -340,7 +345,7 @@ export default {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
-            });
+            })
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
@@ -355,15 +360,15 @@ export default {
     removeBatch() {
       let ids = this.selection.map(item => {
         return item.id
-      });
+      })
 
-      ids = ids.join(',');
+      ids = ids.join(',')
 
       if (ids === null || ids.length === 0) {
         this.$message({
           message: this.$t('common.mustSelectOne'),
           type: 'warning'
-        });
+        })
         return false
       }
       this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
@@ -375,8 +380,8 @@ export default {
           this.$message({
             message: this.$t('common.optionSuccess'),
             type: 'success'
-          });
-         this.reset();
+          })
+          this.reset()
         }).catch(err => {
           this.$notify.error({
             title: '错误',
@@ -387,21 +392,23 @@ export default {
       })
     },
     handleClick(activeName, oldActiveName) {
-      if (!this.equipmentId) {
-        this.$alert('请先提交设备基础信息', '提示', {
-          confirmButtonText: '确定'
-        });
-
-        return false;
+      if (activeName === 'second') {
+        if (!this.equipmentId) {
+          this.$alert('请先提交设备基础信息', '提示', {
+            confirmButtonText: '确定'
+          })
+          return false
+        }
+      }
+      if (activeName === 'third') {
+        if (!(this.equipmentId && this.equipmentType)) {
+          this.$alert('请选择设备类型并提交设备基础信息', '提示', {
+            confirmButtonText: '确定'
+          })
+          return false
+        }
       }
       return true
-    },
-    closeDialog() {
-      this.formVisible = false;
-      this.selection = [];
-      this.reset();
-      this.fetchData();
-      this.equipmentId = '';
     },
     //开启设备更替弹框页面
     openReplace(record) {
@@ -410,6 +417,13 @@ export default {
       this.form = JSON.parse(JSON.stringify(record));
     }
 
+      this.formVisible = false
+      this.selection = []
+      this.reset()
+      this.fetchData()
+      this.equipmentId = ''
+      this.equipmentType = ''
+    }
 
   }
 }
