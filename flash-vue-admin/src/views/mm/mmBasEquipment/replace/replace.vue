@@ -7,18 +7,17 @@
           <div>
             <h3 class="form-title">原设备信息</h3>
           </div>
-          <div>
+          <div >
             <el-tabs v-model="activeName">
               <el-tab-pane label="设备基本信息" name="first"
                            style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-                <bas-equip :baseInfo="oldInfo" :disableFlag="false"></bas-equip>
-
+                  <bas-equip :baseInfo="oldInfo" :span-value="10" :disableFlag="true"></bas-equip>
                 <!--<equipment-info :baseInfo="oldInfo" :disableFlag="false"></equipment-info>-->
               </el-tab-pane>
 
               <el-tab-pane label="设备安装信息" name="second"
                            style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-                <install :equipmentId="oldInfo.id" :isReadonly="true" :btnShow="false"></install>
+                <install :equipmentId="oldInfo.id" :isReadonly="true" :spanValue="10.5"  :btnShow="false"></install>
               </el-tab-pane>
             </el-tabs>
 
@@ -35,23 +34,22 @@
           </div>
           <el-tabs v-model="activeName">
             <el-tab-pane label="设备基本信息" name="first" style="height:500px;overflow-y:auto;overflow-x:hidden;">
-              <bas-equip :baseInfo="newInfo" :disableFlag="false"></bas-equip>
-
-              <!--<equipment-info :baseInfo="oldInfo" :disableFlag="false"></equipment-info>-->
+              <bas-equip :baseInfo="newInfo" :span-value="10" :disableFlag="true"></bas-equip>
             </el-tab-pane>
 
             <el-tab-pane label="设备安装信息" name="second" style="height:500px;overflow-y:auto;overflow-x:hidden;">
-              <install :equipmentId="newInfo.id" :isReadonly="true" :btnShow="false"></install>
+              <install :equipmentId="newInfo.id" ref="ptClick" :isReadonly="false" :spanValue="10.5" :btnShow="false" ></install>
             </el-tab-pane>
           </el-tabs>
         </div>
       </el-col>
       <el-col :span="12" v-if="!newInfo">
-        <equip-list ></equip-list>
+        <equip-list :hidden-list="hiddenTable"></equip-list>
       </el-col>
     </el-row>
-    <div align="center">
+    <div align="center" v-if="newInfo">
       <el-button type="success" class="set-common-btn blue-button" @click="chooseEquip">选择新设备</el-button>
+      <el-button type="success" class="set-common-btn blue-button" @click="replaceInfo">更换</el-button>
     </div>
 
 
@@ -86,15 +84,33 @@
 
     },
     methods: {
+      //显示table列表
       chooseEquip() {
-        if (this.newInfo) {
-          this.newInfo = null;
-        } else {
-          this.newInfo = JSON.parse(JSON.stringify(this.oldInfo));
-        }
+       this.newInfo = null;
+      },
+      //被install子组件调用的方法，用于隐藏table列表
+      hiddenTable:function (record) {
+        console.log('hiddenTable');
+        this.newInfo = record;
+      },
+      //replace组件调用子组件对安装信息进行保存
+      replaceInfo() {
+        this.$confirm('是否确认更换?', '提示', {
+          confirmButtonText: '更换',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$refs.ptClick.installReplaceSave();
+          this.$emit('close-dialog')
+        }).catch(() => {
 
-      }
-
+        });
+      },
+      // //子组件通过@事件方式调用的方法，用于安装信息保存成功后关闭弹框
+      // changeEvent(data) {
+      //   console.log(data);
+      //   this.$emit('close-dialog')
+      // }
     }
 
   }

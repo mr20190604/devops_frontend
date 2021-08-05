@@ -232,8 +232,8 @@
         </el-tabs>
       </template>
     </el-dialog>
-    <el-dialog :title="replaceTitle" :visible="replaceVisiable" @close="replaceVisiable = false" width="90%"   class="el-dialog-style common-dialog-style">
-    <replace :old-info="form"></replace>
+    <el-dialog :title="replaceTitle" :visible="replaceVisiable" @close="replaceVisiable = false" width="75%"  class="el-dialog-style common-dialog-style">
+    <replace :old-info="form" @close-dialog="replaceVisiable = false"></replace>
     </el-dialog>
   </div>
 </template>

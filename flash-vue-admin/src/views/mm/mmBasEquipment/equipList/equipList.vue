@@ -4,12 +4,12 @@
       <div class="block">
         <el-form>
           <el-row >
-            <el-col :span="12">
+            <el-col :span="10">
               <el-form-item label="设备名称">
                 <el-input v-model="listQuery.equipmentName" placeholder="请输入设备名称"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="10">
               <el-form-item label="设备编码">
                 <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编码"></el-input>
               </el-form-item>
@@ -17,13 +17,13 @@
 
           </el-row>
           <el-row>
-            <el-col :span="12">
+            <el-col :span="10">
               <el-form-item label="设备类型">
                 <dict-select v-model="listQuery.equipmentType" dict-name="设备类型">
                 </dict-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="10">
               <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
               <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
             </el-col>
@@ -76,7 +76,7 @@
 
       <div>
         <el-row>
-          <el-col :span="8">
+          <el-col :span="10">
             <div >
               <!--分页-->
               <el-pagination
@@ -90,7 +90,7 @@
                 @current-change="fetchPage"
                 @prev-click="fetchPrev"
                 @next-click="fetchNext"
-                style="width: 60%"
+                style="width: 60%;margin-right: 67px;"
               >
               </el-pagination>
             </div>
@@ -106,6 +106,10 @@
   export default {
         name: "equipList",
         props: {
+          hiddenList:{
+            type:Function,
+            default: () => ({})
+          }
         },
         data() {
           return {
@@ -115,6 +119,7 @@
               equipmentType:'',
               page: 1,
               limit: 9,
+              processType:1,
             },
             list:null,
             selRow: {},
@@ -133,6 +138,7 @@
           this.fetchData()
         },
         fetchData:function() {
+          this.listLoading = true;
           mmBasEquipmentApi.getList(this.listQuery).then(response => {
             this.list = response.data.records;
             this.listLoading = false;
@@ -140,11 +146,15 @@
           });
         },
         search: function () {
-          console.log('search')
+          this.fetchData();
 
         },
         reset: function () {
-          console.log('reset')
+          for (var key in this.listQuery) {
+            if (key != 'page' && key != 'limit') {
+              this.listQuery[key] = null;
+            }
+          }
         },
         handleCurrentChange(currentRow, oldCurrentRow) {
           this.selRow = currentRow
@@ -170,7 +180,7 @@
         },
         dataReplace(record) {
           console.log('dataReplace')
-
+          this.hiddenList(JSON.parse(JSON.stringify(record)));
         }
       }
     }

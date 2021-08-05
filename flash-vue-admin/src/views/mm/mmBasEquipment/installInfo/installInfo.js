@@ -3,7 +3,7 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props: ['equipmentId','isReadonly','btnShow'],
+  props: ['equipmentId','isReadonly','btnShow',"spanValue"],
   data() {
     return {
       readonly:false,
@@ -166,7 +166,20 @@ export default {
         }
         this.resetForm()
       })
-    }
+    },
+    //父组件调用，保存设备安装信息
+    installReplaceSave() {
+      if (!this.form) {
+        this.$message({
+          message: '安装信息不能为空！',
+          type: 'warning'
+        });
+        return;
+      } else {
+        this.save();
+        // this.$emit('change-event','关闭弹框');
+      }
+    },
 
   }
 }
