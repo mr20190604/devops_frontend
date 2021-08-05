@@ -8,7 +8,7 @@ export default {
   directives: { permission },
   components: {
     install,
-    monitoring
+    monitoring,
     replace
   },
   data() {
@@ -82,10 +82,10 @@ export default {
       list: null,
       listLoading: true,
       selRow: {},
-      selection:[],
+      selection: [],
       //更换流程参数属性
-      replaceVisiable:false,
-      replaceTitle:'',
+      replaceVisiable: false,
+      replaceTitle: ''
     }
   },
   filters: {
@@ -412,11 +412,11 @@ export default {
     },
     //开启设备更替弹框页面
     openReplace(record) {
-      this.replaceTitle = '设备更换';
-      this.replaceVisiable = true;
-      this.form = JSON.parse(JSON.stringify(record));
-    }
-
+      this.replaceTitle = '设备更换'
+      this.replaceVisiable = true
+      this.form = JSON.parse(JSON.stringify(record))
+    },
+    closeDialog() {
       this.formVisible = false
       this.selection = []
       this.reset()
