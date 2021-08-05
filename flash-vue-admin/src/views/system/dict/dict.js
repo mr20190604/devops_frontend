@@ -1,110 +1,65 @@
-import { remove, getList, save, update } from '@/api/system/dict'
+import { listTreeDict, listParentTreeSelect, addDict, editDict, deleteDict } from '@/api/system/dict'
 import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
   data() {
     return {
+      readonly:false,
+      btnShow:true,
+      idShow:false,
+      listLoading: true,
+      formTitle: '',
       formVisible: false,
-      formTitle: '添加字典',
-      deptList: [],
-      roleList: [],
-      isAdd: true,
-      permissons: [],
-      permissonVisible: false,
+      isAdd: false,
       form: {
         name: '',
         id: '',
-        detail: '',
-        details: []
+        num: '',
+        tips: '',
+        pid: null
       },
       rules: {
         name: [
           { required: true, message: '请输入字典名称', trigger: 'blur' },
           { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+        ],
+        num: [
+          { required: true, message: '请输入字典编码', trigger: 'blur' },
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ]
-
       },
-      listQuery: {
-        name: undefined
-      },
-      list: null,
-      listLoading: true,
+      data: [],
+      treeData: [],
       selRow: {}
-    }
-  },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
     }
   },
   created() {
     this.init()
   },
   methods: {
-    init() {
-      this.fetchData()
-    },
-    fetchData() {
-      this.listLoading = true
-      getList(this.listQuery).then(response => {
-        this.list = response.data
-        this.listLoading = false
-      }).catch(() => {
-      })
-    },
-    search() {
-      this.listQuery.page = 1
-      this.fetchData()
-    },
-    reset() {
-      this.listQuery.name = ''
-      this.listQuery.page = 1
-      this.fetchData()
-    },
-    handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
-    },
-    handleClose() {
-
-    },
-
-    handleCurrentChange(currentRow, oldCurrentRow) {
-      this.selRow = currentRow
-    },
-    resetForm() {
-      this.form = {
-        name: '',
-        id: '',
-        details: [],
-        detail: []
-
-      }
-    },
     add() {
       this.resetForm()
       this.formTitle = '添加字典'
       this.formVisible = true
       this.isAdd = true
+      this.idShow = false
+      this.btnShow = true
+      this.readonly = false
     },
     save() {
-      var self = this
+      let self = this
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          var dictName = self.form.name
-          var dictValues = ''
-          for (var key in self.form.details) {
-            var item = self.form.details[key]
-            dictValues += item['key'] + ':' + item['value'] + ';'
+          const formData = {
+            name: self.form.name,
+            num: self.form.num,
+            tips: self.form.tips,
+            pid: self.form.pid,
+            id: self.form.id
           }
-          if (this.form.id !== '') {
-            update({ id: self.form.id, dictName: dictName, dictValues: dictValues }).then(response => {
+          if (formData.id) {
+            editDict(formData).then(response => {
               this.$message({
                 message: '提交成功',
                 type: 'success'
@@ -113,7 +68,7 @@ export default {
               self.formVisible = false
             })
           } else {
-            save({ dictName: dictName, dictValues: dictValues }).then(response => {
+            addDict(formData).then(response => {
               this.$message({
                 message: '提交成功',
                 type: 'success'
@@ -127,77 +82,67 @@ export default {
         }
       })
     },
-    checkSel() {
-      if (this.selRow && this.selRow.id) {
-        return true
+    editItem(row) {
+      this.idShow = false
+      this.btnShow = true
+      this.readonly = false
+      this.form = Object.assign({}, row)
+      if (this.form.pid === 0) {
+        this.form.pid = null
       }
-      this.$message({
-        message: '请选中操作项',
+      this.formTitle = '编辑字典'
+      this.formVisible = true
+      this.isAdd = false
+    },
+    checkDict(row){
+      this.idShow = true
+      this.btnShow = false
+      this.readonly = true
+      this.form = Object.assign({}, row)
+      if (this.form.pid === 0) {
+        this.form.pid = null
+      }
+      this.formTitle = '查看字典'
+      this.formVisible = true
+      this.isAdd = false
+    },
+    removeItem(id){
+      this.$confirm('确定删除该记录?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
-      })
-      return false
-    },
-    editItem(record) {
-      this.selRow = record
-      this.edit()
-    },
-    edit() {
-      if (this.checkSel()) {
-        this.isAdd = false
-        this.formTitle = '修改字典'
-        var detail = this.selRow.detail.split(',')
-        var details = []
-        detail.forEach(function(val, index) {
-          var arr = val.split(':')
-          details.push({ 'key': arr[0], 'value': arr[1] })
-        })
-        this.form = { name: this.selRow.name, id: this.selRow.id, details: details, detail: this.selRow.detail }
-        console.log(this.form)
-        this.formVisible = true
-      }
-    },
-    removeItem(record) {
-      this.selRow = record
-      this.remove()
-    },
-    remove() {
-      if (this.checkSel()) {
-        var id = this.selRow.id
-
-        this.$confirm('确定删除该记录?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          remove(id).then(response => {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.fetchData()
+      }).then(() => {
+        deleteDict({'id':id}).then(response => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
           })
-        }).catch(() => {
+          this.fetchData()
         })
+      }).catch(() => {
+      })
+    },
+    resetForm() {
+      this.form = {
+        name: '',
+        id: '',
+        num: '',
+        tips: '',
+        pid: null
       }
     },
-    addDetail() {
-      var details = this.form.details
-
-      details.push({
-        value: '',
-        key: ''
-      })
-      this.form.details = details
+    init() {
+      this.fetchData()
     },
-    removeDetail(detail) {
-      var details = []
-      this.form.details.forEach(function(val, index) {
-        if (detail.key !== val.key) {
-          details.push(val)
-        }
+    fetchData() {
+      this.listLoading = true
+      listParentTreeSelect().then(response => {
+        this.treeData = response.data
       })
-      this.form.details = details
+      listTreeDict().then(response => {
+        this.data = response.data
+        this.listLoading = false
+      })
     }
-
   }
 }
