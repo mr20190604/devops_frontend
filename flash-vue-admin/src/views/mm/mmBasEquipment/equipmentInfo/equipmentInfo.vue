@@ -260,9 +260,11 @@
         var sysStr = this.baseInfo.sysFlag;
         console.log('sysFlag', sysStr);
         this.sysFlagList.forEach(item => {
-          if (sysStr.indexOf(item.sysLayout) != -1) {
-            this.sysValue.push(item.id);
-            console.log('sysValue', this.sysValue);
+          if(sysStr) {
+            if (sysStr.indexOf(item.sysLayout) != -1) {
+              this.sysValue.push(item.id);
+              console.log('sysValue', this.sysValue);
+            }
           }
         })
 
