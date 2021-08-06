@@ -8,6 +8,7 @@ export default {
     return {
       readonly:false,
       btnDisplay:true,
+      spanNum:12,
       form: {
         equipmentId: '',
         constructionEnterprise: '',
@@ -78,6 +79,10 @@ export default {
     if(undefined !== this.btnShow){
       // true 表示按钮显示
       this.btnDisplay = this.btnShow;
+    }
+    if(undefined !== this.spanValue){
+      // 如果span值没有传，默认为12
+      this.spanNum = this.spanValue;
     }
 
     let equipmentId = this.equipmentId
