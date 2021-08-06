@@ -21,7 +21,7 @@
               </el-tab-pane>
 
               <el-tab-pane label="监测因子信息" name="third" style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-
+                <monitoring :equipmentId="oldInfo.id" :isAdd="isAdd"></monitoring>
               </el-tab-pane>
             </el-tabs>
 
@@ -46,7 +46,7 @@
             </el-tab-pane>
 
             <el-tab-pane label="监测因子信息" name="third" style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-
+              <monitoring :equipmentId="newInfo.id"></monitoring>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -69,10 +69,10 @@
   import BasEquip from "../equipmentInfo/equipmentInfo";
   import install from '@/views/mm/mmBasEquipment/installInfo/index.vue'
   import EquipList from "../equipList/equipList";
-
+  import monitoring from '@/views/mm/mmBasEquipment/mmEquipmentMonitors/index.vue'
   export default {
     name: "replace",
-    components: {EquipList, install, BasEquip},
+    components: {monitoring, EquipList, install, BasEquip},
     props: {
       //原设备信息
       oldInfo: {
@@ -87,6 +87,7 @@
         title: '',
         visiable: false,
         activeName: 'first',
+        isAdd:false,
       }
     },
     created() {
@@ -131,6 +132,11 @@
             this.$emit('close-dialog')
           }
         })
+      },
+      //父页面调用，清空表单数据
+      clearInfo(data) {
+       this.newInfo = null;
+       this.activeName = 'first';
       }
     }
 

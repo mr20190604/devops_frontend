@@ -202,7 +202,7 @@
     props: {
       baseInfo: {
         type: Object,
-        default: null
+        default: ()=>({})
       },
       disableFlag: {
         type: Boolean,

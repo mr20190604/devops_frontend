@@ -423,6 +423,11 @@ export default {
       this.fetchData()
       this.equipmentId = ''
       this.equipmentType = ''
+    },
+    closeReplace() {
+      this.replaceVisiable = false
+      //调用子组件方法清空表单信息
+      this.$refs.cdRc.clearInfo('closeReplace');
     }
 
   }
