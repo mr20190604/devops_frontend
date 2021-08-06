@@ -108,7 +108,7 @@
         props: {
           hiddenList:{
             type:Function,
-            default: () => ({})
+            default: () => () => {}
           }
         },
         data() {

@@ -169,17 +169,16 @@
           line-height: 20px;
         }
         .el-select{
-          width: 200px !important;
+          width: 200px;
           .el-input{
             width: 200px;
             height: 28px;
-           
           }
         }
         .el-input{
           height: 28px;
             line-height: 28px;
-            width: 200px !important;
+            width: 200px;
           input{
             width: 200px;
             height: 28px;
@@ -200,10 +199,7 @@
             }
           }
         }
-       
-        
       }
-      
     }
     .el-row{
       &.marginZero{

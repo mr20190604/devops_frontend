@@ -55,5 +55,12 @@ export default {
       method:'get',
       params:{}
     })
+  },
+  updataPoingLocation:function (param) {
+    return request({
+      url:'/bas/equipment/updataPoingLocation',
+      method:'post',
+      params:param
+    })
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-top: 10px">
     <el-row :gutter="20" style="height: 80%">
 
       <el-col :span="12">
@@ -18,6 +18,10 @@
               <el-tab-pane label="设备安装信息" name="second"
                            style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
                 <install :equipmentId="oldInfo.id" :isReadonly="true" :spanValue="10.5"  :btnShow="false"></install>
+              </el-tab-pane>
+
+              <el-tab-pane label="监测因子信息" name="third" style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
+
               </el-tab-pane>
             </el-tabs>
 
@@ -40,6 +44,10 @@
             <el-tab-pane label="设备安装信息" name="second" style="height:500px;overflow-y:auto;overflow-x:hidden;">
               <install :equipmentId="newInfo.id" ref="ptClick" :isReadonly="false" :spanValue="10.5" :btnShow="false" ></install>
             </el-tab-pane>
+
+            <el-tab-pane label="监测因子信息" name="third" style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
+
+            </el-tab-pane>
           </el-tabs>
         </div>
       </el-col>
@@ -57,6 +65,7 @@
 </template>
 
 <script>
+  import mmBasEquipmentApi from '@/api/mm/mmBasEquipment'
   import BasEquip from "../equipmentInfo/equipmentInfo";
   import install from '@/views/mm/mmBasEquipment/installInfo/index.vue'
   import EquipList from "../equipList/equipList";
@@ -100,8 +109,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$refs.ptClick.installReplaceSave();
-          this.$emit('close-dialog')
+          this.saveEquipPoint()
         }).catch(() => {
 
         });
@@ -111,6 +119,19 @@
       //   console.log(data);
       //   this.$emit('close-dialog')
       // }
+      //根据设备id对设备点位号进行更换
+      saveEquipPoint() {
+        const formData = {
+          id:this.newInfo.id,
+          pointLocation:this.oldInfo.pointLocation
+        }
+        mmBasEquipmentApi.updataPoingLocation(formData).then(response =>{
+          if (response.success) {
+            this.$refs.ptClick.installReplaceSave();
+            this.$emit('close-dialog')
+          }
+        })
+      }
     }
 
   }

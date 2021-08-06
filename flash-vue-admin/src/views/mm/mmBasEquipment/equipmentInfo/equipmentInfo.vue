@@ -162,17 +162,19 @@
         </el-row>
         <el-row>
           <el-col :span="2*spanValue">
-            <el-form-item label="子系统划分：">
-              <el-select v-model="sysValue" multiple :disabled="disableFlag" placeholder="请选择" class="input_test" style="width: calc(100% - 120px)" >
-                <el-option
-                  v-for="item in sysFlagList"
-                  :key="item.id"
-                  :label="item.sysName"
-                  :value="item.id">
-                </el-option>
-              </el-select>
+              <el-form-item label="子系统划分："  >
+                <el-select v-model="sysValue" multiple :disabled="disableFlag" placeholder="请选择" class="input_test" >
+                  <el-option
+                    v-for="item in sysFlagList"
+                    :key="item.id"
+                    :label="item.sysName"
+                    :value="item.id"
+                    style="width: 100%"
+                  >
+                  </el-option>
+                </el-select>
 
-            </el-form-item>
+              </el-form-item>
           </el-col>
         </el-row>
 
@@ -241,6 +243,7 @@
       this.getSysFlagList();
     },
     methods: {
+      //获取系统内所有的pc子系统列表
       getSysFlagList: function () {
         mmBasEquipmentApi.getSysList().then(response => {
           if (response.code == 20000 && response.data) {
@@ -252,6 +255,7 @@
         })
 
       },
+      //拆分当前记录所具有的pc子系统权限
       splitSys: function () {
         var sysStr = this.baseInfo.sysFlag;
         console.log('sysFlag', sysStr);
@@ -273,8 +277,21 @@
 
 <style lang="scss" scoped>
 
-  >>> .input_test  .el-input__inner {
-    width: 400px !important;
+  $width:498px;
+
+  >>> .input_test {
+    width: $width !important;
   }
+
+  >>> .input_test .el-input{
+    width: $width !important;
+  }
+
+  >>> .input_test .el-input input{
+    width: $width !important;
+  }
+
+
+
 
 </style>

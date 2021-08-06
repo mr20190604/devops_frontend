@@ -1,7 +1,6 @@
 <template>
   <el-select
     v-model="dictValue"
-    style="width: 100%"
     :size="size"
     :placeholder="inner_placeholder"
     clearable
