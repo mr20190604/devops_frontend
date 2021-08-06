@@ -21,15 +21,29 @@ export default {
         name: undefined,
         equipmentId: undefined
       },
+      listQuery1: {
+        page: 1,
+        limit: 10,
+        num: undefined,
+        name: undefined,
+        equipmentId: undefined
+      },
       currentPage: 1, // 当前页数
+      currentPage1: 1, // 当前页数
       pageSize: 10,
+      pageSize1: 10,
       total: 0,
+      total1: 0,
       list: [],
-      selectedList: null,
+      selectedList: [],
       fetchList: [],
       value: [],
       listLoading: true,
-      selRow: {}
+      listLoading1: true,
+      selRow: {},
+      selRow1: {},
+      selection: [],
+      selection1: []
     }
   },
   filters: {
@@ -62,20 +76,33 @@ export default {
     'equipmentId': function() {
       this.listQuery.equipmentId = this.equipmentId
       this.fetchData()
+      this.fetchSelectedData()
     }
   },
   methods: {
     init() {
       if (this.equipmentId) {
         this.fetchData()
+        this.fetchSelectedData()
       }
+    },
+    fetchSelectedData() {
+      this.listLoading1 = true
+      this.listQuery1.equipmentId = this.equipmentId
+      mmEquipmentMonitorsApi.getSelectedList(this.listQuery1).then(response => {
+        this.selectedList = response.records
+        this.total1 = response.total
+        this.listLoading1 = false
+      })
     },
     fetchData() {
       this.listLoading = true
       this.listQuery.equipmentId = this.equipmentId
       mmEquipmentMonitorsApi.getList(this.listQuery).then(response => {
-        console.log(response.selectedList)
-        response.allList.forEach(item => {
+        this.listLoading = false
+        this.list = response.records
+        this.total = response.total
+        /* response.allList.forEach(item => {
           this.list.push({
             label: item.name,
             key: item.id + '-' + item.num
@@ -89,15 +116,22 @@ export default {
         console.log(this.value)
         this.total = this.list.length
         this.fetchPage(1)
-        this.listLoading = false
+        this.listLoading = false*/
       })
     },
     search() {
+      this.listQuery.page = 1
+      this.listQuery1 = this.listQuery
       this.fetchData()
+      this.fetchSelectedData()
     },
     reset() {
-      this.listQuery.id = ''
+      this.listQuery.name = ''
+      this.listQuery.num = ''
+      this.listQuery1.name = ''
+      this.listQuery1.num = ''
       this.fetchData()
+      this.fetchSelectedData()
     },
     handleFilter() {
       this.listQuery.page = 1
@@ -105,6 +139,12 @@ export default {
     },
     handleClose() {
 
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
+    },
+    handleSelectionChange1(selection) {
+      this.selection1 = selection
     },
     fetchNext() {
       this.listQuery.page = this.listQuery.page + 1
@@ -115,14 +155,74 @@ export default {
       this.fetchData()
     },
     fetchPage(page) {
-      this.fetchList = this.list.slice((page - 1) * this.pageSize, page * this.pageSize)
+      this.listQuery.page = page
+      this.fetchData()
     },
     changeSize(limit) {
-      this.pageSize = limit
-      this.fetchPage(1)
+      this.listQuery.limit = limit
+      this.fetchData()
+    },
+    fetchNext1() {
+      this.listQuery1.page = this.listQuery1.page + 1
+      this.fetchSelectedData()
+    },
+    fetchPrev1() {
+      this.listQuery1.page = this.listQuery1.page - 1
+      this.fetchSelectedData()
+    },
+    fetchPage1(page) {
+      this.listQuery1.page = page
+      this.fetchSelectedData()
+    },
+    changeSize1(limit) {
+      this.listQuery1.limit = limit
+      this.fetchSelectedData()
     },
     handleCurrentChange(currentRow, oldCurrentRow) {
       this.selRow = currentRow
+    },
+    handleCurrentChange1(currentRow, oldCurrentRow) {
+      this.selRow1 = currentRow
+    },
+    addMonitor() {
+      const allList = []
+      if (this.selection.length > 0) {
+        this.selection.forEach(item => {
+          const formData = {
+            equipmentId: this.equipmentId,
+            monitorId: item.id,
+            monitorCode: item.num
+          }
+          allList.push(formData)
+        })
+        mmEquipmentMonitorsApi.add(allList).then(() => {
+          this.$refs.allMonitorMaterial.clearSelection()
+          this.selection = []
+          this.init()
+        })
+      } else {
+        return false
+      }
+    },
+    removeMonitor() {
+      if (this.selection1.length > 0) {
+        let ids = this.selection1.map(item => {
+          return item.id
+        })
+        ids = ids.join(',')
+        ids = ids + ',' + this.equipmentId
+        if (ids === null || ids.length === 0) {
+          return false
+        } else {
+          mmEquipmentMonitorsApi.removeBatch(ids).then(() => {
+            this.$refs.selectedMonitorMaterial.clearSelection()
+            this.selection1 = []
+            this.init()
+          })
+        }
+      } else {
+        return false
+      }
     },
     filterMethod(query, item) {
       return item.label.indexOf(query) > -1
@@ -158,5 +258,6 @@ export default {
         })
       }
     }
+
   }
 }

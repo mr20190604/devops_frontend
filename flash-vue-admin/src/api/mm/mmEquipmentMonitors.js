@@ -8,6 +8,13 @@ export default {
       params
     })
   },
+  getSelectedList: function(params) {
+    return request({
+      url: '/equipment/monitors/getSelectedList',
+      method: 'get',
+      params
+    })
+  },
   add: function(list) {
     return request({
       url: '/equipment/monitors',
@@ -28,6 +35,15 @@ export default {
       method: 'delete',
       params: {
         equipmentId: id
+      }
+    })
+  },
+  removeBatch: function(ids) {
+    return request({
+      url: '/equipment/monitors/removeBatch',
+      method: 'delete',
+      params: {
+        ids: ids
       }
     })
   }
