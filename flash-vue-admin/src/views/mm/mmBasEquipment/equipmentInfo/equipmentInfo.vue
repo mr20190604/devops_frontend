@@ -257,16 +257,19 @@
       },
       //拆分当前记录所具有的pc子系统权限
       splitSys: function () {
-        var sysStr = this.baseInfo.sysFlag;
-        console.log('sysFlag', sysStr);
-        this.sysFlagList.forEach(item => {
-          if(sysStr) {
-            if (sysStr.indexOf(item.sysLayout) != -1) {
-              this.sysValue.push(item.id);
-              console.log('sysValue', this.sysValue);
+        if (this.baseInfo.sysFlag) {
+          var sysStr = this.baseInfo.sysFlag;
+          console.log('sysFlag', sysStr);
+          this.sysFlagList.forEach(item => {
+            if(sysStr) {
+              if (sysStr.indexOf(item.sysLayout) != -1) {
+                this.sysValue.push(item.id);
+                console.log('sysValue', this.sysValue);
+              }
             }
-          }
-        })
+          })
+        }
+
 
       },
       // sysChange:function () {
