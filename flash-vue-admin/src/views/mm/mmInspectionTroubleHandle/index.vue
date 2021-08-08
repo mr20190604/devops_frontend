@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container two-line-form-container">
     <div class="block">
       <el-form label-width="76px" class="align-right has-Label-Width">
         <el-row class="hasmarginBottom">
@@ -30,6 +30,8 @@
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="5">
             <el-form-item label="分配状态：">
               <dict-select v-model="listQuery.distributeStatus" dict-name="分配状态" placeholder="请选择分配状态"></dict-select>
@@ -51,7 +53,7 @@
         </el-row>
       </el-form>
     </div>
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="openAccept"
                    v-permission="['/inspection/trouble/handle/add']">分配

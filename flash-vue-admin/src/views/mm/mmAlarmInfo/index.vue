@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="app-container three-line-form-container">
         <div class="block">
           <el-form label-width="76px" :inline="true">
             <el-row class="hasmarginBottom">
@@ -94,7 +94,7 @@
           </el-form>
 
         </div>
-      <div class="table-list">
+      <div class="table-list outer-table-list">
       <div class="btnLists">
           <el-button type="success" class="set-common-btn blue-button" @click.native="add" v-permission="['/mmAlarmInfo/check']">审核</el-button>
            <!--<el-button type="primary" class="set-common-btn blank-blue-button" @click.native="dispose()" v-permission="['/mmAlarmInfo/dispose']">处置</el-button>-->

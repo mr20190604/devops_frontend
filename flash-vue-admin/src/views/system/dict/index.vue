@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button v-permission="['/dict/add']" type="primary" class="set-common-btn blue-button" @click.native="add">
           {{$t('button.add') }}
@@ -11,8 +11,7 @@
         row-key="id"
         border
         :default-expand-all="false"
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-        :height="442">
+        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         <el-table-column label="名称" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-button type="text" @click="checkDict(scope.row)">{{ scope.row.name }}</el-button>
@@ -84,9 +83,16 @@
 </template>
 
 <script src="./dict.js"></script>
-<style scoped>
-  .el-radio-group {
+<style scoped lang="scss">
+  >>> .el-radio-group {
     width: 200px;
   }
+  .app-container{
+  .outer-table-list{
+    >>>.el-table{
+      max-height: calc(100% - 80px);
+    }
+  }
+} 
 </style>
 

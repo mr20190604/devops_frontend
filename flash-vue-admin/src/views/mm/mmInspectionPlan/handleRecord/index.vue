@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container main-container ">
 
     <!--列表-->
     <div class="table-list marginT15">

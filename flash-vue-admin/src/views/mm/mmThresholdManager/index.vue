@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="block">
       <el-form :model="listQuery" ref="listQuery">
-        <el-row class="hasmarginBottom">
+        <el-row>
           <el-col :span="5">
             <el-form-item label="设备名称：">
               <el-input v-model="listQuery.equipmentName" placeholder="请输入设备名称"></el-input>
@@ -23,9 +23,7 @@
               <dict-select dict-name="设备类型" v-model="listQuery.equipmentType"/>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="23">
+           <el-col :span="3">
             <el-form-item>
               <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search')
                 }}
@@ -35,10 +33,11 @@
             </el-form-item>
           </el-col>
         </el-row>
+       
       </el-form>
     </div>
 
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add"
                    v-permission="['/mmThresholdManager/add']">{{ $t('button.add') }}

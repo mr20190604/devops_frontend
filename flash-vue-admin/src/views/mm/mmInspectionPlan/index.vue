@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container two-line-form-container">
     <!--查询条件-->
     <div class="block">
       <el-form label-width="76px" :inline="true">
@@ -77,10 +77,7 @@
               />
             </el-form-item>
           </el-col>
-
-        </el-row>
-        <el-row>
-          <el-col :span="23">
+          <el-col :span="3">
             <el-form-item>
               <el-button
                 type="primary"
@@ -99,7 +96,7 @@
       </el-form>
     </div>
     <!--列表-->
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button
           v-permission="['/bas/build/add']"
@@ -383,7 +380,7 @@
         </el-form>
       </div>
     </el-dialog>
-
+<!-- 处置记录 -->
     <el-dialog :visible.sync="handleDisplay" :modal-append-to-body="false" :append-to-body="true"
                class="el-dialog-style common-dialog-style" title="处置记录">
       <handleRecord v-if="handleDisplay" :plan-id="planId" :inspection-type="inspectionType"/>

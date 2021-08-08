@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="process-report-wrap">
     <div >
       <el-steps :active="stepCount" align-center>
         <el-step title="监测报警" :description="assignmentAlarmTime()"><i  class="step01" slot="icon"></i></el-step>
@@ -363,85 +363,7 @@
 </script>
 
 <style lang="scss" scoped >
->>> .el-scrollbar__wrap{
-  overflow-x: hidden;
-  .el-scrollbar__bar.is-horizontal{
-    display: none;
-  }
-}
-.el-card{
-  margin-bottom: 10px;
-}
-  >>> .el-card__header{
-    padding: 0 10px;
-    border-bottom: 1px solid #EBEEF5;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    height: 30px;
-    line-height: 30px;
-    color: #409EFF;
-  }
-
->>> .el-step{
-  .el-step__icon{
-    width: 50px;
-    height: 50px;
-    border: none;
-    border-radius: 0%;
-    margin-top: -15px;
-    i{
-      display: block;
-      width: 100%;
-      height: 100%;
-      &.step01{
-        background:url("~@/assets/img/buzhouyi.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step02{
-        background:url("~@/assets/img/buzhouer.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step03{
-        background:url("~@/assets/img/buzhousan.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step04{
-        background:url("~@/assets/img/buzhousi.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step05{
-        background:url("~@/assets/img/buzhouwu.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step06{
-        background:url("~@/assets/img/监测报警暗.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step07{
-        background:url("~@/assets/img/报警审核暗.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step08{
-        background:url("~@/assets/img/报警排查暗.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step09{
-        background:url("~@/assets/img/报警处置暗.png") no-repeat center;
-        background-size: cover;
-      }
-      &.step10{
-        background:url("~@/assets/img/报警解除暗.png") no-repeat center;
-        background-size: cover;
-      }
-
-    }
-  }
-}
-
- 
-
-
-    .el-step.is-horizontal .el-step__line{
+ .el-step.is-horizontal .el-step__line{
       top: 50%;
       left: 94px;
       right: 48px;

@@ -24,13 +24,10 @@
         <el-row>
         </el-row>
       </el-form>
-      <el-row>
-        <el-col :span="24">
-        </el-col>
-      </el-row>
+    
     </div>
     <!--列表-->
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
           <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button" @click="resetForm()" @click.native="add"> {{ $t('button.add') }} </el-button>
           <el-button v-permission="['/bas/equipment/delete']" type="danger" class="set-common-btn blank-blue-button" @click.native="removeBatch" v-if="false"> 批量删除 </el-button>

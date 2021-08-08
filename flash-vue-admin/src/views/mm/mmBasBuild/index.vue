@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container two-line-form-container">
     <div class="block">
       <el-form label-width="76px" :inline="true">
         <el-row class="hasmarginBottom">
@@ -49,7 +49,7 @@
         </el-row>
       </el-form>
     </div>
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button
           v-permission="['/bas/build/add']"

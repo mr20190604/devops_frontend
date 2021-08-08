@@ -227,7 +227,7 @@
     </el-dialog>
     <!-- 选择原料弹框 -->
     <el-dialog
-      class="common-dialog-style height750"
+      class="common-dialog-style height760"
       :title="'选择原料'"
       :visible.sync="materialVisible"
       :modal="false"
@@ -373,9 +373,9 @@
       </div>
 
     </el-dialog>
-    <!-- 添加原料弹框 -->
+    <!-- 添加新原料弹框 -->
     <el-dialog
-      class="common-dialog-style height700"
+      class="common-dialog-style height760"
       :title="'添加原料'"
       :visible.sync="addVisible"
       :modal="false"
@@ -447,8 +447,9 @@
         </el-form>
       </div>
     </el-dialog>
+    <!-- 添加产品信息弹框 -->
     <el-dialog
-      class="common-dialog-style height750"
+      class="common-dialog-style height760"
       :title="formTitle"
       :visible.sync="productDetailVisible"
       :modal="false"
@@ -530,6 +531,7 @@
             </el-col>
           </el-row>
         </el-form>
+        <div class="btnLists" style="margin-bottom:12px;margin-left:11px">
         <el-button
           v-if="isEdit"
           class="set-common-btn blue-button"
@@ -546,6 +548,7 @@
           @click.native="deleteMaterial()"
         >删除原料
         </el-button>
+        </div>
         <div class="table-list" style="height: 300px">
           <el-table
             v-loading="listLoading"
@@ -615,7 +618,7 @@
           <el-pagination
             style="position: relative"
             background
-            class="position-pagination"
+            class="position-pagination outer-pagenation"
             layout="total, sizes, prev, pager, next, jumper"
             :current-page="currentPage"
             :page-size="pageSize"
@@ -625,7 +628,7 @@
             @current-change="fetchPage1"/>
         </div>
       </div>
-      <div class="align-center">
+      <div class="align-center" style="margin-top:10px">
         <el-button v-if="isEdit" type="primary" class="set-common-btn blue-button" @click="save">{{ $t('button.submit') }}
         </el-button>
         <!--<el-button class="set-common-btn blank-blue-button" @click="closeFatherDialog">关闭</el-button>-->
@@ -636,12 +639,15 @@
 
 <script src="./dsiProductInfo.js"></script>
 <style lang="scss" scoped>
-  > > > .added-material {
+  >>> .added-material {
     .el-dialog__body {
       .table-list {
         margin: 20px auto;
       }
     }
+  }
+  >>> .common-dialog-style.height760 .el-dialog {
+    height: 760px;
   }
 </style>
 

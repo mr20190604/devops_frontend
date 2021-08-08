@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container two-line-form-container">
     <div class="block">
       <el-form>
         <el-row class="hasmarginBottom">
@@ -77,7 +77,7 @@
       </el-form>
     </div>
 
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button type="primary" class="set-common-btn blue-button" @click.native="add"
                    v-permission="['/accident/case/add']">{{ $t('button.add') }}

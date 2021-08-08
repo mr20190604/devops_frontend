@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button v-permission="['/menu/add']" type="primary" class="set-common-btn blue-button" @click.native="add">{{ $t('button.add') }}</el-button>
       </div>
@@ -10,7 +10,6 @@
         border
         :default-expand-all="false"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-        :height="442"
       >
         <el-table-column label="名称" show-overflow-tooltip>
           <template slot-scope="scope">
@@ -155,9 +154,18 @@
 </template>
 
 <script src="./menu.js"></script>
-<style scoped>
+<style scoped lang="scss">
 >>> .el-radio-group{
   width: 200px;
 }
+.app-container{
+  .outer-table-list{
+    height: 100%;
+    >>>.el-table{
+      max-height: calc(100% - 80px);
+    }
+  }
+} 
 </style>
+
 

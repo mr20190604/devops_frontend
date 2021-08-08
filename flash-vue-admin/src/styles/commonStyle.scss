@@ -117,12 +117,17 @@
     right: 0;
     bottom: 0;
     width: 100%;
+    z-index: 10;
   }
   &.outer-pagenation{
     margin-top: 10px;
     margin-bottom: 10px;
   }
+
+
+
 }
+
 .flex{
   display: flex;
 }
@@ -277,9 +282,38 @@
     // padding: 0;
   }
 }
+
 }
 .app-container{
  height: 100%;
+ .table-list{
+   &.outer-table-list{
+    height: calc(100% - 78px);
+    .el-table{
+      max-height: calc(100% - 116px);
+    }
+    
+  }
+  &.no-btnlists-table{ //没有btnlists
+    .el-table{
+      max-height: calc(100% - 58px);
+    }
+    
+  }
+  }
+  &.two-line-form-container{ //两行查询条件
+    .outer-table-list{
+      height: calc(100% - 126px);
+    
+    }
+    
+  }
+  &.three-line-form-container{ //三行查询条件
+    .outer-table-list{
+      height: calc(100% - 174px);
+    }
+    
+  }
 }
 .textAlignRight{
   text-align: right;
@@ -490,3 +524,110 @@ div::-webkit-scrollbar-thumb:hover{
 // div::-webkit-scrollbar-corner{
 //   background: #179a16;
 // }
+
+// 报警流程上报/隐患流程上报
+.process-report-wrap{
+ .el-scrollbar__wrap {
+    overflow-x: hidden;
+    .el-scrollbar__bar.is-horizontal {
+      display: none;
+    }
+  }
+  .el-card {
+    margin-bottom: 10px;
+    .table-list {
+      padding: 0;
+      height: auto;
+      .el-table{
+        max-height: initial;
+        &.minTableh{
+          height: 135px;
+          overflow-y: hidden;
+        }
+        &.scrollTable{
+          height: auto;
+          overflow-y: auto;
+        }
+      }
+    }
+  }
+   .el-card__header {
+    padding: 0 10px;
+    border-bottom: 1px solid #ebeef5;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    background: #409eff;
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 13px;
+      background: #fff;
+      left: 8px;
+      top: 9px;
+    }
+    span {
+      margin-left: 11px;
+    }
+  }
+  
+ .el-step {
+    .el-step__icon {
+      width: 50px;
+      height: 50px;
+      border: none;
+      border-radius: 0%;
+      margin-top: -15px;
+      i {
+        display: block;
+        width: 100%;
+        height: 100%;
+        &.step01 {
+          background: url("~@/assets/img/buzhouyi.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step02 {
+          background: url("~@/assets/img/buzhouer.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step03 {
+          background: url("~@/assets/img/buzhousan.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step04 {
+          background: url("~@/assets/img/buzhousi.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step05 {
+          background: url("~@/assets/img/buzhouwu.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step06 {
+          background: url("~@/assets/img/监测报警暗.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step07 {
+          background: url("~@/assets/img/报警审核暗.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step08 {
+          background: url("~@/assets/img/报警排查暗.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step09 {
+          background: url("~@/assets/img/报警处置暗.png") no-repeat center;
+          background-size: cover;
+        }
+        &.step10 {
+          background: url("~@/assets/img/报警解除暗.png") no-repeat center;
+          background-size: cover;
+        }
+      }
+    }
+  }
+
+}

@@ -31,7 +31,7 @@
             </el-form>
         </div>
 
- <div class="table-list paddingTop12">
+ <div class="table-list paddingTop12 outer-table-list no-btnlists-table ">
         <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border
                   :row-key="row=>row.id"
                   @current-change="handleCurrentChange"

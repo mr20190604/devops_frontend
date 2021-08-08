@@ -42,7 +42,7 @@
 
       </el-form>
     </div>
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button
           class="set-common-btn blue-button"

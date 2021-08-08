@@ -40,7 +40,7 @@
 
       </el-form>
     </div>
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button v-permission="['/park/emergency/person/add']" type="success" size="mini" class="set-common-btn blue-button" @click.native="add">{{ $t('button.add') }}</el-button>
         <el-button v-permission="['/park/emergency/person/delete']" type="danger" size="mini" class="set-common-btn blank-blue-button" @click.native="batchDelete">批量删除</el-button>

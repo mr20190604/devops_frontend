@@ -42,7 +42,7 @@
       </el-row> -->
 
     </div>
-<div class="table-list paddingTop12">
+<div class="table-list paddingTop12 outer-table-list no-btnlists-table">
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
      <el-table-column type="expand">
        <template slot-scope="props">

@@ -16,7 +16,7 @@
         </el-form>
     </div>
 
-<div class="table-list">
+<div class="table-list outer-table-list">
       <div class="btnLists">
           <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/task/add']">{{ $t('button.add') }}</el-button>
           <el-button type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="edit" v-permission="['/task/update']">{{ $t('button.edit') }}</el-button>
@@ -125,5 +125,14 @@
 </template>
 
 <script src="./task.js"></script>
+<style scoped lang="scss">
+.app-container{
+  .outer-table-list{
+    >>>.el-table{
+      max-height: calc(100% - 80px);
+    }
+  }
+} 
+</style>
 
 

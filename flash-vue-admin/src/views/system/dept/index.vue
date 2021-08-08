@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
- <div class="table-list">
+ <div class="table-list outer-table-list">
       <div class="btnLists">
       <el-button type="success" size="mini" class="set-common-btn blue-button" @click.native="add" v-permission="['/dept/add']">{{ $t('button.add') }}</el-button>
       <el-button type="danger" size="mini" class="set-common-btn blank-blue-button" @click.native="remove" v-permission="['/dept/delete']">{{ $t('button.edit') }}</el-button>
@@ -87,4 +87,14 @@
 </template>
 
 <script src="./dept.js"></script>
+<style scoped lang="scss">
+.app-container{
+  .outer-table-list{
+    height: 100%;
+    >>>.el-table{
+      max-height: calc(100% - 80px);
+    }
+  }
+} 
+</style>
 

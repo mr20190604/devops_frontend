@@ -32,7 +32,7 @@
       </el-form>
     </div>
 
-    <div class="table-list paddingTop12">
+    <div class="table-list paddingTop12 outer-table-list no-btnlists-table">
       <el-table
         v-loading="listLoading"
         :data="list"

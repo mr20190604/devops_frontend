@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
    
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
          <el-button type="success" class="set-common-btn blue-button" size="mini"  @click.native="add" v-permission="['/channel/edit']">{{ $t('button.add') }}</el-button>
           <el-button type="primary" class="set-common-btn blank-blue-button" size="mini" @click.native="edit" v-permission="['/channel/edit']">{{ $t('button.edit') }}</el-button>
@@ -76,3 +76,13 @@
 <script src="./channel.js"></script>
 
 
+<style scoped lang="scss">
+.app-container{
+  .outer-table-list{
+    height: 100%;
+    >>>.el-table{
+      max-height: calc(100% - 80px);
+    }
+  }
+} 
+</style>

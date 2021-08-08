@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container two-line-form-container">
     <div class="block">
 
       <el-form label-width="76px" :inline="true">
@@ -25,7 +25,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="hasmarginBottom">
+        <el-row>
           <el-col :span="5">
             <el-form-item label="审核状态：">
               <el-select v-model="listQuery.auditStatus">
@@ -51,8 +51,7 @@
     </div>
 
     <!--列表-->
-    <div class="table-list">
-
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button v-permission="['/inspection/trouble/add']" type="success" size="mini" class="set-common-btn blue-button" @click.native="add">{{ $t('button.add') }}</el-button>
         <el-button v-permission="['/inspection/trouble/update']" type="primary" size="mini" class="set-common-btn blank-blue-button" @click.native="edit">{{ $t('button.edit') }}</el-button>

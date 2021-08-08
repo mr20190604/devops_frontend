@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container two-line-form-container">
     <div class="block">
       <el-form label-width="76px" class="align-right has-Label-Width">
         <el-row class="hasmarginBottom">
@@ -47,7 +47,7 @@
       </el-form>
     </div>
 
-    <div class="table-list">
+    <div class="table-list outer-table-list">
       <div class="btnLists">
         <el-button v-permission="['/park/emergency/pool/add']" type="success" size="mini" class="set-common-btn blue-button" @click.native="add">{{ $t('button.add') }}</el-button>
         <el-button v-permission="['/park/emergency/pool/delete']" type="danger" size="mini" class="set-common-btn blank-blue-button" @click.native="batchDelete">批量删除</el-button>

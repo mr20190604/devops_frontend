@@ -1,18 +1,18 @@
 <template>
-  <div class="app-container">
+  <div class="app-container two-line-form-container">
     <div class="block">
       <el-form>
         <el-row class="hasmarginBottom">
-          <el-col :span="5">
+          <el-col :span="7">
              <el-form-item label="起始日期：">
                  <el-date-picker type="date" size="mini" placeholder="起始日期" v-model="listQuery.beginTime" value-format="yyyy-MM-dd"
-                          style="width: 100%;"></el-date-picker>
+                         ></el-date-picker>
             </el-form-item>
            </el-col>
-            <el-col :span="5">
+            <el-col :span="7">
               <el-form-item label="结束日期：">
                   <el-date-picker type="date" size="mini" placeholder="结束日期" v-model="listQuery.endTime"  value-format="yyyy-MM-dd"
-                            style="width: 100%;"></el-date-picker>
+                           ></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="5">
@@ -39,7 +39,7 @@
       </el-form>
     
     </div>
- <div class="table-list paddingTop12">
+ <div class="table-list paddingTop12 outer-table-list no-btnlists-table">
     <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row>
      <el-table-column type="expand">
        <template slot-scope="props">
