@@ -147,7 +147,6 @@
           id:this.oldInfo.id,
           equipmentStatus:this.oldInfo.equipmentStatus
         }
-        debugger
         mmBasEquipmentApi.updateEquipmentStatus(formData).then(response =>{
           console.log('response',response.success)
         })

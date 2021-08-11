@@ -371,8 +371,6 @@ export default {
     },
     closeReplace() {
       this.replaceVisiable = false
-      // 调用子组件方法清空表单信息
-      this.$refs.cdRc.clearInfo('closeReplace')
       //调用子组件方法清空表单信息
       this.$refs.cdRc.clearInfo('closeReplace');
     },
@@ -391,6 +389,12 @@ export default {
     closeMaintenance(){
       this.maintenanceVisible = false
       this.equipmentId = ''
+    },closeReplaceAndRefresh() {
+      this.replaceVisiable = false
+      //调用子组件方法清空表单信息
+      this.$refs.cdRc.clearInfo('closeReplace');
+      //刷新页面
+      this.fetchData();
     }
 
   }

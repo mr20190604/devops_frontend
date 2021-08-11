@@ -157,7 +157,7 @@
       </template>
     </el-dialog>
     <el-dialog :title="replaceTitle" :visible="replaceVisiable" width="75%" class="el-dialog-style common-dialog-style" @close="closeReplace()">
-      <replace ref="cdRc" :old-info="form" @close-dialog="replaceVisiable = false" />
+      <replace ref="cdRc" :old-info="form" @close-dialog="closeReplaceAndRefresh" />
     </el-dialog>
     <el-dialog :title="examineTitle" :visible="examineVisible" @close="closeExamine"
                width="55%"  class="el-dialog-style common-dialog-style" >
