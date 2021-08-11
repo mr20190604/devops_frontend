@@ -4,132 +4,147 @@
     <div class="block">
       <el-form>
         <el-row>
-           <el-col :span="6">
+          <el-col :span="6">
             <el-form-item label="设备类型：">
-              <dict-select dict-name="设备类型" v-model="listQuery.equipmentType" placeholder="请选择"/>
+              <dict-select v-model="listQuery.equipmentType" dict-name="设备类型" placeholder="请选择" />
             </el-form-item>
-            </el-col>
-              <el-col :span="6">
-                <el-form-item label="设备编号：">
-                  <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号"></el-input>
-                </el-form-item>
-                </el-col>
-             <el-col :span="12">
-                <el-form-item>
-                <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
-                <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
-              </el-form-item>
-           </el-col>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="设备编号：">
+              <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="11" style="text-align: right">
+            <el-form-item>
+              <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
+              <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+            </el-form-item>
+          </el-col>
         </el-row>
-        <el-row>
-        </el-row>
+        <el-row />
       </el-form>
-    
+
     </div>
     <!--列表-->
     <div class="table-list outer-table-list">
       <div class="btnLists">
-          <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button" @click="resetForm()" @click.native="add"> {{ $t('button.add') }} </el-button>
-          <el-button v-permission="['/bas/equipment/delete']" type="danger" class="set-common-btn blank-blue-button" @click.native="removeBatch" v-if="false"> 批量删除 </el-button>
+        <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button" @click="resetForm()" @click.native="add"> 设备入库 </el-button>
+        <el-button v-if="false" v-permission="['/bas/equipment/delete']" type="danger" class="set-common-btn blank-blue-button" @click.native="removeBatch"> 批量删除 </el-button>
       </div>
-    <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-              @current-change="handleCurrentChange" @selection-change="handleSelectionChange" ref="equipTable">
-      <el-table-column v-if="false"
-        type="selection"
-        width="55"
-        :reserve-selection="true"
+      <el-table
+        v-loading="listLoading"
+        :data="list"
+        ref="equipTable"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+        @current-change="handleCurrentChange"
+        @selection-change="handleSelectionChange"
+        :row-key="(row) => row.id"
+        @row-click="toggleSelection"
+      >
+        <el-table-column
+          type="selection"
+          width="55"
+          :reserve-selection="true"
+        />
+        <el-table-column
+          type="index"
+          width="55"
+          label="序号"
+        />
+        <el-table-column label="设备名称" show-overflow-tooltip width="250px">
+          <template slot-scope="scope">
+            {{ scope.row.equipmentName }}
+          </template>
+        </el-table-column>
+        <el-table-column label="设备编码" show-overflow-tooltip width="200px">
+          <template slot-scope="scope">
+            {{ scope.row.equipmentCode }}
+          </template>
+        </el-table-column>
+        <el-table-column label="设备类型" show-overflow-tooltip width="200px">
+          <template slot-scope="scope">
+            {{ scope.row.equipmentTypeName }}
+          </template>
+        </el-table-column>
+       <!-- <el-table-column label="管理单位" show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{ scope.row.manageEnterprise }}
+          </template>
+        </el-table-column>-->
+        <el-table-column label="设备状态" show-overflow-tooltip width="150px">
+          <template slot-scope="scope">
+            {{ scope.row.equipmentStatusName }}
+          </template>
+        </el-table-column>
+        <el-table-column label="审核状态" show-overflow-tooltip width="150px">
+          <template slot-scope="scope">
+            {{ scope.row.examineStatusName }}
+          </template>
+        </el-table-column>
+        <el-table-column label="注册状态" show-overflow-tooltip width="150px">
+          <template slot-scope="scope">
+            {{ scope.row.registStatusName }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+            <el-button
+              v-permission="['/bas/equipment/update']"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              @click.native="openReplace(scope.row)"
+            >更换
+            </el-button>
+            <el-button
+              v-permission="['/bas/equipment/update']"
+              :disabled="scope.row.equipmentStatusName=='在线'?true:false"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              @click.native="editItem(scope.row)"
+            >重新入库
+            </el-button>
+            <el-button
+              v-permission="['/bas/equipment/delete']"
+              type="text"
+              size="mini"
+              icon="el-icon-delete"
+              @click.native="removeItem(scope.row)"
+            >{{ $t('button.delete') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!--分页-->
+      <el-pagination
+        background
+        class="position-pagination"
+        layout="total, sizes, prev, pager, next, jumper"
+        :page-sizes="[10, 20, 50, 100,500]"
+        :page-size="listQuery.limit"
+        :total="total"
+        @size-change="changeSize"
+        @current-change="fetchPage"
+        @prev-click="fetchPrev"
+        @next-click="fetchNext"
       />
-      <el-table-column
-        type="index"
-        width="55"
-        label="序号"
-      />
-      <el-table-column label="设备名称" show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.equipmentName}}
-        </template>
-      </el-table-column>
-      <el-table-column label="设备编码" show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.equipmentCode}}
-        </template>
-      </el-table-column>
-      <el-table-column label="设备类型" show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.equipmentTypeName}}
-        </template>
-      </el-table-column>
-      <el-table-column label="管理单位" show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.manageEnterprise}}
-        </template>
-      </el-table-column>
-      <el-table-column label="基本信息" show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.baseinfo}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="传输频率" show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.transmissionFrequency}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button
-            v-permission="['/bas/equipment/update']"
-            type="text"
-            size="mini"
-            icon="el-icon-edit"
-            @click.native="openReplace(scope.row)"
-          >更换
-          </el-button>
-          <el-button
-            v-permission="['/bas/equipment/update']"
-            type="text"
-            size="mini"
-            icon="el-icon-edit"
-            @click.native="editItem(scope.row)"
-          >{{ $t('button.edit') }}
-          </el-button>
-          <el-button
-            v-permission="['/bas/equipment/delete']"
-            type="text"
-            size="mini"
-            icon="el-icon-delete"
-            @click.native="removeItem(scope.row)"
-          >{{ $t('button.delete') }}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!--分页-->
-    <el-pagination
-      background
-      class="position-pagination"
-      layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="[10, 20, 50, 100,500]"
-      :page-size="listQuery.limit"
-      :total="total"
-      @size-change="changeSize"
-      @current-change="fetchPage"
-      @prev-click="fetchPrev"
-      @next-click="fetchNext">
-    </el-pagination>
     </div>
     <!--弹框页面,包括添加和修改页面-->
     <el-dialog
       class="el-dialog-style common-dialog-style"
       :title="formTitle"
-      @close="closeDialog"
       :visible.sync="formVisible"
-      width="960px">
+      width="960px"
+      @close="closeDialog"
+    >
 
       <template v-if="formVisible">
-        <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height:600px">
-          <el-tab-pane label="设备基本信息" name="first" style="visibility: visible">
+        <el-tabs v-model="activeName" type="card" :before-leave="handleClick" style="height:600px">
+          <!--<el-tab-pane label="设备基本信息" name="first" style="visibility: visible">
              <div class="block">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
               <el-row>
@@ -222,18 +237,21 @@
 
             </el-form>
             </div>
+          </el-tab-pane>-->
+          <el-tab-pane id="first" label="设备基本信息" name="first" style="height:550px;overflow-y:auto;overflow-x:hidden;visibility: visible">
+            <equipmentInfo :disable-flag="isAdd" :base-info="selRow" @getValue="getValue" />
           </el-tab-pane>
-          <el-tab-pane label="设备安装信息" name="second" id="second"  style="height: 550px">
-            <install :equipmentId="equipmentId" :isAdd="isAdd" @closeDialog="closeDialog"></install>
+          <el-tab-pane id="second" label="设备安装信息" name="second" style="height: 550px">
+            <install :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog" />
           </el-tab-pane>
-          <el-tab-pane label="设备监测类型" name="third" id="third"  style="height: 550px">
-            <monitoring :equipmentId="equipmentId" :isAdd="isAdd" @closeDialog="closeDialog"></monitoring>
+          <el-tab-pane id="third" label="设备监测类型" name="third" style="height: 550px">
+            <monitoring :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog" />
           </el-tab-pane>
         </el-tabs>
       </template>
     </el-dialog>
-    <el-dialog :title="replaceTitle" :visible="replaceVisiable" @close="closeReplace()" width="75%"  class="el-dialog-style common-dialog-style" >
-    <replace :old-info="form" @close-dialog="replaceVisiable = false" ref="cdRc"></replace>
+    <el-dialog :title="replaceTitle" :visible="replaceVisiable" width="75%" class="el-dialog-style common-dialog-style" @close="closeReplace()">
+      <replace ref="cdRc" :old-info="form" @close-dialog="replaceVisiable = false" />
     </el-dialog>
   </div>
 </template>

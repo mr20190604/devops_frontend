@@ -3,13 +3,15 @@ import permission from '@/directive/permission/index.js'
 import install from '@/views/mm/mmBasEquipment/installInfo/index.vue'
 import monitoring from '@/views/mm/mmBasEquipment/mmEquipmentMonitors/index.vue'
 import replace from '@/views/mm/mmBasEquipment/replace/replace.vue'
+import equipmentInfo from '@/views/mm/mmBasEquipment/equipmentInfo/equipmentInfo.vue'
 
 export default {
   directives: { permission },
   components: {
     install,
     monitoring,
-    replace
+    replace,
+    equipmentInfo
   },
   data() {
     return {
@@ -17,7 +19,7 @@ export default {
       equipmentType: '',
       formVisible: false,
       formTitle: '添加设备信息',
-      isAdd: true,
+      isAdd: false,
       activeName: 'first',
       options: [{
         value: 1,
@@ -71,7 +73,11 @@ export default {
         extenParam: '',
         commands: '',
         installBatch: '',
-        id: ''
+        id: '',
+        examineStatusName: '',
+        examineStatus: '',
+        registStatusName: '',
+        registStatus: ''
       },
       listQuery: {
         page: 1,
@@ -79,11 +85,11 @@ export default {
         id: undefined
       },
       total: 0,
-      list: null,
+      list: [],
       listLoading: true,
       selRow: {},
       selection: [],
-      //更换流程参数属性
+      // 更换流程参数属性
       replaceVisiable: false,
       replaceTitle: ''
     }
@@ -100,7 +106,7 @@ export default {
   },
   computed: {
 
-    //表单验证
+    // 表单验证
     rules() {
       return {
         // cfgName: [
@@ -162,6 +168,9 @@ export default {
     handleSelectionChange(selection) {
       this.selection = selection
     },
+    toggleSelection(row) {
+      this.$refs.equipTable.toggleRowSelection(row)
+    },
     resetForm() {
       this.form = {
         equipmentName: '',
@@ -214,91 +223,14 @@ export default {
     add() {
       this.formTitle = '添加设备信息'
       this.formVisible = true
-      this.isAdd = true
+      this.isAdd = false
       this.form.isLeaf = 0
       this.activeName = 'first'
+      this.selRow = {}
 
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
       }
-    },
-    save() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          const formData = {
-            id: this.form.id,
-            equipmentName: this.form.equipmentName,
-            equipmentCode: this.form.equipmentCode,
-            pointLocation: this.form.pointLocation,
-            parentId: this.form.parentId,
-            equipmentType: this.form.equipmentType,
-            districtCode: this.form.districtCode,
-            equipmentStatus: this.form.equipmentStatus,
-            equipmentRunStatus: this.form.equipmentRunStatus,
-            dataStatus: this.form.dataStatus,
-            manageEnterprise: this.form.manageEnterprise,
-            baseinfo: this.form.baseinfo,
-            specifications: this.form.specifications,
-            accessDevice: this.form.accessDevice,
-            channel: this.form.channel,
-            manufacturer: this.form.manufacturer,
-            modelNumber: this.form.modelNumber,
-            accuracy: this.form.accuracy,
-            sensitivity: this.form.sensitivity,
-            powerModel: this.form.powerModel,
-            supplyVoltage: this.form.supplyVoltage,
-            transmissionType: this.form.transmissionType,
-            transmissionTransmission: this.form.transmissionTransmission,
-            transmissionFrequency: this.form.transmissionFrequency,
-            underVoltageProtect: this.form.underVoltageProtect,
-            overhaulStrategy: this.form.overhaulStrategy,
-            overhaulCycle: this.form.overhaulCycle,
-            isLeaf: this.form.isLeaf,
-            sysFlag: this.form.sysFlag,
-            notes: this.form.notes,
-            examinePerson: this.form.examinePerson,
-            examineOpinion: this.form.examineOpinion,
-            examineDate: this.form.examineDate,
-            registDate: this.form.registDate,
-            isEncrypt: this.form.isEncrypt,
-            productDate: this.form.productDate,
-            isDel: this.form.isDel,
-            monitorStation: this.form.monitorStation,
-            isDisplay: this.form.isDisplay,
-            rfid: this.form.rfid,
-            qrCode: this.form.qrCode,
-            terminalId: this.form.terminalId,
-            extenParam: this.form.extenParam,
-            commands: this.form.commands,
-            installBatch: this.form.installBatch
-          }
-          if (formData.id) {
-            mmBasEquipmentApi.update(formData).then(response => {
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-              this.activeName = 'second'
-            })
-          } else {
-            mmBasEquipmentApi.add(formData).then(response => {
-              this.equipmentId = response.data.id
-              this.equipmentType = response.data.equipmentType
-              if (this.equipmentId) {
-                this.activeName = 'second'
-              } else {
-                this.activeName = 'first'
-              }
-              this.$message({
-                message: this.$t('common.optionSuccess'),
-                type: 'success'
-              })
-            })
-          }
-        } else {
-          return false
-        }
-      })
     },
     checkSel() {
       if (this.selRow && this.selRow.id) {
@@ -312,18 +244,16 @@ export default {
     },
     editItem(record) {
       this.selRow = record
-      this.activeName = 'first'
+      this.activeName = 'second'
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
-        this.isAdd = false
-        this.form = this.selRow
-        this.equipmentId = this.form.id
-        this.equipmentType = this.form.equipmentType
+        this.isAdd = true
+        this.equipmentId = this.selRow.id
+        this.equipmentType = this.selRow.equipmentType
         this.formTitle = '编辑设备信息'
         this.formVisible = true
-
         if (this.$refs['form'] !== undefined) {
           this.$refs['form'].resetFields()
         }
@@ -335,7 +265,7 @@ export default {
     },
     remove() {
       if (this.checkSel()) {
-        let id = this.selRow.id
+        const id = this.selRow.id
         this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.tooltip'), {
           confirmButtonText: this.$t('button.submit'),
           cancelButtonText: this.$t('button.cancel'),
@@ -391,7 +321,14 @@ export default {
       }).catch(() => {
       })
     },
+    getValue(equipmentId, equipmentType, activeName) {
+      this.equipmentId = equipmentId
+      this.equipmentType = equipmentType
+      this.activeName = activeName
+      // this.handleClick(this.activeName, 'first')
+    },
     handleClick(activeName, oldActiveName) {
+      console.log(this.equipmentId)
       if (activeName === 'second') {
         if (!this.equipmentId) {
           this.$alert('请先提交设备基础信息', '提示', {
@@ -410,7 +347,7 @@ export default {
       }
       return true
     },
-    //开启设备更替弹框页面
+    // 开启设备更替弹框页面
     openReplace(record) {
       this.replaceTitle = '设备更换'
       this.replaceVisiable = true
@@ -426,8 +363,8 @@ export default {
     },
     closeReplace() {
       this.replaceVisiable = false
-      //调用子组件方法清空表单信息
-      this.$refs.cdRc.clearInfo('closeReplace');
+      // 调用子组件方法清空表单信息
+      this.$refs.cdRc.clearInfo('closeReplace')
     }
 
   }
