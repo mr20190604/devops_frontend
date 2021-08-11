@@ -3,59 +3,59 @@
     <div class="block">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px" class="align-right has-Label-Width">
         <el-row>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="施工单位：">
-              <el-input v-model="form.constructionEnterprise" minlength=1 :disabled="readonly"></el-input>
+              <el-input v-model="form.constructionEnterprise" minlength=1 :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="安装方式：">
-              <el-input v-model="form.installMode" minlength=1 :disabled="readonly"></el-input>
+              <el-input v-model="form.installMode" minlength=1 :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="安装部位：">
-              <el-input v-model="form.installLocation" minlength=1 :disabled="readonly"></el-input>
+              <el-input v-model="form.installLocation" minlength=1 :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="安装日期：">
               <el-date-picker v-model="form.installDate" type="date" value-format="yyyy-MM-dd"
-                              :disabled="readonly"></el-date-picker>
+                              :disabled="isReadonly"></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="经度：">
               <el-input v-model="form.longitude" oninput="value=value.replace(/[^0-9.]/g,'')"
-                        minlength=1 maxlength=10 :disabled="readonly"></el-input>
+                        minlength=1 maxlength=10 :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="纬度：">
               <el-input v-model="form.latitude" oninput="value=value.replace(/[^0-9.]/g,'')"
-                        minlength=1 maxlength=10 :disabled="readonly"></el-input>
+                        minlength=1 maxlength=10 :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="安装描述信息：">
-              <el-input v-model="form.installDescribe" minlength=1 :disabled="readonly"></el-input>
+              <el-input v-model="form.installDescribe" minlength=1 :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="设备数据单位：">
-              <el-input v-model="form.equipmentUnit" minlength=1 :disabled="readonly"></el-input>
+              <el-input v-model="form.equipmentUnit" minlength=1 :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="上传频率：">
               <el-input v-model="form.upFrequency" minlength=1 oninput="value=value.replace(/[^0-9.]/g,'')"
-                        :disabled="readonly"></el-input>
+                        :disabled="isReadonly"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="上传频率类型：">
               <template>
-                <el-select v-model="form.upFrequencyType" placeholder="请选择" :disabled="readonly">
+                <el-select v-model="form.upFrequencyType" placeholder="请选择" :disabled="isReadonly">
                   <el-option
                     v-for="item in upFrequencyTypeList"
                     :key="item.value"
@@ -66,11 +66,11 @@
               </template>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="设施类型：">
               <template>
                 <el-select v-model="form.facilitiesType" placeholder="请选择"
-                           @change="changeFacilitiesType(form.facilitiesType)" :disabled="readonly">
+                           @change="changeFacilitiesType(form.facilitiesType)" :disabled="isReadonly">
                   <el-option
                     v-for="item in facilitiesTypeList"
                     :key="item.value"
@@ -81,10 +81,10 @@
               </template>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="所属设施：">
               <template>
-                <el-select v-model="form.facilitiesId" placeholder="请选择" :disabled="readonly">
+                <el-select v-model="form.facilitiesId" placeholder="请选择" :disabled="isReadonly">
                   <el-option
                     v-for="item in facilitiesList"
                     :key="item.value"
@@ -95,10 +95,10 @@
               </template>
             </el-form-item>
           </el-col>
-          <el-col :span="spanNum">
+          <el-col :span="spanValue">
             <el-form-item label="设备模式：">
               <template>
-                <el-select v-model="form.euipmentMode" placeholder="请选择" :disabled="readonly">
+                <el-select v-model="form.euipmentMode" placeholder="请选择" :disabled="isReadonly">
                   <el-option
                     v-for="item in euipmentModeList"
                     :key="item.value"
@@ -110,7 +110,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item id="myself" class="dialog-button-list" v-if="btnDisplay">
+        <el-form-item id="myself" class="dialog-button-list" v-if="btnShow">
           <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}
           </el-button>
         </el-form-item>

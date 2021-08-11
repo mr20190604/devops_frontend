@@ -1,4 +1,4 @@
-import mmEquipmentMaintenanceApi from '@/api/mm/mmEquipmentMaintenance'
+import mmEquipmentExamineApi from '@/api/mm/mmEquipmentExamine'
 import permission from '@/directive/permission/index.js'
 
 export default {
@@ -6,18 +6,9 @@ export default {
   props: ['equipmentId'],
   data() {
     return {
-      checked:false,
-      equipmentStatusList: [{
-        value: 322,
-        label: '离线'
-      }, {
-        value: 324,
-        label: '报废'
-      }],
       form: {
-        equipmentId: '',
-        equipmentStatus: '',
-        notes: ''
+        examineStatus: '',
+        examineOpinion: '',
       }
     }
   },
@@ -48,9 +39,8 @@ export default {
   methods: {
     resetForm() {
       this.form = {
-        equipmentId: '',
-        notes: '',
-        equipmentStatus: ''
+        examinStatus: '',
+        examineOpinion: '',
       }
     },
     add() {
@@ -61,17 +51,12 @@ export default {
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          if(this.checked){
-            this.form.equipmentStatus = 324
-          }else {
-            this.form.equipmentStatus = 322
-          }
           const formData = {
             equipmentId: this.equipmentId,
-            equipmentStatus: this.form.equipmentStatus,
-            notes: this.form.notes
+            examinStatus: this.form.examinStatus,
+            examineOpinion: this.form.examineOpinion
           }
-          mmEquipmentMaintenanceApi.add(formData).then(response => {
+          mmEquipmentExamineApi.equipmentExamine(formData).then(response => {
             this.$message({
               message: this.$t('common.optionSuccess'),
               type: 'success'
@@ -81,11 +66,11 @@ export default {
         } else {
           return false
         }
-        this.closeMaintenance()
+        this.closeExamine();
       })
     },
-    closeMaintenance(){
-      this.$emit('closeMaintenance')
+    closeExamine(){
+      this.$emit('closeExamine')
     }
   }
 }

@@ -6,15 +6,16 @@
                class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="维修状态：">
-              <el-checkbox v-model="checked">报废</el-checkbox>
+            <el-form-item label="审核结果：">
+              <el-radio v-model="form.examinStatus" label="253">通过</el-radio>
+              <el-radio v-model="form.examinStatus" label="254">不通过</el-radio>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col>
-            <el-form-item label="维修说明：">
-              <el-input v-model="form.notes" minlength="1" type="textarea"/>
+            <el-form-item label="审核意见：">
+              <el-input v-model="form.examineOpinion" minlength="1" type="textarea"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -28,4 +29,4 @@
   </div>
 </template>
 
-<script src="./equipmentMaintenance.js"></script>
+<script src="./examine.js"></script>

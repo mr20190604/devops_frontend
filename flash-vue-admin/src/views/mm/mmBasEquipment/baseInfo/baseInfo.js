@@ -4,6 +4,8 @@ import install from '@/views/mm/mmBasEquipment/installInfo/index.vue'
 import monitoring from '@/views/mm/mmBasEquipment/mmEquipmentMonitors/index.vue'
 import replace from '@/views/mm/mmBasEquipment/replace/replace.vue'
 import equipmentInfo from '@/views/mm/mmBasEquipment/equipmentInfo/equipmentInfo.vue'
+import examine from '@/views/mm/mmBasEquipment/examine/index.vue'
+import maintenance from '@/views/mm/mmEquipmentMaintenance/index.vue'
 
 export default {
   directives: { permission },
@@ -11,10 +13,16 @@ export default {
     install,
     monitoring,
     replace,
+    examine,
+    maintenance,
     equipmentInfo
   },
   data() {
     return {
+      examineTitle:'设备审核',
+      examineVisible:false,
+      maintenanceTitle:'设备维修',
+      maintenanceVisible:false,
       equipmentId: '',
       equipmentType: '',
       formVisible: false,
@@ -365,6 +373,24 @@ export default {
       this.replaceVisiable = false
       // 调用子组件方法清空表单信息
       this.$refs.cdRc.clearInfo('closeReplace')
+      //调用子组件方法清空表单信息
+      this.$refs.cdRc.clearInfo('closeReplace');
+    },
+    equipmentExamine(equipmentId){
+      this.examineVisible = true
+      this.equipmentId = equipmentId
+    },
+    closeExamine(){
+      this.examineVisible = false
+      this.equipmentId = ''
+    },
+    equipmentMaintenance(equipmentId){
+      this.maintenanceVisible = true
+      this.equipmentId = equipmentId
+    },
+    closeMaintenance(){
+      this.maintenanceVisible = false
+      this.equipmentId = ''
     }
 
   }

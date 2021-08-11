@@ -3,12 +3,26 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props: ['equipmentId','isReadonly','btnShow',"spanValue"],
+  props:{
+    'equipmentId':{
+      type:Number,
+      default:''
+    },
+    'isReadonly':{
+      type:Boolean,
+      default:false
+    },
+    'btnShow':{
+      type:Boolean,
+      default: true
+    },
+    'spanValue':{
+      type:Number,
+      default:12
+    }
+  },
   data() {
     return {
-      readonly:false,
-      btnDisplay:true,
-      spanNum:12,
       form: {
         equipmentId: '',
         constructionEnterprise: '',
@@ -72,19 +86,6 @@ export default {
     }
   },
   created() {
-    if(undefined !== this.isReadonly){
-      // true 表示只读
-      this.readonly = this.isReadonly;
-    }
-    if(undefined !== this.btnShow){
-      // true 表示按钮显示
-      this.btnDisplay = this.btnShow;
-    }
-    if(undefined !== this.spanValue){
-      // 如果span值没有传，默认为12
-      this.spanNum = this.spanValue;
-    }
-
     let equipmentId = this.equipmentId
     if ('' !== equipmentId) {
       mmEquipmentInstallInfoApi.getEquipInstall({ 'equipmentId': equipmentId }).then(response => {
