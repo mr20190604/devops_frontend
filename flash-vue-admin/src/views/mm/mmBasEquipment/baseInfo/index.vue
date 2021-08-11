@@ -92,22 +92,7 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button
-              v-permission="['/bas/equipment/update']"
-              type="text"
-              size="mini"
-              icon="el-icon-edit"
-              @click.native="equipmentExamine(scope.row.id)"
-            >审核
-            </el-button>
-            <el-button
-              v-permission="['/bas/equipment/update']"
-              type="text"
-              size="mini"
-              icon="el-icon-edit"
-              @click.native="equipmentMaintenance(scope.row.id)"
-            >维修
-            </el-button>
-            <el-button
+              v-if="scope.row.equipmentStatus != 321 && scope.row.equipmentStatus != 324 && scope.row.pointLocation"
               v-permission="['/bas/equipment/update']"
               type="text"
               size="mini"
@@ -153,13 +138,12 @@
     <el-dialog
       class="el-dialog-style common-dialog-style"
       :title="formTitle"
-      :visible.sync="formVisible"
-      width="960px"
       @close="closeDialog"
-    >
+      :visible.sync="formVisible"
+      width="960px">
 
       <template v-if="formVisible">
-        <el-tabs v-model="activeName" type="card" :before-leave="handleClick" style="height:600px">
+        <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height:600px">
           <el-tab-pane id="first" label="设备基本信息" name="first" style="height:550px;overflow-y:auto;overflow-x:hidden;visibility: visible">
             <equipmentInfo :disable-flag="isAdd" :base-info="selRow" @getValue="getValue" />
           </el-tab-pane>

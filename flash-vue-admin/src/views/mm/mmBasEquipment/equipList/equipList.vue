@@ -109,6 +109,10 @@
           hiddenList:{
             type:Function,
             default: () => () => {}
+          },
+          equipmentId: {
+            type: Number,
+            default:null
           }
         },
         data() {
@@ -120,6 +124,7 @@
               page: 1,
               limit: 9,
               processType:1,
+              id:this.equipmentId
             },
             list:null,
             selRow: {},

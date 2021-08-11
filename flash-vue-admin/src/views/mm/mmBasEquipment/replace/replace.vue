@@ -52,7 +52,7 @@
         </div>
       </el-col>
       <el-col :span="12" v-if="!newInfo">
-        <equip-list :hidden-list="hiddenTable"></equip-list>
+        <equip-list :hidden-list="hiddenTable" :equipment-id="oldInfo.id"></equip-list>
       </el-col>
     </el-row>
     <div align="center" v-if="newInfo">
@@ -110,6 +110,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          console.log('111111111111111');
+          this.saveEquipBaseInfoHistory();
           this.saveEquipPoint()
         }).catch(() => {
 
@@ -137,8 +139,21 @@
       clearInfo(data) {
        this.newInfo = null;
        this.activeName = 'first';
+      },
+      saveEquipBaseInfoHistory() {
+        console.log('222222222222');
+
+        const formData = {
+          id:this.oldInfo.id,
+          equipmentStatus:this.oldInfo.equipmentStatus
+        }
+        debugger
+        mmBasEquipmentApi.updateEquipmentStatus(formData).then(response =>{
+          console.log('response',response.success)
+        })
       }
-    }
+    },
+
 
   }
 </script>

@@ -11,16 +11,16 @@
         <el-row>
           <el-col :span="spanValue">
             <el-form-item label="设备名称：" prop="equipmentName">
-              <el-input v-model="baseInfo.equipmentName" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.equipmentName" :disabled="disableFlag" minlength="1" placeholder="请输入设备名称" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="设备编码：" prop="equipmentCode">
-              <el-input v-model="baseInfo.equipmentCode" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.equipmentCode" :disabled="disableFlag" minlength="1" placeholder="请输入设备编码"  />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
-            <el-form-item label="设备类型：" prop="equipmentType">
+            <el-form-item label="设备类型：" prop="equipmentType" placeholder="请输入设备类型" >
               <dict-select
                 v-model="baseInfo.equipmentType"
                 :disabled="disableFlag"
@@ -30,7 +30,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
-            <el-form-item label="行政区划：" prop="districtCode">
+            <el-form-item label="行政区划：" prop="districtCode" >
               <district v-model="baseInfo.districtCode" :disabled="disableFlag" minlength="1" />
             </el-form-item>
           </el-col>
@@ -39,32 +39,32 @@
         <el-row>
           <el-col :span="spanValue">
             <el-form-item label="管理单位：">
-              <el-input v-model="baseInfo.manageEnterprise" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.manageEnterprise" :disabled="disableFlag" minlength="1" placeholder="请输入管理单位"  />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="基本信息：">
-              <el-input v-model="baseInfo.baseinfo" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.baseinfo" :disabled="disableFlag" minlength="1" placeholder="请输入基本信息"  />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="技术指标：">
-              <el-input v-model="baseInfo.specifications" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.specifications" :disabled="disableFlag" minlength="1" placeholder="请输入技术指标" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="接入设备：">
-              <el-input v-model="baseInfo.accessDevice" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.accessDevice" :disabled="disableFlag" minlength="1" placeholder="请输入接入设备" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="传输通道：">
-              <el-input v-model="baseInfo.channel" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.channel" :disabled="disableFlag" minlength="1" placeholder="请输入传输通道" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="厂商：">
-              <el-input v-model="baseInfo.manufacturer" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.manufacturer" :disabled="disableFlag" minlength="1" placeholder="请输入厂商" />
             </el-form-item>
           </el-col>
 
@@ -90,6 +90,7 @@
                 oninput="value=value.replace(/[^0-9]/g,'')"
                 minlength="1"
                 maxlength="5"
+                placeholder="请输入传输频率"
               />
             </el-form-item>
           </el-col>
@@ -108,12 +109,12 @@
 
           <el-col :span="spanValue">
             <el-form-item label="精度：">
-              <el-input v-model="baseInfo.accuracy" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.accuracy" :disabled="disableFlag" minlength="1" placeholder="请输入精度" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="灵敏度：">
-              <el-input v-model="baseInfo.sensitivity" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.sensitivity" :disabled="disableFlag" minlength="1" placeholder="请输入灵敏度"  />
             </el-form-item>
           </el-col>
 
@@ -125,6 +126,7 @@
                 dict-name="供电方式"
                 :disabled="disableFlag"
                 :value="baseInfo.powerModel"
+                placeholder="请选择供电方式"
               />
             </el-form-item>
           </el-col>
@@ -139,6 +141,7 @@
                 :disabled="disableFlag"
                 minlength="1"
                 oninput="value=value.replace(/[^0-9]/g,'')"
+                placeholder="请输入供电电压"
               />
             </el-form-item>
           </el-col>
@@ -150,12 +153,13 @@
                 dict-name="传输方式"
                 :disabled="disableFlag"
                 :value="baseInfo.transmissionType"
+                placeholder="请选择传输方式"
               />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="传输信号强度：">
-              <el-input v-model="baseInfo.transmissionTransmission" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.transmissionTransmission" :disabled="disableFlag" minlength="1" placeholder="请输入传输信号强度" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
@@ -165,6 +169,7 @@
                 :disabled="disableFlag"
                 minlength="1"
                 oninput="value=value.replace(/[^0-9]/g,'')"
+                placeholder="请输入传输频率"
               />
             </el-form-item>
           </el-col>
@@ -174,19 +179,19 @@
         <el-row>
           <el-col :span="spanValue">
             <el-form-item label="欠压保护比：">
-              <el-input v-model="baseInfo.underVoltageProtec" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.underVoltageProtec" :disabled="disableFlag" minlength="1" placeholder="请输入欠压保护比" />
             </el-form-item>
           </el-col>
 
           <el-col :span="spanValue">
             <el-form-item label="检修策略：">
-              <el-input v-model="baseInfo.overhaulStrategy" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.overhaulStrategy" :disabled="disableFlag" minlength="1" placeholder="请输入检修策略"  />
             </el-form-item>
           </el-col>
 
           <el-col :span="spanValue">
             <el-form-item label="平均检修周期：">
-              <el-input v-model="baseInfo.overhaulCycle" :disabled="disableFlag" minlength="1" />
+              <el-input v-model="baseInfo.overhaulCycle" :disabled="disableFlag" minlength="1" placeholder="请输入平均检修周期"  />
             </el-form-item>
           </el-col>
 
@@ -194,7 +199,7 @@
         <el-row>
           <el-col :span="2*spanValue">
             <el-form-item label="子系统划分：">
-              <el-select v-model="sysValue" multiple :disabled="disableFlag" placeholder="请选择" class="input_test">
+              <el-select v-model="sysValue" multiple :disabled="disableFlag" placeholder="请选择所属系统(多选)" class="input_test">
                 <el-option
                   v-for="item in sysFlagList"
                   :key="item.id"
@@ -209,7 +214,7 @@
         </el-row>
 
         <el-row>
-          <el-col :span="2*spanValue">
+          <el-col :span="2*spanValue+2">
             <el-form-item label="备注：">
               <el-input v-model="baseInfo.notes" :disabled="disableFlag" minlength="1" type="textarea" />
             </el-form-item>

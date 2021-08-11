@@ -62,5 +62,12 @@ export default {
       method:'post',
       params:param
     })
+  },
+  updateEquipmentStatus:function (param) {
+    return request({
+      url:'/bas/equipment/updateEquipmentStatus',
+      method:'post',
+      params:param
+    })
   }
 }
