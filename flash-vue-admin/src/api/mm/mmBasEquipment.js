@@ -69,5 +69,14 @@ export default {
       method:'post',
       params:param
     })
+  },
+  getParent:function (pid) {
+    return request({
+      url:'/bas/equipment/getParent',
+      method:'get',
+      params:{
+        pid:pid
+      }
+    })
   }
 }
