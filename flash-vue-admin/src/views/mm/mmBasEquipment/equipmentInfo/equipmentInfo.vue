@@ -97,12 +97,11 @@
         </el-row>
         <el-row>
           <el-col :span="spanValue">
-            <el-form-item label="父设备ID：">
+            <el-form-item label="父设备：">
               <el-input
-                v-model="baseInfo.parentId"
-                :disabled="disableFlag"
+                v-model="parent.name"
                 minlength="1"
-                oninput="value=value.replace(/[^0-9]/g,'')"
+                disabled="true"
               />
             </el-form-item>
           </el-col>
@@ -244,9 +243,9 @@ export default {
       type: Boolean,
       default: false
     },
-    parentId: {
-      type: Number,
-      default: null
+    parent: {
+      type: Object,
+      default: () =>({})
     },
     spanValue: {
       type: Number,

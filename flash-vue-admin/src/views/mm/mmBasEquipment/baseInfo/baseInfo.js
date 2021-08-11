@@ -99,7 +99,11 @@ export default {
       selection: [],
       // 更换流程参数属性
       replaceVisiable: false,
-      replaceTitle: ''
+      replaceTitle: '',
+      parent:{
+        id:null,
+        name:null
+      }
     }
   },
   filters: {
