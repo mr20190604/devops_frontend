@@ -11,7 +11,7 @@
             <el-tabs v-model="activeName">
               <el-tab-pane label="设备基本信息" name="first"
                            style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-                  <bas-equip :baseInfo="oldInfo" :span-value="10" :disableFlag="true"></bas-equip>
+                  <bas-equip :baseInfo="oldInfo" :span-value="10" :parent="oldParent" :disableFlag="true"></bas-equip>
                 <!--<equipment-info :baseInfo="oldInfo" :disableFlag="false"></equipment-info>-->
               </el-tab-pane>
 
@@ -38,7 +38,7 @@
           </div>
           <el-tabs v-model="activeName">
             <el-tab-pane label="设备基本信息" name="first" style="height:500px;overflow-y:auto;overflow-x:hidden;">
-              <bas-equip :baseInfo="newInfo" :span-value="10" :disableFlag="true"></bas-equip>
+              <bas-equip :baseInfo="newInfo" :span-value="10" :parent="newParent" :disableFlag="true"></bas-equip>
             </el-tab-pane>
 
             <el-tab-pane label="设备安装信息" name="second" style="height:500px;overflow-y:auto;overflow-x:hidden;">
@@ -88,10 +88,21 @@
         visiable: false,
         activeName: 'first',
         isAdd:false,
+        oldParent:{
+          id:null,
+          name:null
+        },
+        newParent:{
+          id:null,
+          name:null
+        }
       }
     },
     created() {
 
+    },
+    mounted() {
+      this.getParent(this.oldInfo,1)
     },
     methods: {
       //显示table列表
@@ -102,6 +113,8 @@
       hiddenTable:function (record) {
         console.log('hiddenTable');
         this.newInfo = record;
+        this.getParent(this.newInfo,2)
+
       },
       //replace组件调用子组件对安装信息进行保存
       replaceInfo() {
@@ -142,7 +155,6 @@
       },
       saveEquipBaseInfoHistory() {
         console.log('222222222222');
-
         const formData = {
           id:this.oldInfo.id,
           equipmentStatus:this.oldInfo.equipmentStatus
@@ -150,6 +162,26 @@
         mmBasEquipmentApi.updateEquipmentStatus(formData).then(response =>{
           console.log('response',response.success)
         })
+      },
+      //获取设备父类设备信息
+      getParent(record,type) {
+        if (record && record.parentId) {
+          mmBasEquipmentApi.getParent(record.parentId).then(response=>{
+            if (response.success) {
+              if (response.data) {
+                var data = response.data;
+                if (type == 1) {
+                  this.oldParent.id =data.id;
+                  this.oldParent.name = data.equipmentName;
+                } else {
+                  this.newParent.id =data.id;
+                  this.newParent.name = data.equipmentName;
+                }
+              }
+            }
+          })
+        }
+        console.log("无父级设备:",type)
       }
     },
 
