@@ -24,7 +24,7 @@ export default {
       equipmentIds: [],
       maintenanceTitle: '设备维修',
       maintenanceVisible: false,
-      equipmentId: '',
+      equipmentId: 0,
       equipmentType: '',
       formVisible: false,
       formTitle: '添加设备信息',
@@ -159,6 +159,12 @@ export default {
     handleClose() {
 
     },
+    filterTag(value, row) {
+      return row.examineStatusName === value
+    },
+    filterRegistStatus(value, row) {
+      return row.registStatusName === value
+    },
     fetchNext() {
       this.listQuery.page = this.listQuery.page + 1
       this.fetchData()
@@ -255,14 +261,28 @@ export default {
       })
       return false
     },
+    viewEquipemnt(record) {
+      this.selRow = record
+      this.activeName = 'first'
+      if (this.checkSel()) {
+        this.isAdd = true
+        this.equipmentId = this.selRow.id
+        this.equipmentType = this.selRow.equipmentType
+        this.formTitle = '查看设备信息'
+        this.formVisible = true
+        if (this.$refs['form'] !== undefined) {
+          this.$refs['form'].resetFields()
+        }
+      }
+    },
     editItem(record) {
       this.selRow = record
-      this.activeName = 'second'
+      this.activeName = 'first'
       this.edit()
     },
     edit() {
       if (this.checkSel()) {
-        this.isAdd = true
+        this.isAdd = false
         this.equipmentId = this.selRow.id
         this.equipmentType = this.selRow.equipmentType
         this.formTitle = '编辑设备信息'
@@ -376,7 +396,7 @@ export default {
     },
     closeReplace() {
       this.replaceVisiable = false
-      //调用子组件方法清空表单信息
+      // 调用子组件方法清空表单信息
       this.$refs.cdRc.clearInfo('closeReplace')
     },
     equipmentExamine() {

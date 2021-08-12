@@ -3,22 +3,22 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props:{
-    'equipmentId':{
-      type:Number,
-      default:''
+  props: {
+    'equipmentId': {
+      type: Number,
+      default: 0
     },
-    'isReadonly':{
-      type:Boolean,
-      default:false
+    'isReadonly': {
+      type: Boolean,
+      default: false
     },
-    'btnShow':{
-      type:Boolean,
+    'btnShow': {
+      type: Boolean,
       default: true
     },
-    'spanValue':{
-      type:Number,
-      default:12
+    'spanValue': {
+      type: Number,
+      default: 12
     }
   },
   data() {
@@ -86,19 +86,15 @@ export default {
     }
   },
   created() {
-    let equipmentId = this.equipmentId
-    if ('' !== equipmentId) {
-      mmEquipmentInstallInfoApi.getEquipInstall({ 'equipmentId': equipmentId }).then(response => {
-        if (response.data != null) {
-          this.form = response.data
-          this.listFacilitiesId(this.form.facilitiesType)
-        }
-      })
-    }
+    mmEquipmentInstallInfoApi.getEquipInstall({ 'equipmentId': this.equipmentId }).then(response => {
+      if (response.data != null) {
+        this.form = response.data
+        this.listFacilitiesId(this.form.facilitiesType)
+      }
+    })
     mmEquipmentInstallInfoApi.listFacilitiesType().then(response => {
       this.facilitiesTypeList = response.data
     })
-
   },
   methods: {
     changeFacilitiesType(event) {
@@ -179,13 +175,13 @@ export default {
         this.$message({
           message: '安装信息不能为空！',
           type: 'warning'
-        });
-        return;
+        })
+        return
       } else {
-        this.save();
+        this.save()
         // this.$emit('change-event','关闭弹框');
       }
-    },
+    }
 
   }
 }

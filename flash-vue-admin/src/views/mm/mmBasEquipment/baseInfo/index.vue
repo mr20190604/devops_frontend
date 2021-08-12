@@ -48,9 +48,9 @@
         </el-button>
       </div>
       <el-table
+        ref="equipTable"
         v-loading="listLoading"
         :data="list"
-        ref="equipTable"
         element-loading-text="Loading"
         border
         fit
@@ -72,7 +72,7 @@
         />
         <el-table-column label="设备名称" show-overflow-tooltip width="250px">
           <template slot-scope="scope">
-            {{ scope.row.equipmentName }}
+            <span class="updateText" @click="viewEquipemnt(scope.row)">{{ scope.row.equipmentName }}</span>
           </template>
         </el-table-column>
         <el-table-column label="设备编码" show-overflow-tooltip width="200px">
@@ -86,21 +86,34 @@
           </template>
         </el-table-column>
         <!-- <el-table-column label="管理单位" show-overflow-tooltip>
-           <template slot-scope="scope">
-             {{ scope.row.manageEnterprise }}
-           </template>
-         </el-table-column>-->
+          <template slot-scope="scope">
+            {{ scope.row.manageEnterprise }}
+          </template>
+        </el-table-column>-->
         <el-table-column label="设备状态" show-overflow-tooltip width="150px">
           <template slot-scope="scope">
             {{ scope.row.equipmentStatusName }}
           </template>
         </el-table-column>
-        <el-table-column label="审核状态" show-overflow-tooltip width="150px">
+        <el-table-column
+          label="审核状态"
+          prop="tag"
+          show-overflow-tooltip
+          width="150px"
+          :filters="[{ text: '待审核', value: '待审核' }, { text: '审核通过', value: '审核通过' },{ text: '审核未通过', value: '审核未通过' }]"
+          :filter-method="filterTag"
+        >
           <template slot-scope="scope">
             {{ scope.row.examineStatusName }}
           </template>
         </el-table-column>
-        <el-table-column label="注册状态" show-overflow-tooltip width="150px">
+        <el-table-column
+          label="注册状态"
+          show-overflow-tooltip
+          width="150px"
+          :filters="[{ text: '未注册', value: '未注册' }, { text: '提交', value: '提交' },{ text: '已注册', value: '已注册' },{ text: '关闭', value: '关闭' }]"
+          :filter-method="filterRegistStatus"
+        >
           <template slot-scope="scope">
             {{ scope.row.registStatusName }}
           </template>
@@ -126,12 +139,12 @@
             </el-button>
             <el-button
               v-permission="['/bas/equipment/update']"
-              :disabled="scope.row.equipmentStatusName=='在线'?true:false"
+              v-if="scope.row.equipmentStatusName=='入库'&&scope.row.examineStatusName==''?true:false"
               type="text"
               size="mini"
               icon="el-icon-edit"
               @click.native="editItem(scope.row)"
-            >重新入库
+            >{{$t('button.edit')}}
             </el-button>
             <el-button
               v-permission="['/bas/equipment/delete']"
@@ -173,7 +186,7 @@
             <equipmentInfo :disable-flag="isAdd" :base-info="selRow" @getValue="getValue"/>
           </el-tab-pane>
           <el-tab-pane id="second" label="设备安装信息" name="second" style="height: 550px">
-            <install :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog"/>
+            <install :equipment-id="equipmentId" :btnShow="isAdd" @closeDialog="closeDialog" />
           </el-tab-pane>
           <el-tab-pane id="third" label="设备监测类型" name="third" style="height: 550px">
             <monitoring :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog"/>

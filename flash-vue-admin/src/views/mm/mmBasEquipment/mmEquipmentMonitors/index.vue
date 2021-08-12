@@ -1,7 +1,7 @@
 <template>
   <div app-container>
     <div class="block">
-      <el-form label-width="84px" class="align-right has-Label-Width" style="width:100%">
+      <!-- <el-form label-width="84px" class="align-right has-Label-Width" style="width:100%">
         <el-row>
           <el-col :span="8">
             <el-form-item label="编号：">
@@ -20,7 +20,7 @@
             </el-button>
           </el-col>
         </el-row>
-      </el-form>
+      </el-form>-->
       <!--<el-row>
         <el-col :span="24">
           <el-button type="success" size="mini" icon="el-icon-plus" @click.native="add"
@@ -45,20 +45,27 @@
               element-loading-text="Loading"
               border
               :row-key="row=>row.id"
-              height="450"
+              height="520"
               @current-change="handleCurrentChange"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="55" :reserve-selection="true" />
-              <el-table-column label="化学式" width="100">
-                <template slot-scope="scope">
-                  {{ scope.row.num }}
-                </template>
-              </el-table-column>
-              <el-table-column label="中文名">
-                <template slot-scope="scope">
-                  {{ scope.row.name }}
-                </template>
+              <el-table-column label="选择监测物质">
+                <el-table-column>
+                  <template slot="header" slot-scope="scope">
+                    <el-input @input="fetchData" v-model="listQuery.key" placeholder="输入编号/名称搜索"/>
+                  </template>
+                  <el-table-column type="selection" width="55" :reserve-selection="true" />
+                  <el-table-column label="编号" width="100">
+                    <template slot-scope="scope">
+                      {{ scope.row.num }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="名称">
+                    <template slot-scope="scope">
+                      {{ scope.row.name }}
+                    </template>
+                  </el-table-column>
+                </el-table-column>
               </el-table-column>
             </el-table>
             <el-pagination
@@ -74,10 +81,12 @@
             />
           </div>
         </el-col>
-        <el-col :span="6" style="text-align: center">
-          <button @click="addMonitor">===></button>
-          <br>
-          <button @click="removeMonitor"><===</button>
+        <el-col :span="6" style="height: 520px">
+          <div style="text-align: center;margin-top: 230px"  v-if="!isAdd">
+            <button @click="addMonitor">添加监测物质=></button>
+            <br><br><br>
+            <button @click="removeMonitor"><=移除监测物质</button>
+          </div>
         </el-col>
         <el-col :span="9">
           <div class="table-list" style="width:100%;padding: 0px">
@@ -88,21 +97,37 @@
               element-loading-text="Loading"
               border
               :row-key="row=>row.id"
-              height="450"
+              height="520"
               @current-change="handleCurrentChange1"
               @selection-change="handleSelectionChange1"
             >
-              <el-table-column type="selection" width="55" :reserve-selection="true" />
-              <el-table-column label="化学式" width="100">
-                <template slot-scope="scope">
-                  {{ scope.row.num }}
-                </template>
+              <el-table-column label="已添加监测物质">
+                <el-table-column>
+                  <template slot="header" slot-scope="scope">
+                    <el-input @input="fetchSelectedData" v-model="listQuery1.key" placeholder="输入编号/名称搜索"/>
+                  </template>
+                  <el-table-column type="selection" width="55" :reserve-selection="true" />
+                  <el-table-column label="编号" width="100">
+                    <template slot-scope="scope">
+                      {{ scope.row.num }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="名称">
+                    <template slot-scope="scope">
+                      {{ scope.row.name }}
+                    </template>
+                  </el-table-column>
+                </el-table-column>
               </el-table-column>
-              <el-table-column label="中文名">
-                <template slot-scope="scope">
-                  {{ scope.row.name }}
+              <!-- <el-table-column
+                align="right">
+                <template slot="header" slot-scope="scope">
+                  <el-input
+
+                    size="mini"
+                    placeholder="输入关键字搜索"/>
                 </template>
-              </el-table-column>
+              </el-table-column>-->
             </el-table>
             <el-pagination
               background

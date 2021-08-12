@@ -110,7 +110,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item id="myself" class="dialog-button-list" v-if="btnShow">
+        <el-form-item id="myself" class="dialog-button-list" v-if="!btnShow">
           <el-button type="primary" @click="save" class="set-common-btn blue-button">{{ $t('button.submit') }}
           </el-button>
         </el-form-item>

@@ -3,7 +3,10 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props: ['equipmentId', 'isAdd'],
+  props: [
+    'equipmentId',
+    'isAdd'
+  ],
   data() {
     return {
       formVisible: false,
@@ -15,6 +18,7 @@ export default {
         id: ''
       },
       listQuery: {
+        key: '',
         page: 1,
         limit: 10,
         num: undefined,
@@ -22,6 +26,7 @@ export default {
         equipmentId: undefined
       },
       listQuery1: {
+        key: '',
         page: 1,
         limit: 10,
         num: undefined,
