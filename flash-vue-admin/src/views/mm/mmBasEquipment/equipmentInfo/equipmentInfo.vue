@@ -101,7 +101,7 @@
               <el-input
                 v-model="parent.name"
                 minlength="1"
-                disabled="true"
+                disabled
               />
             </el-form-item>
           </el-col>

@@ -80,8 +80,7 @@ export default {
   watch: {
     'equipmentId': function() {
       this.listQuery.equipmentId = this.equipmentId
-      this.fetchData()
-      this.fetchSelectedData()
+      this.init()
     }
   },
   methods: {

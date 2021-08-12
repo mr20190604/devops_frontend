@@ -112,7 +112,7 @@
           },
           equipmentId: {
             type: Number,
-            default:null
+            default:0
           }
         },
         data() {
