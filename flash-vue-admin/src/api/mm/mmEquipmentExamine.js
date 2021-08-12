@@ -5,7 +5,7 @@ export default {
     return request({
       url: '/equipment/examine/equipmentExamine',
       method: 'post',
-      params
+      data:params
     })
   }
 }

@@ -3,7 +3,12 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props: ['equipmentId'],
+  props: {
+    'equipmentIds':{
+      type:Array,
+      default:[]
+    }
+  },
   data() {
     return {
       form: {
@@ -52,7 +57,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           const formData = {
-            equipmentId: this.equipmentId,
+            equipmentIds: this.equipmentIds,
             examinStatus: this.form.examinStatus,
             examineOpinion: this.form.examineOpinion
           }

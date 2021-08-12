@@ -19,10 +19,11 @@ export default {
   },
   data() {
     return {
-      examineTitle:'设备审核',
-      examineVisible:false,
-      maintenanceTitle:'设备维修',
-      maintenanceVisible:false,
+      examineTitle: '设备审核',
+      examineVisible: false,
+      equipmentIds: [],
+      maintenanceTitle: '设备维修',
+      maintenanceVisible: false,
       equipmentId: '',
       equipmentType: '',
       formVisible: false,
@@ -100,9 +101,9 @@ export default {
       // 更换流程参数属性
       replaceVisiable: false,
       replaceTitle: '',
-      parent:{
-        id:null,
-        name:null
+      parent: {
+        id: null,
+        name: null
       }
     }
   },
@@ -376,30 +377,83 @@ export default {
     closeReplace() {
       this.replaceVisiable = false
       //调用子组件方法清空表单信息
-      this.$refs.cdRc.clearInfo('closeReplace');
+      this.$refs.cdRc.clearInfo('closeReplace')
     },
-    equipmentExamine(equipmentId){
+    equipmentExamine() {
+
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
       this.examineVisible = true
-      this.equipmentId = equipmentId
+      this.equipmentIds = ids
     },
-    closeExamine(){
+    closeExamine() {
       this.examineVisible = false
-      this.equipmentId = ''
+      this.equipmentIds = []
     },
-    equipmentMaintenance(equipmentId){
+    equipmentMaintenance(equipmentId) {
       this.maintenanceVisible = true
       this.equipmentId = equipmentId
     },
-    closeMaintenance(){
+    closeMaintenance() {
       this.maintenanceVisible = false
       this.equipmentId = ''
-    },closeReplaceAndRefresh() {
-      this.replaceVisiable = false
-      //调用子组件方法清空表单信息
-      this.$refs.cdRc.clearInfo('closeReplace');
-      //刷新页面
-      this.fetchData();
-    }
+    },
+    equipmentSubmit() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
 
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+
+      mmBasEquipmentApi.updateStatusSubmit(ids).then(response => {
+        this.$message({
+          message: this.$t('common.optionSuccess'),
+          type: 'success'
+        })
+        this.fetchData()
+      })
+    },
+    equipmentRegister() {
+      let ids = this.selection.map(item => {
+        return item.id
+      })
+
+      if (ids === null || ids.length === 0) {
+        this.$message({
+          message: this.$t('common.mustSelectOne'),
+          type: 'warning'
+        })
+        return false
+      }
+
+      mmBasEquipmentApi.registerEquipment(ids).then(response => {
+        this.$message({
+          message: this.$t('common.optionSuccess'),
+          type: 'success'
+        })
+        this.fetchData()
+      })
+    }
+  }, closeReplaceAndRefresh() {
+    this.replaceVisiable = false
+    //调用子组件方法清空表单信息
+    this.$refs.cdRc.clearInfo('closeReplace')
+    //刷新页面
+    this.fetchData()
   }
 }

@@ -6,30 +6,46 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="设备类型：">
-              <dict-select v-model="listQuery.equipmentType" dict-name="设备类型" placeholder="请选择" />
+              <dict-select v-model="listQuery.equipmentType" dict-name="设备类型" placeholder="请选择"/>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="设备编号：">
-              <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号" />
+              <el-input v-model="listQuery.equipmentCode" placeholder="请输入设备编号"/>
             </el-form-item>
           </el-col>
           <el-col :span="11" style="text-align: right">
             <el-form-item>
-              <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search') }}</el-button>
-              <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}</el-button>
+              <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search')
+                }}
+              </el-button>
+              <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}
+              </el-button>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row />
+        <el-row/>
       </el-form>
 
     </div>
     <!--列表-->
     <div class="table-list outer-table-list">
       <div class="btnLists">
-        <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button" @click="resetForm()" @click.native="add"> 设备入库 </el-button>
-        <el-button v-if="false" v-permission="['/bas/equipment/delete']" type="danger" class="set-common-btn blank-blue-button" @click.native="removeBatch"> 批量删除 </el-button>
+        <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button"
+                   @click="resetForm()" @click.native="add"> 设备入库
+        </el-button>
+        <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button"
+                   @click="equipmentExamine()"> 设备审核
+        </el-button>
+        <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button"
+                   @click="equipmentSubmit()"> 设备提交
+        </el-button>
+        <el-button v-permission="['/bas/equipment/add']" type="success" class="set-common-btn blue-button"
+                   @click="equipmentRegister()"> 设备注册
+        </el-button>
+        <el-button v-if="false" v-permission="['/bas/equipment/delete']" type="danger"
+                   class="set-common-btn blank-blue-button" @click.native="removeBatch"> 批量删除
+        </el-button>
       </div>
       <el-table
         v-loading="listLoading"
@@ -69,11 +85,11 @@
             {{ scope.row.equipmentTypeName }}
           </template>
         </el-table-column>
-       <!-- <el-table-column label="管理单位" show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{ scope.row.manageEnterprise }}
-          </template>
-        </el-table-column>-->
+        <!-- <el-table-column label="管理单位" show-overflow-tooltip>
+           <template slot-scope="scope">
+             {{ scope.row.manageEnterprise }}
+           </template>
+         </el-table-column>-->
         <el-table-column label="设备状态" show-overflow-tooltip width="150px">
           <template slot-scope="scope">
             {{ scope.row.equipmentStatusName }}
@@ -91,6 +107,15 @@
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
+            <el-button
+              v-permission="['/bas/equipment/update']"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              @click.native="equipmentMaintenance(scope.row.id)"
+            >维修
+            </el-button>
+            <el-button
             <el-button
               v-if="scope.row.equipmentStatus != 321 && scope.row.equipmentStatus != 324 && scope.row.pointLocation"
               v-permission="['/bas/equipment/update']"
@@ -143,29 +168,31 @@
       width="960px">
 
       <template v-if="formVisible">
-        <el-tabs  v-model="activeName" type="card" :before-leave="handleClick"  style="height:600px">
-          <el-tab-pane id="first" label="设备基本信息" name="first" style="height:550px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-            <equipmentInfo :disable-flag="isAdd" :base-info="selRow" @getValue="getValue" />
+        <el-tabs v-model="activeName" type="card" :before-leave="handleClick" style="height:600px">
+          <el-tab-pane id="first" label="设备基本信息" name="first"
+                       style="height:550px;overflow-y:auto;overflow-x:hidden;visibility: visible">
+            <equipmentInfo :disable-flag="isAdd" :base-info="selRow" @getValue="getValue"/>
           </el-tab-pane>
           <el-tab-pane id="second" label="设备安装信息" name="second" style="height: 550px">
-            <install :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog" />
+            <install :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog"/>
           </el-tab-pane>
           <el-tab-pane id="third" label="设备监测类型" name="third" style="height: 550px">
-            <monitoring :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog" />
+            <monitoring :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog"/>
           </el-tab-pane>
         </el-tabs>
       </template>
     </el-dialog>
-    <el-dialog :title="replaceTitle" :visible="replaceVisiable" width="75%" class="el-dialog-style common-dialog-style" @close="closeReplace()">
-      <replace ref="cdRc" :old-info="form" @close-dialog="closeReplaceAndRefresh" />
+    <el-dialog :title="replaceTitle" :visible="replaceVisiable" width="75%" class="el-dialog-style common-dialog-style"
+               @close="closeReplace()">
+      <replace ref="cdRc" :old-info="form" @close-dialog="closeReplaceAndRefresh"/>
     </el-dialog>
     <el-dialog :title="examineTitle" :visible="examineVisible" @close="closeExamine"
-               width="55%"  class="el-dialog-style common-dialog-style" >
-      <examine :equipmentId="equipmentId" @closeExamine="closeExamine"></examine>
+               width="55%" class="el-dialog-style common-dialog-style">
+      <examine :equipmentIds="equipmentIds" @closeExamine="closeExamine"></examine>
 
     </el-dialog>
     <el-dialog :title="maintenanceTitle" :visible="maintenanceVisible" @close="closeMaintenance"
-               width="55%"  class="el-dialog-style common-dialog-style" >
+               width="55%" class="el-dialog-style common-dialog-style">
       <maintenance :equipmentId="equipmentId" @closeMaintenance="closeMaintenance"></maintenance>
 
     </el-dialog>

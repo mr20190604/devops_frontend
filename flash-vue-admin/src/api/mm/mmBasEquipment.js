@@ -1,28 +1,28 @@
 import request from '@/utils/request'
 
 export default {
-  getList: function (params) {
+  getList: function(params) {
     return request({
       url: '/bas/equipment/list',
       method: 'get',
       params
     })
   },
-  add: function (params) {
+  add: function(params) {
     return request({
       url: '/bas/equipment',
       method: 'post',
       params
     })
   },
-  update: function (params) {
+  update: function(params) {
     return request({
       url: '/bas/equipment',
       method: 'PUT',
       params
     })
   },
-  remove: function (id) {
+  remove: function(id) {
     return request({
       url: '/bas/equipment',
       method: 'delete',
@@ -31,16 +31,16 @@ export default {
       }
     })
   },
-  queryAll: function (equipmentType) {
+  queryAll: function(equipmentType) {
     return request({
       url: '/bas/equipment/queryAll',
       method: 'get',
       params: {
-        equipmentType: equipmentType,
+        equipmentType: equipmentType
       }
     })
   },
-  removeBatch: function (ids) {
+  removeBatch: function(ids) {
     return request({
       url: '/bas/equipment/removeBatch',
       method: 'delete',
@@ -49,33 +49,47 @@ export default {
       }
     })
   },
-  getSysList:function () {
+  getSysList: function() {
     return request({
-      url:'/child/sys/model/getSysList',
-      method:'get',
-      params:{}
+      url: '/child/sys/model/getSysList',
+      method: 'get',
+      params: {}
     })
   },
-  updataPoingLocation:function (param) {
+  updataPoingLocation: function(param) {
     return request({
-      url:'/bas/equipment/updataPoingLocation',
-      method:'post',
-      params:param
+      url: '/bas/equipment/updataPoingLocation',
+      method: 'post',
+      params: param
     })
   },
-  updateEquipmentStatus:function (param) {
+  updateStatusSubmit: function(params) {
     return request({
-      url:'/bas/equipment/updateEquipmentStatus',
-      method:'post',
-      params:param
+      url: '/bas/equipment/updateStatusSubmit',
+      method: 'post',
+      data: params
     })
   },
-  getParent:function (pid) {
+  registerEquipment: function(params) {
     return request({
-      url:'/bas/equipment/getParent',
-      method:'get',
-      params:{
-        pid:pid
+      url: '/equipment/register/registerEquipment',
+      method: 'post',
+      data: params
+    })
+  },
+  updateEquipmentStatus: function(param) {
+    return request({
+      url: '/bas/equipment/updateEquipmentStatus',
+      method: 'post',
+      params: param
+    })
+  },
+  getParent: function(pid) {
+    return request({
+      url: '/bas/equipment/getParent',
+      method: 'get',
+      params: {
+        pid: pid
       }
     })
   }

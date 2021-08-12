@@ -7,13 +7,6 @@ export default {
   data() {
     return {
       checked:false,
-      equipmentStatusList: [{
-        value: 322,
-        label: '离线'
-      }, {
-        value: 324,
-        label: '报废'
-      }],
       form: {
         equipmentId: '',
         equipmentStatus: '',
@@ -50,7 +43,7 @@ export default {
       this.form = {
         equipmentId: '',
         notes: '',
-        equipmentStatus: ''
+        maintenanceStatus: ''
       }
     },
     add() {
@@ -62,13 +55,13 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if(this.checked){
-            this.form.equipmentStatus = 324
+            this.form.maintenanceStatus = 581
           }else {
-            this.form.equipmentStatus = 322
+            this.form.maintenanceStatus = 579
           }
           const formData = {
             equipmentId: this.equipmentId,
-            equipmentStatus: this.form.equipmentStatus,
+            maintenanceStatus: this.form.maintenanceStatus,
             notes: this.form.notes
           }
           mmEquipmentMaintenanceApi.add(formData).then(response => {
