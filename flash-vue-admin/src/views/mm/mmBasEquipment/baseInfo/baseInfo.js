@@ -150,6 +150,9 @@ export default {
     reset() {
       this.listQuery.equipmentType = ''
       this.listQuery.equipmentCode = ''
+      this.listQuery.examineStatus = ''
+      this.listQuery.registStatus = ''
+      this.listQuery.equipmentStatus1 = ''
       this.fetchData()
     },
     handleFilter() {
@@ -158,12 +161,6 @@ export default {
     },
     handleClose() {
 
-    },
-    filterTag(value, row) {
-      return row.examineStatusName === value
-    },
-    filterRegistStatus(value, row) {
-      return row.registStatusName === value
     },
     fetchNext() {
       this.listQuery.page = this.listQuery.page + 1
@@ -400,8 +397,7 @@ export default {
       this.$refs.cdRc.clearInfo('closeReplace')
     },
     equipmentExamine() {
-
-      let ids = this.selection.map(item => {
+      const ids = this.selection.map(item => {
         return item.id
       })
 
@@ -428,7 +424,7 @@ export default {
       this.equipmentId = ''
     },
     equipmentSubmit() {
-      let ids = this.selection.map(item => {
+      const ids = this.selection.map(item => {
         return item.id
       })
 
@@ -449,7 +445,7 @@ export default {
       })
     },
     equipmentRegister() {
-      let ids = this.selection.map(item => {
+      const ids = this.selection.map(item => {
         return item.id
       })
 
@@ -468,12 +464,12 @@ export default {
         })
         this.fetchData()
       })
+    }, closeReplaceAndRefresh() {
+      this.replaceVisiable = false
+      // 调用子组件方法清空表单信息
+      this.$refs.cdRc.clearInfo('closeReplace')
+      // 刷新页面
+      this.fetchData()
     }
-  }, closeReplaceAndRefresh() {
-    this.replaceVisiable = false
-    //调用子组件方法清空表单信息
-    this.$refs.cdRc.clearInfo('closeReplace')
-    //刷新页面
-    this.fetchData()
   }
 }
