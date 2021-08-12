@@ -116,7 +116,6 @@
             >维修
             </el-button>
             <el-button
-            <el-button
               v-if="scope.row.equipmentStatus != 321 && scope.row.equipmentStatus != 324 && scope.row.pointLocation"
               v-permission="['/bas/equipment/update']"
               type="text"
