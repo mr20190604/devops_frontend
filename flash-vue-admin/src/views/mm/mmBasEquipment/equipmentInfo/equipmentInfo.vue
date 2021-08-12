@@ -162,24 +162,19 @@
               <el-input v-model="baseInfo.transmissionTransmission" :disabled="disableFlag" minlength="1" placeholder="请输入传输信号强度" />
             </el-form-item>
           </el-col>
-          <el-col :span="spanValue">
-            <el-form-item label="传输频率：">
-              <el-input
-                v-model="baseInfo.transmissionFrequency"
-                :disabled="disableFlag"
-                minlength="1"
-                oninput="value=value.replace(/[^0-9]/g,'')"
-                placeholder="请输入传输频率"
-              />
-            </el-form-item>
-          </el-col>
+          <el-row>
+            <el-col :span="spanValue">
+              <el-form-item label="欠压保护比：">
+                <el-input v-model="baseInfo.underVoltageProtec" :disabled="disableFlag" minlength="1" placeholder="请输入欠压保护比" />
+              </el-form-item>
+            </el-col>
 
         </el-row>
 
-        <el-row>
+
           <el-col :span="spanValue">
-            <el-form-item label="欠压保护比：">
-              <el-input v-model="baseInfo.underVoltageProtec" :disabled="disableFlag" minlength="1" placeholder="请输入欠压保护比" />
+            <el-form-item label="平均检修周期：">
+              <el-input v-model="baseInfo.overhaulCycle" :disabled="disableFlag" minlength="1" placeholder="请输入平均检修周期" />
             </el-form-item>
           </el-col>
 
@@ -189,11 +184,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="spanValue">
-            <el-form-item label="平均检修周期：">
-              <el-input v-model="baseInfo.overhaulCycle" :disabled="disableFlag" minlength="1" placeholder="请输入平均检修周期" />
-            </el-form-item>
-          </el-col>
+
 
         </el-row>
         <el-row>
