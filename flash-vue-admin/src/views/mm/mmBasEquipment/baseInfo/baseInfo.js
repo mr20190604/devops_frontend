@@ -444,6 +444,7 @@ export default {
     closeExamine() {
       this.examineVisible = false
       this.equipmentIds = []
+      this.fetchData()
     },
     equipmentMaintenance(equipmentId) {
       this.maintenanceVisible = true
@@ -452,6 +453,7 @@ export default {
     closeMaintenance() {
       this.maintenanceVisible = false
       this.equipmentId = ''
+      this.fetchData();
     },
     equipmentSubmit() {
       const ids = this.selection.map(item => {

@@ -166,7 +166,6 @@ export default {
         } else {
           return false
         }
-        this.resetForm()
       })
     },
     //父组件调用，保存设备安装信息
