@@ -189,10 +189,11 @@
             <el-form-item label="子系统划分：">
               <el-select v-model="sysValue" multiple :disabled="disableFlag" placeholder="请选择所属系统(多选)" class="input_test">
                 <el-option
+                  onchange="changesys"
                   v-for="item in sysFlagList"
-                  :key="item.id"
+                  :key="item.sysLayout"
                   :label="item.sysName"
-                  :value="item.id"
+                  :value="item.sysLayout"
                   style="width: 100%"
                 />
               </el-select>
@@ -294,7 +295,7 @@ export default {
         this.sysFlagList.forEach(item => {
           if (sysStr) {
             if (sysStr.indexOf(item.sysLayout) != -1) {
-              this.sysValue.push(item.id)
+              this.sysValue.push(item.sysLayout)
               console.log('sysValue', this.sysValue)
             }
           }
@@ -304,6 +305,14 @@ export default {
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          console.log('sysValue',this.sysValue)
+          var sysFlags = "";
+          if (this.sysValue.length > 0) {
+            sysFlags = this.sysValue.join(',');
+
+          }
+          console.log('sysFlags',sysFlags)
+
           const formData = {
             id: this.baseInfo.id,
             equipmentName: this.baseInfo.equipmentName,
@@ -333,7 +342,7 @@ export default {
             overhaulStrategy: this.baseInfo.overhaulStrategy,
             overhaulCycle: this.baseInfo.overhaulCycle,
             isLeaf: this.baseInfo.isLeaf,
-            sysFlag: this.baseInfo.sysFlag,
+            sysFlag: sysFlags,
             notes: this.baseInfo.notes,
             examinePerson: this.baseInfo.examinePerson,
             examineOpinion: this.baseInfo.examineOpinion,
@@ -381,6 +390,9 @@ export default {
           return false
         }
       })
+    },
+    changesys() {
+      console.log('changesys',this.sysValue)
     }
     // sysChange:function () {
     //   console.log(this.sysValue)

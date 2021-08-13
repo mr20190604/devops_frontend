@@ -17,7 +17,7 @@
 
               <el-tab-pane label="设备安装信息" name="second"
                            style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-                <install :equipmentId="oldInfo.id" :isReadonly="true" :spanValue="10.5"  :btnShow="false"></install>
+                <install :equipmentId="oldInfo.id" :isReadonly="true" :spanValue="10.5"  :btnShow="showBtn"></install>
               </el-tab-pane>
 
               <el-tab-pane label="监测因子信息" name="third" style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
@@ -42,7 +42,7 @@
             </el-tab-pane>
 
             <el-tab-pane label="设备安装信息" name="second" style="height:500px;overflow-y:auto;overflow-x:hidden;">
-              <install :equipmentId="newInfo.id" ref="ptClick" :isReadonly="false" :spanValue="10.5" :btnShow="false" ></install>
+              <install :equipmentId="newInfo.id" ref="ptClick" :isReadonly="false" :spanValue="10.5" :btnShow="showBtn" ></install>
             </el-tab-pane>
 
             <el-tab-pane label="监测因子信息" name="third" style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
@@ -87,7 +87,7 @@
         title: '',
         visiable: false,
         activeName: 'first',
-        isAdd:false,
+        isAdd:true,
         oldParent:{
           id:null,
           name:null
@@ -95,7 +95,9 @@
         newParent:{
           id:null,
           name:null
-        }
+        },
+
+        showBtn:true
       }
     },
     created() {
