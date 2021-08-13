@@ -52,7 +52,7 @@
         </div>
       </el-col>
       <el-col :span="12" v-if="!newInfo">
-        <equip-list :hidden-list="hiddenTable" :equipment-id="oldInfo.id"></equip-list>
+        <equip-list :hidden-list="hiddenTable" :equipment-id="oldInfo.id ? oldInfo.id:null"></equip-list>
       </el-col>
     </el-row>
     <div align="center" v-if="newInfo">
@@ -163,7 +163,7 @@
           console.log('response',response.success)
         })
       },
-      //获取设备父类设备信息
+      //获取设备父类设备
       getParent(record,type) {
         if (record && record.parentId) {
           mmBasEquipmentApi.getParent(record.parentId).then(response=>{
