@@ -67,15 +67,15 @@
           v-permission="['/bas/equipment/add']"
           type="success"
           class="set-common-btn blue-button"
-          @click="equipmentExamine()"
-        > 设备审核
+          @click="equipmentSubmit()"
+        > 设备提交
         </el-button>
         <el-button
           v-permission="['/bas/equipment/add']"
           type="success"
           class="set-common-btn blue-button"
-          @click="equipmentSubmit()"
-        > 设备提交
+          @click="equipmentExamine()"
+        > 设备审核
         </el-button>
         <el-button
           v-permission="['/bas/equipment/add']"
