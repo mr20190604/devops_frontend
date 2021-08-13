@@ -139,9 +139,10 @@ export default {
     fetchData() {
       this.listLoading = true
       mmBasEquipmentApi.getList(this.listQuery).then(response => {
-        this.list = response.data.records
+        this.list = response.data
+        console.log(this.list)
         this.listLoading = false
-        this.total = response.data.total
+        // this.total = response.data.total
       })
     },
     search() {
@@ -233,16 +234,37 @@ export default {
         extenParam: '',
         commands: '',
         installBatch: '',
-        id: ''
+        id: '',
+        parentName: ''
       }
     },
     add() {
+      this.resetForm()
+      console.log(this.selection)
+      if (this.selection.length > 1) {
+        this.$message({
+          message: this.$t('不允许对多个设备添加子设备'),
+          type: 'warning'
+        })
+        return false
+      }
+      if (this.selection.length === 1) {
+        if (this.selection[0].isLeaf === 1) {
+          this.$message({
+            message: this.$t('不允许对叶子节点添加子设备'),
+            type: 'warning'
+          })
+          return false
+        }
+        this.form.parentId = this.selection[0].id
+        this.form.parentName = this.selection[0].equipmentName
+      }
       this.formTitle = '添加设备信息'
       this.formVisible = true
       this.isAdd = false
       this.form.isLeaf = 0
       this.activeName = 'first'
-      this.selRow = {}
+      this.selRow = this.form
 
       if (this.$refs['form'] !== undefined) {
         this.$refs['form'].resetFields()
@@ -260,6 +282,11 @@ export default {
     },
     viewEquipemnt(record) {
       this.selRow = record
+      if (record.parentId) {
+        mmBasEquipmentApi.getParent(record.parentId).then(response => {
+          this.selRow.parentName = response.data.equipmentName
+        })
+      }
       this.activeName = 'first'
       if (this.checkSel()) {
         this.isAdd = true
@@ -306,6 +333,8 @@ export default {
               message: this.$t('common.optionSuccess'),
               type: 'success'
             })
+            this.selection = []
+            this.$refs.equipTable.clearSelection()
             this.fetchData()
           }).catch(err => {
             this.$notify.error({
@@ -386,6 +415,7 @@ export default {
     closeDialog() {
       this.formVisible = false
       this.selection = []
+      this.$refs.equipTable.clearSelection()
       this.reset()
       this.fetchData()
       this.equipmentId = ''

@@ -188,6 +188,12 @@ export default {
     handleCurrentChange1(currentRow, oldCurrentRow) {
       this.selRow1 = currentRow
     },
+    toggleSelection(row) {
+      this.$refs.allMonitorMaterial.toggleRowSelection(row)
+    },
+    toggleSelection1(row) {
+      this.$refs.selectedMonitorMaterial.toggleRowSelection(row)
+    },
     addMonitor() {
       const allList = []
       if (this.selection.length > 0) {

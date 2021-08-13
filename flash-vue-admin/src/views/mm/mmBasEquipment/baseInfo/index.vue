@@ -59,7 +59,6 @@
           v-permission="['/bas/equipment/add']"
           type="success"
           class="set-common-btn blue-button"
-          @click="resetForm()"
           @click.native="add"
         > 设备入库
         </el-button>
@@ -102,6 +101,8 @@
         fit
         highlight-current-row
         :row-key="(row) => row.id"
+        :default-expand-all="false"
+        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange"
         @row-click="toggleSelection"
@@ -128,7 +129,11 @@
         </el-table-column>
         <el-table-column label="设备类型" show-overflow-tooltip width="200px">
           <template slot-scope="scope">
-            {{ scope.row.equipmentTypeName }}
+            <template v-if="scope.row.equipmentType==367">气相色谱质谱联用仪</template>
+            <template v-if="scope.row.equipmentType==368">有机硫监测仪</template>
+            <template v-if="scope.row.equipmentType==369">甲烷非甲烷总烃</template>
+            <template v-if="scope.row.equipmentType==370">气象五参数</template>
+            <template v-if="scope.row.equipmentType==371">常规六参数</template>
           </template>
         </el-table-column>
         <!-- <el-table-column label="管理单位" show-overflow-tooltip>
@@ -138,26 +143,25 @@
         </el-table-column>-->
         <el-table-column label="设备状态" show-overflow-tooltip width="150px">
           <template slot-scope="scope">
-            {{ scope.row.equipmentStatusName }}
+            <template v-if="scope.row.equipmentStatus==321">入库</template>
+            <template v-if="scope.row.equipmentStatus==322">离线</template>
+            <template v-if="scope.row.equipmentStatus==323">上线</template>
+            <template v-if="scope.row.equipmentStatus==324">报废</template>
           </template>
         </el-table-column>
-        <el-table-column
-          label="审核状态"
-          prop="tag"
-          show-overflow-tooltip
-          width="150px"
-        >
+        <el-table-column label="审核状态" show-overflow-tooltip width="150px">
           <template slot-scope="scope">
-            {{ scope.row.examineStatusName }}
+            <template v-if="scope.row.examineStatus==252">待审核</template>
+            <template v-if="scope.row.examineStatus==253">审核通过</template>
+            <template v-if="scope.row.examineStatus==254">审核未通过</template>
           </template>
         </el-table-column>
-        <el-table-column
-          label="注册状态"
-          show-overflow-tooltip
-          width="150px"
-        >
+        <el-table-column label="注册状态" show-overflow-tooltip width="150px">
           <template slot-scope="scope">
-            {{ scope.row.registStatusName }}
+            <template v-if="scope.row.registStatus==574">未注册</template>
+            <template v-if="scope.row.registStatus==575">提交</template>
+            <template v-if="scope.row.registStatus==576">已注册</template>
+            <template v-if="scope.row.registStatus==577">关闭</template>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -181,7 +185,7 @@
             >更换
             </el-button>
             <el-button
-              v-if="scope.row.equipmentStatusName=='入库'&&scope.row.examineStatusName==''?true:false"
+              v-if="scope.row.equipmentStatus==321 &&scope.row.examineStatus==null?true:false"
               v-permission="['/bas/equipment/update']"
               type="text"
               size="mini"

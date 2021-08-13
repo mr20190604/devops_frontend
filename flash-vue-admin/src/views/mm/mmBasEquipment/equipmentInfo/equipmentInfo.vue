@@ -16,11 +16,11 @@
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="设备编码：" prop="equipmentCode">
-              <el-input v-model="baseInfo.equipmentCode" :disabled="disableFlag" minlength="1" placeholder="请输入设备编码"  />
+              <el-input v-model="baseInfo.equipmentCode" :disabled="disableFlag" minlength="1" placeholder="请输入设备编码" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
-            <el-form-item label="设备类型：" prop="equipmentType" placeholder="请输入设备类型" >
+            <el-form-item label="设备类型：" prop="equipmentType" placeholder="请输入设备类型">
               <dict-select
                 v-model="baseInfo.equipmentType"
                 :disabled="disableFlag"
@@ -30,7 +30,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
-            <el-form-item label="行政区划：" prop="districtCode" >
+            <el-form-item label="行政区划：" prop="districtCode">
               <district v-model="baseInfo.districtCode" :disabled="disableFlag" minlength="1" />
             </el-form-item>
           </el-col>
@@ -39,12 +39,12 @@
         <el-row>
           <el-col :span="spanValue">
             <el-form-item label="管理单位：">
-              <el-input v-model="baseInfo.manageEnterprise" :disabled="disableFlag" minlength="1" placeholder="请输入管理单位"  />
+              <el-input v-model="baseInfo.manageEnterprise" :disabled="disableFlag" minlength="1" placeholder="请输入管理单位" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="基本信息：">
-              <el-input v-model="baseInfo.baseinfo" :disabled="disableFlag" minlength="1" placeholder="请输入基本信息"  />
+              <el-input v-model="baseInfo.baseinfo" :disabled="disableFlag" minlength="1" placeholder="请输入基本信息" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
@@ -99,7 +99,7 @@
           <el-col :span="spanValue">
             <el-form-item label="父设备：">
               <el-input
-                v-model="parent.name"
+                v-model="baseInfo.parentName"
                 minlength="1"
                 disabled
               />
@@ -113,7 +113,7 @@
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="灵敏度：">
-              <el-input v-model="baseInfo.sensitivity" :disabled="disableFlag" minlength="1" placeholder="请输入灵敏度"  />
+              <el-input v-model="baseInfo.sensitivity" :disabled="disableFlag" minlength="1" placeholder="请输入灵敏度" />
             </el-form-item>
           </el-col>
 
@@ -158,7 +158,7 @@
           </el-col>
           <el-col :span="spanValue">
             <el-form-item label="传输信号强度：">
-              <el-input v-model="baseInfo.transmissionTransmission" :disabled="disableFlag" minlength="1"  oninput="value=value.replace(/[^0-9]/g,'')" placeholder="请输入传输信号强度" />
+              <el-input v-model="baseInfo.transmissionTransmission" :disabled="disableFlag" minlength="1" oninput="value=value.replace(/[^0-9]/g,'')" placeholder="请输入传输信号强度" />
             </el-form-item>
           </el-col>
           <el-col :span="spanValue">
@@ -171,17 +171,15 @@
         <el-row>
           <el-col :span="spanValue">
             <el-form-item label="平均检修周期：">
-              <el-input v-model="baseInfo.overhaulCycle" :disabled="disableFlag" minlength="1" placeholder="请输入平均检修周期"  />
+              <el-input v-model="baseInfo.overhaulCycle" :disabled="disableFlag" minlength="1" placeholder="请输入平均检修周期" />
             </el-form-item>
           </el-col>
 
           <el-col :span="spanValue">
             <el-form-item label="检修策略：">
-              <el-input v-model="baseInfo.overhaulStrategy" :disabled="disableFlag" minlength="1" placeholder="请输入检修策略"  />
+              <el-input v-model="baseInfo.overhaulStrategy" :disabled="disableFlag" minlength="1" placeholder="请输入检修策略" />
             </el-form-item>
           </el-col>
-
-
 
         </el-row>
         <el-row>
@@ -235,7 +233,7 @@ export default {
     },
     parent: {
       type: Object,
-      default: () =>({})
+      default: () => ({})
     },
     spanValue: {
       type: Number,
@@ -274,6 +272,7 @@ export default {
   // },
   mounted: function() {
     this.getSysFlagList()
+    console.log(this.baseInfo.parentName)
   },
   methods: {
     // 获取系统内所有的pc子系统列表
@@ -359,7 +358,7 @@ export default {
             extenParam: this.baseInfo.extenParam,
             commands: this.baseInfo.commands,
             installBatch: this.baseInfo.installBatch,
-            examineStatus: 252,
+            examineStatus: null,
             registStatus: 574
           }
           if (formData.id) {

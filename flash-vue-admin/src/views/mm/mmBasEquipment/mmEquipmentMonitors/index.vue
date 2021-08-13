@@ -48,13 +48,15 @@
               height="520"
               @current-change="handleCurrentChange"
               @selection-change="handleSelectionChange"
+              @row-click="toggleSelection"
             >
               <el-table-column label="选择监测物质">
                 <el-table-column>
                   <template slot="header" slot-scope="scope">
                     <el-input @input="fetchData" v-model="listQuery.key" placeholder="输入编号/名称搜索"/>
                   </template>
-                  <el-table-column type="selection" width="55" :reserve-selection="true" />
+                  <el-table-column type="selection" width="55" :reserve-selection="true" v-if="!isAdd"/>
+                  <el-table-column type="index" width="55" label="序号" v-if="isAdd"/>
                   <el-table-column label="编号" width="100">
                     <template slot-scope="scope">
                       {{ scope.row.num }}
@@ -100,13 +102,15 @@
               height="520"
               @current-change="handleCurrentChange1"
               @selection-change="handleSelectionChange1"
+              @row-click="toggleSelection1"
             >
               <el-table-column label="已添加监测物质">
                 <el-table-column>
                   <template slot="header" slot-scope="scope">
                     <el-input @input="fetchSelectedData" v-model="listQuery1.key" placeholder="输入编号/名称搜索"/>
                   </template>
-                  <el-table-column type="selection" width="55" :reserve-selection="true" />
+                  <el-table-column type="selection" width="55" :reserve-selection="true" v-if="!isAdd"/>
+                  <el-table-column type="index" width="55" label="序号" v-if="isAdd"/>
                   <el-table-column label="编号" width="100">
                     <template slot-scope="scope">
                       {{ scope.row.num }}
