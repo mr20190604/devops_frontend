@@ -53,10 +53,10 @@
               <el-table-column label="选择监测物质">
                 <el-table-column>
                   <template slot="header" slot-scope="scope">
-                    <el-input @input="fetchData" v-model="listQuery.key" placeholder="输入编号/名称搜索"/>
+                    <el-input v-model="listQuery.key" placeholder="输入编号/名称搜索" @input="fetchData" />
                   </template>
-                  <el-table-column type="selection" width="55" :reserve-selection="true" v-if="!isAdd"/>
-                  <el-table-column type="index" width="55" label="序号" v-if="isAdd"/>
+                  <el-table-column v-if="!isAdd" type="selection" width="55" :reserve-selection="true" />
+                  <el-table-column v-if="isAdd" type="index" width="55" label="序号" />
                   <el-table-column label="编号" width="100">
                     <template slot-scope="scope">
                       {{ scope.row.num }}
@@ -84,10 +84,12 @@
           </div>
         </el-col>
         <el-col :span="6" style="height: 520px">
-          <div style="text-align: center;margin-top: 230px"  v-if="!isAdd">
-            <button @click="addMonitor">添加监测物质=></button>
+          <div v-if="!isAdd" style="text-align: center;margin-top: 230px">
+            <p><img src="/img/right.jpg" alt="" @click="addMonitor"/></p>
+            <!--<button @click="addMonitor">添加监测物质=></button>-->
             <br><br><br>
-            <button @click="removeMonitor"><=移除监测物质</button>
+            <p><img src="/img/left.jpg" alt="" @click="removeMonitor"/></p>
+            <!--<button @click="removeMonitor"><=移除监测物质</button>-->
           </div>
         </el-col>
         <el-col :span="9">
@@ -107,10 +109,10 @@
               <el-table-column label="已添加监测物质">
                 <el-table-column>
                   <template slot="header" slot-scope="scope">
-                    <el-input @input="fetchSelectedData" v-model="listQuery1.key" placeholder="输入编号/名称搜索"/>
+                    <el-input v-model="listQuery1.key" placeholder="输入编号/名称搜索" @input="fetchSelectedData" />
                   </template>
-                  <el-table-column type="selection" width="55" :reserve-selection="true" v-if="!isAdd"/>
-                  <el-table-column type="index" width="55" label="序号" v-if="isAdd"/>
+                  <el-table-column v-if="!isAdd" type="selection" width="55" :reserve-selection="true" />
+                  <el-table-column v-if="isAdd" type="index" width="55" label="序号" />
                   <el-table-column label="编号" width="100">
                     <template slot-scope="scope">
                       {{ scope.row.num }}

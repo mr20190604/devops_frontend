@@ -238,7 +238,7 @@
             <equipmentInfo :disable-flag="isAdd" :base-info="selRow" @getValue="getValue" />
           </el-tab-pane>
           <el-tab-pane id="second" label="设备安装信息" name="second" style="height: 550px">
-            <install :equipment-id="equipmentId" :btn-show="isAdd" @closeDialog="closeDialog" />
+            <install :equipment-id="equipmentId" :btn-show="isAdd" :is-readonly="isAdd" @closeDialog="closeDialog" />
           </el-tab-pane>
           <el-tab-pane id="third" label="设备监测类型" name="third" style="height: 550px">
             <monitoring :equipment-id="equipmentId" :is-add="isAdd" @closeDialog="closeDialog" />
