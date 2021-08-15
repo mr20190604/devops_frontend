@@ -104,6 +104,9 @@ export default {
     this.init()
   },
   methods: {
+    alarmProcessClose(){
+      this.$refs.alarmProcess.isShowMore = false
+    },
     init() {
       getInfo().then(response => {
         this.listQuery.personId = response.data.userId

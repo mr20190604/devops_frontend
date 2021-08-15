@@ -441,9 +441,10 @@
       :title="formTitle"
       :visible.sync="processVisiable"
       width="960px"
+      @close="alarmProcessClose"
     >
       <div class="marginT26">
-        <process :checkList="checkList" :disposeList="disposeList" :screenList="screenList"></process>
+        <process :checkList="checkList" :disposeList="disposeList" :screenList="screenList" ref="alarmProcess"></process>
       </div>
 
     </el-dialog>

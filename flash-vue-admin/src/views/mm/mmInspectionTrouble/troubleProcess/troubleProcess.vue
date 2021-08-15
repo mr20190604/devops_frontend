@@ -98,7 +98,7 @@
           <div v-if="troubleHandleList.length > 0">
             <div v-if="troubleHandleList[0].handleStatus > 1">
               <div class="table-list">
-                <el-table v-loading="false" :data="troubleHandleList[0].mmInspectionTroubleHandleRecords" max-height="200px" element-loading-text="Loading" border>
+                <el-table v-loading="false" :data="troubleHandleList[0].mmInspectionTroubleHandleRecords" class="handleTable" :class="{'showMoreTable':isShowMore}" element-loading-text="Loading" border>
                   <el-table-column label="处置人" width="80px" align="center" show-overflow-tooltip>
                     <template slot-scope="scope">
                       <template v-if="troubleHandleList[0].repairUser != null">{{ troubleHandleList[0].repairUser.name }}</template>
@@ -128,6 +128,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
+                 <p class="more-btn" v-if="troubleHandleList[0].mmInspectionTroubleHandleRecords.length>2" @click="showMoreAlarm">更多</p>
               </div>
             </div>
           </div>
@@ -171,7 +172,8 @@ export default {
       downloadUrl: '',
       auditStatus: 0,
       handleStatus: 0,
-      stepCount: 1
+      stepCount: 1,
+      isShowMore:false
     }
   },
   created() {
@@ -179,6 +181,9 @@ export default {
     this.downloadUrl = getApiUrl() + '/file/download?idFile=';
   },
   methods: {
+     showMoreAlarm(){
+          this.isShowMore = true;
+        },
     previewFile(record) {
       this.fileTitle = '附件预览'
       this.files = record.files
@@ -232,6 +237,21 @@ export default {
 
 
 <style lang="scss" scoped >
+>>> .el-table{
+  &.handleTable {
+    height: 136px;
+    overflow-y: hidden;
+  }
+  &.showMoreTable{
+    height: auto;
+  }
+}
+.more-btn{
+  text-align: right;
+  color: #409eff;
+  cursor: pointer;
+  margin-top: 10px;
+}
  .el-step.is-horizontal .el-step__line{
     top: 50%;
     left: 94px;

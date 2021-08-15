@@ -229,9 +229,10 @@
       class="el-dialog-style common-dialog-style"
       :visible.sync="processVisiable"
       width="960px"
+      @close="alarmProcessClose"
     >
       <div class="marginT26">
-        <troubleProcess :troubleList="trouble_list" :troubleHandleList="trouble_handle_list" />
+        <troubleProcess :troubleList="trouble_list" :troubleHandleList="trouble_handle_list" ref="alarmProcess"/>
       </div>
     </el-dialog>
 

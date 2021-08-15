@@ -146,9 +146,9 @@
         <div slot="header" class="clearfix">
           <span>报警处置</span>
         </div>
-        <div v-if="checkList[0].isFeedback > 0">
+       <div v-if="checkList[0].isFeedback > 0">
           <div class="table-list">
-          <el-table :data="disposeList" v-loading="false" max-height="200px" element-loading-text="Loading" border>
+          <el-table :data="disposeList" v-loading="false" element-loading-text="Loading" border class="handleTable" :class="{'showMoreTable':isShowMore}">
             <el-table-column label="处置时间" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{scope.row.createTime}}
@@ -179,6 +179,7 @@
               </template>
             </el-table-column>
           </el-table>
+          <p class="more-btn" v-if="disposeList.length>2" @click="showMoreAlarm">更多</p>
         </div>
         </div>
       </el-card>
@@ -239,7 +240,7 @@
     export default {
         name: "process",
         props:
-          {
+           {
             checkList:{
               type:Array,
               default:""
@@ -270,6 +271,7 @@
             relieveStatus:0,
             screenTitleStype:'',
             handleTitleStyle:'',
+            isShowMore:false
           }
         },
 
@@ -277,6 +279,9 @@
           this.downloadUrl = getApiUrl() + '/file/download?idFile='
       },
       methods:{
+        showMoreAlarm(){
+          this.isShowMore = true;
+        },
         previewFile(record) {
             this.fileTitle = '附件预览'
             this.files = record.files
@@ -363,6 +368,21 @@
 </script>
 
 <style lang="scss" scoped >
+>>> .el-table{
+  &.handleTable {
+    height: 136px;
+    overflow-y: hidden;
+  }
+  &.showMoreTable{
+    height: auto;
+  }
+}
+.more-btn{
+  text-align: right;
+  color: #409eff;
+  cursor: pointer;
+  margin-top: 10px;
+}
  .el-step.is-horizontal .el-step__line{
       top: 50%;
       left: 94px;

@@ -799,7 +799,10 @@ export default {
         this.screenList = response.data
       })
 
-    },downloads(record) {
+    },alarmProcessClose(){
+      this.$refs.alarmProcess.isShowMore = false
+    },
+    downloads(record) {
     const param = {
       idFile:record.fileInfo.id,
       fileName:record.fileInfo.originalFileName
