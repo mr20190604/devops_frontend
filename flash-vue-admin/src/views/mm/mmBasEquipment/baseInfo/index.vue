@@ -167,12 +167,21 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button
+              v-if="scope.row.maintenanceStatus == 580"
+              v-permission="['/bas/equipment/update']"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              @click.native="registerEquipment(scope.row)"
+            >设备上线
+            </el-button>
+            <el-button
               v-if="scope.row.equipmentStatusName!='报废'?true:false"
               v-permission="['/bas/equipment/update']"
               type="text"
               size="mini"
               icon="el-icon-edit"
-              @click.native="equipmentMaintenance(scope.row.id)"
+              @click.native="equipmentMaintenance(scope.row)"
             >维修
             </el-button>
             <el-button
@@ -272,7 +281,7 @@
       class="el-dialog-style common-dialog-style"
       @close="closeMaintenance"
     >
-      <maintenance :equipment-id="equipmentId" @closeMaintenance="closeMaintenance" />
+      <maintenance v-if="maintenanceVisible" :equipment-id="equipmentId" :maintenance-status="maintenanceStatus" @closeMaintenance="closeMaintenance" />
 
     </el-dialog>
   </div>

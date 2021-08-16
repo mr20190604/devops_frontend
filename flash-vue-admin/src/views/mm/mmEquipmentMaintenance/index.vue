@@ -6,8 +6,10 @@
                class="align-right has-Label-Width">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="维修状态：">
-              <el-checkbox v-model="checked">报废</el-checkbox>
+            <el-form-item label="维修状态：" >
+              <el-checkbox v-model="checked" v-show="!repairStatusShow">报废</el-checkbox>
+              <el-radio v-model="repairStatus" label=580 v-show="repairStatusShow">已修复</el-radio>
+              <el-radio v-model="repairStatus" label=581 v-show="repairStatusShow">报废</el-radio>
             </el-form-item>
           </el-col>
         </el-row>

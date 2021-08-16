@@ -30,6 +30,7 @@ export default {
       formTitle: '添加设备信息',
       isAdd: false,
       activeName: 'first',
+      maintenanceStatus:0,
       options: [{
         value: 1,
         label: '是'
@@ -446,9 +447,10 @@ export default {
       this.equipmentIds = []
       this.fetchData()
     },
-    equipmentMaintenance(equipmentId) {
+    equipmentMaintenance(rows) {
       this.maintenanceVisible = true
-      this.equipmentId = equipmentId
+      this.equipmentId = rows.id
+      this.maintenanceStatus = rows.maintenanceStatus
     },
     closeMaintenance() {
       this.maintenanceVisible = false
@@ -469,6 +471,17 @@ export default {
       }
 
       mmBasEquipmentApi.updateStatusSubmit(ids).then(response => {
+        this.$message({
+          message: this.$t('common.optionSuccess'),
+          type: 'success'
+        })
+        this.fetchData()
+      })
+    },
+    registerEquipment(rows){
+      let ids = []
+      ids.push(rows.id);
+      mmBasEquipmentApi.registerEquipment(ids).then(response => {
         this.$message({
           message: this.$t('common.optionSuccess'),
           type: 'success'

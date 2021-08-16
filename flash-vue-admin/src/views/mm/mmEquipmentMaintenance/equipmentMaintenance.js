@@ -3,13 +3,15 @@ import permission from '@/directive/permission/index.js'
 
 export default {
   directives: { permission },
-  props: ['equipmentId'],
+  props: ['equipmentId','maintenanceStatus'],
   data() {
     return {
-      checked:false,
+      checked: false,
+      repairStatus: 0,
+      repairStatusShow: false,
       form: {
         equipmentId: '',
-        equipmentStatus: '',
+        maintenanceStatus: '',
         notes: ''
       }
     }
@@ -34,8 +36,13 @@ export default {
         // ]
       }
     }
+
   },
+
   created() {
+    if(this.maintenanceStatus === 579){
+      this.repairStatusShow = true;
+    }
 
   },
   methods: {
@@ -54,10 +61,12 @@ export default {
     save() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          if(this.checked){
+          if (this.checked) {
             this.form.maintenanceStatus = 581
-          }else {
+          } else if (!this.repairStatusShow) {
             this.form.maintenanceStatus = 579
+          } else {
+            this.form.maintenanceStatus = this.repairStatus
           }
           const formData = {
             equipmentId: this.equipmentId,
@@ -77,8 +86,15 @@ export default {
         this.closeMaintenance()
       })
     },
-    closeMaintenance(){
+    closeMaintenance() {
       this.$emit('closeMaintenance')
     }
-  }
+  },
+  watch:{
+    'maintenanceStatus':function(newVal,oldVal) {
+      console.log(newVal);
+      console.log(oldVal);
+    }
+
+  },
 }
