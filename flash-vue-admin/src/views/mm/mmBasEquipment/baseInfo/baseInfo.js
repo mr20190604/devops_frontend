@@ -492,13 +492,22 @@ export default {
         })
         return false
       }
-      mmBasEquipmentApi.updateStatusSubmit(ids).then(response => {
-        this.$message({
-          message: this.$t('common.optionSuccess'),
-          type: 'success'
+      this.$confirm('是否确认提交设备?', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        mmBasEquipmentApi.updateStatusSubmit(ids).then(response => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
         })
-        this.fetchData()
-      })
+      }).catch(() => {
+
+      });
+
     },
     registerEquipment(rows) {
       let ids = []
@@ -534,14 +543,22 @@ export default {
         })
         return false
       }
-
-      mmBasEquipmentApi.registerEquipment(ids).then(response => {
-        this.$message({
-          message: this.$t('common.optionSuccess'),
-          type: 'success'
+      this.$confirm('是否确认注册设备?', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        mmBasEquipmentApi.registerEquipment(ids).then(response => {
+          this.$message({
+            message: this.$t('common.optionSuccess'),
+            type: 'success'
+          })
+          this.fetchData()
         })
-        this.fetchData()
-      })
+      }).catch(() => {
+
+      });
+
     }, closeReplaceAndRefresh() {
       this.replaceVisiable = false
       // 调用子组件方法清空表单信息

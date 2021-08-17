@@ -174,6 +174,13 @@
             <template v-if="scope.row.registStatus==577">关闭</template>
           </template>
         </el-table-column>
+        <el-table-column label="维修状态" show-overflow-tooltip width="150px">
+          <template slot-scope="scope">
+            <span v-if="scope.row.maintenanceStatus==579" style="color: orange">维修中</span>
+            <span v-if="scope.row.maintenanceStatus==580" style="color: green">修复</span>
+            <span v-if="scope.row.maintenanceStatus==581" style="color: red">报废</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button
@@ -186,7 +193,7 @@
             >取消注册
             </el-button>
             <el-button
-              v-if="scope.row.equipmentStatus == 322 && scope.row.examineStatus==253"
+              v-if="scope.row.equipmentStatus == 322 && scope.row.examineStatus==253 && scope.row.maintenanceStatus==580"
               v-permission="['/bas/equipment/update']"
               type="text"
               size="mini"
