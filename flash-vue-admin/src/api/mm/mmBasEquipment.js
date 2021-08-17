@@ -77,6 +77,20 @@ export default {
       data: params
     })
   },
+  cancelRegister: function(params) {
+    return request({
+      url: '/equipment/register/cancelRegister',
+      method: 'get',
+      params
+    })
+  },
+  validExamine: function(params) {
+    return request({
+      url: '/equipment/examine/validExamine',
+      method: 'post',
+      data:params
+    })
+  },
   updateEquipmentStatus: function(param) {
     return request({
       url: '/bas/equipment/updateEquipmentStatus',

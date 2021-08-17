@@ -30,7 +30,7 @@ export default {
       formTitle: '添加设备信息',
       isAdd: false,
       activeName: 'first',
-      maintenanceStatus:0,
+      maintenanceStatus: 0,
       options: [{
         value: 1,
         label: '是'
@@ -439,8 +439,14 @@ export default {
         })
         return false
       }
-      this.examineVisible = true
-      this.equipmentIds = ids
+
+      let self = this;
+      mmBasEquipmentApi.validExamine(ids).then(res => {
+        if(res.data === 'success'){
+          self.examineVisible = true
+          self.equipmentIds = ids
+        }
+      })
     },
     closeExamine() {
       this.examineVisible = false
@@ -455,7 +461,7 @@ export default {
     closeMaintenance() {
       this.maintenanceVisible = false
       this.equipmentId = ''
-      this.fetchData();
+      this.fetchData()
     },
     equipmentSubmit() {
       const ids = this.selection.map(item => {
@@ -469,7 +475,6 @@ export default {
         })
         return false
       }
-
       mmBasEquipmentApi.updateStatusSubmit(ids).then(response => {
         this.$message({
           message: this.$t('common.optionSuccess'),
@@ -478,9 +483,9 @@ export default {
         this.fetchData()
       })
     },
-    registerEquipment(rows){
+    registerEquipment(rows) {
       let ids = []
-      ids.push(rows.id);
+      ids.push(rows.id)
       mmBasEquipmentApi.registerEquipment(ids).then(response => {
         this.$message({
           message: this.$t('common.optionSuccess'),
@@ -488,6 +493,17 @@ export default {
         })
         this.fetchData()
       })
+    },
+    cancelRegister(rows) {
+      let id = rows.id
+      mmBasEquipmentApi.cancelRegister({'equipmentId':id}).then(response => {
+        this.$message({
+          message: this.$t('common.optionSuccess'),
+          type: 'success'
+        })
+        this.fetchData()
+      })
+
     },
     equipmentRegister() {
       const ids = this.selection.map(item => {

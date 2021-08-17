@@ -167,7 +167,16 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button
-              v-if="scope.row.maintenanceStatus == 580"
+              v-if="scope.row.registStatus == 575 && scope.row.examineStatus==253"
+              v-permission="['/bas/equipment/update']"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              @click.native="cancelRegister(scope.row)"
+            >取消注册
+            </el-button>
+            <el-button
+              v-if="scope.row.equipmentStatus == 322 && scope.row.examineStatus==253"
               v-permission="['/bas/equipment/update']"
               type="text"
               size="mini"
@@ -176,7 +185,7 @@
             >设备上线
             </el-button>
             <el-button
-              v-if="scope.row.equipmentStatusName!='报废'?true:false"
+              v-if="scope.row.equipmentStatus != 324"
               v-permission="['/bas/equipment/update']"
               type="text"
               size="mini"
