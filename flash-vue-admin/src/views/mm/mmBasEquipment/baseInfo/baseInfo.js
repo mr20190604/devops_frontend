@@ -6,10 +6,12 @@ import replace from '@/views/mm/mmBasEquipment/replace/replace.vue'
 import equipmentInfo from '@/views/mm/mmBasEquipment/equipmentInfo/equipmentInfo.vue'
 import examine from '@/views/mm/mmBasEquipment/examine/index.vue'
 import maintenance from '@/views/mm/mmEquipmentMaintenance/index.vue'
+import history from '@/views/mm/mmBasEquipment/mmBasEquipmentHistory/index.vue'
 
 export default {
   directives: { permission },
   components: {
+    history,
     install,
     monitoring,
     replace,
@@ -22,11 +24,13 @@ export default {
       examineTitle: '设备审核',
       examineVisible: false,
       equipmentIds: [],
+      pointLocation: '',
       maintenanceTitle: '设备维修',
       maintenanceVisible: false,
       equipmentId: 0,
       equipmentType: '',
       formVisible: false,
+      historyVisible: false,
       formTitle: '添加设备信息',
       isAdd: false,
       activeName: 'first',
@@ -92,7 +96,12 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        id: undefined
+        equipmentType: undefined,
+        equipmentCode: undefined,
+        examineStatus: undefined,
+        registStatus: undefined,
+        equipmentStatus1: undefined,
+        equipmentName: undefined
       },
       total: 0,
       list: [],
@@ -140,10 +149,11 @@ export default {
     fetchData() {
       this.listLoading = true
       mmBasEquipmentApi.getList(this.listQuery).then(response => {
-        this.list = response.data
+        console.log(response)
+        this.list = response.data.list
         console.log(this.list)
         this.listLoading = false
-        // this.total = response.data.total
+        this.total = response.data.length
       })
     },
     search() {
@@ -155,6 +165,7 @@ export default {
       this.listQuery.examineStatus = ''
       this.listQuery.registStatus = ''
       this.listQuery.equipmentStatus1 = ''
+      this.listQuery.equipmentName = ''
       this.fetchData()
     },
     handleFilter() {
@@ -453,6 +464,12 @@ export default {
       this.equipmentIds = []
       this.fetchData()
     },
+    closeHistory() {
+      this.historyVisible = false
+      this.selection = []
+      this.$refs.equipTable.clearSelection()
+      this.pointLocation = ''
+    },
     equipmentMaintenance(rows) {
       this.maintenanceVisible = true
       this.equipmentId = rows.id
@@ -531,6 +548,11 @@ export default {
       this.$refs.cdRc.clearInfo('closeReplace')
       // 刷新页面
       this.fetchData()
+    },
+    viewPoint(record) {
+      this.pointLocation = record.pointLocation
+      this.formTitle = '维修记录'
+      this.historyVisible = true
     }
   }
 }

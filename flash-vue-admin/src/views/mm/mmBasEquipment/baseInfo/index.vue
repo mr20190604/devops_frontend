@@ -5,8 +5,13 @@
       <el-form label-width="76px" class="align-right has-Label-Width">
         <el-row class="hasmarginBottom">
           <el-col :span="5">
+            <el-form-item label="设备名称：">
+              <el-input v-model="listQuery.equipmentName" placeholder="请输入设备名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
             <el-form-item label="设备类型：">
-              <dict-select v-model="listQuery.equipmentType" dict-name="设备类型" placeholder="请选择" />
+              <dict-select v-model="listQuery.equipmentType" dict-name="设备类型" placeholder="请选择设备类型" />
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -38,10 +43,10 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="18" style="text-align: right">
+          <el-col :span="13" style="text-align: right">
             <el-form-item>
               <el-button type="primary" class="set-common-btn blue-button" @click.native="search">{{ $t('button.search')
-              }}
+                }}
               </el-button>
               <el-button class="set-common-btn blank-blue-button" @click.native="reset">{{ $t('button.reset') }}
               </el-button>
@@ -112,14 +117,19 @@
           width="55"
           :reserve-selection="true"
         />
-        <el-table-column
+        <!--<el-table-column
           type="index"
           width="55"
           label="序号"
-        />
-        <el-table-column label="设备名称" show-overflow-tooltip width="250px">
+        />-->
+        <el-table-column label="设备名称" show-overflow-tooltip width="200px">
           <template slot-scope="scope">
             <span class="updateText" @click="viewEquipemnt(scope.row)">{{ scope.row.equipmentName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="点位号" show-overflow-tooltip width="200px">
+          <template slot-scope="scope">
+            <span class="updateText" @click="viewPoint(scope.row)">{{ scope.row.pointLocation }}</span>
           </template>
         </el-table-column>
         <el-table-column label="设备编码" show-overflow-tooltip width="200px">
@@ -292,6 +302,15 @@
     >
       <maintenance v-if="maintenanceVisible" :equipment-id="equipmentId" :maintenance-status="maintenanceStatus" @closeMaintenance="closeMaintenance" />
 
+    </el-dialog>
+    <el-dialog
+      class="el-dialog-style common-dialog-style"
+      :title="formTitle"
+      :visible.sync="historyVisible"
+      width="1060px"
+      @close="closeHistory"
+    >
+      <history :location="pointLocation" @viewEquipemnt="viewEquipemnt" @closeHistory="closeHistory"/>
     </el-dialog>
   </div>
 </template>

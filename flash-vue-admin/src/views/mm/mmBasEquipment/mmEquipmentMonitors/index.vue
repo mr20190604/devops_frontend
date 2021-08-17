@@ -50,7 +50,7 @@
               @selection-change="handleSelectionChange"
               @row-click="toggleSelection"
             >
-              <el-table-column label="选择监测物质">
+              <el-table-column label="监测类型">
                 <el-table-column>
                   <template slot="header" slot-scope="scope">
                     <el-input v-model="listQuery.key" placeholder="输入编号/名称搜索" @input="fetchData" />
@@ -106,7 +106,7 @@
               @selection-change="handleSelectionChange1"
               @row-click="toggleSelection1"
             >
-              <el-table-column label="已添加监测物质">
+              <el-table-column label="已添加监测类型">
                 <el-table-column>
                   <template slot="header" slot-scope="scope">
                     <el-input v-model="listQuery1.key" placeholder="输入编号/名称搜索" @input="fetchSelectedData" />
