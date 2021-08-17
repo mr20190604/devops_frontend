@@ -145,9 +145,9 @@
         fetchData:function() {
           this.listLoading = true;
           mmBasEquipmentApi.getList(this.listQuery).then(response => {
-            this.list = response.data.records;
+            this.list = response.data.list;
             this.listLoading = false;
-            this.total = response.data.total
+            this.total = response.data.length
           });
         },
         search: function () {
