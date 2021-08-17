@@ -453,7 +453,7 @@ export default {
 
       let self = this;
       mmBasEquipmentApi.validExamine(ids).then(res => {
-        if(res.data === 'success'){
+        if(res.success){
           self.examineVisible = true
           self.equipmentIds = ids
         }
