@@ -11,7 +11,7 @@
             <el-tabs v-model="activeName">
               <el-tab-pane label="设备基本信息" name="first"
                            style="height:500px;overflow-y:auto;overflow-x:hidden;visibility: visible">
-                  <bas-equip :baseInfo="oldInfo" :span-value="10" :parent="oldParent" :disableFlag="true"></bas-equip>
+                <bas-equip :baseInfo="oldInfo" :span-value="10" :parent="oldParent" :disableFlag="true"></bas-equip>
                 <!--<equipment-info :baseInfo="oldInfo" :disableFlag="false"></equipment-info>-->
               </el-tab-pane>
 
@@ -52,7 +52,7 @@
         </div>
       </el-col>
       <el-col :span="12" v-if="!newInfo">
-        <equip-list :hidden-list="hiddenTable" :equipment-id="oldInfo.id ? oldInfo.id:null"></equip-list>
+        <equip-list :hidden-list="hiddenTable" :equipment-id="oldInfo.id ? oldInfo.id:null" :equip-type="oldInfo.equipmentType"></equip-list>
       </el-col>
     </el-row>
     <div align="center" v-if="newInfo">
@@ -109,7 +109,7 @@
     methods: {
       //显示table列表
       chooseEquip() {
-       this.newInfo = null;
+        this.newInfo = null;
       },
       //被install子组件调用的方法，用于隐藏table列表
       hiddenTable:function (record) {
@@ -152,8 +152,8 @@
       },
       //父页面调用，清空表单数据
       clearInfo(data) {
-       this.newInfo = null;
-       this.activeName = 'first';
+        this.newInfo = null;
+        this.activeName = 'first';
       },
       saveEquipBaseInfoHistory() {
         console.log('222222222222');

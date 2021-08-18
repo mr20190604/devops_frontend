@@ -106,5 +106,13 @@ export default {
         pid: pid
       }
     })
-  }
+
+  },
+  replaceList: function(params) {
+    return request({
+      url: '/bas/equipment/replaceList',
+      method: 'get',
+      params
+    })
+  },
 }
