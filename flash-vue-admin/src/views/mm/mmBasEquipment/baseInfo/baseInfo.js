@@ -95,7 +95,7 @@ export default {
       },
       listQuery: {
         page: 1,
-        limit: 20,
+        limit: 10,
         equipmentType: undefined,
         equipmentCode: undefined,
         examineStatus: undefined,
@@ -568,7 +568,7 @@ export default {
     },
     viewPoint(record) {
       this.pointLocation = record.pointLocation
-      this.formTitle = '维修记录'
+      this.formTitle = '历史记录'
       this.historyVisible = true
     }
   }
