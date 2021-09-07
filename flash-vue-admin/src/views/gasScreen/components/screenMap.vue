@@ -89,7 +89,8 @@ export default {
       default: undefined
     },
     list: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -100,17 +101,17 @@ export default {
         {
           name: '一级预警',
           color: '#f70c27',
-          count: 3
+          count: 0
         },
         {
           name: '二级预警',
           color: '#FBB500',
-          count: 12
+          count: 0
         },
         {
           name: '三级预警',
           color: '#5B8AD8',
-          count: 152
+          count: 0
         }],
       center: {
         lng: 117.566797,

@@ -7,22 +7,22 @@
     </div>
     <el-row>
       <el-col :span="8">
-        <el-image :src="require('../../../assets/img/gas/tu1.png')"/>
+        <el-image :src="require('../../../assets/img/gas/tu1.png')" />
       </el-col>
       <el-col :span="8">
-        <el-image :src="require('../../../assets/img/gas/tu2.png')"/>
+        <el-image :src="require('../../../assets/img/gas/tu2.png')" />
       </el-col>
       <el-col :span="8">
-        <el-image :src="require('../../../assets/img/gas/tu3.png')"/>
+        <el-image :src="require('../../../assets/img/gas/tu3.png')" />
       </el-col>
       <el-col :span="8">
-        <el-image :src="require('../../../assets/img/gas/tu4.png')"/>
+        <el-image :src="require('../../../assets/img/gas/tu4.png')" />
       </el-col>
       <el-col :span="8">
-        <el-image :src="require('../../../assets/img/gas/tu5.png')"/>
+        <el-image :src="require('../../../assets/img/gas/tu5.png')" />
       </el-col>
       <el-col :span="8">
-        <el-image :src="require('../../../assets/img/gas/tu6.png')"/>
+        <el-image :src="require('../../../assets/img/gas/tu6.png')" />
       </el-col>
     </el-row>
   </div>
@@ -92,6 +92,5 @@ export default {
   .el-col{
     margin-top: 20px;
   }
-
 
 </style>

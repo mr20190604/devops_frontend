@@ -11,14 +11,18 @@ export default {
       form: {
         buildName: '',
         targetType: '',
+        dictBuildId: '',
         levelCode: '',
         districtCode: '',
+        longitude: '',
+        latitude: '',
         address: '',
         personOtel: '',
         personName: '',
         personNum: '',
         notes: '',
-        id: ''
+        id: '',
+        lngAndLat: undefined
       },
       listQuery: {
         page: 1,
@@ -51,6 +55,9 @@ export default {
       if (!newValue) {
         this.resetForm()
       }
+    },
+    form(value) {
+      this.form.lngAndLat = (value.longitude && value.latitude) ? value.longitude + ',' + value.latitude : ''
     }
   },
   computed: {
@@ -65,6 +72,9 @@ export default {
         ],
         targetType: [
           { required: true, message: '目标类型' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        dictBuildId: [
+          { required: true, message: '建筑用途' + this.$t('common.isRequired'), trigger: 'blur' }
         ],
         districtCode: [
           { required: true, message: '所在地区' + this.$t('common.isRequired'), trigger: 'blur' }
@@ -84,6 +94,9 @@ export default {
         ],
         engrossArea: [
           { required: true, message: '面积' + this.$t('common.isRequired'), trigger: 'blur' }
+        ],
+        lngAndLat: [
+          { required: true, message: '经纬度' + this.$t('common.isRequired'), trigger: 'blur' }
         ]
       }
     }
@@ -147,6 +160,7 @@ export default {
       this.form = {
         buildName: '',
         targetType: '',
+        dictBuildId: '',
         levelCode: '',
         districtCode: '',
         address: '',
@@ -170,6 +184,12 @@ export default {
 
           delete formData.createTime
           delete formData.modifyTime
+
+          const array = formData.lngAndLat.split(',')
+          if (array.length === 2) {
+            formData.longitude = array[0]
+            formData.latitude = array[1]
+          }
 
           if (formData.id) {
             mmBasBuildApi.update(formData).then(() => {

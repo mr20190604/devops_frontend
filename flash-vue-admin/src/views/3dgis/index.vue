@@ -10,6 +10,7 @@
       @ready="ready"
       @LEFT_DOWN="mouseDown"
       @LEFT_UP="mouseUp"
+      @LEFT_CLICK="handleCesiumClick"
     >
       <vc-navigation :options="compassOptions" />
       <vc-layer-imagery>
@@ -55,6 +56,7 @@
         :values="krigingInfoValues"
         :lngs="krigingInfoLngs"
         :canvas-alpha="0.5"
+        :kriging-alpha="0.1"
         :lats="krigingInfoLats"
         :colors="krigingInfo.colors"
         :clip-coords="krigingInfoClipCoords"
@@ -327,6 +329,8 @@ import b4 from '../../assets/img/gis/应急车辆.png'
 import b5 from '../../assets/img/gis/应急人员.png'
 import b6 from '../../assets/img/gis/应急物资库.png'
 
+import krigingInfoClipCoords from './krigingInfoClipCoords'
+
 export default {
   name: 'Index',
   data: function() {
@@ -360,7 +364,7 @@ export default {
       krigingInfoValues: [],
       krigingInfoLngs: [],
       krigingInfoLats: [],
-      krigingInfoClipCoords: [],
+      krigingInfoClipCoords: krigingInfoClipCoords,
       windowInfo: {
         show: false,
         equipmentType: undefined,
@@ -374,6 +378,13 @@ export default {
     }
   },
   methods: {
+    handleCesiumClick: function(e) {
+      const cartesian = window.viewer.scene.globe.pick(window.viewer.camera.getPickRay(e.position), window.viewer.scene)
+      const cartographic = window.Cesium.Cartographic.fromCartesian(cartesian)
+      const lng = window.Cesium.Math.toDegrees(cartographic.longitude)
+      const lat = window.Cesium.Math.toDegrees(cartographic.latitude)
+      console.log(lng + ',' + lat)
+    },
     ready({ Cesium, viewer }) {
       window.Cesium = Cesium
       window.viewer = viewer
@@ -384,6 +395,7 @@ export default {
 
       let start = Date.now()
       const duration = 3000
+
       function rotate() {
         const a = 2 * Math.PI
         const now = Date.now()
@@ -391,6 +403,7 @@ export default {
         start = now
         viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -a * n)
       }
+
       viewer.clock.onTick.addEventListener(rotate)
       setTimeout(function() {
         viewer.clock.onTick.removeEventListener(rotate)
@@ -460,7 +473,7 @@ export default {
             }
           }
         }
-        billboard.scale = 0.5
+        billboard.scale = 0.7
         billboard.id = i
         billboard.verticalOrigin = window.Cesium.VerticalOrigin.BOTTOM
         billboard.show = level === 1
@@ -471,7 +484,7 @@ export default {
       }
 
       // 构造应急资源测试数据
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 500; i++) {
         const billboard = {}
         billboard.position = {
           lng: this.heatmapInfo.bounds.west + Math.random() * (this.heatmapInfo.bounds.east - this.heatmapInfo.bounds.west),
@@ -486,7 +499,7 @@ export default {
             billboard.image = images1[k]
           }
         }
-        billboard.scale = 0.5
+        billboard.scale = 0.7
         billboard.id = i + 200
         billboard.verticalOrigin = window.Cesium.VerticalOrigin.BOTTOM
         billboard.show = false
@@ -508,19 +521,7 @@ export default {
     billboardClick(e) {
       if (this.isForecast) {
         window.viewer.flyTo(e.cesiumObject).then(() => {
-          // const position = e.surfacePosition
-          // const cartographic = window.Cesium.Cartographic.fromCartesian(position)
-          // const minNum = -0.0001
-          // const maxNum = 0.0001
-          // 构造热力图的数据
-          // for (let i = 0; i < 20; i++) {
-          //   const val = Math.floor(Math.random() * 100)
-          //   push({
-          //     x: window.Cesium.Math.toDegrees(cartographic.longitude) + Math.random() * (maxNum - minNum) + minNum,
-          //     y: window.Cesium.Math.toDegrees(cartographic.latitude) + Math.random() * (maxNum - minNum) + minNum,
-          //     value: val
-          //   })
-          // }
+
         })
       } else {
         this.handleBillboardDetail(e.cesiumObject)
@@ -545,9 +546,6 @@ export default {
     },
     mouseUp() {
       window.viewer._container.style.cursor = 'grab'
-    },
-    handleViewerMoveEnd() {
-
     },
     handleResourceClick() {
       this.setDefault()
@@ -629,13 +627,12 @@ export default {
           that.krigingInfoLngs = []
           that.krigingInfoLats = []
           that.krigingInfoValues = []
-          that.setKrigingInfoClipCoords()
           that.billboards.filter(item => item.type < 3).forEach(item => {
             that.krigingInfoLngs.push(item.position.lng)
             that.krigingInfoLats.push(item.position.lat)
             let n = 0
             if (item.level === 0) {
-              n = Math.floor(Math.random() * 50)
+              n = Math.floor(Math.random() * 10) + 30
             } else if (item.level === 1) {
               n = Math.floor(Math.random() * 20) + 80
             } else if (item.level === 2) {
@@ -648,18 +645,6 @@ export default {
           that.krigingInfo.show = true
         }
       })
-    },
-    setKrigingInfoClipCoords() {
-      let pick = new window.Cesium.Cartesian2(0, window.innerHeight)
-      let cartesian = window.viewer.scene.globe.pick(window.viewer.camera.getPickRay(pick), window.viewer.scene)
-      let cartographic = window.Cesium.Cartographic.fromCartesian(cartesian)
-      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.longitude))
-      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.latitude))
-      pick = new window.Cesium.Cartesian2(window.innerWidth, 0)
-      cartesian = window.viewer.scene.globe.pick(window.viewer.camera.getPickRay(pick), window.viewer.scene)
-      cartographic = window.Cesium.Cartographic.fromCartesian(cartesian)
-      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.longitude))
-      this.krigingInfoClipCoords.push(window.Cesium.Math.toDegrees(cartographic.latitude))
     },
     setDefault(isRisk) {
       this.billboards.forEach(item => {
@@ -971,7 +956,7 @@ export default {
     line-height: 1.5em;
   }
 
-  >>> .vc-html-bubble{
+  >>> .vc-html-bubble {
     font-style: normal;
     font-size: 12px;
   }
